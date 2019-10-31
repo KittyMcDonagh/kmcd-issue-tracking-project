@@ -35,7 +35,8 @@ ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
 
 
 # Application definition
-
+# Lines added for kmcd-issue-tracking-project:
+# 'django_forms_bootstrap', 'accounts'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_forms_bootstrap', 
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -57,10 +60,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'kmcd_issue_tracker.urls'
 
+# Line added to TEMPLATES for kmcd-issue-tracking-project:
+# 'DIRS': [os.path.join(BASE_DIR, 'templates')], This is because there is more 
+# than one 'templates' dir and this specifies that all of them could 
+# potentially contain templates. This allows us to keep templates separate
+# within each app.)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,6 +114,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Lines added for kmcd-issue-tracking-project
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailAuth'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -124,3 +138,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Lines added for kmcd-issue-tracking-project
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
+# Lines added for kmcd-issue-tracking-project
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
