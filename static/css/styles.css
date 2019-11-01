@@ -13,12 +13,15 @@ form {
     font-size: 18px;
 }
 
-
+.nav-logo {
+    height:64px;
+    width: 280px;
+}
 .logo {
-    background: url("../images/kmcd_logo.png");
-    height: 60px;
-    width: 200px;
-    border: solid 1px #fafafa;
+    background: url("../images/kmcd_accounting_solutions.png");
+    height: 100%;
+    width: 100%;
+    border: solid 1px #fafaff;
     border-style:outset;
     border-radius: 15px;
     background-position: center;

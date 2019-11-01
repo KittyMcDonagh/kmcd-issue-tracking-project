@@ -7,14 +7,6 @@ from django.contrib.auth.models import User
 from accounts.forms import UserLoginForm, UserRegistrationForm
 
 
-# Create your views here.
-
-def index(request):
-    
-    """ Return the index.html file """
-    
-    return render(request, 'index.html')
-
 # @login_required will first check if the user is logged in. If not they will
 # be re-directed to the login page
 
@@ -24,15 +16,15 @@ def logout(request):
     """ Log the user out """
     auth.logout(request)
     messages.success(request, "You have been successfully logged out!")
-    return redirect(reverse('index'))
+    return redirect(reverse('home'))
     
     
 def login(request):
     
-    """ If the user is already logged in, send them back to index page """
+    """ If the user is already logged in, send them back to home page """
         
     if request.user.is_authenticated:
-        return redirect(reverse('index'))
+        return redirect(reverse('home'))
     
     """ If user has sent login details, validate them """
     if request.method == "POST":
@@ -46,7 +38,7 @@ def login(request):
             if user:
                 auth.login(user=user, request=request)
                 messages.success(request, "You have successfully logged in!")
-                return redirect(reverse('index'))
+                return redirect(reverse('home'))
             else:
                 login_form.add_error(None, "Your user name or password is incorrect")
     
@@ -67,10 +59,10 @@ def login(request):
 
 def registration(request):
     
-    """ If the user is already logged in, send them back to index page """
+    """ If the user is already logged in, send them back to home page """
         
     if request.user.is_authenticated:
-        return redirect(reverse('index'))
+        return redirect(reverse('home'))
     
     """ If user has sent login details, validate them """
     if request.method == "POST":
@@ -85,7 +77,7 @@ def registration(request):
             if user:
                 auth.login(user=user, request=request)
                 messages.success(request, "You have successfully registered!")
-                return redirect(reverse('index'))
+                return redirect(reverse('home'))
             else:
                 messages.error(request, "Unable to register your account at this time")
                 
