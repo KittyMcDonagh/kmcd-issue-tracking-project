@@ -1,10 +1,46 @@
+/*  IMPORT FONTS - copied from google fonts         */
+
+@import url('https://fonts.googleapis.com/css?family=Courgette:100,400,700|Crimson:100,400,700|Nunito:100,400,700');
+
+/* The following css was copied from materializecss.com to create a sticky footer */
+
+body {
+    display: flex;
+
+    flex-direction: column;
+    font-family: "Nunito", sans-serif;
+}
+
+/* Set height of Section so that the footer sticks to the bottom longer devices
+   or on pages where the screen is not otherwise filled. 253 is the height of 
+   the navbar plus the height of the footer  */
+
+section {
+
+    min-height: calc(100vh - 139px);
+}
+
+@media(min-width:1024px) {
+    section {
+        min-height: calc(100vh - 153px);
+    }
+}
+
+
+main {
+    flex: 1 0 auto;
+
+}
+
+
+/* Styling for input forms */
 form {
     width: 50%;
     padding: 50px;
 }
 
-/* css for base.html   */
 
+/* css for base.html ---------------------------------------------------------*/
 
 .navbar-style {
     background-color: #fafaff;
@@ -13,23 +49,79 @@ form {
     font-size: 18px;
 }
 
-.nav-logo {
-    height:64px;
-    width: 280px;
+
+/* Add padding to give space around the screen */
+
+.navbar-padding {
+    padding-left: 10px;
 }
+
+
+
+/* Override bootstrap styling for nav links */
+
+.nav-link {
+    color: #3b3b3b!important;
+    font-size: 18px;
+    margin-left: 15px;
+    padding: 15px!important;
+}
+
+.nav-link:hover {
+    background-color: #6666ff;
+    color: #fafaff!important;
+}
+
+
+/* Logo sizing and styling  */
+
+.nav-logo {
+    height: 43px;
+    width: 180px;
+}
+
+
 .logo {
     background: url("../images/kmcd_accounting_solutions.png");
     height: 100%;
     width: 100%;
     border: solid 1px #fafaff;
-    border-style:outset;
+    border-style: outset;
     border-radius: 15px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    
+
     -moz-transition: all .5s ease-in-out;
     -webkit-transition: all .5s ease-in-out;
     -o-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
+}
+
+/* Main part of screen background color   */
+
+.pg-bg {
+    background-color: #f3f2f2;
+
+}
+
+footer {
+    
+    background-color: #3b3b3b;
+    color: #b3b3b3;
+    height: 80px;
+    margin-bottom: 0px;
+    padding: 30px 30px 10px 30px;
+    text-align: center;
+}
+
+
+/* css for home.html ---------------------------------------------------------*/
+
+.welcome-1 {
+    font-family: "Courgette", sans-serif;
+}
+
+.welcome-2 {
+    color: #6666ff;
 }
