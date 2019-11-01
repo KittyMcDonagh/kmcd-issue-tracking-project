@@ -2,3 +2,31 @@ form {
     width: 50%;
     padding: 50px;
 }
+
+/* css for base.html   */
+
+
+.navbar-style {
+    background-color: #fafaff;
+    color: #3b3b3b;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+}
+
+
+.logo {
+    background: url("../images/kmcd_logo.png");
+    height: 60px;
+    width: 200px;
+    border: solid 1px #fafafa;
+    border-style:outset;
+    border-radius: 15px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    
+    -moz-transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
