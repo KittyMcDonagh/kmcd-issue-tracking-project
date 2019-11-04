@@ -105,6 +105,13 @@ form {
 
 }
 
+.mesg-style {
+    background-color: #b3b3ff;
+    color: #fafaff;
+    list-style-type: none;
+}
+
+
 footer {
     
     background-color: #3b3b3b;

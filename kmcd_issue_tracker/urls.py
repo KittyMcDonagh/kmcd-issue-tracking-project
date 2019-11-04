@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from accounts import urls as urls_accounts
-from kmcd_iss_trk_home.views import home
+from app1_home.views import home
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

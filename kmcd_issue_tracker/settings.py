@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_forms_bootstrap', 
     'accounts',
-    'kmcd_iss_trk_home',
+    'app1_home',
+    'app2_user_details',
 ]
 
 MIDDLEWARE = [
