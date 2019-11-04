@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block page_title %}Home Page{% endblock %} {% block content %}
+
+<main>
+
+    <div class="row no-gutters">
+        <div class="offset-2 col-10 ">
+            <h1 class="welcome-1 pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
+            <h2 class="welcome-1 welcome-2 pl-5">KMcD Online Accounting System!</h2>
+            <h3 class="pt-5 pl-5">Your Name is: {{user.username}}.</h3>
+             <p></p>
+             
+            <p>user.username: {{ user.username }}</p>
+            <p>userdetails.user_name: {{userdetails.user_name}}</p>
+            <p>user.email: {{ user.email}}</p>
+            <p>userdetails.user_email_addr: {{userdetails.user_email_addr}}</p>
+            <p></p>
+            <p>userdetails.user_type: {{userdetails.user_type}}</p>
+             <p>userdetails.vend_cust_id: {{userdetails.vend_cust_id}}</p>
+             
+        
+           
+        
+        </div>
+    </div>
+    
+    
+    
+</main>
+
+
+
+
+
+
+{% endblock %}

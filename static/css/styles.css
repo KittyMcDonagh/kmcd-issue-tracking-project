@@ -98,6 +98,11 @@ form {
     transition: all .5s ease-in-out;
 }
 
+.logo:hover {
+    height: 90%;
+    width: 90%;
+}
+
 /* Main part of screen background color   */
 
 .pg-bg {
@@ -125,8 +130,13 @@ footer {
 
 /* css for home.html ---------------------------------------------------------*/
 
+.mrtop {
+    margin-top: 50px;
+}
+
 .welcome-1 {
     font-family: "Courgette", sans-serif;
+    
 }
 
 .welcome-2 {

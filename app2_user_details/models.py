@@ -10,4 +10,4 @@ class UserDetail(models.Model):
     user_contact_nr = models.CharField(max_length=20, blank=False)
     
     def __str__(self):
-        return self.name
+        return self.user_name

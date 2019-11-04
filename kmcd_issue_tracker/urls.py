@@ -17,9 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from accounts import urls as urls_accounts
 from app1_home.views import home
+from app2_user_details.views import userpage
+from app2_user_details import urls as urls_user_details
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name="home"),
     url(r'^accounts/', include(urls_accounts)),
+    url(r'^user/', include(urls_user_details)),
 ]

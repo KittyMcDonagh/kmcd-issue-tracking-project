@@ -5,6 +5,7 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.forms import UserLoginForm, UserRegistrationForm
+from app2_user_details.models import UserDetail
 
 
 # @login_required will first check if the user is logged in. If not they will
@@ -37,8 +38,17 @@ def login(request):
             
             if user:
                 auth.login(user=user, request=request)
-                messages.success(request, "You have successfully logged in!")
-                return redirect(reverse('home'))
+                
+                # Check that the user has been set up for the Issue Tracking System
+    
+                UserDetails = ""
+                try:
+                    UserDetails = UserDetail.objects.get(user_name=user.username)
+                    messages.success(request, "You have successfully logged in!")
+                    return render(request, 'userpage.html', {'userdetails': UserDetails })
+                except:
+                    login_form.add_error(None, "User not set up on Issue Tracking System")
+                
             else:
                 login_form.add_error(None, "Your user name or password is incorrect")
     
@@ -96,6 +106,13 @@ def user_profile(request):
     user = User.objects.get(email=request.user.email)
     
     return render(request, 'profile.html', {'profile': user})
+
+    
+
+    
+        
+        
+    
     
     
 

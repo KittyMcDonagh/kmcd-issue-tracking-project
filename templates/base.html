@@ -51,7 +51,7 @@
     <section class="pg-bg">
 
         {% if messages %}
-        <div class="row no-gutters">
+        <div class="row mt-3 no-gutters">
             <div class="offset-2 col-8 p-0">
                 <ul class="mesg-style p-0  text-center">
                     {% for message in messages %}
@@ -60,7 +60,18 @@
                 </ul>
             </div>
         </div>
-        {% endif %} {% block content %}{% endblock %}
+        {% else %}
+        <div class="row mt-3 no-gutters">
+            <div class="offset-2 col-8 p-0">
+                <ul class="p-0  text-center">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor%}
+                </ul>
+            </div>
+        </div>
+        {% endif %} 
+         {% block content %}{% endblock %}
 
 
 
