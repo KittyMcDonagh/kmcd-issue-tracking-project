@@ -60,17 +60,24 @@
                 </ul>
             </div>
         </div>
+        
         {% else %}
+        
+        <!-- This is to leave a blank line on the screen where the messages 
+             appear. It ensures that the text that appears below the message
+             line always appears at the same position whether a message is 
+             displayed or not. -->
+             
         <div class="row mt-3 no-gutters">
             <div class="offset-2 col-8 p-0">
-                <ul class="p-0  text-center">
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor%}
+                <ul class="p-0  blank-line text-center">
+                    <li>Blank</li>
                 </ul>
             </div>
         </div>
+        
         {% endif %} 
+        
          {% block content %}{% endblock %}
 
 
