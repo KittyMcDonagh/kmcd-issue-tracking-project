@@ -25,7 +25,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-md navbar-light navbar-style navbar-padding nav-links">
+        <nav class="navbar navbar-expand-md navbar-light navbar-style nav-links">
             <div class="nav-logo">
                 <a class="navbar-brand logo" href="{% url 'home' %}"></a>
             </div>
@@ -33,9 +33,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse  navbar-padding" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto ">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i id="home" class="fa fa-home home-icon" aria-hidden="true"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i id="home" class="fa fa-home home-icon" aria-hidden="true"></i></a></li> 
+                    
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>

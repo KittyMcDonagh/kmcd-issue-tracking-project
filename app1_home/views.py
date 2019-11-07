@@ -17,7 +17,7 @@ def home(request):
         try:
             UserDetails = UserDetail.objects.get(user_name=request.user.username)
             messages.success(request, "You are already logged in!")
-            return render(request, 'userpage.html', {'userdetails': UserDetails })
+            return render(request, 'home.html', {'userdetails': UserDetails })
         except:
             login_form.add_error(None, "User not set up on Issue Tracking System")
         

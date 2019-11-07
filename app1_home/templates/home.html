@@ -1,25 +1,35 @@
 {% extends 'base.html' %} {% block page_title %}Home Page{% endblock %} {% block content %}
 
 <main>
-    
+
     <div class="row no-gutters">
-        <div class="offset-2 col-10">
-            
-            <h1 class="welcome-1 pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
-            <h2 class="welcome-1 welcome-2 pl-5">KMcD Online Accounting System!</h2>
-            
+        <div class="fancy-font offset-2 col-8 text-center">
+
             {% if user.is_authenticated %}
+
+            <h3>Go to Issue Tracking System</h3>
+            <p></p>
+            <h3>Logout</h3>
             
+            <!-- Remove! Holding onto the following for testing purposes -->
+            <!-- 
              <h3>User Details Home Page</h3>
             <p>user.username: {{ user.username }}</p>
             <p>userdetails.user_name: {{userdetails.user_name}}</p>
             <p>user.email: {{ user.email}}</p>
             <p>userdetails.user_email_addr: {{userdetails.user_email_addr}}</p>
             <p>userdetails.user_type: {{userdetails.user_type}}</p>
-             <p>userdetails.vend_cust_id: {{userdetails.vend_cust_id}}</p>
-             
-             {% else %}
-            <h3 class="pt-5 pl-5">Please Log In or Register</h3>
+             <p>userdetails.vend_cust_id: {{userdetails.vend_cust_id}}</p> -->
+
+            {% else %}
+
+            <h1 class="pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
+            <h2 class="company-name-style pl-5 mb-5">KMcD Online Accounting System!</h2>
+            
+            <h4 mt-5><a class="links" href="{% url 'login' %}">Please Login </a></h4>
+            <h4>or</h4>
+            <h4><a class="links" href="{% url 'registration' %}">Register</a></h4>
+            
             {% endif %}
         </div>
     </div>
