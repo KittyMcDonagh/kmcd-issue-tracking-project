@@ -38,7 +38,7 @@ main {
 /* Set width an styling of form for login and registration   */
 
 form {
-    width: 90%;
+    
     padding-left:10px;
    
 }
@@ -200,3 +200,27 @@ footer {
 .company-name-style {
     color: #6666ff;
 }
+
+/* css for registration.html -------------------------------------------------*/
+
+/* Stlye the 'sign in' text  */
+
+
+.sign-in-style {
+    text-decoration: none;
+    color: #3b3b3b;
+}
+
+.sign-in-style:hover {
+    color: #6666ff!important;
+    text-decoration: none;
+}
+
+
+/* css for registration.html -------------------------------------------------*/
+
+.prof-bg {
+    background-color: #e6e6ff;
+    }
+}
+

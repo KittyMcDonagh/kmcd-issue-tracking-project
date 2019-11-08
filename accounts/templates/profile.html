@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
-
-
-{% block page_title %}{{ user }}'s Profile{% endblock %}
- 
- 
-{% block page_heading %}{{ user }}'s Profile{% endblock %}
+{% extends 'base.html' %} {% block page_title %}{{ user }}'s Profile{% endblock %} {% block page_heading %}{{ user }}'s Profile{% endblock %} 
 
 {% block content %}
-<p>{{ user.username }}</p>
-<p>{{ user.email }}</p>
+
+<div class="row no-gutters">
+    <div class="offset-3 col-5 prof-bg text-center">
+
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email Address:</strong> {{ user.email }}</p>
+
+    </div>
+</div>
 {% endblock %}
