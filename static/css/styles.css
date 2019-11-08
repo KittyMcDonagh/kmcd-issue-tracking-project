@@ -4,11 +4,12 @@
 
 /* The following css was copied from materializecss.com to create a sticky footer */
 
+
 body {
     display: flex;
 
     flex-direction: column;
-    font-family: "Nunito", sans-serif;
+    font-family: "Nunito", sans-serif!important;
 }
 
 /* Set height of Section so that the footer sticks to the bottom longer devices
@@ -32,13 +33,45 @@ main {
 
 }
 
+/* cs for Login & Registration Form ------------------------------------------*/
 
-/* Styling for input forms */
+/* Set width an styling of form for login and registration   */
 
 form {
-    width: 50%;
-    padding: 50px;
+    width: 90%;
+    padding-left:10px;
+   
 }
+
+/* Overide bootstrap styling for login button to blend it in with the rest of 
+the site */
+
+.btn-warning {
+    color: #e6e6ff!important;
+    background-color: #6666ff!important;
+    border-color: #6666ff!important;
+}
+
+.btn-warning:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+    
+}
+
+.btn-info {
+    color: #e6e6ff!important;
+    background-color: #6666ff!important;
+    border-color: #6666ff!important;
+}
+
+.btn-info:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+    
+}
+
 
 
 /* css for base.html ---------------------------------------------------------*/
@@ -116,6 +149,7 @@ form {
 
 }
 
+/* Style all links, other than nav links, so that they behave the same */
 .links {
     text-decoration: none;
     padding:10px;

@@ -7,9 +7,11 @@
 
             {% if user.is_authenticated %}
 
-            <h3>Go to Issue Tracking System</h3>
-            <p></p>
-            <h3>Logout</h3>
+            <h3 class="pt-5 pb-3">Please go to</h3>
+            <h3 class="pb-3"><a class="links" href="#">Issue Tracking System</a></h3>
+            <h3>or</h3>
+            <h3  class="pt-3"><a class="links" href="{% url 'logout' %}">Logout</a></h3>
+            
             
             <!-- Remove! Holding onto the following for testing purposes -->
             <!-- 
@@ -26,9 +28,9 @@
             <h1 class="pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
             <h2 class="company-name-style pl-5 mb-5">KMcD Online Accounting System!</h2>
             
-            <h4 mt-5><a class="links" href="{% url 'login' %}">Please Login </a></h4>
-            <h4>or</h4>
-            <h4><a class="links" href="{% url 'registration' %}">Register</a></h4>
+            <h3><a class="links" href="{% url 'login' %}">Please Login </a></h3>
+            <h3>or</h3>
+            <h3><a class="links" href="{% url 'registration' %}">Register</a></h3>
             
             {% endif %}
         </div>
