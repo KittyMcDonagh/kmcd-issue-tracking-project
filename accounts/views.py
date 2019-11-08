@@ -5,9 +5,28 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.forms import UserLoginForm, UserRegistrationForm
-from app2_user_details.models import UserDetail
+from app2_user_home.models import UserDetail
 
 
+"""
+The 'index' logic applies only when the browser initially loads the page. 
+The user may be logged into admin, but not exist on the issue tracking system. 
+So the user will be logged out, if already logged in, and forced to log in 
+properly via the app, so that it can check whether the user exists on the 
+Issue Tracking System.
+"""
+
+def index(request):
+    if request.user.is_authenticated:
+        
+        """ Log the user out """
+    
+        auth.logout(request)
+        
+    return redirect(reverse('home'))
+    
+    
+    
 # @login_required will first check if the user is logged in. If not they will
 # be re-directed to the login page
 
@@ -39,13 +58,14 @@ def login(request):
             if user:
                 auth.login(user=user, request=request)
                 
-                # Check that the user has been set up for the Issue Tracking System
+                # Check that the user has been set up for the Issue Tracking 
+                # System. If not, log out System
     
                 UserDetails = ""
                 try:
                     UserDetails = UserDetail.objects.get(user_name=user.username)
                     messages.success(request, "You have successfully logged in!")
-                    return render(request, 'userpage.html', {'userdetails': UserDetails })
+                    return redirect(reverse('userhome'))
                 except:
                     login_form.add_error(None, "User not set up on the Issue Tracking System")
                     
@@ -65,7 +85,6 @@ def login(request):
         login_form = UserLoginForm()
     
     return render(request, 'login.html', {"login_form": login_form})
-    
     
 
 # User registration view

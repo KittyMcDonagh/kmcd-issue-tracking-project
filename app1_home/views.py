@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from accounts.forms import UserLoginForm
-from app2_user_details.models import UserDetail
+from app2_user_home.models import UserDetail
 
 # Home Page
 def home(request):
