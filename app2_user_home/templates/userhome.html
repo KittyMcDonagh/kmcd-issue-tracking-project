@@ -2,29 +2,26 @@
 
 <main>
 
-   <div class="row no-gutters">
-        <div class="fancy-font offset-2 col-8 text-center">
-            
-            <h1 class="fancy-font pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
-            <h2 class="fancy-font company-name-style pl-5">KMcD Online Accounting System!</h2>
-            
-            <h3>User Details User Page</h3>
-            <p>user.username: {{ user.username }}</p>
-            <p>userdetails.user_name: {{userdetails.user_name}}</p>
-            <p>user.email: {{ user.email}}</p>
-            <p>userdetails.user_email_addr: {{userdetails.user_email_addr}}</p>
-            <p>userdetails.user_type: {{userdetails.user_type}}</p>
-            <p>userdetails.vend_cust_id: {{userdetails.vend_cust_id}}</p>
-        
+    <div class="row no-gutters">
+        <div class="courgette-font offset-2 col-8 text-center">
+
+            <h1 class="courgette-font pt-3 pb-3">Welcome {{ user.username }}</h1>
+            <p>Your user type is: {{ userdetails.user_type }} </p>
+            {% if userdetails.user_type == 'C' %}
+
+            <p>You are associated with Customer {{ userdetails.vend_cust_code }} </p>
+            <p> Customer name: {{customerdetails.cust_name}}</p>
+            <p> CUSTOMER address: {{customerdetails.cust_address}}</p>
+
+            {% else %}
+            <p>You are associated with Vendor: {{ userdetails.vend_cust_code }} </p>
+            <p> Vendor name: {{vendordetails.vend_name}}</p>
+            <p> VENDOR address: {{vendordetails.vend_address}}</p>
+            {% endif %}
         </div>
     </div>
-    
-    
-    
+
 </main>
-
-
-
 
 
 

@@ -4,7 +4,6 @@
 
 /* The following css was copied from materializecss.com to create a sticky footer */
 
-
 body {
     display: flex;
 
@@ -38,9 +37,9 @@ main {
 /* Set width an styling of form for login and registration   */
 
 form {
-    
-    padding-left:10px;
-   
+
+    padding-left: 10px;
+
 }
 
 /* Overide bootstrap styling for login button to blend it in with the rest of 
@@ -56,7 +55,7 @@ the site */
     color: #6666ff!important;
     background-color: #e6e6ff!important;
     border-color: #e6e6ff!important;
-    
+
 }
 
 .btn-info {
@@ -69,7 +68,7 @@ the site */
     color: #6666ff!important;
     background-color: #e6e6ff!important;
     border-color: #e6e6ff!important;
-    
+
 }
 
 
@@ -150,9 +149,10 @@ the site */
 }
 
 /* Style all links, other than nav links, so that they behave the same */
+
 .links {
     text-decoration: none;
-    padding:10px;
+    padding: 10px;
     color: #3b3b3b;
 }
 
@@ -192,7 +192,7 @@ footer {
     margin-top: 50px;
 }
 
-.fancy-font {
+.courgette-font {
     font-family: "Courgette", sans-serif;
 
 }
@@ -205,13 +205,12 @@ footer {
 
 /* Stlye the 'sign in' text  */
 
-
-.sign-in-style {
+.link-text-style {
     text-decoration: none;
     color: #3b3b3b;
 }
 
-.sign-in-style:hover {
+.link-text-style:hover {
     color: #6666ff!important;
     text-decoration: none;
 }
@@ -221,6 +220,4 @@ footer {
 
 .prof-bg {
     background-color: #e6e6ff;
-    }
 }
-
