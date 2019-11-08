@@ -47,7 +47,10 @@ def login(request):
                     messages.success(request, "You have successfully logged in!")
                     return render(request, 'userpage.html', {'userdetails': UserDetails })
                 except:
-                    login_form.add_error(None, "User not set up on Issue Tracking System")
+                    login_form.add_error(None, "User not set up on the Issue Tracking System")
+                    
+                    """ Log the user out """
+                    auth.logout(request)
                 
             else:
                 login_form.add_error(None, "Your user name or password is incorrect")

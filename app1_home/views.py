@@ -6,14 +6,15 @@ from app2_user_details.models import UserDetail
 # Home Page
 def home(request):
     
-    """ A view that renders the index page """
+    """ A view that renders the home page """
+    
+    # Check whether user is logged in
     
     if request.user.is_authenticated: 
         login_form = UserLoginForm(request.POST)
-        
-        # Check that the user has been set up for the Issue Tracking System
     
-        UserDetails = ""
+    # User already logged in. Get the user details from the Issue Tracking System
+    
         try:
             UserDetails = UserDetail.objects.get(user_name=request.user.username)
             messages.success(request, "You are already logged in!")
