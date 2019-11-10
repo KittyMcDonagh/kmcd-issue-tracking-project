@@ -75,6 +75,10 @@ the site */
 
 /* css for base.html ---------------------------------------------------------*/
 
+li {
+    list-style-type: none;
+}
+
 .navbar-style {
     background-color: #fafaff;
     color: #3b3b3b;
@@ -83,10 +87,10 @@ the site */
 }
 
 
-/* Add padding to give space around the screen */
+/* Padding to left of home icon on navbar  */
 
 .navbar-padding {
-    padding-left: 300px;
+    padding-left: 15px;
 }
 
 
@@ -114,6 +118,20 @@ the site */
     width: 180px;
 }
 
+.nav-c-v-name {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: bolder;
+    padding-left: 5px;
+
+}
+
+.nav-c-v-user {
+    font-size: 13px;
+    font-weight:normal;
+    font-style: italic;
+
+}
 
 .logo {
     background: url("../images/kmcd_issue_tracking_system.png");
@@ -141,6 +159,7 @@ the site */
     padding-top: 2px!important;
 }
 
+
 /* Main part of screen background color   */
 
 .pg-bg {
@@ -164,6 +183,7 @@ the site */
 
 
 .mesg-style {
+   
     background-color: #b3b3ff;
     color: #fafaff;
     list-style-type: none;
@@ -171,6 +191,7 @@ the site */
 
 .blank-line {
     color: #f3f2f2;
+    background-color: #f3f2f2;
     list-style-type: none;
 }
 
