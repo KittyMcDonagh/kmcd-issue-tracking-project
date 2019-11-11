@@ -3,7 +3,7 @@
 <main>
 
     <div class="row no-gutters">
-        <div class="courgette-font offset-2 col-8 text-center">
+        <div class="courgette-font col-12 offset-lg-2 col-lg-8 text-center">
             
             {% if user.is_authenticated %}
 
@@ -14,8 +14,8 @@
 
             {% else %}
 
-            <h1 class="pt-3 pb-3">Welcome to the Issue Tracking System for:</h1>
-            <h2 class="company-name-style pl-5 mb-5">KMcD Online Accounting System!</h2>
+            <p class="welcome-mesg pt-3 pb-2">Welcome to the Issue Tracking System for</p>
+            <p class="company-name-style mb-4">KMcD Online Accounting System!</p>
             
             <h3><a class="links" href="{% url 'login' %}">Please Login </a></h3>
             <h3>or</h3>

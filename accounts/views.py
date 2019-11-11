@@ -5,7 +5,10 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.forms import UserLoginForm, UserRegistrationForm
+
 from app2_user_home.models import UserDetail
+from app2_user_home.models import Vendor
+from app2_user_home.models import Customer
 
 
 """
@@ -35,7 +38,7 @@ def logout(request):
     
     """ Log the user out """
     auth.logout(request)
-    messages.success(request, "You have been successfully logged out!")
+    messages.success(request, "You have successfully logged out!")
     return redirect(reverse('home'))
     
     
@@ -126,8 +129,34 @@ def user_profile(request):
     """ User's Profile page """
     
     user = User.objects.get(email=request.user.email)
+   
+    """
+    Retrieve the user details relating to the Issue Tracking System.
+    """
     
-    return render(request, 'profile.html', {'profile': user})
+    UserDetails = UserDetail.objects.get(user_name=request.user.username)
+    
+    # Get the Vendor or Customer Details depending on which the user is 
+    # associated with
+    
+    CustomerDetails = ""
+    VendorDetails = ""
+    
+    if UserDetails.user_type == 'C':
+        
+        try:
+            CustomerDetails = Customer.objects.get(cust_code=UserDetails.vend_cust_code)
+        except:
+            messages.success(request, "Customer details not found!")
+    
+    else:
+        try:
+            VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_cust_code)
+        except:
+            messages.success(request, "Vendor details not found!")
+    
+    
+    return render(request, 'profile.html', {'profile': user, 'userdetails': UserDetails, 'customerdetails': CustomerDetails, 'vendordetails': VendorDetails})
 
     
 

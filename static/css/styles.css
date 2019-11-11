@@ -11,18 +11,24 @@ body {
     font-family: "Nunito", sans-serif!important;
 }
 
-/* Set height of Section so that the footer sticks to the bottom longer devices
-   or on pages where the screen is not otherwise filled. 253 is the height of 
-   the navbar plus the height of the footer  */
+/* Set height of Section so that the footer sticks to the bottom on Mobile 
+   devices or on pages where the screen is not otherwise filled. 
+   155 is the height of the top line (19) plus the height of the navbar (56) 
+   plus the height of the footer (80)  */
 
 section {
 
-    min-height: calc(100vh - 139px);
+    min-height: calc(100vh - 155px);
 }
 
-@media(min-width:1024px) {
+/* Set height of Section so that the footer sticks to the bottom on larger 
+   devices or on pages where the screen is not otherwise filled. 
+   172 is the height of the top line (19) plus the height of the navbar (73) 
+   plus the height of the footer (80)  */
+
+@media(min-width:768px) {
     section {
-        min-height: calc(100vh - 153px);
+        min-height: calc(100vh - 172px);
     }
 }
 
@@ -41,6 +47,11 @@ form {
     padding-left: 10px;
 
 }
+
+li {
+    list-style-type: none;
+}
+
 
 /* Overide bootstrap styling for login button to blend it in with the rest of 
 the site */
@@ -75,15 +86,20 @@ the site */
 
 /* css for base.html ---------------------------------------------------------*/
 
-li {
-    list-style-type: none;
+.vend-cust-user {
+    height: 19px;
+    background-color: #f3f2f2;
+
 }
+
+
 
 .navbar-style {
     background-color: #fafaff;
     color: #3b3b3b;
     font-family: "Nunito", sans-serif;
     font-size: 18px;
+    ;
 }
 
 
@@ -91,6 +107,7 @@ li {
 
 .navbar-padding {
     padding-left: 15px;
+   
 }
 
 
@@ -128,7 +145,7 @@ li {
 
 .nav-c-v-user {
     font-size: 13px;
-    font-weight:normal;
+    font-weight: normal;
     font-style: italic;
 
 }
@@ -153,6 +170,10 @@ li {
 .logo:hover {
     height: 90%;
     width: 90%;
+    -moz-transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
 }
 
 .home-icon {
@@ -183,16 +204,26 @@ li {
 
 
 .mesg-style {
-   
+     font-size:14px;
     background-color: #b3b3ff;
     color: #fafaff;
-    list-style-type: none;
 }
 
+@media(min-width:768px) {
+    .mesg-style {
+        font-size:16px;
+    }
+
+}
+
+
+/* Leave a blank line when there are no messages, so that the text below the 
+   message line will always appear at the same position, whether there's a 
+   message or not */
+   
 .blank-line {
     color: #f3f2f2;
     background-color: #f3f2f2;
-    list-style-type: none;
 }
 
 
@@ -218,9 +249,29 @@ footer {
 
 }
 
+.welcome-mesg {
+    font-size: 32px;
+
+}
+
 .company-name-style {
+    font-size: 16px;
     color: #6666ff;
 }
+
+@media(min-width:768px) {
+    .welcome-mesg {
+        font-size: 40px;
+
+    }
+
+    .company-name-style {
+        font-size: 32px;
+        color: #6666ff;
+    }
+}
+
+
 
 /* css for registration.html -------------------------------------------------*/
 
@@ -241,4 +292,18 @@ footer {
 
 .prof-bg {
     background-color: #e6e6ff;
+}
+
+/* css for profile.html ------------------------------------------------------*/
+
+.prof-hd {
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+@media(min-width:768px) {
+    .prof-hd {
+        font-size: 18px;
+        text-decoration: underline;
+    }
 }

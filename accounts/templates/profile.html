@@ -3,8 +3,17 @@
 {% block content %}
 
 <div class="row no-gutters">
-    <div class="offset-3 col-5 prof-bg text-center mt-5 p-5">
-
+    <div class="col-12 offset-md-2 col-md-8 prof-bg text-center mt-5 pt-5 pb-5">
+        
+        {% if userdetails.user_type == "V" %}
+        
+        <p class="prof-hd pb-3"><strong>Software Vendor:</strong> <em>{{ vendordetails.vend_name }}</em></p>
+        
+        {% else %}
+        <p class="prof-hd pb-3"><strong>Client:</strong> <em>{{ customerdetails.cust_name }}</em></p>
+        
+         {% endif %}
+         
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email Address:</strong> {{ user.email }}</p>
 
