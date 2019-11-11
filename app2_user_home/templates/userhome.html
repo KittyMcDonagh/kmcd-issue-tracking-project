@@ -2,13 +2,59 @@
 
 <main>
 
+    <!-- Show Issues Filter -->
+
     <div class="row no-gutters">
-        <div class="courgette-font offset-2 col-8 text-center">
+        <div class="col-4">
+            <p><strong>Filter by: </strong>
+                <span>
+                <select class="dd-filter">
 
-            
+                   {% for value in filter %} 
+                   
+                   {% if value.filter_value == "ASSIGNED TO ME" %}
+                   
+                   <option value="{{ value.filter_value }}" selected>{{ value.filter_value}}</option>
+                   
+                   {% else %}
+                          
+                    <option value="{{ value.filter_value }}">{{ value.filter_value}}</option> 
+                    
+                     {% endif %}
+                            
+                    {% endfor %} 
 
+                </select>
+            </span></p>
+        </div>
+
+        <!-- Show Status Filter -->
+
+
+        <div class="col-4">
+            <p><strong>Status: </strong>
+                <span>
+                <select class="dd-filter">
+
+                   {% for value in status %} 
+                   
+                   {% if value.status_desc == "ALL" %}
+                   
+                   <option value="{{ value.status_desc }}" selected>{{ value.status_desc }}</option>
+                   
+                   {% else %}
+                          
+                    <option value="{{ value.status_desc }}">{{ value.status_desc }}</option> 
+                    
+                     {% endif %}
+                            
+                    {% endfor %} 
+
+                </select>
+            </span></p>
         </div>
     </div>
+
 
 </main>
 

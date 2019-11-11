@@ -5,8 +5,8 @@ from django.contrib import admin
 
 from .models import Issue
 from .models import VendorComment
-from .models import FilterForVendUser
-from .models import FilterForClientUser
+from .models import FilterForVendor
+from .models import FilterForClient
 from .models import StatusFilter
 
 
@@ -14,6 +14,6 @@ from .models import StatusFilter
 
 admin.site.register(Issue)
 admin.site.register(VendorComment)
-admin.site.register(FilterForVendUser)
-admin.site.register(FilterForClientUser)
+admin.site.register(FilterForVendor)
+admin.site.register(FilterForClient)
 admin.site.register(StatusFilter)

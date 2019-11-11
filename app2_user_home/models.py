@@ -47,38 +47,6 @@ class UserDetail(models.Model):
     
     def __str__(self):
         return self.user_name
-        
-"""
-Create a filter list for users that work for the Vendor, by which to filter 
-the Issues
-"""
-
-class FilterForVendUser(models.Model):
-    filter_vend_desc = models.CharField(max_length=20, blank=False)
-    
-    def __str__(self):
-        return FilterForVendUser.filter_vend_desc
-
-"""
-Create a filter list for users that work for a Client, by which to filter 
-the Issues
-"""
-
-class FilterForClientUser(models.Model):
-    filter_client_desc = models.CharField(max_length=20, blank=False)
-    
-    def __str__(self):
-        return FilterForClientUser.filter_client_desc
-
-"""
-Create a Status filter , by which to filter the Issues
-"""
-
-class StatusFilter(models.Model):
-    status_desc = models.CharField(max_length=20, blank=False)
-    
-    def __str__(self):
-        return StatusFilter.status_desc
 
 
 

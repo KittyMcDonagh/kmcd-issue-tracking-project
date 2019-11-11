@@ -18,7 +18,7 @@ body {
 
 section {
     
-    padding: 10px;
+    padding: 0 10px;
 
     min-height: calc(100vh - 155px);
 }
@@ -225,7 +225,8 @@ the site */
 
 
 .mesg-style {
-     font-size:14px;
+    margin:0px;
+     font-size:13px;
     background-color: #b3b3ff;
     color: #fafaff;
 }
@@ -328,3 +329,20 @@ footer {
         text-decoration: underline;
     }
 }
+
+
+/* css for userhome.html------------------------------------------------------*/
+
+.dd-filter {
+    color: #3b3b3b;
+    background-color: #f3f2f2;
+    border: solid 3px;
+    border-style: groove;
+}
+
+.dd-filter:hover {
+    color: #f3f2f2;
+    background-color: #3b3b3b;
+    
+}
+

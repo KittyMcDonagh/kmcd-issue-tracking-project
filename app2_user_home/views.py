@@ -5,6 +5,9 @@ from django.contrib import messages
 from .models import Vendor
 from .models import Client
 from .models import UserDetail
+from app3_issue_logging.models import FilterForClient
+from app3_issue_logging.models import FilterForVendor
+from app3_issue_logging.models import StatusFilter
 
 from accounts.forms import UserLoginForm
 
@@ -31,6 +34,11 @@ def userhome(request):
             ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
         except:
             messages.success(request, "Client details not found!")
+        
+        try:   
+            Filter = FilterForClient.objects.all()
+        except:
+            messages.success(request, "Problem Client filter!")
     
     else:
         try:
@@ -38,7 +46,18 @@ def userhome(request):
         except:
             messages.success(request, "Vendor details not found!")
         
+        try:
+            Filter = FilterForVendor.objects.all()
+        except:
+            messages.success(request, "Problem with Vendor filter!")
     
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails })
+    try:
+        Status = StatusFilter.objects.all()
+    except:
+        messages.success(request, "Problem with Status filter!")
+            
+        
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'filter': Filter, 'status': Status })
+    
     
 

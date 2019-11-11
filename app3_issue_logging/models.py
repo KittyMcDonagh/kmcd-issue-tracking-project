@@ -44,22 +44,22 @@ Create a filter list for users that work for the Vendor, by which to filter
 the Issues
 """
 
-class FilterForVendUser(models.Model):
-    filter_vend_desc = models.CharField(max_length=50, blank=False)
+class FilterForVendor(models.Model):
+    filter_value = models.CharField(max_length=50, blank=False)
     
     def __str__(self):
-        return self.filter_vend_desc
+        return self.filter_value
 
 """
 Create a filter list for users that work for a Client, by which to filter 
 the Issues
 """
 
-class FilterForClientUser(models.Model):
-    filter_client_desc = models.CharField(max_length=50, blank=False)
+class FilterForClient(models.Model):
+    filter_value = models.CharField(max_length=50, blank=False)
     
     def __str__(self):
-        return self.filter_client_desc
+        return self.filter_value
 
 """
 Create a Status filter , by which to filter the Issues
