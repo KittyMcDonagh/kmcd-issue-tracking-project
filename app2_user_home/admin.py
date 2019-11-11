@@ -4,11 +4,11 @@ from django.contrib import admin
 
 from .models import UserDetail
 from .models import Vendor
-from .models import Customer
+from .models import Client
 
 # Register UserDetails app so that users can be added via the admin panel.
 
 admin.site.register(Vendor)
-admin.site.register(Customer)
+admin.site.register(Client)
 admin.site.register(UserDetail)
 

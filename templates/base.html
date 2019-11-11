@@ -31,7 +31,7 @@
         <!-- User is logged in and is associated with the Vendor.
              Show Vendor Name and User Name at the top of the screen -->
 
-        <div class="row no-gutters vend-cust-user ">
+        <div class="row no-gutters vend-client-user ">
             <div class="col-6 mb-0">
                 <p class="nav-c-v-name m-0">{{ vendordetails.vend_name }}
             </div>
@@ -42,12 +42,12 @@
 
         {% else %}
         
-        <!-- User is logged in and is associated with the Customer.
-             Show Customer Name and User Name at the top of the screen -->
+        <!-- User is logged in and is associated with the client.
+             Show client Name and User Name at the top of the screen -->
 
-        <div class="row no-gutters vend-cust-user ">
+        <div class="row no-gutters vend-client-user ">
             <div class="col-6">
-                <p class="nav-c-v-name m-0">{{ customerdetails.cust_name }}
+                <p class="nav-c-v-name m-0">{{ clientdetails.client_name }}
             </div>
             <div class="col-6">
                 <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_name }}!</p>
@@ -57,10 +57,10 @@
         
         {% else %}
         
-        <!-- No user logged in yet - leave a blank row where vendor / customer 
+        <!-- No user logged in yet - leave a blank row where vendor / client 
              name and user name will be shown-->
         
-         <div class="row no-gutters vend-cust-user">
+         <div class="row no-gutters vend-client-user">
             
         </div>
         
@@ -94,10 +94,8 @@
 
     <section class="pg-bg">
 
-
         <div class="row mt-3 no-gutters">
             <div class="offset-2 col-8 p-0">
-
 
                 <ul class="mesg-style p-0  text-center">
                     {% if messages %} 

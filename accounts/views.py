@@ -8,7 +8,7 @@ from accounts.forms import UserLoginForm, UserRegistrationForm
 
 from app2_user_home.models import UserDetail
 from app2_user_home.models import Vendor
-from app2_user_home.models import Customer
+from app2_user_home.models import Client
 
 
 """
@@ -136,27 +136,27 @@ def user_profile(request):
     
     UserDetails = UserDetail.objects.get(user_name=request.user.username)
     
-    # Get the Vendor or Customer Details depending on which the user is 
+    # Get the Vendor or Client Details depending on which the user is 
     # associated with
     
-    CustomerDetails = ""
+    ClientDetails = ""
     VendorDetails = ""
     
     if UserDetails.user_type == 'C':
         
         try:
-            CustomerDetails = Customer.objects.get(cust_code=UserDetails.vend_cust_code)
+            ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
         except:
-            messages.success(request, "Customer details not found!")
+            messages.success(request, "Client details not found!")
     
     else:
         try:
-            VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_cust_code)
+            VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_client_code)
         except:
             messages.success(request, "Vendor details not found!")
     
     
-    return render(request, 'profile.html', {'profile': user, 'userdetails': UserDetails, 'customerdetails': CustomerDetails, 'vendordetails': VendorDetails})
+    return render(request, 'profile.html', {'profile': user, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 
     
 

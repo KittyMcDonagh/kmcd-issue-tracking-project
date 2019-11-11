@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'app1_home',
     'app2_user_home',
+    'app3_issue_logging',
 ]
 
 MIDDLEWARE = [

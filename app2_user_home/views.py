@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 from .models import Vendor
-from .models import Customer
+from .models import Client
 from .models import UserDetail
 
 from accounts.forms import UserLoginForm
@@ -19,26 +19,26 @@ def userhome(request):
     
     UserDetails = UserDetail.objects.get(user_name=request.user.username)
     
-    # Get the Vendor or Customer Details depending on which the user is 
+    # Get the Vendor or Client Details depending on which the user is 
     # associated with
     
-    CustomerDetails = ""
+    ClientDetails = ""
     VendorDetails = ""
     
     if UserDetails.user_type == 'C':
         
         try:
-            CustomerDetails = Customer.objects.get(cust_code=UserDetails.vend_cust_code)
+            ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
         except:
-            messages.success(request, "Customer details not found!")
+            messages.success(request, "Client details not found!")
     
     else:
         try:
-            VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_cust_code)
+            VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_client_code)
         except:
             messages.success(request, "Vendor details not found!")
         
     
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'customerdetails': CustomerDetails, 'vendordetails': VendorDetails })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails })
     
 
