@@ -17,7 +17,7 @@ body {
    plus the height of the footer (80)  */
 
 section {
-    
+
     padding: 0 10px;
 
     min-height: calc(100vh - 155px);
@@ -50,7 +50,7 @@ main {
 
 @media(min-width:768px) {
     .reg-style {
-        font-size:16px;
+        font-size: 16px;
     }
 }
 
@@ -64,7 +64,7 @@ form {
 
 @media(min-width:768px) {
     form {
-        font-size:16px;
+        font-size: 16px;
     }
 
 }
@@ -128,7 +128,7 @@ the site */
 
 .navbar-padding {
     padding-left: 15px;
-   
+
 }
 
 
@@ -225,15 +225,15 @@ the site */
 
 
 .mesg-style {
-    margin:0px;
-     font-size:13px;
+    margin: 0px;
+    font-size: 13px;
     background-color: #b3b3ff;
     color: #fafaff;
 }
 
 @media(min-width:768px) {
     .mesg-style {
-        font-size:16px;
+        font-size: 16px;
     }
 
 }
@@ -242,7 +242,7 @@ the site */
 /* Leave a blank line when there are no messages, so that the text below the 
    message line will always appear at the same position, whether there's a 
    message or not */
-   
+
 .blank-line {
     color: #f3f2f2;
     background-color: #f3f2f2;
@@ -333,16 +333,49 @@ footer {
 
 /* css for userhome.html------------------------------------------------------*/
 
-.dd-filter {
-    color: #3b3b3b;
-    background-color: #f3f2f2;
-    border: solid 3px;
-    border-style: groove;
+.filter-box {
+    border: solid 1px #d9d9d9;
+    border-radius: 5px;
+    padding: 10px!important;
+    font-size: 12px!important;
+
 }
 
-.dd-filter:hover {
+/* Style for issues filter dropdown */
+
+.filter-by {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+
+}
+
+/* Set filter font-sizes for larger devices----------------------------------*/
+
+@media(min-width:768px) {
+    .filter-box {
+        font-size: 14px!important;
+    }
+    .filter-by {
+        background-color: #f3f2f2!important;
+        color: #3b3b3b!important;
+        font-size: 14px!important;
+    }
+
+}
+
+.dropdown-item a {
+    color: #8c8c8c!important;
+}
+
+.dropdown a:hover {
     color: #f3f2f2;
-    background-color: #3b3b3b;
-    
+    background-color: #6666ff;
+
 }
 
+.option-value:hover {
+    color: #f3f2f2;
+    background-color: #6666ff;
+
+}

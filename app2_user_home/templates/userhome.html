@@ -5,56 +5,58 @@
     <!-- Show Issues Filter -->
 
     <div class="row no-gutters">
-        <div class="col-4">
-            <p><strong>Filter by: </strong>
-                <span>
-                <select class="dd-filter">
-
-                   {% for value in filter %} 
-                   
-                   {% if value.filter_value == "ASSIGNED TO ME" %}
-                   
-                   <option value="{{ value.filter_value }}" selected>{{ value.filter_value}}</option>
-                   
-                   {% else %}
-                          
-                    <option value="{{ value.filter_value }}">{{ value.filter_value}}</option> 
-                    
-                     {% endif %}
-                            
-                    {% endfor %} 
-
-                </select>
-            </span></p>
-        </div>
-
-        <!-- Show Status Filter -->
-
-
-        <div class="col-4">
-            <p><strong>Status: </strong>
-                <span>
-                <select class="dd-filter">
-
-                   {% for value in status %} 
-                   
-                   {% if value.status_desc == "ALL" %}
-                   
-                   <option value="{{ value.status_desc }}" selected>{{ value.status_desc }}</option>
-                   
-                   {% else %}
-                          
-                    <option value="{{ value.status_desc }}">{{ value.status_desc }}</option> 
-                    
-                     {% endif %}
-                            
-                    {% endfor %} 
-
-                </select>
-            </span></p>
+        <div class="col-12 col-md-6 col-lg-4 pl-1">
+            <p><strong>Filter by: </strong></p>
         </div>
     </div>
 
+    <div class="row no-gutters">
+        <div class="col-12 col-md-6 col-lg-4 filter-box pl-3">
+            <div class="row no-gutters mb-2">
+                <div class="col-2 ">
+                    <p><strong>Issues: </strong></p>
+                </div>
+
+                <!-- Dropdown for Issues Filter -->
+                <div class="col-10">
+                    <div class="dropdown">
+                        <a id="origindd" class="btn btn-secondary dropdown-toggle filter-by" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    OTHER CLIENTS' ISSUES ONLY
+                                                  </a>
+                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">OTHER CLIENTS' ISSUES ONLY</a> {% for value in filter%}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">{{value.filter_value}}</a> {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Show Status Filter -->
+            <div class="row no-gutters">
+                <div class="col-2">
+                    <p><strong>Status: </strong></p>
+                </div>
+
+                <!-- Status ropdown -->
+
+                <div class="col-10">
+                    <div class="dropdown">
+                        <a id="origindd" class="btn btn-secondary dropdown-toggle filter-by" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    DEPLOYED
+                                                  </a>
+                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">DEPLOYED</a> {% for value in status%}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">{{value.status_desc}}</a> {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>
 
