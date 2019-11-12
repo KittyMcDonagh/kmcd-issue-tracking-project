@@ -25,8 +25,9 @@
 <body>
 
     <header>
-
-        {% if user.is_authenticated %} {%if userdetails.user_type == "V" %}
+        {% if not user_just_registered %}
+        {% if user.is_authenticated %} 
+        {% if userdetails.user_type == "V" %}
         
         <!-- User is logged in and is associated with the Vendor.
              Show Vendor Name and User Name at the top of the screen -->
@@ -64,6 +65,7 @@
             
         </div>
         
+        {% endif %}
         {% endif %}
 
 

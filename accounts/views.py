@@ -38,7 +38,6 @@ def logout(request):
     
     """ Log the user out """
     auth.logout(request)
-    messages.success(request, "You have successfully logged out!")
     return redirect(reverse('home'))
     
     
@@ -67,7 +66,6 @@ def login(request):
                 UserDetails = ""
                 try:
                     UserDetails = UserDetail.objects.get(user_name=user.username)
-                    
                     return redirect(reverse('userhome'))
                 except:
                     login_form.add_error(None, "User not set up on the Issue Tracking System")
@@ -111,8 +109,13 @@ def registration(request):
             
             if user:
                 auth.login(user=user, request=request)
-                messages.success(request, "You have successfully registered!")
-                return redirect(reverse('home'))
+                messages.success(request, "You have registered successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**")
+                
+                # Log the user out now, as they wont have access to Issue Tracking
+                #System untile they are set up on User Details
+                
+                auth.logout(request)
+                return redirect(reverse('registered'))
             else:
                 messages.error(request, "Unable to register your account at this time")
                 

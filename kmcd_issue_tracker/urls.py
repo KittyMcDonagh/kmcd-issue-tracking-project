@@ -18,6 +18,7 @@ from django.contrib import admin
 from accounts import urls as urls_accounts
 from accounts.views import index
 from accounts.views import logout
+
 from app1_home import urls as urls_apphome
 from app1_home.views import home
 from app2_user_home.views import userhome
@@ -26,7 +27,8 @@ from app2_user_home import urls as urls_user_home
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name="index"),
-    url(r'^iss_trk_system$', home, name="home"),
     url(r'^iss_trk_system/', include(urls_accounts)),
+    url(r'^iss_trk_system/', include(urls_apphome)),
     url(r'^iss_trk_system/', include(urls_user_home)),
+   
 ]
