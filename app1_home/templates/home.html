@@ -5,7 +5,7 @@
     <div class="row no-gutters">
         <div class="courgette-font col-12 offset-lg-2 col-lg-8 text-center">
             
-            {% if not user_just_registered %}
+    
             {% if user.is_authenticated %}
 
             <h3 class="pt-5 pb-3">Please go to</h3>
@@ -23,6 +23,7 @@
             <h3><a class="links" href="{% url 'registration' %}">Register</a></h3>
             
             {% endif %}
+        
             
         </div>
     </div>

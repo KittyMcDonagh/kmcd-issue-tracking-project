@@ -112,10 +112,10 @@ def registration(request):
                 messages.success(request, "You have registered successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**")
                 
                 # Log the user out now, as they wont have access to Issue Tracking
-                #System untile they are set up on User Details
+                #System until they are set up on User Details
                 
                 auth.logout(request)
-                return redirect(reverse('registered'))
+                return redirect(reverse('home'))
             else:
                 messages.error(request, "Unable to register your account at this time")
                 

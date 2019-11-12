@@ -9,9 +9,7 @@ from app2_user_home.models import Client
 # Home Page
 def home(request):
     
-    user_just_registered = False
-    
-    """ A view that renders the home page """
+    """ A view that renders the app home page """
     
     # Check whether user is logged in
     
@@ -42,25 +40,12 @@ def home(request):
             except:
                 messages.success(request, "Vendor details not found!")
     
-        return render(request, 'home.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'user_just_registered': user_just_registered  })
+        return render(request, 'home.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
     
     else:
-        return render(request, "home.html", {'user_just_registered': user_just_registered })
+        return render(request, "home.html")
         
 
-"""
-After a user registers, they will need to be set up on the Issue Tracking
-System by their system administrator, before they can access the system
-"""
 
-# User has just registered
-
-def registered(request):
-    
-    """ A view that renders the home page """
-    
-    user_just_registered = True
-    
-    return render(request, "home.html", {'user_just_registered': user_just_registered })
 
     
