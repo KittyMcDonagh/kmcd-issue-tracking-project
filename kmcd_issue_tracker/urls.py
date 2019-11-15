@@ -27,8 +27,8 @@ from app2_user_home import urls as urls_user_home
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name="index"),
-    url(r'^iss_trk_system/', include(urls_accounts)),
-    url(r'^iss_trk_system/', include(urls_apphome)),
-    url(r'^iss_trk_system/', include(urls_user_home)),
+    url(r'^issue_tracker/', include(urls_accounts)),
+    url(r'^issue_tracker/', include(urls_apphome)),
+    url(r'^issue_tracker/', include(urls_user_home)),
    
 ]

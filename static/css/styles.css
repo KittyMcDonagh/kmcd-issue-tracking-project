@@ -40,6 +40,8 @@ main {
 
 }
 
+
+
 /* cs for Login & Registration Form ------------------------------------------*/
 
 /* Set font size for the registration comments for various device sizes */
@@ -333,9 +335,7 @@ footer {
 
 /* css for userhome.html------------------------------------------------------*/
 
-.filter-box {
-    border: solid 1px #d9d9d9;
-    border-radius: 5px;
+.filter-name {
     padding: 10px!important;
     font-size: 12px!important;
 
@@ -343,39 +343,62 @@ footer {
 
 /* Style for issues filter dropdown */
 
-.filter-by {
+.filter-dd {
     background-color: #f3f2f2!important;
     color: #3b3b3b!important;
     font-size: 12px!important;
 
 }
 
+.filter-dd:hover {
+    color: #fafaff!important;
+    background-color: #6666ff!important;
+
+}
+
 /* Set filter font-sizes for larger devices----------------------------------*/
 
 @media(min-width:768px) {
-    .filter-box {
+    .filter-name {
         font-size: 14px!important;
     }
-    .filter-by {
-        background-color: #f3f2f2!important;
-        color: #3b3b3b!important;
-        font-size: 14px!important;
+    .filter-dd {
+        font-size: 12px!important;
     }
 
 }
 
-.dropdown-item a {
+.dropdown-item {
     color: #8c8c8c!important;
 }
 
 .dropdown a:hover {
-    color: #f3f2f2;
+    color: #fafaff!important;
     background-color: #6666ff;
 
 }
 
-.option-value:hover {
-    color: #f3f2f2;
-    background-color: #6666ff;
-
+.table-style {
+    font-size: 12px;
+    font-family: "Nunito", sans-serif;
 }
+
+.more-icon-th {
+    color: #3b3b3b;
+}
+
+.more-icon-style {
+    color: #3b3b3b;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.more-icon-style:hover {
+    color: #fafaff;
+    background-color: #6666ff;
+}
+
+
+
+
+

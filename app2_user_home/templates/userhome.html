@@ -5,50 +5,97 @@
     <!-- Show Issues Filter -->
 
     <div class="row no-gutters">
-        <div class="col-12 col-md-6 col-lg-4 pl-1">
-            <p><strong>Filter by: </strong></p>
-        </div>
-    </div>
-
-    <div class="row no-gutters">
-        <div class="col-12 col-md-6 col-lg-4 filter-box pl-3">
+        <div class="col-12 col-md-6 col-lg-4 filter-name pl-3">
             <div class="row no-gutters mb-2">
                 <div class="col-2 ">
                     <p><strong>Issues: </strong></p>
                 </div>
 
                 <!-- Dropdown for Issues Filter -->
+                
                 <div class="col-10">
                     <div class="dropdown">
-                        <a id="origindd" class="btn btn-secondary dropdown-toggle filter-by" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    OTHER CLIENTS' ISSUES ONLY
-                                                  </a>
-                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">OTHER CLIENTS' ISSUES ONLY</a> {% for value in filter%}
+                        <a id="issues-filter" class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ selected_issues_filter }}</a>
+                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="{% url 'all_issues' %}">ALL ISSUES</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">{{value.filter_value}}</a> {% endfor %}
+                            <a class="dropdown-item" href="{% url 'userhome' %}">ASSIGNED TO ME</a>
+                            <div class="dropdown-divider"></div>
+
+                            <!-- If the user is on the Client side, include the following options -->
+                            
+                            {% if userdetails.user_type == "C" %}
+                            <a class="dropdown-item" href="{% url 'our_issues_only' %}">OUR ISSUES ONLY</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'other_clients_issues_only' %}">OTHER CLIENTS' ISSUES ONLY</a> {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- If the user is on the Vendor side, include Client Code input box -->
 
-
-            <!-- Show Status Filter -->
+        {% if userdetails.user_type == "V" %}
+        <div class="col-12 col-md-6 col-lg-4 filter-name">
             <div class="row no-gutters">
-                <div class="col-2">
-                    <p><strong>Status: </strong></p>
+                <div class="col-2 ">
+                    <p><strong>Client: </strong></p>
                 </div>
 
-                <!-- Status ropdown -->
+                <!-- Client Dropdown -->
 
                 <div class="col-10">
                     <div class="dropdown">
-                        <a id="origindd" class="btn btn-secondary dropdown-toggle filter-by" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    DEPLOYED
+                        <a id="client-filte" class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ selected_client_filter }}
                                                   </a>
                         <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">DEPLOYED</a> {% for value in status%}
+                            <a class="dropdown-item" href="#">ALL</a> 
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">DRAFT</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">LOGGED</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">OPEN</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">ANALYSIS</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">FIXING</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">TESTING</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">DEPLOYED</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">CLOSED</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- Show Status Filter -->
+
+
+        <div class="col-12 col-md-6 col-lg-4 filter-name">
+            <div class="row no-gutters">
+                <div class="col-2 ">
+                    <p><strong>Status: </strong></p>
+                </div>
+
+                <!-- Status Dropdown -->
+
+                <div class="col-10">
+                    <div class="dropdown">
+                        <a id="status-filter" class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ selected_status_filter }}
+                                                  </a>
+                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">ALL</a> {% for value in status_filter %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">{{value.status_desc}}</a> {% endfor %}
                         </div>
@@ -56,6 +103,66 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+
+
+    <!-- Show Issues as per the Issue & Status Filters -->
+
+    <div class="row no-gutters">
+        <div class="col-12">
+
+            <table class="table table-striped table-style">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Date</th>
+                        <th scope="col" class="text-center">Input User</th>
+                        <th scope="col" class="text-center">Assigned to</th>
+                        <th scope="col" class="d-none d-md-table-cell text-center">Software Component</th>
+                        <th scope="col" class="d-none d-md-table-cell text-center">Priority</th>
+                        <th scope="col" class="text-center">Issue Summary</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center"><i class="fas fa-ellipsis-h more-icon-th"></th>
+                    </tr>
+                </thead>
+               
+                <tbody>
+                     {% for issue in issues %}
+                    <tr>
+                        <td class="d-none d-md-table-cell">{{ issue.input_date|date:"d-M-y" }}</td>
+                        
+                        <!-- The input user will always be a client-side user -->
+                        
+                        <td class="d-none d-md-table-cell">{{ issue.user_name }}</td>
+                        
+                        <!-- The issue can be assigned to user on the client side, and a user on the vendor side 
+                             Show the relevant assigned user depending on whether the logged in user is on the client side
+                             or the vendor side -->
+                        
+                        {% if userdetails.user_type == "C"%}
+                        
+                        <td class="d-none d-md-table-cell text-center">{{ issue.assigned_client_user }}</td>
+                        
+                        {% else %}
+                        <td class="d-none d-md-table-cell text-center">{{ issue.assigned_vendor_user }}</td>
+                        
+                        {% endif %}
+                        
+                        <td class="d-none d-md-table-cell">{{ issue.software_component }}</td>
+                        <td class="text-center">{{ issue.priority }}</td>
+                        <td>{{ issue.summary }}</td>
+                        <td class="text-center">{{ issue.status }}</td>
+                        <td class="text-center more-icon-cell"><a href="#" ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
+                            </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
+
+        </div>
+
     </div>
 
 </main>

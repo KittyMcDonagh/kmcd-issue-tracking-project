@@ -128,13 +128,20 @@ AUTHENTICATION_BACKENDS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+DATE_INPUT_FORMATS = [
+    '%d/%m/%Y'           # '25/10/06'
+    
+    ]
+
+DATE_FORMAT = 'j, N  Y'
 
 
 # Static files (CSS, JavaScript, Images)

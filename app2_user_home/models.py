@@ -29,7 +29,7 @@ class Client(models.Model):
     user_contact_nr = models.CharField(max_length=20, blank=False)
     
     def __str__(self):
-        return self.client_name
+        return  "{0}: {1}".format(self.client_code, self.client_name )
         
 """
 User Model - This model tells us about the user's relationship with the 
@@ -46,7 +46,7 @@ class UserDetail(models.Model):
     user_contact_nr = models.CharField(max_length=20, blank=False)
     
     def __str__(self):
-        return self.user_name
+        return  "{0}: {1}".format(self.vend_client_code, self.user_name )
 
 
 
