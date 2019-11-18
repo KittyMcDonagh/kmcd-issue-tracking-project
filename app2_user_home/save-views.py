@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
+
+from django.http import HttpResponse
+from django.http import JsonResponse 
+
 from datetime import datetime
 
 from .models import Vendor
@@ -9,7 +13,6 @@ from .models import UserDetail
 from app3_issue_logging.models import Issue
 
 from accounts.forms import UserLoginForm
-
 
 
 """
@@ -346,63 +349,107 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
     return  Issues
     
     
-    """
-    Trying jQuery option
-    """
-    
-    """
-User has requested to see ALL ISSUES
+
+"""
+Using jQuery to get issues
 """
 
-def jq_issues(request):
+"""
+Get the Issues, filtered by the Issues Filter option selected
+"""
+def jq_get_issues(request):
     
-    # Set the filter value
+    data = []
     
-    SelectedIssuesFilter = "ALL ISSUES"
-    
-    # Set Client Filter 
+    if request.method == "POST":
         
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter
-    
-    SelectedStatusFilter = "ALL"
-    
-    
-    # Get the logged in user's details re the Issue Tracking System
-    
-    UserDetails = issue_tracker_user_details(request)
-   
-    
-    # Get the Vendor or Client Details depending on which the user is 
-    # associated with
-    
-    AllClients= ""
-    ClientDetails = ""
-    VendorDetails = ""
-    
-    
-    if UserDetails.user_type == 'C':
+        Issues = Issue.objects.all()
+        issue_type = request.POST.get('issueType')
         
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
+        print("issue type: "+issue_type)
         
-        ClientDetails = get_client(request, UserDetails)
+        # User has requested all issues?
+        
+        if issue_type == 'all':
+            
+            for issue in Issues:
+        
+                data = get_issues_data(issue, data)
+            
+        else:
+            
+            # User has requested all issues assigned to them?
+            
+            if issue_type == 'assigned_to_me':
+                
+                # Get the user's details
+                
+                UserDetails = issue_tracker_user_details(request)
+                
+                # Is this a Client-side user?
+                
+                if UserDetails.user_type =="C":
     
-    else:
-        
-        # User is on the Vendor side
-        
-        VendorDetails = get_vendor(request, UserDetails)
-        
-        # Get all clients for Client Dropdown
-        
-        AllClients = get_all_clients(request)
-        
-        
-    # Get the Issues based on selected filter
+                    for issue in Issues:
+                        if issue.assigned_client_user == UserDetails.user_name:
+                            data = get_issues_data(issue, data)
+    			
+                else:
+                    for issue in Issues:
+                        if issue.assigned_vendor_user == UserDetails.user_name:
+                            data = get_issues_data(issue, data)
+                
+            else:
+                
+                # User has requested "Our" issues. This option is relevant to 
+                # client-side users only. Get all issues for the User's client 
+                # code.
+                
+                if issue_type == 'ours':
+                    
+                    UserDetails = issue_tracker_user_details(request)
     
-    Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-        
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'all_clients': AllClients,'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
+                    for issue in Issues:
+                        if issue.client_code == UserDetails.vend_client_code:
+                            data = get_issues_data(issue, data)
+                            
+                else:
+                    
+                    # User has requested "Other Clients" issues. This option is 
+                    # relevant to client-side users only. Get all issues for 
+                    # the User's client code.
+                    
+                    if issue_type == 'other':
+                        
+                        UserDetails = issue_tracker_user_details(request)
+            
+                        for issue in Issues:
+                            if issue.client_code != UserDetails.vend_client_code:
+                                data = get_issues_data(issue, data)
+        	
+    return JsonResponse(data, safe=False)
+    
+    
 
+
+def get_issues_data(issue, data):
+    
+    data.append({
+        
+    	"title": issue.title,
+    	"details": issue.details,
+    	"client_code": issue.client_code,
+        "date": issue.input_date,
+    	"user": issue.user_name,
+    	"assigned_client_user": issue.assigned_client_user,
+    	"assigned_vendor_user": issue.assigned_vendor_user,
+    	"software_component": issue.software_component,
+    	"priority": issue.priority,
+    	"summary": issue.summary,
+    	"status": issue.status,
+    	"progress": issue.progress
+    		
+    })
+    		
+    return data
+    

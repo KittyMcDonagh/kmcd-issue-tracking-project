@@ -9,7 +9,7 @@
             {% if user.is_authenticated %}
 
             <h3 class="pt-5 pb-3">Please go to</h3>
-            <h3 class="pb-3"><a class="links" href="#">Issue Tracking System</a></h3>
+            <h3 class="pb-3"><a class="links" href="{% url 'userhome' %}">Issue Tracking System</a></h3>
             <h3>or</h3>
             <h3  class="pt-3"><a class="links" href="{% url 'logout' %}">Logout</a></h3>
 

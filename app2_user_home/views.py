@@ -16,7 +16,7 @@ from accounts.forms import UserLoginForm
 
 
 """
-User Home Page - Initial load or when user selects "ISSUES ASSIGNED TO ME"
+User Home Page - Initial load
 Issues assigned to the logged in user are shown.
 """
 
@@ -359,40 +359,97 @@ Get the Issues, filtered by the Issues Filter option selected
 """
 def jq_get_issues(request):
     
+    # Get the user's details
+            
+    UserDetails = issue_tracker_user_details(request)
+    
+    data = []
+    
     if request.method == "POST":
         
         Issues = Issue.objects.all()
-        issue_type = request.POST.get('issueType')
+        issues_filter = request.POST.get('issuesFilter')
         
-        print("issue type: "+issue_type)
+        print("issue filter: "+issues_filter)
         
-        data = []
+        # User has requested all issues?
         
-        for issue in Issues:
+        if issues_filter == 'ALL ISSUES':
             
-            data.append({
-				"title": issue.title,
-				"details": issue.details,
-				"client_code": issue.client_code,
-				"date": issue.input_date,
-				"user": issue.user_name,
-				"assigned_client_user": issue.assigned_client_user,
-				"assigned_vendor_user": issue.assigned_vendor_user,
-				"software_component": issue.software_component,
-				"priority": issue.priority,
-				"summary": issue.summary,
-				"status": issue.status,
-				"progress": issue.progress
-			})
-	
+            for issue in Issues:
+        
+                data = get_issues_data(UserDetails, issue, issues_filter, data)
+            
+        else:
+            
+            # User has requested all issues assigned to them?
+            
+            if issues_filter == 'ASSIGNED TO ME':
+                
+                # Is this a Client-side user?
+                
+                if UserDetails.user_type =="C":
+    
+                    for issue in Issues:
+                        if issue.assigned_client_user == UserDetails.user_name:
+                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+    			
+                else:
+                    for issue in Issues:
+                        if issue.assigned_vendor_user == UserDetails.user_name:
+                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+                
+            else:
+                
+                # User has requested "Our" issues. This option is relevant to 
+                # client-side users only. Get all issues for the User's client 
+                # code.
+                
+                if issues_filter == 'OUR ISSUES ONLY':
+                    
+                    UserDetails = issue_tracker_user_details(request)
+    
+                    for issue in Issues:
+                        if issue.client_code == UserDetails.vend_client_code:
+                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+                            
+                else:
+                    
+                    # User has requested "Other Clients" issues. This option is 
+                    # relevant to client-side users only. Get all issues for 
+                    # the User's client code.
+                    
+                    if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
+            
+                        for issue in Issues:
+                            if issue.client_code != UserDetails.vend_client_code:
+                                data = get_issues_data(UserDetails, issue, issues_filter, data)
+        	
     return JsonResponse(data, safe=False)
+    
+    
 
 
-
-
-
-
-
-
-
-
+def get_issues_data(UserDetails, issue, issues_filter, data):
+    
+    data.append({
+        
+    	"title": issue.title,
+    	"details": issue.details,
+    	"client_code": issue.client_code,
+        "date": issue.input_date,
+    	"user": issue.user_name,
+    	"assigned_client_user": issue.assigned_client_user,
+    	"assigned_vendor_user": issue.assigned_vendor_user,
+    	"software_component": issue.software_component,
+    	"priority": issue.priority,
+    	"summary": issue.summary,
+    	"status": issue.status,
+    	"progress": issue.progress,
+    	"user_type": UserDetails.user_type,
+    	"issues_filter": issues_filter
+    		
+    })
+    		
+    return data
+    

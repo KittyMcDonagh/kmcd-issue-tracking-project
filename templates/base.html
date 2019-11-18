@@ -130,20 +130,50 @@
             $('.dropdown-item').on('click', function() {
 
                 event.preventDefault();
-                let issueType = $(this).data('value');
+                let issuesFilter = $(this).data('value');
+                
+                $('#dropdownMenuLink-1').text(issuesFilter)
 
                 $.post({
                     url: "{% url 'jq_get_issues' %}",
                     data: {
                         csrfmiddlewaretoken: "{{csrf_token}}",
-                        issueType: issueType
+                        issuesFilter: issuesFilter
                     },
                     success: function(data) {
                         console.log(data);
+
+                        // Clear the current contents of the table
+
+                        $("tbody").empty();
+                        $.each(data, function(key, value) {
+
+                            inputDate = value.date
+                            user = value.user
+                            
+                            if (value.user_type == "C") {
+                                assignedUser = value.assigned_client_user
+                            }
+                            else {
+                                 assignedUser = value.assigned_vendor_user
+                            }
+                            
+                            softwareComponent = value.software_component
+                            priority = value.priority
+                            summary = value.summary
+                            status = value.status
+
+                            // Output the Issue Details to the table, including the 'more' icon in the last cell
+                            
+                            $("tbody").append(
+                                "<tr><td>" + inputDate + "</td><td>" + user + "</td><td>" + assignedUser + "</td><td>" + softwareComponent + "</td><td>" + priority + "</td><td>" + summary + "</td><td>" + status + "</td><td class='text-center more-icon-cell'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                            );
+                        });
+
                     },
                     traditional: true
                 }).done();
-            })
+            });
         });
     </script>
 
