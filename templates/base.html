@@ -25,10 +25,9 @@
 <body>
 
     <header>
-    
-        {% if user.is_authenticated %} 
-        {% if userdetails.user_type == "V" %}
-        
+
+        {% if user.is_authenticated %} {% if userdetails.user_type == "V" %}
+
         <!-- User is logged in and is associated with the Vendor.
              Show Vendor Name and User Name at the top of the screen -->
 
@@ -42,7 +41,7 @@
         </div>
 
         {% else %}
-        
+
         <!-- User is logged in and is associated with the client.
              Show client Name and User Name at the top of the screen -->
 
@@ -54,19 +53,17 @@
                 <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_name }}!</p>
             </div>
         </div>
-        {% endif %} 
-        
-        {% else %}
-        
+        {% endif %} {% else %}
+
         <!-- No user logged in yet - leave a blank row where vendor / client 
              name and user name will be shown-->
-        
-         <div class="row no-gutters vend-client-user">
-            
+
+        <div class="row no-gutters vend-client-user">
+
         </div>
-        
+
         {% endif %}
-    
+
 
 
         <nav class="navbar navbar-expand-md navbar-light navbar-style nav-links">
@@ -100,12 +97,9 @@
             <div class="offset-2 col-8 p-0">
 
                 <ul class="mesg-style p-0  text-center">
-                    {% if messages %} 
-                    {% for message in messages %}
+                    {% if messages %} {% for message in messages %}
                     <li>{{ message }}</li>
-                    {% endfor%} 
-                    
-                    {% else %}
+                    {% endfor%} {% else %}
                     <li class="blank-line">blank</li>
                     {% endif %}
                 </ul>
@@ -127,6 +121,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <!-- 
+   <script type="text/javascript" src="{% static 'js/issuetracker.js' %}"></script> 
+   -->
+
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+
+                event.preventDefault();
+                let issueType = $(this).data('value');
+
+                $.post({
+                    url: "{% url 'jq_get_issues' %}",
+                    data: {
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        issueType: issueType
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    traditional: true
+                }).done();
+            })
+        });
+    </script>
+
+
+
+
 </body>
+
 
 </html>
