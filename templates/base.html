@@ -132,6 +132,9 @@
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
                 
+                // Set the Dropdown box to the value that was selected from the 
+                // dropdown
+                
                 $('#dropdownMenuLink-1').text(issuesFilter)
 
                 $.post({
@@ -148,25 +151,25 @@
                         $("tbody").empty();
                         $.each(data, function(key, value) {
 
-                            inputDate = value.date
-                            user = value.user
+                            var inputDate = value.date;
+                            var user = value.user;
                             
                             if (value.user_type == "C") {
-                                assignedUser = value.assigned_client_user
+                                var assignedUser = value.assigned_client_user;
                             }
                             else {
-                                 assignedUser = value.assigned_vendor_user
+                                 var assignedUser = value.assigned_vendor_user;
                             }
                             
-                            softwareComponent = value.software_component
-                            priority = value.priority
-                            summary = value.summary
-                            status = value.status
+                            var softwareComponent = value.software_component;
+                            var priority = value.priority;
+                            var summary = value.summary;
+                            var status = value.status;
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
                             
                             $("tbody").append(
-                                "<tr><td>" + inputDate + "</td><td>" + user + "</td><td>" + assignedUser + "</td><td>" + softwareComponent + "</td><td>" + priority + "</td><td>" + summary + "</td><td>" + status + "</td><td class='text-center more-icon-cell'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate+"</td><td class='d-none d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-none d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                         });
 

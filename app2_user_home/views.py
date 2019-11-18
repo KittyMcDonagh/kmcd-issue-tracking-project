@@ -368,6 +368,7 @@ def jq_get_issues(request):
     if request.method == "POST":
         
         Issues = Issue.objects.all()
+        
         issues_filter = request.POST.get('issuesFilter')
         
         print("issue filter: "+issues_filter)
@@ -438,6 +439,7 @@ def get_issues_data(UserDetails, issue, issues_filter, data):
     	"details": issue.details,
     	"client_code": issue.client_code,
         "date": issue.input_date,
+        "date": datetime.strftime(issue.input_date, '%d %b %y'),
     	"user": issue.user_name,
     	"assigned_client_user": issue.assigned_client_user,
     	"assigned_vendor_user": issue.assigned_vendor_user,

@@ -381,6 +381,43 @@ footer {
 .table-style {
     font-size: 12px;
     font-family: "Nunito", sans-serif;
+    width: 100%;
+}
+
+/* The following 'td-* styles are to fix the width of the table cells so that
+    they display smoothly and the table headings stay in the same position 
+    when new data is displayed */
+.td-username {
+    width: 115px;
+}
+
+.td-date {
+    width: 85px;
+}
+
+.td-sw-comp {
+    width: 179px;
+}
+
+
+.td-priority {
+    width: 71px;
+
+}
+
+.td-summary {
+    width: 650px;
+
+}
+
+.td-status {
+    width: 65px;
+
+}
+
+.td-more {
+    width: 56px;
+
 }
 
 .more-icon-th {
@@ -397,8 +434,3 @@ footer {
     color: #fafaff;
     background-color: #6666ff;
 }
-
-
-
-
-

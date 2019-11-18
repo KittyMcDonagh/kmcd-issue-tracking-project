@@ -130,11 +130,11 @@
                 <tbody>
                      {% for issue in issues %}
                     <tr>
-                        <td class="d-none d-md-table-cell">{{ issue.input_date|date:"d-M-y" }}</td>
+                        <td class="d-table-cell td-date">{{ issue.input_date|date:"d M y" }}</td>
                         
                         <!-- The input user will always be a client-side user -->
                         
-                        <td class="d-none d-md-table-cell">{{ issue.user_name }}</td>
+                        <td class="d-none d-md-table-cell td-username">{{ issue.user_name }}</td>
                         
                         <!-- The issue can be assigned to user on the client side, and a user on the vendor side 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
@@ -142,18 +142,18 @@
                         
                         {% if userdetails.user_type == "C"%}
                         
-                        <td class="d-none d-md-table-cell text-center">{{ issue.assigned_client_user }}</td>
+                        <td class="d-none d-md-table-cell td-username">{{ issue.assigned_client_user }}</td>
                         
                         {% else %}
-                        <td class="d-none d-md-table-cell text-center">{{ issue.assigned_vendor_user }}</td>
+                        <td class="d-none d-md-table-cell td-username">{{ issue.assigned_vendor_user }}</td>
                         
                         {% endif %}
                         
-                        <td class="d-none d-md-table-cell">{{ issue.software_component }}</td>
-                        <td class="text-center">{{ issue.priority }}</td>
-                        <td>{{ issue.summary }}</td>
-                        <td class="text-center">{{ issue.status }}</td>
-                        <td class="text-center more-icon-cell"><a href="#" ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
+                        <td class="d-none d-md-table-cell td-sw-comp">{{ issue.software_component }}</td>
+                        <td class="text-center td-priority">{{ issue.priority }}</td>
+                        <td class="td-summary">{{ issue.summary }}</td>
+                        <td class="text-center td-status">{{ issue.status }}</td>
+                        <td class="text-center td-more more-icon-cell"><a href="#" ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
                             </td>
 
                     </tr>
