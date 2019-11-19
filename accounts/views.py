@@ -150,7 +150,7 @@ def user_profile(request):
         try:
             ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
         except:
-            messages.success(request, "Client details not found!")
+            messages.error(request, "Client details not found!")
     
     else:
         try:

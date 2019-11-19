@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
     <link rel="shortcut icon" href="{% static 'images/kmcd_acc_sol_icon.ico' %}" />
-
 
     <!-- This will allow us to change the title of the page depending on
              the user options -->
@@ -64,7 +62,7 @@
 
         {% endif %}
 
-
+        <!-- Show the navigation bar -->
 
         <nav class="navbar navbar-expand-md navbar-light navbar-style nav-links">
             <div class="nav-logo">
@@ -78,6 +76,8 @@
             <div class="collapse navbar-collapse  navbar-padding" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto ">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i id="home" class="fa fa-home home-icon" aria-hidden="true"></i></a></li>
+
+                    <!-- Show relevant links depending on whether the user is logged in or not -->
 
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
@@ -93,6 +93,8 @@
 
     <section class="pg-bg">
 
+        <!-- A line is kept just below the navbar to display messages -->
+
         <div class="row no-gutters">
             <div class="offset-2 col-8 p-0">
 
@@ -103,6 +105,7 @@
                     <li class="blank-line">blank</li>
                     {% endif %}
                 </ul>
+
             </div>
         </div>
 
@@ -128,6 +131,9 @@
     <script>
         $(document).ready(function() {
 
+            // The following script manages the filtering of issues by Issue Filter,
+            // Status Filter, and Client Filter (vendor-side users only)
+
             // The Issues Filter has been selected by the user
 
             $('.issue-filter').on('click', function() {
@@ -135,32 +141,34 @@
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
 
-                // Set the Dropdown box to the value that was selected from the 
-                // dropdown
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
 
                 $('#dropdownMenuLink-1').text(issuesFilter);
 
-                console.log("1. issuesFilter = " + issuesFilter)
+                // When the user selects a value from the Issues Filter, all the
+                // other filters are reset to "ALL"
 
-                // Reset Status Filter to "ALL"
+                // Reset Status Filter to "ALL" and display it in the filter
+                // dropdown box
 
                 let statusFilter = "ALL"
                 $('#dropdownMenuLink-2').text(statusFilter);
-                console.log("1. statusFilter = " + statusFilter)
 
-
-                // Reset Client Filter to "ALL"
+                // Reset Client Filter to "ALL". If this is a client-side 
+                // user, the Client Code dropdown option wont be displayed on
+                // screen. If its a vendor-side user, display "ALL" in the 
+                // Client dropdown box
 
                 let clientFilter = "ALL"
-                
+
                 if ($("#dropdownMenuLink-3").length > 0) {
-                    
+
                     $('#dropdownMenuLink-3').text(clientFilter);
                 }
 
-                console.log("1. clientFilter = " + clientFilter)
-
-                // Get the issues requested by the user
+                // Get the issues requested by the user, as per the filter
+                // values
 
                 getIssues(issuesFilter, statusFilter, clientFilter)
 
@@ -171,72 +179,72 @@
 
             $('.status-filter').on('click', function() {
 
-                console.log("start here . . .")
-
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
 
-                // Set the Dropdown box to the value that was selected from the 
-                // dropdown
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
 
                 $('#dropdownMenuLink-2').text(statusFilter);
 
-                console.log("2. statusFilter = " + statusFilter)
+                // When the status filter is selected, it will be used in
+                // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Issues Filter
 
                 let el = document.getElementById("dropdownMenuLink-1");
                 let issuesFilter = el.innerText;
-                console.log("2. issuesFilter = " + issuesFilter)
+
 
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
 
                 let clientFilter = "ALL"
-                
+
                 if ($("#dropdownMenuLink-3").length > 0) {
+
                     let el2 = document.getElementById("dropdownMenuLink-3");
+
                     clientFilter = el2.innerText;
                 }
 
-
-                console.log("2. clientFilter = " + "("+clientFilter+")")
-
+                // Get the issues requested by the user, as per the filter
+                // values
+                
                 getIssues(issuesFilter, statusFilter, clientFilter)
-
-                console.log("end here . . .")
-
             });
 
 
-            // Client filter has been selected by the user
+            // Client Filter has been selected by the user. The Client Filter
+            // will only be available when the user is a vendor-side user
 
             $('.client-filter').on('click', function() {
 
                 event.preventDefault();
                 let clientFilter = $(this).data('value');
 
-                // Set the Dropdown box to the value that was selected from the 
-                // dropdown
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
 
                 $('#dropdownMenuLink-3').text(clientFilter);
 
-                console.log("3. clientFilter = " + "("+clientFilter+")")
+                // When the client filter is selected, it will be used in
+                // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Issues Filter
 
                 let el = document.getElementById("dropdownMenuLink-1");
                 let issuesFilter = el.innerText;
-                console.log("3. issuesFilter = ("+issuesFilter+")")
 
                 // Get the current value of the Status Filter
 
                 let el2 = document.getElementById("dropdownMenuLink-2");
                 let statusFilter = el2.innerText;
-                console.log("3. statusFilter = " + "("+statusFilter+")")
+                
+                // Get the issues requested by the user, as per the filter
+                // values
 
                 getIssues(issuesFilter, statusFilter, clientFilter);
-
             });
 
 
@@ -244,7 +252,7 @@
             function getIssues(issuesFilter, statusFilter, clientFilter) {
 
                 $.post({
-                    url: "{% url 'jq_get_issues' %}",
+                    url: "{% url 'get_issues' %}",
                     data: {
                         csrfmiddlewaretoken: "{{csrf_token}}",
                         issuesFilter: issuesFilter,
@@ -252,14 +260,11 @@
                         clientFilter: clientFilter,
                     },
                     success: function(data) {
-                        console.log(data);
 
                         // Clear the current contents of the table
 
                         $("tbody").empty();
                         $.each(data, function(key, value) {
-                            
-                            console.log("1. Back from jq_get_issues")
 
                             var inputDate = value.date;
                             var user = value.user;
@@ -282,7 +287,6 @@
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                         });
-                        console.log("2. Back from jq_get_issues")
                     },
                     traditional: true
                 }).done();

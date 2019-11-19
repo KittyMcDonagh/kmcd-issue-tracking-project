@@ -40,188 +40,59 @@ def userhome(request):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Confirm that the logged in user is set up on the Issue Tracking System 
-    # These details tells us whether the User is on the Vendor side or 
-    # the Client side.
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
     
     UserDetails = issue_tracker_user_details(request)
-    
-    # Proceed only if user is set up on the Issue Tracker
-    
-    if UserDetails != "":
-    
-        # Get the Vendor or Client Details depending on which the user is 
-        # associated with
-        
-        if UserDetails.user_type == 'C':
-            
-            # User is on the Client side. Get the Client Details, The Issues Filte
-            # values the client user can use, and the filtered Issues
-            
-            ClientDetails = get_client(request, UserDetails)
-        
-        else:
-            
-            # User is on the Vendor side
-            
-            VendorDetails = get_vendor(request, UserDetails)
-            
-            # Get all clients for Client Dropdown
-            
-            AllClients = get_all_clients(request)
-            
-        
-        # Get the Issues based on selected filter
-        
-        Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-            
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
-    
-
-"""
-User has requested to see ALL ISSUES
-"""
-
-def all_issues(request):
-    
-    # Set the filter value
-    
-    SelectedIssuesFilter = "ALL ISSUES"
-    
-    # Set Client Filter 
-        
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter
-    
-    SelectedStatusFilter = "ALL"
-    
-    
-    # Get the logged in user's details re the Issue Tracking System
-    
-    UserDetails = issue_tracker_user_details(request)
-   
     
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
-    
-    AllClients= ""
-    ClientDetails = ""
-    VendorDetails = ""
-    
-    
-    if UserDetails.user_type == 'C':
         
+    if UserDetails.user_type == 'C':
+            
         # User is on the Client side. Get the Client Details, The Issues Filte
         # values the client user can use, and the filtered Issues
-        
+            
         ClientDetails = get_client(request, UserDetails)
     
     else:
-        
+            
         # User is on the Vendor side
         
         VendorDetails = get_vendor(request, UserDetails)
-        
+            
         # Get all clients for Client Dropdown
-        
+            
         AllClients = get_all_clients(request)
-        
-        
-    # Get the Issues based on selected filter
-    
-    Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-        
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'all_clients': AllClients,'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
 
-
-"""
-User has requested to see OUR ISSUES ONLY
-"""
-
-def our_issues_only(request):
+    Issues = ""
     
-    # Set the filter value
-    
-    SelectedIssuesFilter = "OUR ISSUES ONLY"
-    
-    # Set Client Filter 
+    # We are showing the Issues assigned to the logged in user, for all Statuses
+    # and all Clients.
+    # An issue can be assigned both to a client-side user and a vendor-side user, 
+    # so we need to verify which one it is
         
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter
-    
-    SelectedStatusFilter = "ALL"
-    
-    
-    # Get the logged in user's details re the Issue Tracking System
-    
-    UserDetails = issue_tracker_user_details(request)
-   
-    
-    # "OUR ISSUES ONLY" option is relevant to the Client side user only 
-    
-    ClientDetails = ""
-    VendorDetails = ""
+    if UserDetails.user_type == "C":
+            
+        # User is on the Client side
+            
+        try:
+            Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_name)
+        except:
+            messages.error(request, "PROBLEM RETRIEVING CLIENT ISSUES!")
         
-    # User is on the Client side. Get the Client Details, The Issues Filte
-    # values the client user can use, and the filtered Issues
+    else:
+            
+        # User is on the Vendor side
         
-    ClientDetails = get_client(request, UserDetails)
+        try:
+            Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_name)
+        except:
+            messages.error(request, "PROBLEM RETRIEVING VENDOR ISSUES!")
+  
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
     
-    
-    # Get the Issues for the Client associated with the logged in user only
-    
-    Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-        
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
-
-
-"""
-User has requested to see OTHER CLIENTS' ISSUES ONLY
-"""
-
-def other_clients_issues_only(request):
-    
-    # Set the filter value
-    
-    SelectedIssuesFilter = "OTHER CLIENTS' ISSUES ONLY"
-    
-    # Set Client Filter 
-        
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter
-    
-    SelectedStatusFilter = "ALL"
-    
-    
-    # Get the logged in user's details re the Issue Tracking System
-    
-    UserDetails = issue_tracker_user_details(request)
-   
-    
-    # "OTHER CLIENTS' ISSUES ONLY" option is relevant to client user only
-    
-    ClientDetails = ""
-    VendorDetails = ""
-    
-    
-    
-        
-    # User is on the Client side. Get the Client Details, The Issues Filte
-    # values the client user can use, and the filtered Issues
-        
-    ClientDetails = get_client(request, UserDetails)
-    
-    # Get the Issues for clients other than the client associated with the logged
-    # in user
-    
-    Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-        
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
-
-
 
 """
 Get the logged in user's details re the Issue Tracking System. 
@@ -283,103 +154,33 @@ def get_vendor(request, UserDetails):
         
         return  VendorDetails
         
+        
 
 """
+This function is called via the javascript in base.html
 Get the Issues, filtered by the Issues Filter option selected
 """
-
-def get_issues(request, UserDetails, SelectedIssuesFilter):
-    
-    Issues = ""
-    
-    # If the selection is to get all issues assigned to the logged in user,
-    # show the issues assigned to the client user or the vendor user, depending
-    # on the user type
-    
-    if SelectedIssuesFilter == "ASSIGNED TO ME":
-        
-        if UserDetails.user_type == "C":
-            
-            # User is on the Client side
-            
-            try:
-                Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_name)
-            except:
-                messages.error(request, "PROBLEM RETRIEVING CLIENT ISSUES!")
-        
-        else:
-            
-            # User is on the Vendor side
-        
-            try:
-                Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_name)
-            except:
-                messages.error(request, "PROBLEM RETRIEVING VENDOR ISSUES!")
-    
-    else:
-        
-        if SelectedIssuesFilter == "ALL ISSUES":
-            
-            try:
-                Issues = Issue.objects.all()
-                
-            except:
-                messages.error(request, "PROBLEM RETRIEVING ALL ISSUES!")
-    
-        else:
-            
-            if SelectedIssuesFilter == "OUR ISSUES ONLY":
-                
-                # "OUR ISSUES ONLY" is relevant to Client side users only
-                
-                try:
-                    Issues = Issue.objects.filter(client_code=UserDetails.vend_client_code)
-                except:
-                    messages.error(request, "PROBLEM RETRIEVING OUR CLIENT ISSUES!")
-            
-            else:
-            
-                if SelectedIssuesFilter == "OTHER CLIENTS' ISSUES ONLY":
-                
-                    # "OTHER CUSTOMERS' ISSUES ONLY" is relevant to Client side users only
-                    
-                    try:
-                        Issues = Issue.objects.exclude(client_code=UserDetails.vend_client_code)
-                        
-                    except:
-                        messages.error(request, "PROBLEM RETRIEVING OUR CLIENT ISSUES!")
-    
-    return  Issues
-    
-    
-
-"""
-Using jQuery to get issues
-"""
-
-"""
-Get the Issues, filtered by the Issues Filter option selected
-"""
-def jq_get_issues(request):
-    
-    # Get the user's details
-            
-    UserDetails = issue_tracker_user_details(request)
+def get_issues(request):
     
     data = []
     
+    # Get the user's details relating to the issue tracking system - it has
+    # already been established that the user's details exist, otherwise they
+    # wouldnt have got this far
+            
+    UserDetails = issue_tracker_user_details(request)
+    
     if request.method == "POST":
         
+        # Get the issues from the issues database
+        
         Issues = Issue.objects.all()
+        
+        # Get the filters - passed from the js in base.html
         
         issues_filter = request.POST.get('issuesFilter')
         status_filter = request.POST.get('statusFilter')
         client_filter = request.POST.get('clientFilter')
-        
-        print("jq - issue filter: "+issues_filter)
-        print("jq - status filter: "+status_filter)
-        print("jq - client filter: "+client_filter)
-
         
         # User is looking at all issues?
         
@@ -395,13 +196,9 @@ def jq_get_issues(request):
             
             if issues_filter == 'ASSIGNED TO ME':
                 
-                print("Issues are assigned to me")
-                
                 # Is this a Client-side user?
                 
                 if UserDetails.user_type == "C":
-                    
-                    print("I am a client-side user")
     
                     for issue in Issues:
                         if issue.assigned_client_user == UserDetails.user_name:
@@ -410,7 +207,6 @@ def jq_get_issues(request):
                 else:
                     
                     for issue in Issues:
-                        print("I am a vendor-side user = "+issue.assigned_vendor_user+" / "+ UserDetails.user_name )
                         if issue.assigned_vendor_user == UserDetails.user_name:
                             data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
                 
@@ -422,8 +218,6 @@ def jq_get_issues(request):
                 
                 if issues_filter == 'OUR ISSUES ONLY':
                     
-                    UserDetails = issue_tracker_user_details(request)
-    
                     for issue in Issues:
                         if issue.client_code == UserDetails.vend_client_code:
                             data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
@@ -432,7 +226,7 @@ def jq_get_issues(request):
                     
                     # User has requested "Other Clients" issues. This option is 
                     # relevant to client-side users only. Get all issues for 
-                    # the User's client code.
+                    # the clients other than the user client
                     
                     if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
             
@@ -443,31 +237,38 @@ def jq_get_issues(request):
     return JsonResponse(data, safe=False)
     
     
-
+"""
+At this point the issues have been filtered above by the Issues filter. 
+This function will apply the Status and Client Filters. 
+The Client Filter will always be = "ALL" for Client-Side users 
+"""
 
 def get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data):
     
-    print("get_issues_data . . .status_filter ("+status_filter+")"+" / "+"("+client_filter+")")
     # Apply the status and client filters
     
     if status_filter == 'ALL':
-        print("After status_filter = ALL"+status_filter+" / "+"("+client_filter+")")
         if client_filter == "ALL":
-            print("After client_filter check = ALL"+"("+client_filter+")")
+            
+            # All Statuses, All Clients
             append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+            
         else:
-            print("After client_filter check NOT= ALL"+"("+client_filter+")"+" / "+issue.client_code)
+            # All Statuses, for a specific Client
             if issue.client_code == client_filter:
                 append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
                 
     else:
-        print("After status_filter NOT= ALL: "+"("+status_filter+") / "+issue.status)
         if issue.status == status_filter:
             if client_filter == "ALL":
+                
+                # A specific Status for all Clients
                 append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+                
             else:
-                print("Checking client code against: ("+client_filter+")")
                 if issue.client_code == client_filter:
+                    
+                    # A specific Status for a specific Client 
                     append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
                     
     return data
@@ -476,7 +277,6 @@ def get_issues_data(UserDetails, issue, issues_filter, status_filter, client_fil
 # Append the selected issue to the data
 
 def append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data):
-    print("append_data . . .")
     
     data.append({
         
