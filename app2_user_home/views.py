@@ -34,6 +34,11 @@ def userhome(request):
     
     SelectedStatusFilter = "ALL"
     
+    # Initialise these details in case user is not set up on Issue Tracker
+    
+    AllClients = ""
+    ClientDetails = ""
+    VendorDetails = ""
     
     # Confirm that the logged in user is set up on the Issue Tracking System 
     # These details tells us whether the User is on the Vendor side or 
@@ -41,36 +46,35 @@ def userhome(request):
     
     UserDetails = issue_tracker_user_details(request)
     
+    # Proceed only if user is set up on the Issue Tracker
     
-    # Get the Vendor or Client Details depending on which the user is 
-    # associated with
+    if UserDetails != "":
     
-    AllClients = ""
-    ClientDetails = ""
-    VendorDetails = ""
-    
-    if UserDetails.user_type == 'C':
+        # Get the Vendor or Client Details depending on which the user is 
+        # associated with
         
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
+        if UserDetails.user_type == 'C':
+            
+            # User is on the Client side. Get the Client Details, The Issues Filte
+            # values the client user can use, and the filtered Issues
+            
+            ClientDetails = get_client(request, UserDetails)
         
-        ClientDetails = get_client(request, UserDetails)
-    
-    else:
+        else:
+            
+            # User is on the Vendor side
+            
+            VendorDetails = get_vendor(request, UserDetails)
+            
+            # Get all clients for Client Dropdown
+            
+            AllClients = get_all_clients(request)
+            
         
-        # User is on the Vendor side
+        # Get the Issues based on selected filter
         
-        VendorDetails = get_vendor(request, UserDetails)
-        
-        # Get all clients for Client Dropdown
-        
-        AllClients = get_all_clients(request)
-        
-    
-    # Get the Issues based on selected filter
-    
-    Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
-        
+        Issues = get_issues(request, UserDetails, SelectedIssuesFilter)
+            
     return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': Issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
     
 
@@ -226,6 +230,8 @@ the Client side.
 """
     
 def issue_tracker_user_details(request):
+    
+    UserDetails = ""
 
     try:
         UserDetails = UserDetail.objects.get(user_name=request.user.username)
@@ -298,7 +304,6 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
             
             try:
                 Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_name)
-                messages.success(request, "Client Issues successfully retrieved!")
             except:
                 messages.error(request, "PROBLEM RETRIEVING CLIENT ISSUES!")
         
@@ -308,7 +313,6 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
         
             try:
                 Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_name)
-                messages.success(request, "Vendor Issues successfully retrieved!")
             except:
                 messages.error(request, "PROBLEM RETRIEVING VENDOR ISSUES!")
     
@@ -318,7 +322,7 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
             
             try:
                 Issues = Issue.objects.all()
-                messages.success(request, "All Issues successfully retrieved!")
+                
             except:
                 messages.error(request, "PROBLEM RETRIEVING ALL ISSUES!")
     
@@ -330,7 +334,6 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
                 
                 try:
                     Issues = Issue.objects.filter(client_code=UserDetails.vend_client_code)
-                    messages.success(request, "Our Client Issues successfully retrieved!")
                 except:
                     messages.error(request, "PROBLEM RETRIEVING OUR CLIENT ISSUES!")
             
@@ -342,7 +345,7 @@ def get_issues(request, UserDetails, SelectedIssuesFilter):
                     
                     try:
                         Issues = Issue.objects.exclude(client_code=UserDetails.vend_client_code)
-                        messages.success(request, "Our Client Issues successfully retrieved!")
+                        
                     except:
                         messages.error(request, "PROBLEM RETRIEVING OUR CLIENT ISSUES!")
     
@@ -370,16 +373,21 @@ def jq_get_issues(request):
         Issues = Issue.objects.all()
         
         issues_filter = request.POST.get('issuesFilter')
+        status_filter = request.POST.get('statusFilter')
+        client_filter = request.POST.get('clientFilter')
         
-        print("issue filter: "+issues_filter)
+        print("jq - issue filter: "+issues_filter)
+        print("jq - status filter: "+status_filter)
+        print("jq - client filter: "+client_filter)
+
         
-        # User has requested all issues?
+        # User is looking at all issues?
         
         if issues_filter == 'ALL ISSUES':
             
             for issue in Issues:
         
-                data = get_issues_data(UserDetails, issue, issues_filter, data)
+                data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
             
         else:
             
@@ -387,18 +395,24 @@ def jq_get_issues(request):
             
             if issues_filter == 'ASSIGNED TO ME':
                 
+                print("Issues are assigned to me")
+                
                 # Is this a Client-side user?
                 
-                if UserDetails.user_type =="C":
+                if UserDetails.user_type == "C":
+                    
+                    print("I am a client-side user")
     
                     for issue in Issues:
                         if issue.assigned_client_user == UserDetails.user_name:
-                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+                            data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
     			
                 else:
+                    
                     for issue in Issues:
+                        print("I am a vendor-side user = "+issue.assigned_vendor_user+" / "+ UserDetails.user_name )
                         if issue.assigned_vendor_user == UserDetails.user_name:
-                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+                            data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
                 
             else:
                 
@@ -412,7 +426,7 @@ def jq_get_issues(request):
     
                     for issue in Issues:
                         if issue.client_code == UserDetails.vend_client_code:
-                            data = get_issues_data(UserDetails, issue, issues_filter, data)
+                            data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
                             
                 else:
                     
@@ -424,14 +438,45 @@ def jq_get_issues(request):
             
                         for issue in Issues:
                             if issue.client_code != UserDetails.vend_client_code:
-                                data = get_issues_data(UserDetails, issue, issues_filter, data)
+                                data = get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
         	
     return JsonResponse(data, safe=False)
     
     
 
 
-def get_issues_data(UserDetails, issue, issues_filter, data):
+def get_issues_data(UserDetails, issue, issues_filter, status_filter, client_filter, data):
+    
+    print("get_issues_data . . .status_filter ("+status_filter+")"+" / "+"("+client_filter+")")
+    # Apply the status and client filters
+    
+    if status_filter == 'ALL':
+        print("After status_filter = ALL"+status_filter+" / "+"("+client_filter+")")
+        if client_filter == "ALL":
+            print("After client_filter check = ALL"+"("+client_filter+")")
+            append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+        else:
+            print("After client_filter check NOT= ALL"+"("+client_filter+")"+" / "+issue.client_code)
+            if issue.client_code == client_filter:
+                append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+                
+    else:
+        print("After status_filter NOT= ALL: "+"("+status_filter+") / "+issue.status)
+        if issue.status == status_filter:
+            if client_filter == "ALL":
+                append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+            else:
+                print("Checking client code against: ("+client_filter+")")
+                if issue.client_code == client_filter:
+                    append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data)
+                    
+    return data
+    
+
+# Append the selected issue to the data
+
+def append_data(UserDetails, issue, issues_filter, status_filter, client_filter, data):
+    print("append_data . . .")
     
     data.append({
         
@@ -449,8 +494,9 @@ def get_issues_data(UserDetails, issue, issues_filter, data):
     	"status": issue.status,
     	"progress": issue.progress,
     	"user_type": UserDetails.user_type,
-    	"issues_filter": issues_filter
-    		
+    	"issues_filter": issues_filter,
+    	"status_filter": status_filter,
+    	"client_filter": client_filter
     })
     		
     return data

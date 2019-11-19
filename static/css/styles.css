@@ -378,6 +378,7 @@ footer {
 
 }
 
+
 .table-style {
     font-size: 12px;
     font-family: "Nunito", sans-serif;
@@ -387,6 +388,7 @@ footer {
 /* The following 'td-* styles are to fix the width of the table cells so that
     they display smoothly and the table headings stay in the same position 
     when new data is displayed */
+
 .td-username {
     width: 115px;
 }
@@ -411,7 +413,7 @@ footer {
 }
 
 .td-status {
-    width: 65px;
+    width: 75px;
 
 }
 

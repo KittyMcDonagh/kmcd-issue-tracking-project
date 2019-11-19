@@ -127,21 +127,129 @@
 
     <script>
         $(document).ready(function() {
-            $('.dropdown-item').on('click', function() {
+
+            // The Issues Filter has been selected by the user
+
+            $('.issue-filter').on('click', function() {
 
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
-                
+
                 // Set the Dropdown box to the value that was selected from the 
                 // dropdown
+
+                $('#dropdownMenuLink-1').text(issuesFilter);
+
+                console.log("1. issuesFilter = " + issuesFilter)
+
+                // Reset Status Filter to "ALL"
+
+                let statusFilter = "ALL"
+                $('#dropdownMenuLink-2').text(statusFilter);
+                console.log("1. statusFilter = " + statusFilter)
+
+
+                // Reset Client Filter to "ALL"
+
+                let clientFilter = "ALL"
                 
-                $('#dropdownMenuLink-1').text(issuesFilter)
+                if ($("#dropdownMenuLink-3").length > 0) {
+                    
+                    $('#dropdownMenuLink-3').text(clientFilter);
+                }
+
+                console.log("1. clientFilter = " + clientFilter)
+
+                // Get the issues requested by the user
+
+                getIssues(issuesFilter, statusFilter, clientFilter)
+
+            });
+
+
+            // Status filter has been selected by the user
+
+            $('.status-filter').on('click', function() {
+
+                console.log("start here . . .")
+
+                event.preventDefault();
+                let statusFilter = $(this).data('value');
+
+                // Set the Dropdown box to the value that was selected from the 
+                // dropdown
+
+                $('#dropdownMenuLink-2').text(statusFilter);
+
+                console.log("2. statusFilter = " + statusFilter)
+
+                // Get the current value of the Issues Filter
+
+                let el = document.getElementById("dropdownMenuLink-1");
+                let issuesFilter = el.innerText;
+                console.log("2. issuesFilter = " + issuesFilter)
+
+                // Get the current value of the Client Filter, if it's an
+                // option on the screen, otherwise set it to "ALL"
+
+                let clientFilter = "ALL"
+                
+                if ($("#dropdownMenuLink-3").length > 0) {
+                    let el2 = document.getElementById("dropdownMenuLink-3");
+                    clientFilter = el2.innerText;
+                }
+
+
+                console.log("2. clientFilter = " + "("+clientFilter+")")
+
+                getIssues(issuesFilter, statusFilter, clientFilter)
+
+                console.log("end here . . .")
+
+            });
+
+
+            // Client filter has been selected by the user
+
+            $('.client-filter').on('click', function() {
+
+                event.preventDefault();
+                let clientFilter = $(this).data('value');
+
+                // Set the Dropdown box to the value that was selected from the 
+                // dropdown
+
+                $('#dropdownMenuLink-3').text(clientFilter);
+
+                console.log("3. clientFilter = " + "("+clientFilter+")")
+
+                // Get the current value of the Issues Filter
+
+                let el = document.getElementById("dropdownMenuLink-1");
+                let issuesFilter = el.innerText;
+                console.log("3. issuesFilter = ("+issuesFilter+")")
+
+                // Get the current value of the Status Filter
+
+                let el2 = document.getElementById("dropdownMenuLink-2");
+                let statusFilter = el2.innerText;
+                console.log("3. statusFilter = " + "("+statusFilter+")")
+
+                getIssues(issuesFilter, statusFilter, clientFilter);
+
+            });
+
+
+
+            function getIssues(issuesFilter, statusFilter, clientFilter) {
 
                 $.post({
                     url: "{% url 'jq_get_issues' %}",
                     data: {
                         csrfmiddlewaretoken: "{{csrf_token}}",
-                        issuesFilter: issuesFilter
+                        issuesFilter: issuesFilter,
+                        statusFilter: statusFilter,
+                        clientFilter: clientFilter,
                     },
                     success: function(data) {
                         console.log(data);
@@ -150,33 +258,35 @@
 
                         $("tbody").empty();
                         $.each(data, function(key, value) {
+                            
+                            console.log("1. Back from jq_get_issues")
 
                             var inputDate = value.date;
                             var user = value.user;
-                            
+
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
                             }
                             else {
-                                 var assignedUser = value.assigned_vendor_user;
+                                var assignedUser = value.assigned_vendor_user;
                             }
-                            
+
                             var softwareComponent = value.software_component;
                             var priority = value.priority;
                             var summary = value.summary;
                             var status = value.status;
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
-                            
+
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate+"</td><td class='d-none d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-none d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                         });
-
+                        console.log("2. Back from jq_get_issues")
                     },
                     traditional: true
                 }).done();
-            });
+            }
         });
     </script>
 
