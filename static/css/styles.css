@@ -133,7 +133,13 @@ the site */
 
 }
 
+.nav-option {
+    padding-left: 185px;
+}
 
+.disabled {
+    color: fafaff!important;
+}
 
 /* Override bootstrap styling for nav links */
 

@@ -82,10 +82,14 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    <li class="nav-item nav-option"><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'userhome' %}">Back to Issues List</a></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                     {% endif %}
+
+                    
                 </ul>
             </div>
         </nav>
@@ -210,7 +214,7 @@
 
                 // Get the issues requested by the user, as per the filter
                 // values
-                
+
                 getIssues(issuesFilter, statusFilter, clientFilter)
             });
 
@@ -240,7 +244,7 @@
 
                 let el2 = document.getElementById("dropdownMenuLink-2");
                 let statusFilter = el2.innerText;
-                
+
                 // Get the issues requested by the user, as per the filter
                 // values
 
@@ -248,7 +252,8 @@
             });
 
 
-
+            // Get the relevant issues, based on the value of the filters
+            
             function getIssues(issuesFilter, statusFilter, clientFilter) {
 
                 $.post({
@@ -292,6 +297,7 @@
                 }).done();
             }
         });
+        
     </script>
 
 
