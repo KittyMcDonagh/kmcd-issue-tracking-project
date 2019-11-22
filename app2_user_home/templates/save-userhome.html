@@ -131,14 +131,6 @@
                     </tr>
                 </thead>
                
-               <!-- On initial load, the table details will be retrieved via 
-                    the 'user_home' view and displayed via userhome.html. 
-                    When the user filters the issues, it will trigger the 
-                    javascript 'on click' functions in base.html which will 
-                    call the 'get_issues' view, return the details to the js
-                    function, which will clear the table and output the new
-                    details to it. -->
-                    
                 <tbody>
                      {% for issue in issues %}
                     <tr>
