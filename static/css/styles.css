@@ -2,7 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Courgette:100,400,700|Crimson:100,400,700|Nunito:100,400,700');
 
-/* The following css was copied from materializecss.com to create a sticky footer */
+
+
+/* css used generally in most .html files-------------------------------------*/
+
+/* The following css was copied from materializecss.com to create a sticky 
+   footer */
 
 body {
     display: flex;
@@ -40,13 +45,31 @@ main {
 
 }
 
+li {
+    list-style-type: none;
+}
+
+/* Color and hovering for all buttons  */
+
+.btn-color {
+    color: #e6e6ff!important;
+    background-color: #6666ff!important;
+    border-color: #6666ff!important;
+}
+
+.btn-color:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+
+}
 
 
-/* cs for Login & Registration Form ------------------------------------------*/
+/* css for Login & Registration Form ------------------------------------------*/
 
 /* Set font size for the registration comments for various device sizes */
 
-.reg-style {
+.reg-mesg-style {
     font-size: 14px;
 }
 
@@ -59,53 +82,17 @@ main {
 
 /* Set width an styling of form for login and registration   */
 
-form {
+.login-reg-form {
     padding-left: 10px;
     font-size: 14px;
 }
 
 @media(min-width:768px) {
-    form {
+    .login-reg-form {
         font-size: 16px;
     }
 
 }
-
-
-li {
-    list-style-type: none;
-}
-
-
-/* Overide bootstrap styling for login button to blend it in with the rest of 
-the site */
-
-.btn-warning {
-    color: #e6e6ff!important;
-    background-color: #6666ff!important;
-    border-color: #6666ff!important;
-}
-
-.btn-warning:hover {
-    color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
-
-}
-
-.btn-info {
-    color: #e6e6ff!important;
-    background-color: #6666ff!important;
-    border-color: #6666ff!important;
-}
-
-.btn-info:hover {
-    color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
-
-}
-
 
 
 /* css for base.html ---------------------------------------------------------*/
@@ -441,4 +428,25 @@ footer {
 .more-icon-style:hover {
     color: #fafaff;
     background-color: #6666ff;
+}
+
+/* css for issuelogging.html-------------------------------------------------*/
+
+.form-border {
+    border: solid 1px;
+    padding: 20px;
+
+}
+
+label {
+    font-size: 13px;
+}
+
+input {
+    font-size: 13px!important;
+}
+
+select {
+    font-size: 13px!important;
+
 }

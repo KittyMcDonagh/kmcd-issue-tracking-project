@@ -6,12 +6,12 @@
 
 <div class="row no-gutters">
     <div class="offset-2 col-8 offset-md-3 col-md-5">
-        <form method="POST">
+        <form method="POST" class="login-reg-form">
 
             <!-- Pass form to bootstrap to render it with bootstrap styling -->
             {% csrf_token %} {{ login_form | as_bootstrap }}
 
-            <button type="submit" class="btn btn-warning">Login</button>
+            <button type="submit" class="btn btn-color">Login</button>
 
         </form>
     </div>

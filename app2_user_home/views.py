@@ -20,7 +20,7 @@ User Home Page - Initial load
 Issues assigned to the logged in user are shown.
 """
 
-def userhome(request):
+def user_home(request):
     
     # Set the filters' default values
     
@@ -44,7 +44,7 @@ def userhome(request):
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
-    UserDetails = issue_tracker_user_details(request)
+    UserDetails = get_user_iss_trk_details(request)
     
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
@@ -100,7 +100,7 @@ These details tells us whether the User is on the Vendor side or
 the Client side.
 """
     
-def issue_tracker_user_details(request):
+def get_user_iss_trk_details(request):
     
     UserDetails = ""
 
@@ -168,7 +168,7 @@ def get_issues(request):
     # already been established that the user's details exist, otherwise they
     # wouldnt have got this far
             
-    UserDetails = issue_tracker_user_details(request)
+    UserDetails = get_user_iss_trk_details(request)
     
     if request.method == "POST":
         

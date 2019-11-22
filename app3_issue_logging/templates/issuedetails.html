@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row no-gutters">
+    <div class="row no-gutters">
+
+        <div class="col-xs-9">
+            
+            <p><span class="boldtext">input on:</span> {{ issue.input_date }} </p>
+            <p><span class="boldtext">Client Code:</span> {{issue.client_code}}</p>
+            <p><span class="boldtext">Software Component:</span> {{ issue.software_component }} </p>
+            <p><span class="boldtext">User ID:</span> {{issue.user_name}}</p>
+            <p><span class="boldtext">Assigned to Client User:</span> {{issue.assigned_client_user}}</p>
+            <p><span class="boldtext">Assigned to Vendor User:</span> {{issue.assigned_vendor_user}}</p>
+            
+            <p><span class="boldtext">Title:</span> {{issue.title}}</p>
+            <p><span class="boldtext">Summary:</span> {{issue.summary}}</p>
+            <p><span class="boldtext">Details:</span> {{issue.details}}</p>
+            
+             <p><span class="boldtext">Priority:</span> {{issue.priority}}</p>
+            <p><span class="boldtext">Status:</span> {{issue.status}}</p>
+            <p><span class="boldtext">Progress:</span> {{issue.progress}}</p>
+            
+            
+            <a href="{% url 'user_home' %}" class="btn btn-default">Back to Issues List</a>
+            
+            <hr>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

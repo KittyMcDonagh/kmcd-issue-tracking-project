@@ -1,10 +1,10 @@
 from django.conf.urls import url
-from app2_user_home.views import userhome
+from .views import user_home
 from .views import get_issues
 
 
 urlpatterns = [
-    url(r'^userhome/$', userhome, name="userhome"),
-    url(r'^get_issues/$', get_issues, name="get_issues"),
+    url(r'^userhome/$', user_home, name="user_home"),
+    url(r'^issuelist/$', get_issues, name="get_issues"),
    
 ]

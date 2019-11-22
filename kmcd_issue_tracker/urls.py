@@ -21,7 +21,7 @@ from accounts.views import logout
 
 from app1_home import urls as urls_apphome
 from app1_home.views import home
-from app2_user_home.views import userhome
+
 from app2_user_home import urls as urls_user_home
 from app3_issue_logging import urls as urls_issue_logging
 

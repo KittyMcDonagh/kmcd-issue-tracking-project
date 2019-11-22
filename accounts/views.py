@@ -66,7 +66,7 @@ def login(request):
                 UserDetails = ""
                 try:
                     UserDetails = UserDetail.objects.get(user_name=user.username)
-                    return redirect(reverse('userhome'))
+                    return redirect(reverse('user_home'))
                 except:
                     login_form.add_error(None, "User not set up on the Issue Tracking System")
                     

@@ -34,9 +34,9 @@ DEBUG = True
 ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
 
 
-# Application definition
 # Lines added for kmcd-issue-tracking-project:
 # 'django_forms_bootstrap', 'accounts'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

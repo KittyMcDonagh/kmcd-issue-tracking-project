@@ -8,7 +8,7 @@
 
 <div class="row no-gutters">
     <div class="col-12 offset-md-3 col-md-5">
-        <p class="reg-style">If you already have an account, please go to the <a class="link-text-style" href="{% url 'login' %}"><em>log in page</em></a></p>
+        <p class="reg-mesg-style">If you already have an account, please go to the <a class="link-text-style" href="{% url 'login' %}"><em>log in page</em></a></p>
     </div>
 </div>
 
@@ -16,14 +16,14 @@
 <div class="row no-gutters pb-5">
      <div class="col-12 offset-md-3 col-md-5">
 
-        <form method="POST">
+        <form method="POST" class="login-reg-form"">
 
             {% csrf_token %}
 
             <!-- Pass form to bootstrap to render it with bootstrap styling -->
             {{ registration_form | as_bootstrap }}
 
-            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="submit" class="btn btn-color">Submit</button>
 
         </form>
     </div>
