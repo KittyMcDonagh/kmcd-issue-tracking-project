@@ -177,8 +177,9 @@
     <!-- Pagination -->
 
 
-    {% if issues.has_other_pages %}
-    <nav aria-label="Page navigation">
+    
+    <nav id="paginate" aria-label="Page navigation">
+        {% if issues.has_other_pages %}
         
             <ul class="pagination justify-content-center mt-3">
                 {% if issues.has_previous %}
@@ -196,9 +197,9 @@
                 <li><span>&raquo;</span></li>
                 {% endif %}
             </ul>
-    
+      {% endif %}
     </nav>
-    {% endif %}
+  
 
 
 </main>

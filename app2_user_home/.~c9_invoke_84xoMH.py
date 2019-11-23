@@ -96,7 +96,7 @@ def user_home(request):
     # For Pagination
     
     page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 10)
+    paginator = Paginator(Issues, 3)
     try:
         issues = paginator.page(page)
     except PageNotAnInteger:
@@ -113,8 +113,6 @@ This function is called via the javascript in base.html
 Get the Issues, filtered by the Issues Filter option selected
 """
 def get_issues(request):
-    
-    print("in get_issues")
     
     data = []
     
@@ -190,7 +188,7 @@ def get_issues(request):
     # For Pagination
     
     page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 10)
+    paginator = Paginator(Issues, 3)
     try:
         issues = paginator.page(page)
     except PageNotAnInteger:
@@ -224,12 +222,15 @@ def get_issues(request):
         "has_previous": issues.has_previous,
         "previous_page_number": issues.previous_page_number,
         "page_range": issues.paginator.page_range,
-        "has_next": issues.has_next,
-        "previous_next_number": issues.next_page_number
+        "has_next": issues.has_next
         
     })
+    
+    issues = data
+    
+    
         	
-    return JsonResponse(data, page_nav, safe=False)
+    return JsonResponse(issues, page_nav, safe=False)
 
 
 
@@ -293,3 +294,13 @@ def get_vendor(request, UserDetails):
             messages.error(request, "Vendor details not found!")
         
         return  VendorDetails
+
+
+
+
+
+
+
+
+
+

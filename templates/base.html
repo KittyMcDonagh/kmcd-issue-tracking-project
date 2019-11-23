@@ -256,6 +256,8 @@
             // Get the relevant issues, based on the value of the filters
             
             function getIssues(issuesFilter, statusFilter, clientFilter) {
+                
+                console.log("In getIssues");
 
                 $.post({
                     url: "{% url 'get_issues' %}",
@@ -265,7 +267,7 @@
                         statusFilter: statusFilter,
                         clientFilter: clientFilter,
                     },
-                    success: function(data) {
+                    success: function(data, page_nav) {
 
                         // Clear the current contents of the table
 
@@ -293,6 +295,42 @@
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                         });
+                        
+                        // For pagination 
+                        
+                        $("#paginate").empty();
+                        
+                        console.log("In paginate")
+                        
+                        if (page_nav.has_previous) {
+                            $('#paginate').append(
+                                "<li><a href='?page={{ page_nav.previous_page_number }}'>&laquo;</a></li><li><span>&laquo;</span></li>"
+                                );
+                        }
+                        
+                        for (i in page_nav.page_range) {
+                            if (issues.number == i) {
+                                $('#paginate').append(
+                                    "<li class='active'><span>{{ i }} <span class='sr-only'>(current)</span></span></li>"
+                                    );
+                            }
+                            else {
+                                $('#paginate').append(
+                                    "<li><a href='?page={{ i }}'>{{ i }}</a></li>"
+                                    );
+                            }
+                        }
+                        if (page_nav.has_next) {
+                            $('#paginate').append(
+                                "<li><a href='?page={{ page_nav.next_page_number }}'>&raquo;</a></li>"
+                                );
+                        }
+                        else {
+                            $('#paginate').append(
+                                "<li><span>&raquo;</span></li>"
+                            )
+                        }
+                        
                     },
                     traditional: true
                 }).done();
