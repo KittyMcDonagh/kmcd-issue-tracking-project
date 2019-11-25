@@ -65,7 +65,7 @@ def login(request):
     
                 UserDetails = ""
                 try:
-                    UserDetails = UserDetail.objects.get(user_name=user.username)
+                    UserDetails = UserDetail.objects.get(user_id=user.username)
                     return redirect(reverse('user_home'))
                 except:
                     login_form.add_error(None, "User not set up on the Issue Tracking System")
@@ -137,7 +137,7 @@ def user_profile(request):
     Retrieve the user details relating to the Issue Tracking System.
     """
     
-    UserDetails = UserDetail.objects.get(user_name=request.user.username)
+    UserDetails = UserDetail.objects.get(user_id=request.user.username)
     
     # Get the Vendor or Client Details depending on which the user is 
     # associated with

@@ -9,9 +9,9 @@ class Issue(models.Model):
     input_date = models.DateField(auto_now_add=True)
     client_code = models.CharField(max_length=6, blank=True)
     software_component = models.CharField(max_length=25, blank=True)
-    user_id = models.CharField(max_length=10, blank=False)
-    assigned_client_user = models.CharField(max_length=50, blank=False)
-    assigned_vendor_user = models.CharField(max_length=50, blank=False)
+    user_id = models.CharField(max_length=10, blank=True)
+    assigned_client_user = models.CharField(max_length=50, blank=True)
+    assigned_vendor_user = models.CharField(max_length=50, blank=True)
     title = models.CharField(max_length=50, blank=True)
     summary = models.CharField(max_length=100, blank=True)
     details = models.CharField(max_length=700, blank=True)
@@ -26,11 +26,11 @@ class Issue(models.Model):
 # Comments Model - Comments input on an issue by a Vendor-side user
 
 class Comment(models.Model):
-    issue_id = models.IntegerField(blank=False)
+    issue_id = models.IntegerField(default=0)
     input_date = models.DateField(auto_now_add=True)
     vend_client_ind = models.CharField(max_length=1, blank=False)
     vend_client_code = models.CharField(max_length=6, blank=True)
-    user_id = models.CharField(max_length=10, blank=False)
+    user_id = models.CharField(max_length=10, blank=Fa)
     comments = models.CharField(max_length=200, blank=False)
     
     def __str__(self):

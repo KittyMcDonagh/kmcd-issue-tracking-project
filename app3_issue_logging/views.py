@@ -16,17 +16,16 @@ from .forms import LogNewIssueForm
 
 
 """
-Log a New Issue.
+Create a view that allows us to log a new issue or edit an existing one 
+depending on whether the pk is null or not. 
 """
-
-def new_issue(request, pk=None):
+def new_edit_issue(request, pk=None):
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
     
     ClientDetails = ""
     VendorDetails = ""
-    
     
     # Get the user's details from re the issue tracking system. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
@@ -49,25 +48,18 @@ def new_issue(request, pk=None):
         # User is on the Vendor side
         
         VendorDetails = get_vendor(request, UserDetails)
-            
-       
-    """
-    Create a view that allows us to create or edit a view depending on 
-    whether the pk is null or not. 
-    """
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
     
     if request.method == "POST":
-        print("In post logic")
+        
         form = LogNewIssueForm(request.POST, request.FILES, instance=issue)
-        print("checking if form valid")
         
         if form.is_valid():
             issue = form.save()
-            return redirect(issue_detail, issue.pk)
+            return redirect(issue_details, issue.pk)
         else:
-            messages.error(request, "UNABLE TO POST FORM!")
+            messages.error(request, "UNABLE TO LOG ISSUE!")
             
     else:
         form = LogNewIssueForm(instance=issue)
@@ -81,7 +73,7 @@ Create a view that returns a single Post object based on the Post ID(pk)
 and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
-def issue_detail(request, pk):
+def issue_details(request, pk):
     
     issue = get_object_or_404(Issue, pk=pk)
     
@@ -100,7 +92,7 @@ def get_user_iss_trk_details(request):
     UserDetails = ""
 
     try:
-        UserDetails = UserDetail.objects.get(user_name=request.user.username)
+        UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
         messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
     

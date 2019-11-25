@@ -39,7 +39,7 @@ The User Type indicates which - 'V'=Vendor; 'C'=Client
 """
 
 class UserDetail(models.Model):
-    user_id = models.CharField(max_length=10, blank=True)
+    user_id = models.CharField(max_length=6, blank=False)
     user_first_name = models.CharField(max_length=20, blank=False)
     user_second_name = models.CharField(max_length=20, blank=False)
     user_type = models.CharField(max_length=1, blank=False)
@@ -48,8 +48,101 @@ class UserDetail(models.Model):
     user_contact_nr = models.CharField(max_length=20, blank=False)
     
     def __str__(self):
-        return  "{0}: {1} - {2} {3}".format(self.vend_client_code, self.user_id, self.user_first_name, self.user_second_name  )
+        return  "{0}: {1}".format(self.vend_client_code, self.user_id )
 
 
 
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

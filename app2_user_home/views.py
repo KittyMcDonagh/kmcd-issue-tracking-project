@@ -80,7 +80,7 @@ def user_home(request):
         # User is on the Client side
             
         try:
-            Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_name)
+            Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING ISSUES!")
         
@@ -89,14 +89,14 @@ def user_home(request):
         # User is on the Vendor side
         
         try:
-            Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_name)
+            Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING ISSUES!")
             
     # For Pagination
     
     page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 10)
+    paginator = Paginator(Issues, 3)
     try:
         issues = paginator.page(page)
     except PageNotAnInteger:
@@ -113,8 +113,6 @@ This function is called via the javascript in base.html
 Get the Issues, filtered by the Issues Filter option selected
 """
 def get_issues(request):
-    
-    print("in get_issues")
     
     data = []
     
@@ -136,9 +134,6 @@ def get_issues(request):
         status_filter = request.POST.get('statusFilter')
         client_filter = request.POST.get('clientFilter')
         
-        print("issues_filter: "+issues_filter)
-       
-        
         
         # User has requested all issues assigned to them?
             
@@ -148,13 +143,13 @@ def get_issues(request):
                 
             if UserDetails.user_type == "C":
     
-                Issues = Issues.filter(assigned_client_user = UserDetails.user_name)
+                Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
     			
             else:
                 
                 # This is a Vendor-side user
                 
-                Issues = Issues.filter(assigned_vendor_user = UserDetails.user_name)
+                Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
                 
         else:
                 
@@ -187,27 +182,18 @@ def get_issues(request):
             print("client_filter: "+client_filter)
             Issues = Issues.filter(client_code=client_filter)
             
-    # For Pagination
     
-    page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 10)
-    try:
-        issues = paginator.page(page)
-    except PageNotAnInteger:
-        issues = paginator.page(1)
-    except EmptyPage:
-        issues = paginator.page(paginator.num_pages)
-                    
     
-    for issue in issues:
+    for issue in Issues:
         data.append({
-        
+            
+            "id": issue.id,
         	"title": issue.title,
         	"details": issue.details,
         	"client_code": issue.client_code,
             "date": issue.input_date,
             "date": datetime.strftime(issue.input_date, '%d %b %y'),
-        	"user": issue.user_name,
+        	"user": issue.user_id,
         	"assigned_client_user": issue.assigned_client_user,
         	"assigned_vendor_user": issue.assigned_vendor_user,
         	"software_component": issue.software_component,
@@ -218,18 +204,7 @@ def get_issues(request):
         	"user_type": UserDetails.user_type,
     })
     
-    page_nav = []
-    
-    page_nav.append({
-        "has_previous": issues.has_previous,
-        "previous_page_number": issues.previous_page_number,
-        "page_range": issues.paginator.page_range,
-        "has_next": issues.has_next,
-        "previous_next_number": issues.next_page_number
-        
-    })
-        	
-    return JsonResponse(data, page_nav, safe=False)
+    return JsonResponse(data, safe=False)
 
 
 
@@ -245,7 +220,7 @@ def get_user_iss_trk_details(request):
     UserDetails = ""
 
     try:
-        UserDetails = UserDetail.objects.get(user_name=request.user.username)
+        UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
         messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
     

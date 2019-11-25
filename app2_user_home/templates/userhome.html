@@ -146,7 +146,7 @@
                         
                         <!-- The input user will always be a client-side user -->
                         
-                        <td class="d-md-table-cell td-username">{{ issue.user_name }}</td>
+                        <td class="d-md-table-cell td-username">{{ issue.user_id }}</td>
                         
                         <!-- The issue can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
@@ -165,7 +165,7 @@
                         <td class="text-center td-priority">{{ issue.priority }}</td>
                         <td class="td-summary">{{ issue.summary }}</td>
                         <td class="text-center td-status">{{ issue.status }}</td>
-                        <td class="text-center td-more more-icon-cell"><a href="#" ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
+                        <td class="text-center td-more more-icon-cell"><a href='{% url 'issue_details' issue.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
                             </td>
                     </tr>
                     {% endfor %}
@@ -175,8 +175,6 @@
     </div>
 
     <!-- Pagination -->
-
-
     
     <nav id="paginate" aria-label="Page navigation">
         {% if issues.has_other_pages %}
@@ -186,12 +184,19 @@
                 <li><a href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
                 {% else %}
                 <li><span>&laquo;</span></li>
-                {% endif %} {% for i in issues.paginator.page_range %} {% if issues.number == i %}
-                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
-                </li>
+                {% endif %} 
+                
+                {% for i in issues.paginator.page_range %} 
+                    {% if issues.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                    
                 {% else %}
-                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %} {% endfor %} {% if issues.has_next %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %} 
+                {% endfor %} 
+                
+                {% if issues.has_next %}
                 <li><a href="?page={{ issues.next_page_number }}">&raquo;</a></li>
                 {% else %}
                 <li><span>&raquo;</span></li>

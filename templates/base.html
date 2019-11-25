@@ -34,7 +34,7 @@
                 <p class="nav-c-v-name m-0">{{ vendordetails.vend_name }}
             </div>
             <div class="col-6">
-                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_name }}!</p>
+                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_id }}!</p>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                 <p class="nav-c-v-name m-0">{{ clientdetails.client_name }}
             </div>
             <div class="col-6">
-                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_name }}!</p>
+                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_id }}!</p>
             </div>
         </div>
         {% endif %} {% else %}
@@ -82,8 +82,13 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="nav-item nav-option"><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'user_home' %}">Back to Issues List</a></li>
+                    <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues List</a></li>
+                    
+                    <!-- Only Client-side users can enter issues -->
+                    {%if userdetails.user_type == "C" %}
+                    <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
+                    {% endif %}
+                    
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
@@ -128,10 +133,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-<!-- 
+    <!-- 
    <script type="text/javascript" src="{% static 'js/issuetracker.js' %}"></script> 
    -->
- 
+
 
     <script>
         $(document).ready(function() {
@@ -254,9 +259,9 @@
 
 
             // Get the relevant issues, based on the value of the filters
-            
+
             function getIssues(issuesFilter, statusFilter, clientFilter) {
-                
+
                 console.log("In getIssues");
 
                 $.post({
@@ -267,12 +272,16 @@
                         statusFilter: statusFilter,
                         clientFilter: clientFilter,
                     },
-                    success: function(data, page_nav) {
 
+                    success: function(data) {
+
+                        console.log("Return from In getIssues: url");
                         // Clear the current contents of the table
 
                         $("tbody").empty();
                         $.each(data, function(key, value) {
+                            
+                            var issueId = value.id;
 
                             var inputDate = value.date;
                             var user = value.user;
@@ -288,55 +297,20 @@
                             var priority = value.priority;
                             var summary = value.summary;
                             var status = value.status;
+                            var pageLink = "issue_tracker/"+issueId+"/ ";
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href='#' ><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href=/issue_tracker/"+issueId+"/ "+"><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                         });
-                        
-                        // For pagination 
-                        
-                        $("#paginate").empty();
-                        
-                        console.log("In paginate")
-                        
-                        if (page_nav.has_previous) {
-                            $('#paginate').append(
-                                "<li><a href='?page={{ page_nav.previous_page_number }}'>&laquo;</a></li><li><span>&laquo;</span></li>"
-                                );
-                        }
-                        
-                        for (i in page_nav.page_range) {
-                            if (issues.number == i) {
-                                $('#paginate').append(
-                                    "<li class='active'><span>{{ i }} <span class='sr-only'>(current)</span></span></li>"
-                                    );
-                            }
-                            else {
-                                $('#paginate').append(
-                                    "<li><a href='?page={{ i }}'>{{ i }}</a></li>"
-                                    );
-                            }
-                        }
-                        if (page_nav.has_next) {
-                            $('#paginate').append(
-                                "<li><a href='?page={{ page_nav.next_page_number }}'>&raquo;</a></li>"
-                                );
-                        }
-                        else {
-                            $('#paginate').append(
-                                "<li><span>&raquo;</span></li>"
-                            )
-                        }
-                        
                     },
+
                     traditional: true
                 }).done();
             }
         });
-        
     </script>
 
 </body>

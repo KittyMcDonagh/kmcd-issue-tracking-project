@@ -18,7 +18,7 @@ def home(request):
     
         # User already logged in. Get the user details from the Issue Tracking System
     
-        UserDetails = UserDetail.objects.get(user_name=request.user.username)
+        UserDetails = UserDetail.objects.get(user_id=request.user.username)
         messages.success(request, "You are already logged in!")
     
         # Get the Vendor or Client Details depending on which the user is 
