@@ -333,8 +333,6 @@
 
             function getIssues(issuesFilter, statusFilter, clientFilter, page) {
 
-                console.log("In getIssues");
-
                 $.post({
                     url: "{% url 'get_issues' %}",
                     data: {
@@ -346,8 +344,6 @@
                     },
 
                     success: function(data) {
-
-                        console.log("Return from In getIssues: url");
 
                         // Clear the current contents of the table
 
@@ -364,14 +360,6 @@
                             var prev_page_nr = value.pagination_props.prev_page_nr;
                             var next_page_nr = value.pagination_props.next_page_nr;
                             var page_range = value.pagination_props.page_range;
-
-                            console.log("has_other_pages: " + has_other_pages);
-                            console.log("has_prev_page: " + has_prev_page);
-                            console.log("current_page: " + current_page);
-                            console.log("has_next_page: " + has_next_page);
-                            console.log("prev_page_nr: " + prev_page_nr);
-                            console.log("next_page_nr: " + next_page_nr);
-                            console.log("page_range: " + page_range);
 
                             var issueId = value.id;
 
@@ -404,22 +392,17 @@
 
                             // Clear the pagination nav, in case we only have one page
 
-                            console.log("Paginating . . . . . . ")
-                            console.log("has_other_pages: " + has_other_pages)
-
                             $("#paginate").empty();
 
                             if (has_other_pages) {
 
                                 if (has_prev_page) {
                                     var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>"
-
-                                    console.log("prevPageLink: " + prevPageLink)
+                                    
                                 }
                                 else {
                                     var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>"
-
-                                    console.log("prevPageLink: " + prevPageLink)
+                                    
                                 }
 
                                 // Perform pagination
@@ -428,8 +411,6 @@
                                 var i = 0;
 
                                 for (i in page_range) {
-
-                                    console.log("page_range[i]: " + page_range[i] + "; current_page:" + current_page);
 
                                     if (current_page === page_range[i]) {
 
@@ -440,8 +421,7 @@
                                         else {
                                             pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
                                         }
-
-                                        console.log("pageLinks : " + pageLinks);
+                                        
                                     }
                                     else {
 
@@ -453,8 +433,6 @@
                                             pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
 
                                         }
-
-                                        console.log("pageLinks : " + pageLinks);
                                     }
 
                                 }
@@ -463,17 +441,15 @@
 
                                     var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>"
 
-                                    console.log("nextPageLink  : " + nextPageLink)
-
                                 }
                                 else {
 
                                     var nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>"
-                                    console.log("nextPageLink  : " + nextPageLink)
+                                    
                                 }
 
                                 var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>"
-                                console.log("pageNav: " + pageNav)
+                                
 
                                 $("#paginate").append(
                                     pageNav
@@ -495,8 +471,6 @@
 
             $(document).on('click', ".page-click", function() {
 
-                    console.log("in page-pag");
-
                     // let el = document.getElementByClass("page-link");
 
                     let page = $(this).data('value')
@@ -504,12 +478,6 @@
                     let issuesFilter = getIssuesFilterValue();
                     let statusFilter = getStatusFilterValue();
                     let clientFilter = getClientFilterValue();
-
-                    console.log("page-link filters")
-                    console.log(issuesFilter);
-                    console.log(statusFilter);
-                    console.log(clientFilter);
-                    console.log("page: " + page);
 
                     getIssues(issuesFilter, statusFilter, clientFilter, page)
                 }

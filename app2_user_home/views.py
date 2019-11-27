@@ -114,8 +114,6 @@ Get the Issues, filtered by the Issues Filter option selected
 """
 def get_issues(request):
     
-    print("Hi there! In get_issues")
-    
     data = []
     
     # Get the user's details relating to the issue tracking system - it has
@@ -134,11 +132,6 @@ def get_issues(request):
     status_filter = request.POST.get('statusFilter')
     client_filter = request.POST.get('clientFilter')
     
-    
-    print(issues_filter)
-    print(status_filter)
-    print(client_filter)
-        
     # User has requested all issues assigned to them?
             
     if issues_filter == 'ASSIGNED TO ME':
@@ -188,8 +181,6 @@ def get_issues(request):
     
     # page = request.GET.get('page', 1)
     page = request.POST.get('page', 1)
-    
-    print("page: "+str(page))
     
     paginator = Paginator(Issues, 5)
     
