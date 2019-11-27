@@ -18,24 +18,25 @@ body {
 
 /* Set height of Section so that the footer sticks to the bottom on Mobile 
    devices or on pages where the screen is not otherwise filled. 
-   155 is the height of the top line (19) plus the height of the navbar (56) 
-   plus the height of the footer (80)  */
+   225 = height of the top line before the nav bar (19) + height of the navbar (56) 
+   + height of the pagination section just above the footer (70) + height of 
+   footer (80)  */
 
 section {
 
     padding: 0 10px;
 
-    min-height: calc(100vh - 155px);
+    min-height: calc(100vh - 225px);
 }
 
 /* Set height of Section so that the footer sticks to the bottom on larger 
    devices or on pages where the screen is not otherwise filled. 
-   172 is the height of the top line (19) plus the height of the navbar (73) 
-   plus the height of the footer (80)  */
+   242 = height of the top line (19) + height of the navbar (73) 
+   + height of pagination section (70) + height of the footer (80)  */
 
 @media(min-width:768px) {
     section {
-        min-height: calc(100vh - 172px);
+        min-height: calc(100vh - 242px);
     }
 }
 
@@ -243,6 +244,34 @@ li {
     background-color: #f3f2f2;
 }
 
+/* base.html / js pagination  */
+
+/* Give the pagination section a height of 70px, so that if 
+   pagination is not required, the footer will still stick to the 
+   bottom of the page. Section height is set above. */
+.pag-nav-section {
+     background-color: #f3f2f2;
+     height:70px;
+}
+
+.page-link {
+    color: #3b3b3b!important;
+}
+
+
+.page-click:hover {
+    background-color: #6666ff!important;
+    color: #fff!important;
+}
+
+.selected {
+    background-color: #6666ff!important;
+    color: #fff!important;
+    
+}
+
+
+
 
 footer {
 
@@ -429,6 +458,7 @@ footer {
     color: #fafaff;
     background-color: #6666ff;
 }
+
 
 /* css for issuelogging.html-------------------------------------------------*/
 

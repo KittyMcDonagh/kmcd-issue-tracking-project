@@ -174,37 +174,7 @@
         </div>
     </div>
 
-    <!-- Pagination -->
-    
-    <nav id="paginate" aria-label="Page navigation">
-        {% if issues.has_other_pages %}
-        
-            <ul class="pagination justify-content-center mt-3">
-                {% if issues.has_previous %}
-                <li><a href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
-                {% else %}
-                <li><span>&laquo;</span></li>
-                {% endif %} 
-                
-                {% for i in issues.paginator.page_range %} 
-                    {% if issues.number == i %}
-                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
-                    </li>
-                    
-                {% else %}
-                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %} 
-                {% endfor %} 
-                
-                {% if issues.has_next %}
-                <li><a href="?page={{ issues.next_page_number }}">&raquo;</a></li>
-                {% else %}
-                <li><span>&raquo;</span></li>
-                {% endif %}
-            </ul>
-      {% endif %}
-    </nav>
-  
+   
 
 
 </main>

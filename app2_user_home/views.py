@@ -96,7 +96,7 @@ def user_home(request):
     # For Pagination
     
     page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 3)
+    paginator = Paginator(Issues, 5)
     try:
         issues = paginator.page(page)
     except PageNotAnInteger:
@@ -114,6 +114,8 @@ Get the Issues, filtered by the Issues Filter option selected
 """
 def get_issues(request):
     
+    print("Hi there! In get_issues")
+    
     data = []
     
     # Get the user's details relating to the issue tracking system - it has
@@ -121,77 +123,108 @@ def get_issues(request):
     # wouldnt have got this far
             
     UserDetails = get_user_iss_trk_details(request)
+        
+    # Get all the issues from the issues database
+        
+    Issues = Issue.objects.all()
+        
+    # Get the filters - passed from the js in base.html
+        
+    issues_filter = request.POST.get('issuesFilter')
+    status_filter = request.POST.get('statusFilter')
+    client_filter = request.POST.get('clientFilter')
     
-    if request.method == "POST":
+    
+    print(issues_filter)
+    print(status_filter)
+    print(client_filter)
         
-        # Get all the issues from the issues database
-        
-        Issues = Issue.objects.all()
-        
-        # Get the filters - passed from the js in base.html
-        
-        issues_filter = request.POST.get('issuesFilter')
-        status_filter = request.POST.get('statusFilter')
-        client_filter = request.POST.get('clientFilter')
-        
-        
-        # User has requested all issues assigned to them?
+    # User has requested all issues assigned to them?
             
-        if issues_filter == 'ASSIGNED TO ME':
+    if issues_filter == 'ASSIGNED TO ME':
                 
-            # Is this a Client-side user?
+        # Is this a Client-side user?
                 
-            if UserDetails.user_type == "C":
+        if UserDetails.user_type == "C":
     
-                Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
+            Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
     			
-            else:
-                
-                # This is a Vendor-side user
-                
-                Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
-                
         else:
                 
-            # Has user requested 'Our Issues Only?
+            # This is a Vendor-side user
+                
+            Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
+                
+    else:
+                
+        # Has user requested 'Our Issues Only?
+        # This option is relevant to Client-side users only'
+                
+        if issues_filter == 'OUR ISSUES ONLY':
+                    
+            Issues = Issues.filter(client_code = UserDetails.vend_client_code)
+                            
+        else:
+                    
+            # Has user requested 'Other Clients' Issues Only?
             # This option is relevant to Client-side users only'
                 
-            if issues_filter == 'OUR ISSUES ONLY':
-                    
-                Issues = Issues.filter(client_code = UserDetails.vend_client_code)
-                            
-            else:
-                    
-                # Has user requested 'Other Clients' Issues Only?
-                # This option is relevant to Client-side users only'
-                    
-                if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
+            if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
             
-                    Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
+                Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
         
-        # Filter issues further if status filter is set . . .
+    # Filter issues further if status filter is set . . .
         
-        if status_filter != "ALL":
-            print("status_filter: "+status_filter)
-            Issues = Issues.filter(status=status_filter)
+    if status_filter != "ALL":
+        Issues = Issues.filter(status=status_filter)
         
-        # . . . or if Client filter is set (client filter is availabe to vendor
-        # -side users only)
+    # . . . or if Client filter is set (client filter is availabe to vendor
+    # -side users only)
         
-        if client_filter != "ALL":
-            print("client_filter: "+client_filter)
-            Issues = Issues.filter(client_code=client_filter)
-            
+    if client_filter != "ALL":
+        Issues = Issues.filter(client_code=client_filter)
+
+    # For Pagination
     
+    # page = request.GET.get('page', 1)
+    page = request.POST.get('page', 1)
     
-    for issue in Issues:
+    print("page: "+str(page))
+    
+    paginator = Paginator(Issues, 5)
+    
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
+        
+    # Save the pagination parameters for use in the js function in base.html
+    # that called 'get_issues'
+        
+    has_other_pages = issues.has_other_pages()
+    has_prev_page = issues.has_previous()
+    current_page = issues.number
+    has_next_page = issues.has_next()
+    
+    prev_page_nr = 0
+    if issues.has_previous():
+        prev_page_nr = issues.previous_page_number()
+        
+    next_page_nr = 0
+    if issues.has_next():
+        next_page_nr = issues.next_page_number()
+        
+    page_range = paginator.page_range
+   
+    for issue in issues:
         data.append({
             
             "id": issue.id,
         	"title": issue.title,
         	"details": issue.details,
         	"client_code": issue.client_code,
-            "date": issue.input_date,
             "date": datetime.strftime(issue.input_date, '%d %b %y'),
         	"user": issue.user_id,
         	"assigned_client_user": issue.assigned_client_user,
@@ -202,7 +235,18 @@ def get_issues(request):
         	"status": issue.status,
         	"progress": issue.progress,
         	"user_type": UserDetails.user_type,
+        	 
+            "pagination_props": {
+                "has_other_pages": has_other_pages,
+                "has_prev_page": has_prev_page,
+                "current_page": current_page,
+                "has_next_page": has_next_page,
+                "prev_page_nr": prev_page_nr,    
+                "next_page_nr": next_page_nr,
+                "page_range": list(page_range)
+            }
     })
+    
     
     return JsonResponse(data, safe=False)
 

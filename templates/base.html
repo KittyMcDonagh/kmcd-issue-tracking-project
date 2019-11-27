@@ -83,13 +83,11 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                     <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues List</a></li>
-                    
+
                     <!-- Only Client-side users can enter issues -->
                     {%if userdetails.user_type == "C" %}
                     <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
-                    {% endif %}
-                    
-                    {% else %}
+                    {% endif %} {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                     {% endif %}
@@ -123,10 +121,34 @@
     </section>
 
 
+
+    <!-- Pagination -->
+
+    <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
+        {% if issues.has_other_pages %}
+
+        <ul class="pagination justify-content-center mt-3">
+            {% if issues.has_previous %}
+            <li class="page-item"><a class="page-link page-click" href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="page-item"><span class="page-link">&laquo;</span></li>
+            {% endif %} {% for i in issues.paginator.page_range %} {% if issues.number == i %}
+            <li class="page-item"><span class="page-link selected">{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+
+            {% else %}
+            <li class="page-item"><a class="page-link page-click" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} {% endfor %} {% if issues.has_next %}
+            <li class="page-item"><a class="page-link page-click" href="?page={{ issues.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="page-item"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+
+
     <footer>
-
-
-
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js " integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=" anonymous "></script>
@@ -143,6 +165,8 @@
 
             // The following script manages the filtering of issues by Issue Filter,
             // Status Filter, and Client Filter (vendor-side users only)
+
+            // Filtering by Issue Filter -------------------------------------
 
             // The Issues Filter has been selected by the user
 
@@ -170,7 +194,7 @@
                 // screen. If its a vendor-side user, display "ALL" in the 
                 // Client dropdown box
 
-                let clientFilter = "ALL"
+                let clientFilter = "ALL";
 
                 if ($("#dropdownMenuLink-3").length > 0) {
 
@@ -178,12 +202,15 @@
                 }
 
                 // Get the issues requested by the user, as per the filter
-                // values
+                // values, starting with page 1
 
-                getIssues(issuesFilter, statusFilter, clientFilter)
+                let page = 1;
+
+                getIssues(issuesFilter, statusFilter, clientFilter, page);
 
             });
 
+            // Filtering by Status Filter -------------------------------------
 
             // Status filter has been selected by the user
 
@@ -202,28 +229,24 @@
 
                 // Get the current value of the Issues Filter
 
-                let el = document.getElementById("dropdownMenuLink-1");
-                let issuesFilter = el.innerText;
+                let issuesFilter = getIssuesFilterValue();
 
 
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
 
-                let clientFilter = "ALL"
-
-                if ($("#dropdownMenuLink-3").length > 0) {
-
-                    let el2 = document.getElementById("dropdownMenuLink-3");
-
-                    clientFilter = el2.innerText;
-                }
+                let clientFilter = getClientFilterValue();
 
                 // Get the issues requested by the user, as per the filter
-                // values
+                // values, starting with page 1
 
-                getIssues(issuesFilter, statusFilter, clientFilter)
+                let page = 1;
+
+                getIssues(issuesFilter, statusFilter, clientFilter, page);
             });
 
+
+            // Filtering by Client Filter -------------------------------------
 
             // Client Filter has been selected by the user. The Client Filter
             // will only be available when the user is a vendor-side user
@@ -243,24 +266,72 @@
 
                 // Get the current value of the Issues Filter
 
-                let el = document.getElementById("dropdownMenuLink-1");
-                let issuesFilter = el.innerText;
+                let issuesFilter = getIssuesFilterValue();
 
                 // Get the current value of the Status Filter
 
-                let el2 = document.getElementById("dropdownMenuLink-2");
-                let statusFilter = el2.innerText;
+                let statusFilter = getStatusFilterValue();
 
                 // Get the issues requested by the user, as per the filter
-                // values
+                // values, starting with page 1
 
-                getIssues(issuesFilter, statusFilter, clientFilter);
+                let page = 1;
+
+                getIssues(issuesFilter, statusFilter, clientFilter, page);
             });
 
 
+            // Get the current value of the issues filter
+
+            function getIssuesFilterValue() {
+
+                // Get the current value of the Issues Filter
+
+                let el = document.getElementById("dropdownMenuLink-1");
+                let issuesFilter = el.innerText;
+
+                return issuesFilter;
+
+            }
+
+            // Get the current value of the Status Filter, if it's an
+            // option on the screen, otherwise set it to "ALL"
+
+            function getStatusFilterValue() {
+
+                let el = document.getElementById("dropdownMenuLink-2");
+
+                let statusFilter = el.innerText;
+
+                return statusFilter;
+
+            }
+
+
+            // Get the current value of the Client Filter, if it's an
+            // option on the screen, otherwise set it to "ALL"
+
+            function getClientFilterValue() {
+
+                let clientFilter = "ALL";
+
+                if ($("#dropdownMenuLink-3").length > 0) {
+
+                    let el = document.getElementById("dropdownMenuLink-3");
+
+                    clientFilter = el.innerText;
+                }
+
+                return clientFilter;
+
+            }
+
+
+            // Get the issues from the database ------------------------------
+
             // Get the relevant issues, based on the value of the filters
 
-            function getIssues(issuesFilter, statusFilter, clientFilter) {
+            function getIssues(issuesFilter, statusFilter, clientFilter, page) {
 
                 console.log("In getIssues");
 
@@ -271,16 +342,37 @@
                         issuesFilter: issuesFilter,
                         statusFilter: statusFilter,
                         clientFilter: clientFilter,
+                        page: page,
                     },
 
                     success: function(data) {
 
                         console.log("Return from In getIssues: url");
+
                         // Clear the current contents of the table
 
                         $("tbody").empty();
                         $.each(data, function(key, value) {
-                            
+
+                            // Get the pagination parameters passed from 
+                            // views.get_issues
+
+                            var has_other_pages = value.pagination_props.has_other_pages;
+                            var has_prev_page = value.pagination_props.has_prev_page;
+                            var current_page = value.pagination_props.current_page;
+                            var has_next_page = value.pagination_props.has_next_page;
+                            var prev_page_nr = value.pagination_props.prev_page_nr;
+                            var next_page_nr = value.pagination_props.next_page_nr;
+                            var page_range = value.pagination_props.page_range;
+
+                            console.log("has_other_pages: " + has_other_pages);
+                            console.log("has_prev_page: " + has_prev_page);
+                            console.log("current_page: " + current_page);
+                            console.log("has_next_page: " + has_next_page);
+                            console.log("prev_page_nr: " + prev_page_nr);
+                            console.log("next_page_nr: " + next_page_nr);
+                            console.log("page_range: " + page_range);
+
                             var issueId = value.id;
 
                             var inputDate = value.date;
@@ -297,19 +389,132 @@
                             var priority = value.priority;
                             var summary = value.summary;
                             var status = value.status;
-                            var pageLink = "issue_tracker/"+issueId+"/ ";
+
+                            var issueFilter = "ALL"
+                            var statusFilter = "ALL"
+                            var clientFilter = "ALL"
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href=/issue_tracker/"+issueId+"/ "+"><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
+
+                            // Pagination Start - set the page nav links to return the correct pages
+
+                            // Clear the pagination nav, in case we only have one page
+
+                            console.log("Paginating . . . . . . ")
+                            console.log("has_other_pages: " + has_other_pages)
+
+                            $("#paginate").empty();
+
+                            if (has_other_pages) {
+
+                                if (has_prev_page) {
+                                    var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>"
+
+                                    console.log("prevPageLink: " + prevPageLink)
+                                }
+                                else {
+                                    var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>"
+
+                                    console.log("prevPageLink: " + prevPageLink)
+                                }
+
+                                // Perform pagination
+
+                                var pageLinks = "";
+                                var i = 0;
+
+                                for (i in page_range) {
+
+                                    console.log("page_range[i]: " + page_range[i] + "; current_page:" + current_page);
+
+                                    if (current_page === page_range[i]) {
+
+                                        if (pageLinks == "") {
+
+                                            pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                        }
+                                        else {
+                                            pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                        }
+
+                                        console.log("pageLinks : " + pageLinks);
+                                    }
+                                    else {
+
+                                        if (pageLinks == "") {
+
+                                            pageLinks = "<li class='page-item'><a class='page-link page-click page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                        }
+                                        else {
+                                            pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                                        }
+
+                                        console.log("pageLinks : " + pageLinks);
+                                    }
+
+                                }
+
+                                if (has_next_page) {
+
+                                    var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>"
+
+                                    console.log("nextPageLink  : " + nextPageLink)
+
+                                }
+                                else {
+
+                                    var nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>"
+                                    console.log("nextPageLink  : " + nextPageLink)
+                                }
+
+                                var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>"
+                                console.log("pageNav: " + pageNav)
+
+                                $("#paginate").append(
+                                    pageNav
+                                );
+                            }
+
+                            // Pagination End
+
                         });
+
+
                     },
 
                     traditional: true
                 }).done();
             }
+
+            //$(".page-pag").on('click', function() {
+
+            $(document).on('click', ".page-click", function() {
+
+                    console.log("in page-pag");
+
+                    // let el = document.getElementByClass("page-link");
+
+                    let page = $(this).data('value')
+
+                    let issuesFilter = getIssuesFilterValue();
+                    let statusFilter = getStatusFilterValue();
+                    let clientFilter = getClientFilterValue();
+
+                    console.log("page-link filters")
+                    console.log(issuesFilter);
+                    console.log(statusFilter);
+                    console.log(clientFilter);
+                    console.log("page: " + page);
+
+                    getIssues(issuesFilter, statusFilter, clientFilter, page)
+                }
+
+            );
         });
     </script>
 
