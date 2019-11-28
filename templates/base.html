@@ -34,7 +34,7 @@
                 <p class="nav-c-v-name m-0">{{ vendordetails.vend_name }}
             </div>
             <div class="col-6">
-                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_id }}!</p>
+                <p class="nav-c-v-user m-0">Welcome, {{ userdetails.user_first_name }}!</p>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                 <p class="nav-c-v-name m-0">{{ clientdetails.client_name }}
             </div>
             <div class="col-6">
-                <p class="nav-c-v-user m-0">Welcome {{ userdetails.user_id }}!</p>
+                <p class="nav-c-v-user m-0">Welcome, {{ userdetails.user_first_name }}!</p>
             </div>
         </div>
         {% endif %} {% else %}
@@ -82,7 +82,7 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues List</a></li>
+                    <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
 
                     <!-- Only Client-side users can enter issues -->
                     {%if userdetails.user_type == "C" %}
@@ -345,21 +345,92 @@
 
                     success: function(data) {
 
+                        // Pagination Start 
+                        // Get the pagination parameters passed from 
+                        // views.get_issues
+
+                        var has_other_pages = data.pagination_props.has_other_pages;
+                        var has_prev_page = data.pagination_props.has_prev_page;
+                        var current_page = data.pagination_props.current_page;
+                        var has_next_page = data.pagination_props.has_next_page;
+                        var prev_page_nr = data.pagination_props.prev_page_nr;
+                        var next_page_nr = data.pagination_props.next_page_nr;
+                        var page_range = data.pagination_props.page_range;
+
+                        // Clear the pagination nav, in case we only have one page
+
+                        $("#paginate").empty();
+
+                        if (has_other_pages) {
+
+                            if (has_prev_page) {
+                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>"
+
+                            }
+                            else {
+                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>"
+
+                            }
+
+                            // Perform pagination
+
+                            var pageLinks = "";
+                            var i = 0;
+
+                            for (i in page_range) {
+
+                                if (current_page === page_range[i]) {
+
+                                    if (pageLinks == "") {
+
+                                        pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+                                    else {
+                                        pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+
+                                }
+                                else {
+
+                                    if (pageLinks == "") {
+
+                                        pageLinks = "<li class='page-item'><a class='page-link page-click page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    }
+                                    else {
+                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                                    }
+                                }
+
+                            }
+
+                            if (has_next_page) {
+
+                                var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>"
+
+                            }
+                            else {
+
+                                var nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>"
+
+                            }
+
+                            var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>"
+
+
+                            $("#paginate").append(
+                                pageNav
+                            );
+                        }
+
+                        // Pagination End
+
+
                         // Clear the current contents of the table
+                        // Output the details of each issue to the table 
 
                         $("tbody").empty();
-                        $.each(data, function(key, value) {
-
-                            // Get the pagination parameters passed from 
-                            // views.get_issues
-
-                            var has_other_pages = value.pagination_props.has_other_pages;
-                            var has_prev_page = value.pagination_props.has_prev_page;
-                            var current_page = value.pagination_props.current_page;
-                            var has_next_page = value.pagination_props.has_next_page;
-                            var prev_page_nr = value.pagination_props.prev_page_nr;
-                            var next_page_nr = value.pagination_props.next_page_nr;
-                            var page_range = value.pagination_props.page_range;
+                        $.each(data.issues, function(key, value) {
 
                             var issueId = value.id;
 
@@ -388,90 +459,21 @@
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
-                            // Pagination Start - set the page nav links to return the correct pages
-
-                            // Clear the pagination nav, in case we only have one page
-
-                            $("#paginate").empty();
-
-                            if (has_other_pages) {
-
-                                if (has_prev_page) {
-                                    var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>"
-                                    
-                                }
-                                else {
-                                    var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>"
-                                    
-                                }
-
-                                // Perform pagination
-
-                                var pageLinks = "";
-                                var i = 0;
-
-                                for (i in page_range) {
-
-                                    if (current_page === page_range[i]) {
-
-                                        if (pageLinks == "") {
-
-                                            pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                        }
-                                        else {
-                                            pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                        }
-                                        
-                                    }
-                                    else {
-
-                                        if (pageLinks == "") {
-
-                                            pageLinks = "<li class='page-item'><a class='page-link page-click page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-                                        }
-                                        else {
-                                            pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-
-                                        }
-                                    }
-
-                                }
-
-                                if (has_next_page) {
-
-                                    var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>"
-
-                                }
-                                else {
-
-                                    var nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>"
-                                    
-                                }
-
-                                var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>"
-                                
-
-                                $("#paginate").append(
-                                    pageNav
-                                );
-                            }
-
-                            // Pagination End
 
                         });
 
+                        // Output the pagination values to the html
+
 
                     },
-
                     traditional: true
                 }).done();
             }
 
-            //$(".page-pag").on('click', function() {
+            // As the DOM values are loaded after the js is run, we click on
+            // 'document' rather than just 'page-click'
 
             $(document).on('click', ".page-click", function() {
-
-                    // let el = document.getElementByClass("page-link");
 
                     let page = $(this).data('value')
 

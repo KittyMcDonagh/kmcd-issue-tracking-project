@@ -1,128 +1,162 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
-
-<div class="row no-gutters form-border mb-5">
-    <div class="col-12">
-
-        <form method="POST" enctype="multipart/form-data">
-
-            {% csrf_token %}
-
-            <!-- Fields with default values -->
-
-            <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
-            <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}">
-            <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
-            <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin">
+<!-- This form will be used for the Input of New Issues and for Editing 
+     an existing issue -->
 
 
-            <!-- Top of form: Software Component, Priority, and Status -->
+<form method="POST" enctype="multipart/form-data" class="form-style">
 
-            <div class="row no-gutters pb-5">
-                <div class="col-4">
-                    <div class="row no-gutters">
-                        <div class="col-3 text-center">
-                            <label for="sw_comp">Component: </label>
-                        </div>
-                        <div class="col-7">
-                            <select name="software_component" id="sw_comp" class="form-control" size="1">
-                                <option value="ACCOUNTS RECEIVABLE">ACCOUNTS RECEIVABLE</option>
-                                <option value="ACCOUNTS PAYABLE">ACCOUNTS PAYABLE</option>
-                                <option value="CUSTOMERS">CUSTOMERS</option>
-                                <option value="PURCHASING">PURCHASING</option>
-                                <option value="SALES">SALES</option>
-                                <option value="VENDORS">VENDORS</option>
-                                <option value="OTHER">OTHER</option>
-                             </select>
-                        </div>
-                    </div>
+    {% csrf_token %}
+
+    <!-- Fields with default values -->
+
+    <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}">
+    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin">
+
+
+    <!-- Top of form: Software Component, Priority, and Status -->
+
+    <div class="row no-gutters">
+        <div class="col-12 col-md-4">
+            <div class="row no-gutters">
+                <div class="col-4 form-font-label">
+                    <label for="sw_comp"><strong>Component: </strong></label>
                 </div>
-                
-                <div class="col-4 text-center">
-                    <div class="row no-gutters">
-                        <div class="offset-3 col-2">
-                            <span>Priority: </span>
-                        </div>
-                        <div class="col-1 text-left">
-                            <span>9</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-8 ">
+                    <select class="form-font-field" name="software_component" id="sw_comp" class="form-control" size="1">
+                        {% if issue.software_component == "ACCOUNTS RECEIVABLE" %}
+                        <option value="ACCOUNTS RECEIVABLE" selected>ACCOUNTS RECEIVABLE</option>
+                        {% else %}
+                        <option value="ACCOUNTS RECEIVABLE">ACCOUNTS RECEIVABLE</option>
+                        {% endif %}
+                            
+                        {% if issue.software_component == "ACCOUNTS PAYABLE" %}
+                        <option value="ACCOUNTS PAYABLE" selected>ACCOUNTS PAYABLE</option>
+                        {% else %}
+                        <option value="ACCOUNTS PAYABLE">ACCOUNTS PAYABLE</option>
+                        {% endif %}
+                                
+                        {% if issue.software_component == "CUSTOMERS" %}
+                        <option value="CUSTOMERS" selected>CUSTOMERS</option>
+                        {% else %}
+                        <option value="CUSTOMERS">CUSTOMERS</option>
+                        {% endif %}
+                                
+                        {% if issue.software_component == "PURCHASING" %}
+                        <option value="PURCHASING" selected>PURCHASING</option>
+                        {% else %}
+                        <option value="PURCHASING">PURCHASING</option>
+                        {% endif %}
+                                
+                        {% if issue.software_component == "SALES" %}
+                        <option value="SALES" selected>SALES</option>
+                        {% else %}
+                        <option value="SALES">SALES</option>
+                        {% endif %}
+                                
+                        {% if issue.software_component == "VENDORS" %}
+                        <option value="VENDORS" selected>VENDORS</option>
+                        {% else %}
+                        <option value="VENDORS">VENDORS</option>
+                        {% endif %}
+                                
+                        {% if issue.software_component == "OTHER" %}
+                        <option value="OTHER" selected>OTHER</option>
+                        {% else %}
+                        <option value="OTHER">OTHER</option>
+                        {% endif %}
+                    </select>
 
-                <div class="col-4 text-center ">
-                    <div class="row no-gutters">
-                        <div class="offset-7 col-2">
-                            <span>Status: </span>
-                        </div>
-                        
-                        <div class="col-2">
-                            <span>DRAFT</span>
-                        </div>
-                
-                    </div>
-                </div>
-
-
-
-            </div>
-
-
-            <!-- Title -->
-
-            <div class="row no-gutters pb-2">
-                <div class="offset-2 col-6 p-0">
-                    <div class="row">
-                        <div class="col-2">
-                            <label for="title">Title: </label>
-                        </div>
-                        <div class="col-10">
-                            <textarea name="title" id="title" class="form-control" rows="1" maxlength="50"></textarea>
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Summary -->
+        <!--  Priority -->
 
-            <div class="row no-gutters pb-2">
-                <div class="offset-2 col-6">
-                    <div class="row">
-                        <div class="col-2 ">
-                            <label for=" summary ">Summary: </label>
-                        </div>
-                        <div class="col-10">
-                            <textarea name="summary " id="summary " class="form-control" rows="2 " maxlength="100"></textarea>
-                        </div>
-                    </div>
+        <div class="col-12 col-md-4">
+            <div class="row no-gutters">
+                <div class="col-3 form-font-label">
+                    <span><strong>Priority: </strong></span>
+                </div>
+                <div class="col-1 form-font-field">
+                    <span>9</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Details  -->
+        <!-- Status -->
 
-            <div class="row no-gutters pb-2">
-                <div class="col-12 ">
-                    <div class="row">
-                        <div class="col-1 text-right">
-                            <label for="details ">Details: </label>
-                        </div>
-                        <div class="col-9">
-                            <textarea name="details " id="details " class="form-control" rows="8 " maxlength="700"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-4 form-font-label">
+            <span><strong>Status: </strong></span>
+        </div>
 
-            <!-- Submit Button -->
-
-            <div class="row no-gutters ">
-                <div class="offset-1 col-9 pl-1 text-center">
-                    <button class="btn btn-color " type="submit ">Submit</button>
-                </div>
-            </div>
-
-        </form>
+        <div class="col-4 form-font-field">
+            <span>DRAFT</span>
+        </div>
     </div>
+    
+
+
+
+
+    <!-- Issue Title -->
+
+    <div class="row no-gutters mt-5 pb-2">
+        <div class="offset-2 col-6 p-0">
+            <div class="row">
+                <div class="col-2">
+                    <label for="title"><strong>Title: </strong></label>
+                </div>
+                <div class="col-10">
+                    <textarea name="title" id="title" class="form-control" rows="1" maxlength="50">{{ issue.title }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary -->
+
+    <div class="row no-gutters pb-2">
+        <div class="offset-2 col-6">
+            <div class="row">
+                <div class="col-2 ">
+                    <label for=" summary "><strong>Summary: </strong></label>
+                </div>
+                <div class="col-10">
+                    <textarea name="summary " id="summary " class="form-control" rows="2 " maxlength="100">{{ issue.summary }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details  -->
+
+    <div class="row no-gutters pb-2">
+        <div class="col-12 ">
+            <div class="row">
+                <div class="col-1 text-right">
+                    <label for="details "><strong>Details: </strong></label>
+                </div>
+                <div class="col-9">
+                    <textarea name="details " id="details " class="form-control" rows="8 " maxlength="700">{{ issue.details }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+
+    <div class="row no-gutters ">
+        <div class="offset-1 col-9 pl-1">
+            <button class="btn btn-color " type="submit ">Submit</button>
+        </div>
+    </div>
+
+</form>
 </div>
+
 
 
 {% endblock %}

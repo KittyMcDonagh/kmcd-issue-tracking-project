@@ -27,6 +27,7 @@ section {
     padding: 0 10px;
 
     min-height: calc(100vh - 225px);
+    
 }
 
 /* Set height of Section so that the footer sticks to the bottom on larger 
@@ -37,6 +38,7 @@ section {
 @media(min-width:768px) {
     section {
         min-height: calc(100vh - 242px);
+        
     }
 }
 
@@ -49,6 +51,7 @@ main {
 li {
     list-style-type: none;
 }
+
 
 /* Color and hovering for all buttons  */
 
@@ -63,6 +66,12 @@ li {
     background-color: #e6e6ff!important;
     border-color: #e6e6ff!important;
 
+}
+
+.btn-color-disabled {
+    color: #e6e6ff!important;
+    background-color: #6666ff!important;
+    border-color: #6666ff!important;
 }
 
 
@@ -462,21 +471,23 @@ footer {
 
 /* css for issuelogging.html-------------------------------------------------*/
 
-.form-border {
-    border: solid 1px;
+.form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 15px;
+    background-color: #fff;
     padding: 20px;
+    margin-left:25px;
+    margin-right:25px;
 
 }
 
-label {
+.form-font-label {
     font-size: 13px;
 }
 
-input {
-    font-size: 13px!important;
+.form-font-field {
+    font-size: 12px;
 }
 
-select {
-    font-size: 13px!important;
 
-}
+

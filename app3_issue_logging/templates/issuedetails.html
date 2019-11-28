@@ -1,30 +1,121 @@
 {% extends "base.html" %} {% block content %}
 
+<!-- If the user is a vendor-side user, show the name of the client the issue 
+     belongs to -->
+
 <div class="row no-gutters">
-    <div class="row no-gutters">
-
-        <div class="col-xs-9">
-            
-            <p><span class="boldtext">input on:</span> {{ issue.input_date }} </p>
-            <p><span class="boldtext">Client Code:</span> {{issue.client_code}}</p>
-            <p><span class="boldtext">Software Component:</span> {{ issue.software_component }} </p>
-            <p><span class="boldtext">User ID:</span> {{issue.user_id}}</p>
-            <p><span class="boldtext">Assigned to Client User:</span> {{issue.assigned_client_user}}</p>
-            <p><span class="boldtext">Assigned to Vendor User:</span> {{issue.assigned_vendor_user}}</p>
-            
-            <p><span class="boldtext">Title:</span> {{issue.title}}</p>
-            <p><span class="boldtext">Summary:</span> {{issue.summary}}</p>
-            <p><span class="boldtext">Details:</span> {{issue.details}}</p>
-            
-             <p><span class="boldtext">Priority:</span> {{issue.priority}}</p>
-            <p><span class="boldtext">Status:</span> {{issue.status}}</p>
-            <p><span class="boldtext">Progress:</span> {{issue.progress}}</p>
-            
-            <hr>
-        </div>
-
+    <div class="col-12">
+        {% if userdetails.user_type == "V" %}
+        <p><strong>Client:</strong>
+            <span>{{issueclientdetails.client_name}}</span>
+        </p>
+        {% endif %}
     </div>
 </div>
+
+<div class="row no-gutters form-style mb-5">
+    <div class="col-12">
+
+        <!-- Top of form: Software Component, Priority, and Status -->
+
+        <div class="row no-gutters pb-5">
+            <div class="col-4">
+                <div class="row no-gutters">
+                    <div class="col-3 text-center">
+                        <p><strong>Component: </strong></p>
+                    </div>
+                    <div class="col-9">
+                        <p>{{ issue.software_component}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="row no-gutters">
+                    <div class="col-3 text-right">
+                        <p><strong>Priority: </strong></p>
+                    </div>
+                    <div class="col-9 pl-1">
+                        <p>{{ issue.priority }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="row no-gutters">
+                    <div class="col-9 text-right">
+                        <p><strong>Status: </strong></p>
+                    </div>
+                    <div class="col-2 pl-1">
+                        <p>{{ issue.status }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Issue Title -->
+
+        <div class="row no-gutters pb-2">
+            <div class="offset-2 col-1 p-0">
+                <p><strong>Title: </strong></p>
+            </div>
+            <div class="col-9 p-0">
+                <p>{{ issue.title }}</p>
+            </div>
+        </div>
+
+        <!-- Issue Summary -->
+
+        <div class="row no-gutters pb-2">
+            <div class="offset-2 col-1">
+                <p><strong>Summary: </strong></p>
+            </div>
+            <div class="col-9">
+                <p>{{ issue.summary }}</p>
+            </div>
+        </div>
+
+        <!-- Issue Details  -->
+
+        <div class="row no-gutters pb-2">
+            <div class="col-1 text-right ">
+                <p><strong>Details: </strong><p>
+            </div>
+            <div class="col-10 pl-3">
+                <p>{{ issue.details }}<p>
+            </div>
+        </div>
+
+        <!-- Edit Button -->
+
+        <div class="row no-gutters ">
+            <div class="offset-1 col-5 pl-3">
+                 {% if userdetails.vend_client_code == issue.client_code %}
+                
+                 <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a>
+                {% else %}
+                <span class="btn btn-color-disabled disabled" type="submit ">Edit</span>
+                {% endif %}
+            </div>
+
+            <div class="offset-1 col-4 text-right">
+                {% if userdetails.user_type == "V" %}
+                    <p><strong>Assigned to: </strong>{{ issue.assigned_vendor_user}}</p>
+                    
+                {% else %}
+                
+                {% if userdetails.vend_client_code == issue.client_code %}
+                    <p><strong>Assigned to: </strong>{{ issue.assigned_client_user}}</p>
+                    {% endif %}
+                    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 {% endblock %}

@@ -21,6 +21,7 @@ depending on whether the pk is null or not.
 """
 def new_edit_issue(request, pk=None):
     
+    print("in new_edit_issue")
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
     
@@ -51,11 +52,16 @@ def new_edit_issue(request, pk=None):
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
     
+    print(request.method)
+    
     if request.method == "POST":
+        
+        print("request is post")
         
         form = LogNewIssueForm(request.POST, request.FILES, instance=issue)
         
         if form.is_valid():
+            print("form is valid")
             issue = form.save()
             return redirect(issue_details, issue.pk)
         else:
@@ -64,7 +70,7 @@ def new_edit_issue(request, pk=None):
     else:
         form = LogNewIssueForm(instance=issue)
     
-    return  render(request, 'issuelogging.html', {'form': form, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+    return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
     
     
 
@@ -75,9 +81,42 @@ the Post is not found.
 """
 def issue_details(request, pk):
     
+    # Retrieve the issue
+    
     issue = get_object_or_404(Issue, pk=pk)
     
-    return  render(request, 'issuedetails.html', {'issue': issue})
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    IssueClientDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Issues Filte
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+        
+        IssueClientDetails = get_issue_client_details(request, issue)
+    
+    return  render(request, 'issuedetails.html', {'issue': issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
     
 
 
@@ -127,5 +166,27 @@ def get_vendor(request, UserDetails):
         
         return  VendorDetails
         
+
+"""
+Get the details of the Client the issue belongs to. This is required for a Vendor
+user only. Although Client-side users see other clients' issues, they dont see
+the details of those clients.
+"""
+def get_issue_client_details(request, issue):
     
+    IssueClientDetails = ""
+
+    try:
+        IssueClientDetails = Client.objects.get(client_code=issue.client_code)
+    except:
+        messages.error(request, "Client details not found!")
+        
+    return IssueClientDetails
+        
+
+
+
+
+
+
     

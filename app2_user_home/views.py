@@ -208,9 +208,29 @@ def get_issues(request):
         next_page_nr = issues.next_page_number()
         
     page_range = paginator.page_range
+    
+    # Create data dictionary to return to the js function (in base.html)
+    
+    data = {}
+
+    # Return the pagination parameters for output to the html file
+    
+    data["pagination_props"] = {
+		"has_other_pages": has_other_pages,
+		"has_prev_page": has_prev_page,
+		"current_page": current_page,
+		"has_next_page": has_next_page,
+		"prev_page_nr": prev_page_nr,
+		"next_page_nr": next_page_nr,
+		"page_range": list(page_range)
+	}
+	
+	# Return the issues to be output to  the html table
+	
+    data["issues"] = []
    
     for issue in issues:
-        data.append({
+        data["issues"].append({
             
             "id": issue.id,
         	"title": issue.title,
@@ -225,19 +245,8 @@ def get_issues(request):
         	"summary": issue.summary,
         	"status": issue.status,
         	"progress": issue.progress,
-        	"user_type": UserDetails.user_type,
-        	 
-            "pagination_props": {
-                "has_other_pages": has_other_pages,
-                "has_prev_page": has_prev_page,
-                "current_page": current_page,
-                "has_next_page": has_next_page,
-                "prev_page_nr": prev_page_nr,    
-                "next_page_nr": next_page_nr,
-                "page_range": list(page_range)
-            }
+        	"user_type": UserDetails.user_type
     })
-    
     
     return JsonResponse(data, safe=False)
 
