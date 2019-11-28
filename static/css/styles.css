@@ -27,7 +27,7 @@ section {
     padding: 0 10px;
 
     min-height: calc(100vh - 225px);
-    
+
 }
 
 /* Set height of Section so that the footer sticks to the bottom on larger 
@@ -38,7 +38,7 @@ section {
 @media(min-width:768px) {
     section {
         min-height: calc(100vh - 242px);
-        
+
     }
 }
 
@@ -131,8 +131,25 @@ li {
 }
 
 .nav-option {
-    padding-left: 175px!important;
+    padding-left: 0px!important;
 }
+
+@media(min-width:768px) {
+    .nav-option {
+        padding-left: 20px!important
+    }
+
+}
+
+@media(min-width:1024px) {
+    .nav-option {
+        padding-left: 175px!important
+    }
+
+}
+
+
+
 
 .disabled {
     color: fafaff!important;
@@ -258,9 +275,10 @@ li {
 /* Give the pagination section a height of 70px, so that if 
    pagination is not required, the footer will still stick to the 
    bottom of the page. Section height is set above. */
+
 .pag-nav-section {
-     background-color: #f3f2f2;
-     height:70px;
+    background-color: #f3f2f2;
+    height: 70px;
 }
 
 .page-link {
@@ -276,7 +294,7 @@ li {
 .selected {
     background-color: #6666ff!important;
     color: #fff!important;
-    
+
 }
 
 
@@ -475,10 +493,7 @@ footer {
     border: solid 1px #d9d9d9;
     border-radius: 15px;
     background-color: #fff;
-    padding: 20px;
-    margin-left:25px;
-    margin-right:25px;
-
+    padding: 15px;
 }
 
 .form-font-label {
@@ -486,8 +501,22 @@ footer {
 }
 
 .form-font-field {
-    font-size: 12px;
+    font-size: 12px!important;
 }
 
 
+@media(min-width:768px) {
+    .form-style {
+        padding:20px;
+        margin-left:50px;
+        margin-right:50px;
+    }
 
+    .form-font-label {
+        font-size: 15px;
+    }
+
+    .form-font-field {
+        font-size: 15px!important;
+    }
+}

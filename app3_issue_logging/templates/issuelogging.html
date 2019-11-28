@@ -19,12 +19,10 @@
     <!-- Top of form: Software Component, Priority, and Status -->
 
     <div class="row no-gutters">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6">
             <div class="row no-gutters">
-                <div class="col-4 form-font-label">
+                <div class="col-12 form-font-label">
                     <label for="sw_comp"><strong>Component: </strong></label>
-                </div>
-                <div class="col-8 ">
                     <select class="form-font-field" name="software_component" id="sw_comp" class="form-control" size="1">
                         {% if issue.software_component == "ACCOUNTS RECEIVABLE" %}
                         <option value="ACCOUNTS RECEIVABLE" selected>ACCOUNTS RECEIVABLE</option>
@@ -68,49 +66,40 @@
                         <option value="OTHER">OTHER</option>
                         {% endif %}
                     </select>
-
                 </div>
             </div>
         </div>
+
 
         <!--  Priority -->
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6">
             <div class="row no-gutters">
-                <div class="col-3 form-font-label">
+                <div class="col-6 form-font-label">
                     <span><strong>Priority: </strong></span>
-                </div>
-                <div class="col-1 form-font-field">
                     <span>9</span>
+                </div>
+
+                <!-- Status -->
+
+                <div class="col-6 form-font-label text-right">
+                    <span><strong>Status: </strong></span>
+                    <span>DRAFT</span>
                 </div>
             </div>
         </div>
-
-        <!-- Status -->
-
-        <div class="col-4 form-font-label">
-            <span><strong>Status: </strong></span>
-        </div>
-
-        <div class="col-4 form-font-field">
-            <span>DRAFT</span>
-        </div>
     </div>
-    
-
-
-
 
     <!-- Issue Title -->
 
-    <div class="row no-gutters mt-5 pb-2">
-        <div class="offset-2 col-6 p-0">
-            <div class="row">
-                <div class="col-2">
+    <div class="row no-gutters mt-4 pb-2">
+        <div class="col-12">
+            <div class="row no-gutters">
+                <div class="col-3 form-font-label pr-2 text-right">
                     <label for="title"><strong>Title: </strong></label>
                 </div>
-                <div class="col-10">
-                    <textarea name="title" id="title" class="form-control" rows="1" maxlength="50">{{ issue.title }}</textarea>
+                <div class="col-9 col-md-8 col-xl-6">
+                    <textarea name="title" id="title" class="form-control form-font-field" rows="1" maxlength="50">{{ issue.title }}</textarea>
                 </div>
             </div>
         </div>
@@ -119,13 +108,13 @@
     <!-- Summary -->
 
     <div class="row no-gutters pb-2">
-        <div class="offset-2 col-6">
-            <div class="row">
-                <div class="col-2 ">
+        <div class="col-12">
+            <div class="row no-gutters">
+                <div class="col-3 form-font-label pr-2 text-right">
                     <label for=" summary "><strong>Summary: </strong></label>
                 </div>
-                <div class="col-10">
-                    <textarea name="summary " id="summary " class="form-control" rows="2 " maxlength="100">{{ issue.summary }}</textarea>
+                <div class="col-9 col-md-8 col-xl-6">
+                    <textarea name="summary " id="summary " class="form-control form-font-field" rows="2 " maxlength="100">{{ issue.summary }}</textarea>
                 </div>
             </div>
         </div>
@@ -134,28 +123,29 @@
     <!-- Details  -->
 
     <div class="row no-gutters pb-2">
-        <div class="col-12 ">
-            <div class="row">
-                <div class="col-1 text-right">
+        <div class="col-12">
+            <div class="row no-gutters">
+                <div class="col-3 form-font-label pr-2 text-right">
                     <label for="details "><strong>Details: </strong></label>
                 </div>
-                <div class="col-9">
-                    <textarea name="details " id="details " class="form-control" rows="8 " maxlength="700">{{ issue.details }}</textarea>
+                <div class="col-9 col-md-8 col-xl-6">
+                    <textarea name="details " id="details " class="form-control form-font-field" rows="10 " maxlength="700">{{ issue.details }}</textarea>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!-- Submit Button -->
 
     <div class="row no-gutters ">
-        <div class="offset-1 col-9 pl-1">
+        <div class="offset-3 col-9 col-md-8 col-xl-6 text-center">
             <button class="btn btn-color " type="submit ">Submit</button>
         </div>
     </div>
 
 </form>
-</div>
+
 
 
 
