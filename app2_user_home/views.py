@@ -93,6 +93,12 @@ def user_home(request):
         except:
             messages.error(request, "PROBLEM RETRIEVING ISSUES!")
             
+    # Final filtering is done here to make sure users only see what they're
+    # allowed to see, and they're sorted by date, descending
+    
+    Issues = FinalFilterIssues(Issues, UserDetails)
+
+            
     # For Pagination
     
     page = request.GET.get('page', 1)
@@ -125,7 +131,7 @@ def get_issues(request):
     # Get all the issues from the issues database
         
     Issues = Issue.objects.all()
-        
+    
     # Get the filters - passed from the js in base.html
         
     issues_filter = request.POST.get('issuesFilter')
@@ -160,7 +166,6 @@ def get_issues(request):
         else:
                     
             # Has user requested 'Other Clients' Issues Only?
-            # This option is relevant to Client-side users only'
                 
             if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
             
@@ -176,6 +181,12 @@ def get_issues(request):
         
     if client_filter != "ALL":
         Issues = Issues.filter(client_code=client_filter)
+        
+    
+    # Final filtering is done here to make sure users only see what they're
+    # allowed to see, and they're sorted by date, descending
+    
+    Issues = FinalFilterIssues(Issues, UserDetails)
 
     # For Pagination
     
@@ -249,8 +260,50 @@ def get_issues(request):
     })
     
     return JsonResponse(data, safe=False)
+    
+"""
+Final filter to make sure users see only what they're allowed to see.
+Vendors can only see issues when they reach status of 'LOGGED' (i.e. they cannot
+see 'DRAFT')
+Clients cannot see issues of other clients that are of status 'DRAFT' or 'LOGGED'
+"""
 
-
+def FinalFilterIssues(Issues, UserDetails):
+    
+    if UserDetails.user_type == "V":
+        
+        # This is a Vendor-side user
+        # Vendors cannot see issues until they reach status 'LOGGED'
+                
+        Issues = Issues.exclude(status = "DRAFT")
+    
+    else:
+        
+        # Client-side users cannot see issues of other clients that are still
+        # at status 'DRAFT' or 'LOGGED'
+        
+        print("new On last filtering")
+        
+        # Separating our clients from other clients, so that I can filter other 
+        # clients issues by status
+        
+        OurClientsIssues = Issues.filter(client_code = UserDetails.vend_client_code)
+        
+        OtherClientsIssues = Issues.exclude(client_code = UserDetails.vend_client_code)
+        OtherClientsIssues = OtherClientsIssues.exclude(status = "DRAFT").exclude(status = "LOGGED")
+        
+        print("new final issues list")
+        
+        # Putting the two lists together after filtering other clients issues
+        Issues = OurClientsIssues | OtherClientsIssues
+        
+        print("Sorting desc. . .")
+        # Sorting issues by date, descending order
+        
+        Issues = Issues.order_by('-input_date')
+        
+        return Issues
+        
 
 
 """

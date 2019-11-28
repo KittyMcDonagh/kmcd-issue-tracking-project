@@ -13,109 +13,147 @@
     </div>
 </div>
 
-<div class="row no-gutters form-style mb-5">
-    <div class="col-12">
 
-        <!-- Top of form: Software Component, Priority, and Status -->
+<!-- Software Component  -->
 
-        <div class="row no-gutters pb-5">
-            <div class="col-4">
-                <div class="row no-gutters">
-                    <div class="col-3 text-center">
-                        <p><strong>Component: </strong></p>
-                    </div>
-                    <div class="col-9">
-                        <p>{{ issue.software_component}}</p>
-                    </div>
-                </div>
-            </div>
+<div class="form-style">
 
-            <div class="col-4">
-                <div class="row no-gutters">
-                    <div class="col-3 text-right">
-                        <p><strong>Priority: </strong></p>
-                    </div>
-                    <div class="col-9 pl-1">
-                        <p>{{ issue.priority }}</p>
-                    </div>
-                </div>
-            </div>
+    <!-- Software Component -->
 
-            <div class="col-4">
-                <div class="row no-gutters">
-                    <div class="col-9 text-right">
-                        <p><strong>Status: </strong></p>
-                    </div>
-                    <div class="col-2 pl-1">
-                        <p>{{ issue.status }}</p>
-                    </div>
+    <div class="row no-gutters">
+        <div class="col-12 col-md-6">
+            <div class="row no-gutters">
+                <div class="col-12 form-font">
+                    <p><strong>Component: </strong>
+                        <span>{{ issue.software_component}}</span>
+                    </p>
                 </div>
             </div>
         </div>
 
+        <!--  Priority -->
 
-        <!-- Issue Title -->
+        <div class="col-12 col-md-6">
+            <div class="row no-gutters">
+                <div class="col-6 form-font">
+                    <p><strong>Priority: </strong>
+                        <span>{{ issue.priority }}</span>
+                    </p>
+                </div>
 
-        <div class="row no-gutters pb-2">
-            <div class="offset-2 col-1 p-0">
-                <p><strong>Title: </strong></p>
-            </div>
-            <div class="col-9 p-0">
-                <p>{{ issue.title }}</p>
-            </div>
-        </div>
+                <!-- Status -->
 
-        <!-- Issue Summary -->
-
-        <div class="row no-gutters pb-2">
-            <div class="offset-2 col-1">
-                <p><strong>Summary: </strong></p>
-            </div>
-            <div class="col-9">
-                <p>{{ issue.summary }}</p>
-            </div>
-        </div>
-
-        <!-- Issue Details  -->
-
-        <div class="row no-gutters pb-2">
-            <div class="col-1 text-right ">
-                <p><strong>Details: </strong><p>
-            </div>
-            <div class="col-10 pl-3">
-                <p>{{ issue.details }}<p>
-            </div>
-        </div>
-
-        <!-- Edit Button -->
-
-        <div class="row no-gutters ">
-            <div class="offset-1 col-5 pl-3">
-                 {% if userdetails.vend_client_code == issue.client_code %}
-                
-                 <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a>
-                {% else %}
-                <span class="btn btn-color-disabled disabled" type="submit ">Edit</span>
-                {% endif %}
-            </div>
-
-            <div class="offset-1 col-4 text-right">
-                {% if userdetails.user_type == "V" %}
-                    <p><strong>Assigned to: </strong>{{ issue.assigned_vendor_user}}</p>
-                    
-                {% else %}
-                
-                {% if userdetails.vend_client_code == issue.client_code %}
-                    <p><strong>Assigned to: </strong>{{ issue.assigned_client_user}}</p>
-                    {% endif %}
-                    
-                {% endif %}
+                <div class="col-6 form-font text-right">
+                    <p><strong>Status: </strong>
+                        <span>{{ issue.status }}</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Issue Title -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 offset-md-3 col-md-8 col-xl-6 form-font">
+            <p class="m-0"><strong><em>Title:</em></strong></p>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 offset-md-3 col-md-8 col-xl-6 form-font">
+            <p class="m-0">{{ issue.title }}</p>
+        </div>
+    </div>
+
+
+
+    <!-- Summary -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0"><strong><em>Summary:</em></strong></p>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0">{{ issue.summary }}</p>
+        </div>
+    </div>
+
+
+    <!-- Details  -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0"><strong><em>Title:</em></strong></p>
+        </div>
+    </div>
+
+    <div class="row no-gutters ">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0">{{ issue.details }}
+                <p>
+        </div>
+    </div>
+
+
+
+    <!-- Assigned User  -->
+
+    {% if userdetails.user_type == "V" %}
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0"><strong><em>Assigned to: </em></strong></p>
+        </div>
+    </div>
+
+    <!-- If the user is a vendor-side user, show who the issue is
+                     assigned to on the vendor side -->
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0">{{ issue.assigned_vendor_user}}</p>
+        </div>
+    </div>
+
+    {% else %}
+
+    <!-- Client-side user: If this issue belongs to the client the
+                     user is associated with, show the assigned user, otherwise
+                     dont show it a all. -->
+
+    {% if userdetails.vend_client_code == issue.client_code %}
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0"><strong><em>Assigned to: </em></strong></p>
+        </div>
+    </div>
+
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+            <p class="m-0">{{ issue.assigned_client_user}}</p>
+        </div>
+    </div>
+
+    {% endif %} {% endif %}
+
+    <!-- Edit Button -->
+
+    <div class="row no-gutters ">
+        <div class="offset-3 col-9 col-md-8 col-xl-6 text-center">
+            {% if userdetails.vend_client_code == issue.client_code %}
+
+            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> {% else %}
+            <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> {% endif %}
+        </div>
+    </div>
 </div>
-
-
 
 
 {% endblock %}

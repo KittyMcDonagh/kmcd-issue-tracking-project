@@ -496,12 +496,8 @@ footer {
     padding: 15px;
 }
 
-.form-font-label {
+.form-font {
     font-size: 13px;
-}
-
-.form-font-field {
-    font-size: 12px!important;
 }
 
 
@@ -512,11 +508,9 @@ footer {
         margin-right:50px;
     }
 
-    .form-font-label {
+    .form-font {
         font-size: 15px;
     }
 
-    .form-font-field {
-        font-size: 15px!important;
-    }
+    
 }
