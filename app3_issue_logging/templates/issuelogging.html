@@ -8,18 +8,42 @@
 
     {% csrf_token %}
 
+
+
+    <!-- NOTE: We are in 'New Issue' or in 'Edit Issue' mode. -->
+
     <!-- Fields with default values -->
 
-    <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}">
-    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin">
+    <!-- For new issues the default client code, is the user's client code.
+         If we're editing an existing issue, the user is a client-side user, and
+         the issue client code and the user client code are the same, otherwise they
+          couldnt edit -->
 
+    <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
+
+    <!-- Set the following field to the default value, or to the issue value, depending on whether 
+         inputting a new issue, or editing an existing one -->
+
+    {% if issue.user_id == null %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ issue.user_id }}"> {% endif %}
+
+    <!-- If in 'New Issue' mode, the default for this field is the input user. If in 'Edit' mode 
+         the assigned user is = logged in user, otherwise they couldnt edit  -->
+
+    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
+
+    <!-- Set the following field to the default value, or to the issue value, depending on whether 
+         inputting a new issue, or editing an existing one -->
+
+    {% if issue.assigned_vendor_user == null %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ issue.assigned_vendor_user }}"> {% endif %}
 
     <!-- Top of form: Software Component, Priority, and Status -->
 
     <div class="row no-gutters">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 pt-1">
             <div class="row no-gutters">
                 <div class="col-12 form-font">
                     <label for="sw_comp"><strong>Component: </strong></label>
@@ -70,37 +94,67 @@
             </div>
         </div>
 
+        <!-- Status -->
+
+        <div class="col-12 col-md-2 form-font pt-1 pb-1">
+            <span><strong>Status: </strong></span>
+            <span>DRAFT</span>
+        </div>
 
         <!--  Priority -->
 
-        <div class="col-12 col-md-6">
-            <div class="row no-gutters">
-                <div class="col-6 form-font">
-                    <span><strong>Priority: </strong></span>
-                    <span>9</span>
-                </div>
+        <div class="col-12 col-md-4 form-font pt-1 position">
 
-                <!-- Status -->
-
-                <div class="col-6 form-font text-right">
-                    <span><strong>Status: </strong></span>
-                    <span>DRAFT</span>
-                </div>
-            </div>
+            <label for="priority"><strong>Priority: </strong></label>
+            <select class="form-font" name="priority" id="priority" class="form-control" size="1">
+                        
+                {% if issue.priority == 1 %}
+                    <option value="1" selected>1 - URGENT</option>
+                {% else %}
+                    <option value="1">1 - URGENT</option>
+                {% endif %}
+                            
+                {% if issue.priority == 2 %}
+                    <option value="2" selected>2 - HIGH PRIORITY</option>
+                {% else %}
+                    <option value="2">2 - HIGH PRIORITY</option>
+                {% endif %}
+                        
+                {% if issue.priority == 3 %}
+                    <option value="3" selected>3 - MEDIUM PRIORITY</option>
+                {% else %}
+                    <option value="3">3 - MEDIUM PRIORITY</option>
+                {% endif %}
+                            
+                {% if issue.priority == 4 %}
+                    <option value="4" selected>4 - LOW PRIORITY</option>
+                {% else %}
+                    <option value="4">4 - LOW PRIORITY</option>
+                {% endif %}
+                            
+                {% if issue.priority == 5 %}
+                    <option value="5" selected>5 - COSMETIC</option>
+                {% else %}
+                    <option value="5">5 - COSMETIC</option>
+                {% endif %}
+                
+            </select>
         </div>
     </div>
+
+
     <hr>
 
     <!-- Issue Title -->
 
     <div class="row no-gutters mt-3">
-        <div class="col-12 offset-md-3 col-md-8 col-xl-6 form-font">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
             <label for="title"><strong><em>Title:</em></strong></label>
         </div>
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50">{{ issue.title }}</textarea>
         </div>
     </div>
@@ -109,13 +163,13 @@
     <!-- Summary -->
 
     <div class="row no-gutters mt-2">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <label for=" summary "><strong><em>Summary: </em></strong></label>
         </div>
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <textarea name="summary " id="summary " class="form-control form-font" rows="2 " maxlength="100">{{ issue.summary }}</textarea>
         </div>
     </div>
@@ -125,13 +179,13 @@
     <!-- Details  -->
 
     <div class="row no-gutters mt-2">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <label for="details "><strong><em>Details: </em></strong></label>
         </div>
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700">{{ issue.details }}</textarea>
         </div>
     </div>
@@ -141,7 +195,7 @@
     <!-- Submit Button -->
 
     <div class="row no-gutters mt-2 ">
-         <div class="col-12 offset-md-3 col-md-8 col-xl-6 text-center">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
             <button class="btn btn-color " type="submit ">Submit</button>
         </div>
     </div>

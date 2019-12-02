@@ -384,12 +384,6 @@ footer {
 
 /* css for userhome.html------------------------------------------------------*/
 
-.filter-name {
-    padding: 10px!important;
-    font-size: 12px!important;
-
-}
-
 /* Style for issues filter dropdown */
 
 .filter-dd {
@@ -408,9 +402,6 @@ footer {
 /* Set filter font-sizes for larger devices----------------------------------*/
 
 @media(min-width:768px) {
-    .filter-name {
-        font-size: 14px!important;
-    }
     .filter-dd {
         font-size: 12px!important;
     }
@@ -501,16 +492,36 @@ footer {
 }
 
 
-@media(min-width:768px) {
+@media(min-width:1024px) {
     .form-style {
-        padding:20px;
-        margin-left:50px;
-        margin-right:50px;
+        padding: 20px;
+        margin-left: 50px;
+        margin-right: 50px;
     }
 
     .form-font {
         font-size: 15px;
     }
 
+}
+
+@media(min-width:768px) {
+    .position {
+        text-align: right;
+    }
+}
+
+
+select {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+}
+
+select:hover {
+    background-color: #fff!important;
+    color: #6666ff!important;
     
 }
+
+

@@ -20,6 +20,7 @@ Create a view that allows us to log a new issue or edit an existing one
 depending on whether the pk is null or not. 
 """
 def new_edit_issue(request, pk=None):
+    print("print pk: "+str(pk))
     
     print("in new_edit_issue")
     # If the user is on the Client side we need the Client details, otherwise
@@ -56,18 +57,24 @@ def new_edit_issue(request, pk=None):
     
     if request.method == "POST":
         
-        print("request is post")
+        print("request is post-----------------------------------------")
         
         form = LogNewIssueForm(request.POST, request.FILES, instance=issue)
         
         if form.is_valid():
             print("form is valid")
+        
             issue = form.save()
+            
+            print("form.priority: "+str(form))
             return redirect(issue_details, issue.pk)
         else:
+            print("form.priority: "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE!")
             
     else:
+        print("request is get-----------------------------------------")
+        print("issue: "+str(issue))
         form = LogNewIssueForm(instance=issue)
     
     return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
