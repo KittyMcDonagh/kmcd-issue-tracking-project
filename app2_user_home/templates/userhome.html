@@ -165,7 +165,7 @@
                         <td class="text-center td-priority">{{ issue.priority }}</td>
                         <td class="td-summary">{{ issue.summary }}</td>
                         <td class="text-center td-status">{{ issue.status }}</td>
-                        <td class="text-center td-more more-icon-cell"><a href='{% url 'issue_details' issue.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
+                        <td class="text-center td-more more-icon-cell "><a class="more-icon-style" href='{% url 'issue_details' issue.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
                             </td>
                     </tr>
                     {% endfor %}

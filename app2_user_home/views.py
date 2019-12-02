@@ -98,7 +98,6 @@ def user_home(request):
     
     Issues = FinalFilterIssues(Issues, UserDetails)
 
-            
     # For Pagination
     
     page = request.GET.get('page', 1)
@@ -282,8 +281,6 @@ def FinalFilterIssues(Issues, UserDetails):
         # Client-side users cannot see issues of other clients that are still
         # at status 'DRAFT' or 'LOGGED'
         
-        print("new On last filtering")
-        
         # Separating our clients from other clients, so that I can filter other 
         # clients issues by status
         
@@ -292,17 +289,14 @@ def FinalFilterIssues(Issues, UserDetails):
         OtherClientsIssues = Issues.exclude(client_code = UserDetails.vend_client_code)
         OtherClientsIssues = OtherClientsIssues.exclude(status = "DRAFT").exclude(status = "LOGGED")
         
-        print("new final issues list")
-        
         # Putting the two lists together after filtering other clients issues
         Issues = OurClientsIssues | OtherClientsIssues
+    
+    # Sorting issues by date, descending order
         
-        print("Sorting desc. . .")
-        # Sorting issues by date, descending order
+    Issues = Issues.order_by('-input_date')
         
-        Issues = Issues.order_by('-input_date')
-        
-        return Issues
+    return Issues
         
 
 

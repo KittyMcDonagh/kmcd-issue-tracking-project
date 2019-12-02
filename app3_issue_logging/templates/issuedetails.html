@@ -143,17 +143,39 @@
 
     {% endif %} {% endif %}
 
-    <!-- Edit Button -->
+     <!-- Edit Button 
+          If the issue is assigned to the logged in user, on the client side or
+          on the vendor side, enable the Edit button, otherwise disable it. -->
 
     <div class="row no-gutters ">
         <div class="offset-3 col-9 col-md-8 col-xl-6 text-center">
-            {% if userdetails.vend_client_code == issue.client_code %}
-
-            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> {% else %}
-            <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> {% endif %}
+            
+            <!-- Is the issue assigned, on the client-side, to the logged in 
+                 user? If so, enable the Edit button -->
+            
+            {% if userdetails.user_id == issue.assigned_client_user %}
+            
+            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> 
+            
+            {% else %}
+            
+            <!-- Is the issue assigned, on the vendor-side, to the logged in 
+                 user? If so, enable the Edit button -->
+            
+            {% if userdetails.user_id == issue.assigned_vendor_user %}
+            
+            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> 
+            
+            <!-- Otherwise disable the Edit button -->
+            
+            {% else %}
+            
+            <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> 
+            
+            {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>
-
 
 {% endblock %}
