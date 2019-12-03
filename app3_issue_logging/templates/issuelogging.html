@@ -42,8 +42,10 @@
 
     <!-- Top of form: Software Component, Priority, and Status -->
 
+     <!-- Component -->
+     
     <div class="row no-gutters">
-        <div class="col-12 col-md-6 pt-1">
+        <div class="col-12 col-md-5 pt-1">
             <div class="row no-gutters">
                 <div class="col-12 form-font">
                     <label for="sw_comp"><strong>Component: </strong></label>
@@ -95,17 +97,54 @@
         </div>
 
         <!-- Status -->
-
-        <div class="col-12 col-md-2 form-font pt-1 pb-1">
-            <span><strong>Status: </strong></span>
-            <span>DRAFT</span>
+        <!-- NOTE: issuelogging.html is for client-side users only, when inputting
+                   new issues or editing existing ones.
+                   A client-side user can only be in Edit mode if the issue is
+                   assigned to them, and the issue is at a status of DRAFT or
+                   LOGGED. 
+                   They can only set the issue to a status of DRAFT (this
+                   is the only option available on new issues), or a status of 
+                   LOGGED.-->
+                   
+        <div class="col-12 col-md-3 form-font pt-1 pb-1">
+            <label class="form-font" for="status"><strong>Status: </strong></label>
+            <select class="form-font" name="status" id="status" class="form-control" size="1">
+                {% if issue.status == "DRAFT" %}
+                <option value="DRAFT" selected>DRAFT</option>
+                {% else %}
+                <option value="DRAFT">DRAFT</option>
+                {% endif %}
+                
+                {% if issue.status == "LOGGED" %}
+                <option value="LOGGED" selected>LOGGED</option>
+                {% else %}
+                
+                <!-- If client user is inputting a new issue, they can only have
+                     a status of 'DRAFT'. So if this is not a new issue, disable
+                     LOGGED -->
+                     
+                {% if issue.status != null %}
+                <option value="LOGGED">LOGGED</option>
+                {% else %}
+                <option value="LOGGED" disabled>LOGGED</option>
+                {% endif %} {% endif %}
+                        
+                <!-- All other status values are disabled for client-side users-->
+                <option value="OPEN" disabled>OPEN</option>
+                <option value="ANALYSIS"disabled>ANALYSIS</option>
+                <option value="FIXING" disabled>FIXING</option>
+                <option value="TESTING" disabled>TESTING</option>
+                <option value="DEPLOYED" disabled>DEPLOYED</option>
+                <option value="CLOSED" disabled>CLOSED</option>
+            </select>
         </div>
+
 
         <!--  Priority -->
 
         <div class="col-12 col-md-4 form-font pt-1 position">
 
-            <label for="priority"><strong>Priority: </strong></label>
+            <label class="form-font" for="priority"><strong>Priority: </strong></label>
             <select class="form-font" name="priority" id="priority" class="form-control" size="1">
                         
                 {% if issue.priority == 1 %}
@@ -184,7 +223,7 @@
         </div>
     </div>
 
-    <div class="row no-gutters">
+    <div class="row no-gutters mb-4">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700">{{ issue.details }}</textarea>
         </div>
@@ -192,8 +231,9 @@
 
 
 
-    <!-- Submit Button -->
 
+    <!-- Submit Button -->
+    <hr>
     <div class="row no-gutters mt-2 ">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
             <button class="btn btn-color " type="submit ">Submit</button>

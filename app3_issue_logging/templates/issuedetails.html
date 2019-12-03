@@ -4,10 +4,10 @@
      belongs to -->
 
 <div class="row no-gutters">
-    <div class="col-12">
+    <div class="col-12 text-center">
         {% if userdetails.user_type == "V" %}
         <p><strong>Client:</strong>
-            <span>{{issueclientdetails.client_name}}</span>
+            <span><strong>{{issueclientdetails.client_name}}</strong></span>
         </p>
         {% endif %}
     </div>
@@ -21,48 +21,43 @@
     <!-- Software Component -->
 
     <div class="row no-gutters">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-5">
             <div class="row no-gutters">
                 <div class="col-12 form-font">
-                    <p><strong>Component: </strong>
-                        <span>{{ issue.software_component}}</span>
-                    </p>
+                    <span><strong>Component: </strong>{{ issue.software_component}}</span>
                 </div>
             </div>
+        </div>
+
+        <!-- Status -->
+
+        <div class="col-12 col-md-3 form-font pt-1 pb-1">
+            <span><strong>Status: </strong>{{ issue.status }}</span>
         </div>
 
         <!--  Priority -->
 
-        <div class="col-12 col-md-6">
-            <div class="row no-gutters">
-                <div class="col-6 form-font">
-                    <p><strong>Priority: </strong>
-                        <span>{{ issue.priority }}</span>
-                    </p>
-                </div>
-
-                <!-- Status -->
-
-                <div class="col-6 form-font text-right">
-                    <p><strong>Status: </strong>
-                        <span>{{ issue.status }}</span>
-                    </p>
-                </div>
-            </div>
+        <div class="col-12 col-md-4 form-font pt-1 position">
+            <span><strong>Priority: </strong></span> {% if issue.priority == 1 %}
+            <span>1 - URGENT</span> {% else %} {% if issue.priority == 2 %}
+            <span>2 - HIGH PRIORITY</span> {% else %} {% if issue.priority == 3 %}
+            <span>3 - MEDIUM PRIORITY</span> {% else %} {% if issue.priority == 4 %}
+            <span>4 - LOW PRIORITY</span> {% else %} {% if issue.priority == 5 %}
+            <span>5 - COSMETIC</span> {% endif %} {% endif %} {% endif %} {% endif %} {% endif %}
         </div>
     </div>
-
+    <hr>
 
     <!-- Issue Title -->
 
     <div class="row no-gutters mt-3">
-        <div class="col-12 offset-md-3 col-md-8 col-xl-6 form-font">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
             <p class="m-0"><strong><em>Title:</em></strong></p>
         </div>
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 offset-md-3 col-md-8 col-xl-6 form-font">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <p class="m-0">{{ issue.title }}</p>
         </div>
     </div>
@@ -72,13 +67,13 @@
     <!-- Summary -->
 
     <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <p class="m-0"><strong><em>Summary:</em></strong></p>
         </div>
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <p class="m-0">{{ issue.summary }}</p>
         </div>
     </div>
@@ -87,38 +82,40 @@
     <!-- Details  -->
 
     <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <p class="m-0"><strong><em>Title:</em></strong></p>
         </div>
     </div>
 
     <div class="row no-gutters ">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <p class="m-0">{{ issue.details }}
                 <p>
         </div>
     </div>
 
-
-
     <!-- Assigned User  -->
 
     {% if userdetails.user_type == "V" %}
 
-    <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
-            <p class="m-0"><strong><em>Assigned to: </em></strong></p>
-        </div>
-    </div>
+    <div class="row no-gutters mt-3 mb-4">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <div class="row no-gutters">
+                <div class="col-4 col-sm-3 col-md-2 form-font">
+                    <p class="m-0"><strong><em>Assigned to: </em></strong></p>
+                </div>
 
-    <!-- If the user is a vendor-side user, show who the issue is
+
+                <!-- If the user is a vendor-side user, show who the issue is
                      assigned to on the vendor side -->
 
-    <div class="row no-gutters mt-2">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
-            <p class="m-0">{{ issue.assigned_vendor_user}}</p>
+                <div class="col-4 form-font">
+                    <p class="m-0">{{ issue.assigned_vendor_user}}</p>
+                </div>
+            </div>
         </div>
     </div>
+    
 
     {% else %}
 
@@ -128,59 +125,52 @@
 
     {% if userdetails.vend_client_code == issue.client_code %}
 
-    <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
-            <p class="m-0"><strong><em>Assigned to: </em></strong></p>
+    <div class="row no-gutters mt-3 mb-4">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <div class="row no-gutters">
+                 <div class="col-4 col-sm-3 col-md-2 form-font">
+                    <p class="m-0"><strong><em>Assigned to: </em></strong></p>
+                </div>
+
+
+                <div class="col-4 form-font">
+                    <p class="m-0">{{ issue.assigned_client_user}}</p>
+                </div>
+            </div>
         </div>
     </div>
 
-
-    <div class="row no-gutters mt-2">
-        <div class="col-12 form-font offset-md-3 col-md-8 col-xl-6">
-            <p class="m-0">{{ issue.assigned_client_user}}</p>
-        </div>
-    </div>
 
     {% endif %} {% endif %}
 
-     <!-- Edit Button 
+
+    <!-- Edit Button 
           If the issue is assigned to the logged in user, on the client side or
           on the vendor side, enable the Edit button, otherwise disable it. -->
+    <hr>
+    <div class="row no-gutters mt-2">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-    <div class="row no-gutters ">
-        <div class="offset-3 col-9 col-md-8 col-xl-6 text-center">
-            
             <!-- Is the issue assigned, on the client-side, to the logged in 
                  user? If so, enable the Edit button -->
-            
-            {% if userdetails.user_id == issue.assigned_client_user %}
-            
-                {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
-            
-                    <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> 
-                
-                {% else %}
-                    <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> 
-            
-                {% endif %}
-            
-            {% else %}
-            
+
+            {% if userdetails.user_id == issue.assigned_client_user %} {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
+
+            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> {% else %}
+            <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> {% endif %} {% else %}
+
             <!-- Is the issue assigned, on the vendor-side, to the logged in 
                  user? If so, enable the Edit button -->
-            
-                {% if userdetails.user_id == issue.assigned_vendor_user %}
-            
-                    <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> 
-            
-                <!-- Otherwise disable the Edit button -->
-            
-                {% else %}
-            
-                    <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> 
-            
-                {% endif %}
-            {% endif %}
+
+            {% if userdetails.user_id == issue.assigned_vendor_user %}
+
+            <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a>
+
+            <!-- Otherwise disable the Edit button -->
+
+            {% else %}
+
+            <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> {% endif %} {% endif %}
         </div>
     </div>
 </div>

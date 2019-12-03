@@ -210,13 +210,15 @@ li {
     transition: all .5s ease-in-out;
 }
 
+/* Transform logo when hovered over 
+   (taken from https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_transform) */
+
 .logo:hover {
-    height: 90%;
-    width: 90%;
-    -moz-transition: all .5s ease-in-out;
-    -webkit-transition: all .5s ease-in-out;
-    -o-transition: all .5s ease-in-out;
-    transition: all .5s ease-in-out;
+    -ms-transform: scaleY(1.5);
+    /* IE 9 */
+    -webkit-transform: scaleY(1.5);
+    /* Safari 3-8 */
+    transform: scaleY(1.5);
 }
 
 .home-icon {
@@ -521,7 +523,5 @@ select {
 select:hover {
     background-color: #fff!important;
     color: #6666ff!important;
-    
+
 }
-
-
