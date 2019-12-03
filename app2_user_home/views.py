@@ -36,6 +36,10 @@ def user_home(request):
     
     SelectedStatusFilter = "ALL"
     
+    # set Priority Filter to ALL
+    
+    SelectedPriorityFilter = "ALL"
+    
     # Initialise these details in case user is not set up on Issue Tracker
     
     AllClients = ""
@@ -100,7 +104,7 @@ def user_home(request):
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
-    Issues = FinalFilterIssues(Issues, UserDetails)
+    Issues = FinalFilterIssues(request, Issues, UserDetails)
 
     # For Pagination
     
@@ -112,8 +116,9 @@ def user_home(request):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
+        
   
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter })
 
 
 """
@@ -177,7 +182,7 @@ def get_all_issues(request):
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
-    Issues = FinalFilterIssues(Issues, UserDetails)
+    Issues = FinalFilterIssues(request, Issues, UserDetails)
 
     # For Pagination
     
@@ -200,6 +205,8 @@ Get the Issues, filtered by the Issues Filter option selected
 """
 def get_issues(request):
     
+    print("in get_issues ------------------------------------------>")
+    
     data = []
     
     # Get the user's details relating to the issue tracking system - it has
@@ -216,7 +223,16 @@ def get_issues(request):
         
     issues_filter = request.POST.get('issuesFilter')
     status_filter = request.POST.get('statusFilter')
+    priority_filter = request.POST.get('priorityFilter')
     client_filter = request.POST.get('clientFilter')
+    
+    print("issues_filter: "+str(issues_filter))
+    print("status_filter: "+str(status_filter))
+    print("priority_filter: "+str(priority_filter))
+    print("client_filter: "+str(client_filter))
+    
+    print("STILL in get_issues ------------------------------------------>")
+    
     
     # User has requested all issues assigned to them?
             
@@ -262,15 +278,32 @@ def get_issues(request):
     if client_filter != "ALL":
         Issues = Issues.filter(client_code=client_filter)
         
+    # . . . or if Priority filter is set 
+    
+    print("Before filtering by priority: priority_filter "+str(priority_filter))
+        
+    if priority_filter != "ALL":
+        Issues = Issues.filter(priority=priority_filter)
+        
+    print("After filtering by priority: priority_filter "+str(priority_filter))
+        
     
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
-    Issues = FinalFilterIssues(Issues, UserDetails)
+    Issues = FinalFilterIssues(request, Issues, UserDetails)
+    
+    user_message = ""
+    
+    if not Issues:
+        user_message = "No issues found for the selected criteria!"
+    
+    print("user_message: "+str(user_message))
 
     # For Pagination
     
-    # page = request.GET.get('page', 1)
+    print("request.method: "+str(request.method))
+    
     page = request.POST.get('page', 1)
     
     paginator = Paginator(Issues, 5)
@@ -305,6 +338,7 @@ def get_issues(request):
     data = {}
 
     # Return the pagination parameters for output to the html file
+    # Return the user message also - set above if no issues found
     
     data["pagination_props"] = {
 		"has_other_pages": has_other_pages,
@@ -313,7 +347,8 @@ def get_issues(request):
 		"has_next_page": has_next_page,
 		"prev_page_nr": prev_page_nr,
 		"next_page_nr": next_page_nr,
-		"page_range": list(page_range)
+		"page_range": list(page_range),
+		"user_message": user_message
 	}
 	
 	# Return the issues to be output to  the html table
@@ -348,7 +383,7 @@ see 'DRAFT')
 Clients cannot see issues of other clients that are of status 'DRAFT' or 'LOGGED'
 """
 
-def FinalFilterIssues(Issues, UserDetails):
+def FinalFilterIssues(request, Issues, UserDetails):
     
     if UserDetails.user_type == "V":
         
@@ -371,6 +406,7 @@ def FinalFilterIssues(Issues, UserDetails):
         OtherClientsIssues = OtherClientsIssues.exclude(status = "DRAFT").exclude(status = "LOGGED")
         
         # Putting the two lists together after filtering other clients issues
+        
         Issues = OurClientsIssues | OtherClientsIssues
     
     # Sorting issues by date, descending order
