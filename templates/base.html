@@ -83,7 +83,8 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                     <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
-
+                    <li class="nav-item"><a class="nav-link" href="{% url 'get_all_issues' %}" data-value="ALL ISSUES">All Issues</a></li>
+                    
                     <!-- Only Client-side users can enter issues -->
                     {%if userdetails.user_type == "C" %}
                     <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
@@ -169,8 +170,10 @@
             // Filtering by Issue Filter -------------------------------------
 
             // The Issues Filter has been selected by the user
-
-            $('.issue-filter').on('click', function() {
+            // There are 2 clickable 'issue-filter's. One in the nav bar (All Issues)
+            // and one for the status filter dropdown
+            
+            $(document).on('click', ".issue-filter", function() {
 
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
@@ -330,6 +333,7 @@
             // Get the issues from the database ------------------------------
 
             // Get the relevant issues, based on the value of the filters
+            // 'source' tells the view the call was made from js
 
             function getIssues(issuesFilter, statusFilter, clientFilter, page) {
 
@@ -341,6 +345,7 @@
                         statusFilter: statusFilter,
                         clientFilter: clientFilter,
                         page: page,
+                    
                     },
 
                     success: function(data) {

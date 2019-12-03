@@ -23,15 +23,16 @@ Issues assigned to the logged in user are shown.
 
 def user_home(request):
     
-    # Set the filters' default values
+    # Get the Issues filter's value from the url.
+    # It will be = 'ALL ISSUES' or 'ASSIGNED TO ME'
     
     SelectedIssuesFilter = "ASSIGNED TO ME"
     
-    # Set Client Filter 
+    # Set Client Filter to ALL
         
     SelectedClientFilter = "ALL"
     
-    # set Status Filter
+    # set Status Filter to ALL
     
     SelectedStatusFilter = "ALL"
     
@@ -68,31 +69,111 @@ def user_home(request):
             
         AllClients = get_all_clients(request)
 
+    # Get all issues
+    
     Issues = ""
     
-    # We are showing the Issues assigned to the logged in user, for all Statuses
-    # and all Clients.
+    # If issues filter = 'ASSIGNED TO ME', get the Issues assigned to the logged
+    # only. 
     # An issue can be assigned both to a client-side user and a vendor-side user, 
     # so we need to verify which one it is
-        
+    
+    
     if UserDetails.user_type == "C":
             
         # User is on the Client side
-            
+                
         try:
             Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING ISSUES!")
-        
-    else:
             
+    else:
+                
         # User is on the Vendor side
-        
+            
         try:
             Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING ISSUES!")
+                
+    # Final filtering is done here to make sure users only see what they're
+    # allowed to see, and they're sorted by date, descending
+    
+    Issues = FinalFilterIssues(Issues, UserDetails)
+
+    # For Pagination
+    
+    page = request.GET.get('page', 1)
+    paginator = Paginator(Issues, 5)
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
+  
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
+
+
+"""
+User Home Page - Gell ALL Issues
+All Issues are shown.
+"""
+
+def get_all_issues(request):
+    
+    # Get the Issues filter's value from the url.
+    # It will be = 'ALL ISSUES' or 'ASSIGNED TO ME'
+    
+    SelectedIssuesFilter = "ALL"
+    
+    # Set Client Filter to ALL
+        
+    SelectedClientFilter = "ALL"
+    
+    # set Status Filter to ALL
+    
+    SelectedStatusFilter = "ALL"
+    
+    # Initialise these details in case user is not set up on Issue Tracker
+    
+    AllClients = ""
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
             
+        # User is on the Client side. Get the Client Details, The Issues Filte
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+            
+        # Get all clients for Client Dropdown - only available to Vendor-side 
+        # users
+            
+        AllClients = get_all_clients(request)
+        
+
+    # Get all issues
+    
+    Issues = Issue.objects.all()
+    
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
