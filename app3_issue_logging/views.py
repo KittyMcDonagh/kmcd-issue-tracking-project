@@ -12,7 +12,7 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 
 from .models import Issue
-from .forms import LogNewIssueForm
+from .forms import LogNewIssueForm, IssueStatusForm
 
 
 """
@@ -20,9 +20,7 @@ Create a view that allows us to log a new issue or edit an existing one
 depending on whether the pk is null or not. 
 """
 def new_edit_issue(request, pk=None):
-    print("print pk: "+str(pk))
     
-    print("in new_edit_issue")
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
     
@@ -78,7 +76,60 @@ def new_edit_issue(request, pk=None):
         form = LogNewIssueForm(instance=issue)
     
     return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+
+
+"""
+Create a view that allows a vendor-side user to change the status of an issue. 
+"""
+def update_issue_status(request, pk=None):
     
+    print("UPDATE STATUS ------------------------------------------")
+    
+    # This view is for vendor-side users only
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # User is on the Vendor side
+        
+    VendorDetails = get_vendor(request, UserDetails)
+    
+    issue = get_object_or_404(Issue, pk=pk)
+    
+    IssueClientDetails = get_issue_client_details(request, issue)
+    
+    print(request.method)
+    
+    if request.method == "POST":
+        
+        print("request is post-----------------------------------------")
+        
+        form = IssueStatusForm(request.POST, request.FILES, instance=issue)
+        
+        if form.is_valid():
+            print("form is valid")
+        
+            issue = form.save()
+            
+            print("form.priority: "+str(form))
+            return redirect(issue_details, issue.pk)
+        else:
+            print("form.priority: "+str(form))
+            messages.error(request, "UNABLE TO LOG ISSUE!")
+            
+    else:
+        print("request is get-----------------------------------------")
+        print("issue: "+str(issue))
+        form = IssueStatusForm(instance=issue)
+    
+    return  render(request, 'issuestatus.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
+
     
 
 """
@@ -186,7 +237,7 @@ def get_issue_client_details(request, issue):
     try:
         IssueClientDetails = Client.objects.get(client_code=issue.client_code)
     except:
-        messages.error(request, "Client details not found!")
+        messages.error(request, "Issue Client details not found!")
         
     return IssueClientDetails
         

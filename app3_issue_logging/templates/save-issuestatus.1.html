@@ -1,24 +1,25 @@
 {% extends "base.html" %} {% block content %}
 
-<!-- If the user is a vendor-side user, show the name of the client the issue 
-     belongs to -->
+<!-- issuestatus.html is for vendor-side users only, to allow them to change the
+     issue status only.
+     Show the name of the client the issue belongs to -->
 
 <div class="row no-gutters">
     <div class="col-12 text-center">
-        {% if userdetails.user_type == "V" %}
+
         <p><strong>Client:</strong>
             <span><strong>{{issueclientdetails.client_name}}</strong></span>
         </p>
-        {% endif %}
+
     </div>
 </div>
 
+<form method="POST" enctype="multipart/form-data" class="form-style">
 
-<!-- Software Component  -->
+    {% csrf_token %}
 
-<div class="form-style">
 
-    <!-- Software Component -->
+    <!-- Show Software Component -->
 
     <div class="row no-gutters">
         <div class="col-12 col-md-5">
@@ -29,13 +30,67 @@
             </div>
         </div>
 
-        <!-- Status -->
+        <!-- Show Status -->
+        <!-- NOTE: issuestatus.html is for vendor-side users only.
+                   They are allowed only allowed to change the status of an
+                   issue. -->
 
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
-            <span><strong>Status: </strong>{{ issue.status }}</span>
+            <label class="form-font" for="status"><strong>Status: </strong></label>
+            <select class="form-font" name="status" id="status" class="form-control" size="1">
+                {% if issue.status == "DRAFT" %}
+                <option value="DRAFT" selected>DRAFT</option>
+                {% else %}
+                <option value="DRAFT">DRAFT</option>
+                {% endif %}
+                
+                {% if issue.status == "LOGGED" %}
+                <option value="LOGGED" selected>LOGGED</option>
+                {% else %}
+                <option value="LOGGED">LOGGED</option>
+                {% endif %}
+                        
+                {% if issue.status == "OPEN" %}
+                <option value="OPEN" selected>OPEN</option>
+                {% else %}
+                <option value="OPEN">OPEN</option>
+                {% endif %}
+                
+                {% if issue.status == "ANALYSIS" %}
+                <option value="ANALYSIS" selected>ANALYSIS</option>
+                {% else %}
+                <option value="ANALYSIS">ANALYSIS</option>
+                {% endif %}
+                
+                {% if issue.status == "FIXING" %}
+                <option value="FIXING" selected>FIXING</option>
+                {% else %}
+                <option value="FIXING">FIXING</option>
+                {% endif %}
+                
+                {% if issue.status == "TESTING" %}
+                <option value="TESTING" selected>TESTING</option>
+                {% else %}
+                <option value="TESTING">TESTING</option>
+                {% endif %}
+                
+                {% if issue.status == "DEPLOYED" %}
+                <option value="DEPLOYED" selected>DEPLOYED</option>
+                {% else %}
+                <option value="DEPLOYED">DEPLOYED</option>
+                {% endif %}
+                
+                {% if issue.status == "CLOSED" %}
+                <option value="CLOSED" selected>CLOSED</option>
+                {% else %}
+                <option value="CLOSED">CLOSED</option>
+                {% endif %}
+                
+            </select>
         </div>
 
-        <!--  Priority -->
+
+        <!--  Show Priority -->
 
         <div class="col-12 col-md-4 form-font pt-1 position">
             <span><strong>Priority: </strong></span> {% if issue.priority == 1 %}
@@ -48,7 +103,7 @@
     </div>
     <hr>
 
-    <!-- Issue Title -->
+    <!-- Show Issue Title -->
 
     <div class="row no-gutters mt-3">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
@@ -63,8 +118,7 @@
     </div>
 
 
-
-    <!-- Summary -->
+    <!-- Show Summary -->
 
     <div class="row no-gutters mt-3">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
@@ -79,7 +133,7 @@
     </div>
 
 
-    <!-- Details  -->
+    <!-- Show Details  -->
 
     <div class="row no-gutters mt-3">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
@@ -94,9 +148,7 @@
         </div>
     </div>
 
-    <!-- Assigned User  -->
-
-    {% if userdetails.user_type == "V" %}
+    <!-- Show Assigned User   -->
 
     <div class="row no-gutters mt-3 mb-4">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
@@ -105,8 +157,7 @@
                     <p class="m-0"><strong><em>Assigned to: </em></strong></p>
                 </div>
 
-
-                <!-- If the user is a vendor-side user, show who the issue is
+                <!-- As the user is a vendor-side user, show who the issue is
                      assigned to on the vendor side -->
 
                 <div class="col-4 form-font">
@@ -115,33 +166,6 @@
             </div>
         </div>
     </div>
-    
-
-    {% else %}
-
-    <!-- Client-side user: If this issue belongs to the client the
-                     user is associated with, show the assigned user, otherwise
-                     dont show it a all. -->
-
-    {% if userdetails.vend_client_code == issue.client_code %}
-
-    <div class="row no-gutters mt-3 mb-4">
-        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <div class="row no-gutters">
-                 <div class="col-4 col-sm-3 col-md-2 form-font">
-                    <p class="m-0"><strong><em>Assigned to: </em></strong></p>
-                </div>
-
-
-                <div class="col-4 form-font">
-                    <p class="m-0">{{ issue.assigned_client_user}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    {% endif %} {% endif %}
 
 
     <!-- Edit Button 
@@ -151,39 +175,16 @@
     <div class="row no-gutters mt-2">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-            {% if userdetails.user_id == issue.assigned_client_user %} 
-            
-                <!-- User is a client-side user.
-                     Is the issue assigned, to the logged in user, 
-                     and is the status = DRAFT or LOGGED? 
-                     If so, enable the Edit button, otherwise disable it -->
-    
-                {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
-    
-                <a href="{% url 'edit_issue' issue.id %}" class="btn btn-color ">Edit</a> 
-                {% else %}
-                <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> 
-                {% endif %} 
-            
-            {% else %}
+            <!-- User is a vendor-side user. -->
 
-                <!-- User is a vendor-side user.
-                    Is the issue assigned to the logged in user? 
-                    If so, allow the user to update the issue status -->
-    
-                {% if userdetails.user_id == issue.assigned_vendor_user %}
-    
-                    <a href="{% url 'update_issue_status' issue.id %}" class="btn btn-color ">Update Status</a>
-    
-                <!-- Otherwise disable the Update Status button -->
-    
-                {% else %}
-    
-                    <span class="btn btn-color-disabled disabled" type="submit ">Update Status</span> 
-                    {% endif %} 
-                {% endif %}
+            <div class="row no-gutters mt-2 ">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
+                    <button class="btn btn-color " type="submit ">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+</form>
 
 {% endblock %}

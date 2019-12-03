@@ -10,3 +10,12 @@ class LogNewIssueForm(forms.ModelForm):
     class Meta:
         model = Issue
         fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "priority", "status")
+
+class IssueStatusForm(forms.ModelForm):
+   
+    class Meta:
+        model = Issue
+        fields = ("status",)
+
+
+
