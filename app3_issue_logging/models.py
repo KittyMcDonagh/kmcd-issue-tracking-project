@@ -17,10 +17,9 @@ class Issue(models.Model):
     details = models.CharField(max_length=700, blank=True)
     priority = models.IntegerField(default=5)
     status  = models.CharField(max_length=8, default="DRAFT")
-    progress = models.CharField(max_length=100, default="Initial Input")
     
     def __str__(self):
-        return "{0} - {1}: {2}, {3}".format(self.client_code, self.user_id, self.title, self.status )
+        return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.user_id, self.title, self.status )
         
 
 # Comments Model - Comments input on an issue by a Vendor-side user

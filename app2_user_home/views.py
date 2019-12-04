@@ -370,7 +370,6 @@ def get_issues(request):
         	"priority": issue.priority,
         	"summary": issue.summary,
         	"status": issue.status,
-        	"progress": issue.progress,
         	"user_type": UserDetails.user_type
     })
     

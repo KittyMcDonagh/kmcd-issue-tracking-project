@@ -525,3 +525,18 @@ select:hover {
     color: #6666ff!important;
 
 }
+
+/* css for issuedetails.html ------------------------------------------------*/
+
+/* Set text align for assigned user, depending on device size   */
+
+.asng-user-txt-align {
+    text-align: left;
+}
+
+@media(min-width:768px) {
+    .asng-user-txt-align {
+        text-align: right;
+    }
+
+}
