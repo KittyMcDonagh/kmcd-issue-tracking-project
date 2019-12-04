@@ -84,14 +84,29 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                     <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'get_all_issues' %}" data-value="ALL ISSUES">All Issues</a></li>
-                    
+
                     <!-- Only Client-side users can enter issues -->
                     {%if userdetails.user_type == "C" %}
                     <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
-                    {% endif %} {% else %}
+                    
+                    {% else %}
+                    
+                    <!-- Keep the space but blank it out (background and color will be the same). This is so
+                         that 'Features' (below) will always appear in the same space on the navbar-->
+                         
+                    <li class="nav-blank">New Issue</a></li>
+                    {% endif %} 
+                    
+                    <li class="nav-item"><a class="nav-link" href="{% url 'features_list' %}" data-value="FEATURES">Features</a></li>
+                    
+                    {% else %}
+                    <!-- User is not logged in -->
+                    
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                     {% endif %}
+                    
+                    
 
 
                 </ul>
@@ -172,13 +187,13 @@
             // The Issues Filter has been selected by the user
             // There are 2 clickable 'issue-filter's. One in the nav bar (All Issues)
             // and one for the status filter dropdown
-            
+
             $('.issue-filter').on('click', function() {
 
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
-                
-                console.log("issuesFilter : "+issuesFilter)
+
+                console.log("issuesFilter : " + issuesFilter)
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -193,7 +208,7 @@
 
                 let statusFilter = "ALL"
                 $('#dropdownMenuLink-2').text(statusFilter);
-                
+
                 // Reset Priority Filter to "ALL" and display it in the filter
                 // dropdown box
 
@@ -220,7 +235,7 @@
                 getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
 
             });
-            
+
 
             // Filtering by Status Filter -------------------------------------
 
@@ -230,7 +245,7 @@
 
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
-                
+
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -243,7 +258,7 @@
                 // Get the current value of the Issues Filter
 
                 let issuesFilter = getIssuesFilterValue();
-                
+
                 // Get the current value of the Priority Filter
 
                 let priorityFilter = getPriorityFilterValue();
@@ -257,26 +272,26 @@
                 // values, starting with page 1
 
                 let page = 1;
-                
+
                 console.log("in status filter click")
-                console.log("statusFilter: "+statusFilter);
-                console.log("issuesFilter: "+issuesFilter);
-                console.log("priorityFilter: "+priorityFilter);
-                console.log("clientFilter: "+clientFilter);
+                console.log("statusFilter: " + statusFilter);
+                console.log("issuesFilter: " + issuesFilter);
+                console.log("priorityFilter: " + priorityFilter);
+                console.log("clientFilter: " + clientFilter);
 
                 getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
             });
 
 
             // Filtering by Priority
-            
+
             $('.priority-filter').on('click', function() {
 
                 event.preventDefault();
-                
+
                 let priorityFilter = $(this).data('value');
                 let priorityFilterText = this.innerText;
-               
+
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -289,14 +304,14 @@
                 // Get the current value of the Issues Filter
 
                 let issuesFilter = getIssuesFilterValue();
-                
+
                 // Get the current value of the Status Filter
 
                 let statusFilter = getStatusFilterValue();
-               
+
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
-                
+
                 let clientFilter = getClientFilterValue();
 
                 // Get the issues requested by the user, as per the filter
@@ -308,7 +323,7 @@
             });
 
 
-            
+
             // Filtering by Client Filter -------------------------------------
 
             // Client Filter has been selected by the user. The Client Filter
@@ -334,7 +349,7 @@
                 // Get the current value of the Status Filter
 
                 let statusFilter = getStatusFilterValue();
-                
+
                 // Get the current value of the Priority Filter
 
                 let priorityFilter = getPriorityFilterValue();
@@ -380,20 +395,20 @@
 
                 let el = document.getElementById("dropdownMenuLink-3");
                 let priorityFilter = el.innerText
-                
+
                 if (el.innerText != "ALL") {
-                    
+
                     let priorityArray = el.innerText.split("");
-                    console.log("in getPriorityFilterValue.  priorityArray[0,0]: "+priorityArray[0,0])
-                    priorityFilter = priorityArray[0,0];
+                    console.log("in getPriorityFilterValue.  priorityArray[0,0]: " + priorityArray[0, 0])
+                    priorityFilter = priorityArray[0, 0];
                 }
-                
-                console.log("in getPriorityFilterValue. priorityFilter: "+priorityFilter)
+
+                console.log("in getPriorityFilterValue. priorityFilter: " + priorityFilter)
 
                 return priorityFilter;
 
             }
-            
+
 
             // Get the current value of the Client Filter, if it's an
             // option on the screen, otherwise set it to "ALL"
@@ -430,7 +445,7 @@
                         priorityFilter: priorityFilter,
                         clientFilter: clientFilter,
                         page: page,
-                    
+
                     },
 
                     success: function(data) {
@@ -517,9 +532,9 @@
                         // Display user message if one is returned
                         // If the message is blank, keep the line, but make
                         // it invisible on the screen
-                        
+
                         if (userMessage != "") {
-                            console.log("userMessage: "+userMessage)
+                            console.log("userMessage: " + userMessage)
                             $('.user-message').text(userMessage)
                             $('.user-message').removeClass('blank-line')
                         }
@@ -527,8 +542,8 @@
                             $('.user-message').text("blank")
                             $('.user-message').addClass('blank-line')
                         }
-                        
-                        
+
+
                         // Clear the current contents of the table
                         // Output the details of each issue to the table 
 
@@ -579,17 +594,17 @@
                     let page = $(this).data('value')
 
                     // Get the current values of the filters
-                    
+
                     let issuesFilter = getIssuesFilterValue();
                     let statusFilter = getStatusFilterValue();
                     let priorityFilter = getPriorityFilterValue();
                     let clientFilter = getClientFilterValue();
-                    
+
                     console.log("in page-click")
-                    console.log("priorityFilter: "+priorityFilter)
+                    console.log("priorityFilter: " + priorityFilter)
 
                     // Get the issues as per the filter values and page number
-                    
+
                     getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page)
                 }
 

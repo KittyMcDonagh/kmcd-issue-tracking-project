@@ -15,6 +15,7 @@ class Feature(models.Model):
     details = models.CharField(max_length=1000, blank=True)
     paid = models.IntegerField(default=5)
     status  = models.CharField(max_length=8, default="DRAFT")
+    assigned_to = models.CharField(max_length=10, blank=True)
     
     def __str__(self):
         return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.user_id, self.title, self.status )
