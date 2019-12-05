@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static from staticfiles %} {% load bootstrap_tags %} {% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters">
+
+        {% for item in cart_items %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card">
+                <div class="product" style=""></div>
+                <h3>{{ item.feature.title }}</h3>
+                <p class="feature-description">{{ item.feature.summary }}</p>
+                <p>{{ item.feature.price }}</p>
+
+                <form class="form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label for="exampleInputAmount" class="sr-only">New Qty</label>
+                            <div class="input-group-prepend pr-2 bg-style">Qty</div>
+                            <input name="quantity" type="number" min="0" max="999" class="form-control">
+                            <div class="input-group-append pl-2 pr-1 bg-style">{{item.quantity}}</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-6 col-md-4">
+            <p>
+                <span class="pr-2">Total</span>
+                <span><i class="fas fa-euro-sign"></i>{{ total }}</span>
+                <span class="pl-3"><a href="{% url 'checkout' %}" class="btn btn-success" role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

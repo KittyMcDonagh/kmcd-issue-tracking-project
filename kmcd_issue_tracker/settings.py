@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'app2_user_home',
     'app3_issue_logging',
     'app4_features',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.contexts.cart_contents'
             ],
         },
     },

@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <!-- The CI video used a local fontawesome, but it didnt work either locally or from S3, so I'm using the Fontawesome CDN -->
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -64,7 +67,7 @@
 
         <!-- Show the navigation bar -->
 
-        <nav class="navbar navbar-expand-md navbar-light navbar-style nav-links">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-style nav-links">
             <div class="nav-logo">
                 <a class="navbar-brand logo" href="{% url 'home' %}"></a>
             </div>
@@ -100,6 +103,18 @@
 
                     <li class="nav-item"><a class="nav-link" href="{% url 'my_features_list' %}" data-value="MY FEATURES">My Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'all_features_list' %}" data-value="ALL FEATURES">All Features</a></li>
+                    
+                    <!-- Add shopping cart - code copied from e-commerce product-->
+                    <li class="cart-container">
+                        <a  class="cart-style" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
+                        
+                            {% if product_count > 0 %}
+                            <!-- This will show how many items are in the cart -->
+                            <label class="badge badge-warning">{{ feature_count }}</label>
+                            {% endif %}
+                        </a>
+                    </li>
+
 
                     {% else %}
                     <!-- User is not logged in -->
@@ -107,9 +122,6 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                     {% endif %}
-
-
-
 
                 </ul>
             </div>
@@ -153,17 +165,13 @@
             <li class="page-item"><a class="page-link " href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&laquo;</span></li>
-            {% endif %} 
-            {% for i in listing.paginator.page_range %} 
-            {% if listing.number == i %}
+            {% endif %} {% for i in listing.paginator.page_range %} {% if listing.number == i %}
             <li class="page-item"><span class="page-link selected">{{ i }} <span class="sr-only">(current)</span></span>
             </li>
 
             {% else %}
             <li class="page-item"><a class="page-link " href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} 
-            {% endfor %} 
-            {% if listing.has_next %}
+            {% endif %} {% endfor %} {% if listing.has_next %}
             <li class="page-item"><a class="page-link " href="?page={{ listing.next_page_number }}">&raquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&raquo;</span></li>
@@ -474,8 +482,8 @@
             // 'source' tells the view the call was made from js
 
             function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page) {
-                
-                console.log("in getIssues(). page = "+page)
+
+                console.log("in getIssues(). page = " + page)
 
                 $.post({
                     url: "{% url 'get_issues' %}",
