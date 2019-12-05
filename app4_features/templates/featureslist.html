@@ -3,10 +3,10 @@
 <main>
 
 
-    <!-- Show Issues as per the Issue & Status & Client (if applicable) Filters -->
+    <!-- Show Features as per the Feature & Status & Client (if applicable) Filters -->
 
     <!-- On the first load of this page, the details are passed in from the 
-         'userhome' view. When the user filters by Issue, Status, Client, the
+         'userhome' view. When the user filters by Feature, Status, Client, the
           js in base.html is triggered, and it filters and re-displays the
           data -->
 
@@ -26,26 +26,29 @@
                     </tr>
                 </thead>
                
-               <!-- On initial load, the table details will be retrieved via 
-                    the 'user_home' view and displayed via userhome.html. 
-                    When the user filters the issues, it will trigger the 
-                    javascript 'on click' functions in base.html which will 
-                    call the 'get_issues' view, return the details to the js
-                    function, which will clear the table and output the new
-                    details to it. -->
+               <!-- After clicking on 'Features' in the navbar, the table 
+                    details will be retrieved via the 'features_list' view and 
+                    displayed via userhome.html. When the user filters the 
+                    features, it will trigger the javascript 'on click' 
+                    functions in base.html which will call the 'get_features' 
+                    view, return the details to the js function, which will 
+                    clear the table and output the new details to it. -->
                     
                 <tbody>
                      {% for feature in features %}
                     <tr>
                         <td class="d-md-table-cell td-date">{{ feature.input_date|date:"d M y" }}</td>
                         
-                        <!-- The issue can be assigned to a user on the client side, and a user on the vendor side. 
+                        <!-- The feature can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
                              or the vendor side -->
                         
                         {% if userdetails.user_type == "V"%}
                         
-                        <td class="d-md-table-cell td-username">{{ feature.assigned_to }}</td>
+                        <td class="d-md-table-cell td-username">{{ feature.assigned_vendor_user }}</td>
+                        
+                        {% else %}
+                        <td class="d-md-table-cell td-username">{{ feature.assigned_client_user }}</td>
                         
                         {% endif %}
                         
@@ -53,8 +56,7 @@
                         <td class="text-center td-priority">{{ feature.paid }}</td>
                         <td class="td-summary">{{ feature.summary }}</td>
                         <td class="text-center td-status">{{ feature.status }}</td>
-                        <td class="text-center td-more more-icon-cell "><a class="more-icon-style" href='{% url 'issue_details' feature.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a>
-                            </td>
+                        <td class="text-center td-more more-icon-cell "><a class="more-icon-style" href='{% url 'feature_details' feature.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a></td>
                     </tr>
                     {% endfor %}
                     </tbody>

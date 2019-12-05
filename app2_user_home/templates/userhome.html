@@ -84,7 +84,6 @@
             </div>
         </div>
         
-        <!-- ................................................................. -->
         
         <!-- Show Priority Filter -->
 
@@ -116,12 +115,6 @@
                 </div>
             </div>
         </div>
-
-        
-        
-        
-        <!-- ................................................................. -->
-
 
         <!-- If the user is on the Vendor side, include Client Code dropdown -->
 
@@ -190,9 +183,30 @@
                     <tr>
                         <td class="d-md-table-cell td-date">{{ issue.input_date|date:"d M y" }}</td>
                         
-                        <!-- The input user will always be a client-side user -->
+                        {% if userdetails.user_type == "C"%}
+                        
+                            <!-- Only show inout user if issue belongs to the client the
+                                 user is associated with  -->
+                        
+                            {% if userdetails.vend_client_code == issue.client_code  %}
+                            
+                            <!-- The input user will always be a client-side user -->
+                        
+                            <td class="d-md-table-cell td-username">{{ issue.user_id }}</td>
+                            
+                            {% else %}
+                            
+                            <td class="d-md-table-cell td-username">**********</td>
+                            
+                            {% endif %}
+                        
+                        {% else %}
+                        
+                        <!-- Vendor side user -->
                         
                         <td class="d-md-table-cell td-username">{{ issue.user_id }}</td>
+                        
+                        {% endif %}
                         
                         <!-- The issue can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
@@ -200,9 +214,22 @@
                         
                         {% if userdetails.user_type == "C"%}
                         
-                        <td class="d-md-table-cell td-username">{{ issue.assigned_client_user }}</td>
+                            <!-- Only show user issue is assigned to if issue belongs to the client the
+                                 user is associated with  -->
+                        
+                            {% if userdetails.vend_client_code == issue.client_code  %}
+                        
+                            <td class="d-md-table-cell td-username">{{ issue.assigned_client_user }}</td>
+                            
+                            {% else %}
+                            
+                            <td class="d-md-table-cell td-username">**********</td>
+                            
+                            {% endif %}
                         
                         {% else %}
+                        
+                        <!-- Vendor-side user -->
                         <td class="d-md-table-cell td-username">{{ issue.assigned_vendor_user }}</td>
                         
                         {% endif %}

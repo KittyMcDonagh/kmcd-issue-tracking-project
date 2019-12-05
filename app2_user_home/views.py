@@ -23,8 +23,7 @@ Issues assigned to the logged in user are shown.
 
 def user_home(request):
     
-    # Get the Issues filter's value from the url.
-    # It will be = 'ALL ISSUES' or 'ASSIGNED TO ME'
+    # Initialise the Issue filters
     
     SelectedIssuesFilter = "ASSIGNED TO ME"
     
@@ -77,11 +76,9 @@ def user_home(request):
     
     Issues = ""
     
-    # If issues filter = 'ASSIGNED TO ME', get the Issues assigned to the logged
-    # only. 
+    # Get the Issues assigned to the logged only. 
     # An issue can be assigned both to a client-side user and a vendor-side user, 
     # so we need to verify which one it is
-    
     
     if UserDetails.user_type == "C":
             
@@ -116,13 +113,17 @@ def user_home(request):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
-        
+    
+    # Pass issues back as 'listing'. It will be used t pick up the pagination
+    # variables in base.html. The same will be done with the features list.
+    
+    listing = issues
   
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing })
 
 
 """
-User Home Page - Gell ALL Issues
+User Home Page - Get ALL Issues
 All Issues are shown.
 """
 
@@ -140,6 +141,10 @@ def get_all_issues(request):
     # set Status Filter to ALL
     
     SelectedStatusFilter = "ALL"
+    
+    # set Status Filter to ALL
+    
+    SelectedPriorityFilter = "ALL"
     
     # Initialise these details in case user is not set up on Issue Tracker
     
@@ -194,8 +199,13 @@ def get_all_issues(request):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
+    
+    # Pass issues back as 'listing'. It will be used t pick up the pagination
+    # variables in base.html. The same will be done with the features list.
+    
+    listing = issues
   
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter, "selected_priority_filter": SelectedPriorityFilter, "listing":listing })
 
 
 
@@ -306,6 +316,8 @@ def get_issues(request):
     
     page = request.POST.get('page', 1)
     
+    print("page = "+str(page))
+    
     paginator = Paginator(Issues, 5)
     
     try:
@@ -347,9 +359,13 @@ def get_issues(request):
 		"has_next_page": has_next_page,
 		"prev_page_nr": prev_page_nr,
 		"next_page_nr": next_page_nr,
-		"page_range": list(page_range),
-		"user_message": user_message
+		"page_range": list(page_range)
 	}
+	
+    data["user_mesg"] = {
+        
+        "user_message": user_message
+	  }
 	
 	# Return the issues to be output to  the html table
 	

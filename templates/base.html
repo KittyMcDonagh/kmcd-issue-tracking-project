@@ -88,25 +88,27 @@
                     <!-- Only Client-side users can enter issues -->
                     {%if userdetails.user_type == "C" %}
                     <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
-                    
+
                     {% else %}
-                    
+
                     <!-- Keep the space but blank it out (background and color will be the same). This is so
                          that 'Features' (below) will always appear in the same space on the navbar-->
-                         
-                    <li class="nav-blank">New Issue</a></li>
-                    {% endif %} 
-                    
-                    <li class="nav-item"><a class="nav-link" href="{% url 'features_list' %}" data-value="FEATURES">Features</a></li>
-                    
+
+                    <li class="nav-blank">New Issue</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item"><a class="nav-link" href="{% url 'my_features_list' %}" data-value="MY FEATURES">My Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'all_features_list' %}" data-value="ALL FEATURES">All Features</a></li>
+
                     {% else %}
                     <!-- User is not logged in -->
-                    
+
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                     {% endif %}
-                    
-                    
+
+
 
 
                 </ul>
@@ -138,24 +140,31 @@
 
 
 
-    <!-- Pagination -->
+    <!-- Pagination 
+         This is used by both the issues list and the features list.
+         Both issues and features are passed back in 'listing' so that the
+         pagination variables will be picked up -->
 
     <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
-        {% if issues.has_other_pages %}
+        {% if listing.has_other_pages %}
 
         <ul class="pagination justify-content-center mt-3">
-            {% if issues.has_previous %}
-            <li class="page-item"><a class="page-link page-click" href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
+            {% if listing.has_previous %}
+            <li class="page-item"><a class="page-link " href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in issues.paginator.page_range %} {% if issues.number == i %}
+            {% endif %} 
+            {% for i in listing.paginator.page_range %} 
+            {% if listing.number == i %}
             <li class="page-item"><span class="page-link selected">{{ i }} <span class="sr-only">(current)</span></span>
             </li>
 
             {% else %}
-            <li class="page-item"><a class="page-link page-click" href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if issues.has_next %}
-            <li class="page-item"><a class="page-link page-click" href="?page={{ issues.next_page_number }}">&raquo;</a></li>
+            <li class="page-item"><a class="page-link " href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} 
+            {% endfor %} 
+            {% if listing.has_next %}
+            <li class="page-item"><a class="page-link " href="?page={{ listing.next_page_number }}">&raquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&raquo;</span></li>
             {% endif %}
@@ -364,6 +373,31 @@
             });
 
 
+            $(document).on('click', ".page-click", function() {
+
+                    var page = $(this).data('value');
+
+                    console.log("in page-click");
+
+                    console.log("this page: " + page);
+
+                    // Get the current values of the filters
+
+                    let issuesFilter = getIssuesFilterValue();
+                    let statusFilter = getStatusFilterValue();
+                    let priorityFilter = getPriorityFilterValue();
+                    let clientFilter = getClientFilterValue();
+
+                    console.log("priorityFilter: " + priorityFilter);
+
+                    // Get the issues as per the filter values and page number
+
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                }
+
+            );
+
+
             // Get the current value of the issues filter
 
             function getIssuesFilterValue() {
@@ -428,6 +462,11 @@
 
             }
 
+            // User clicks on page number
+            // As the DOM pagination values are loaded after the js is run, we click on
+            // 'document' rather than just on('page-click')
+
+
 
             // Get the issues from the database ------------------------------
 
@@ -435,6 +474,8 @@
             // 'source' tells the view the call was made from js
 
             function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page) {
+                
+                console.log("in getIssues(). page = "+page)
 
                 $.post({
                     url: "{% url 'get_issues' %}",
@@ -450,6 +491,63 @@
 
                     success: function(data) {
 
+
+                        // Display user message if one is returned
+                        // If the message is blank, keep the line, but make
+                        // it invisible on the screen
+
+                        // var userMessage = data.user_mesg.user_message;
+
+                        //if (userMessage != "") {
+                        //    console.log("userMessage: " + userMessage)
+                        //    $('.user-message').text(userMessage)
+                        //    $('.user-message').removeClass('blank-line')
+                        //}
+                        //else {
+                        //    $('.user-message').text("blank")
+                        //    $('.user-message').addClass('blank-line')
+                        //}
+
+
+                        // Clear the current contents of the table
+                        // Output the details of each issue to the table 
+
+                        $("tbody").empty();
+                        $.each(data.issues, function(key, value) {
+
+                            var issueId = value.id;
+
+                            var inputDate = value.date;
+                            var user = value.user;
+
+                            if (value.user_type == "C") {
+                                var assignedUser = value.assigned_client_user;
+                            }
+                            else {
+                                var assignedUser = value.assigned_vendor_user;
+                            }
+
+                            var softwareComponent = value.software_component;
+                            var priority = value.priority;
+                            var summary = value.summary;
+                            var status = value.status;
+
+                            var issuesFilter = "ALL"
+                            var statusFilter = "ALL"
+                            var priorityFilter = "ALL"
+                            var clientFilter = "ALL"
+
+                            // Output the Issue Details to the table, including the 'more' icon in the last cell
+
+                            $("tbody").append(
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                            );
+
+                            console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
+
+                        });
+
+
                         // Pagination Start 
                         // Get the pagination parameters passed from 
                         // views.get_issues
@@ -461,20 +559,19 @@
                         var prev_page_nr = data.pagination_props.prev_page_nr;
                         var next_page_nr = data.pagination_props.next_page_nr;
                         var page_range = data.pagination_props.page_range;
-                        var userMessage = data.pagination_props.user_message;
+
 
                         // Clear the pagination nav, in case we only have one page
-
                         $("#paginate").empty();
 
                         if (has_other_pages) {
 
                             if (has_prev_page) {
-                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>"
+                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
 
                             }
                             else {
-                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>"
+                                prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
 
                             }
 
@@ -512,16 +609,16 @@
 
                             if (has_next_page) {
 
-                                var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>"
+                                var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
 
                             }
                             else {
 
-                                var nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>"
+                                nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>";
 
                             }
 
-                            var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>"
+                            var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>";
 
 
                             $("#paginate").append(
@@ -529,86 +626,10 @@
                             );
                         }
 
-                        // Display user message if one is returned
-                        // If the message is blank, keep the line, but make
-                        // it invisible on the screen
-
-                        if (userMessage != "") {
-                            console.log("userMessage: " + userMessage)
-                            $('.user-message').text(userMessage)
-                            $('.user-message').removeClass('blank-line')
-                        }
-                        else {
-                            $('.user-message').text("blank")
-                            $('.user-message').addClass('blank-line')
-                        }
-
-
-                        // Clear the current contents of the table
-                        // Output the details of each issue to the table 
-
-                        $("tbody").empty();
-                        $.each(data.issues, function(key, value) {
-
-                            var issueId = value.id;
-
-                            var inputDate = value.date;
-                            var user = value.user;
-
-                            if (value.user_type == "C") {
-                                var assignedUser = value.assigned_client_user;
-                            }
-                            else {
-                                var assignedUser = value.assigned_vendor_user;
-                            }
-
-                            var softwareComponent = value.software_component;
-                            var priority = value.priority;
-                            var summary = value.summary;
-                            var status = value.status;
-
-                            var issuesFilter = "ALL"
-                            var statusFilter = "ALL"
-                            var priorityFilter = "ALL"
-                            var clientFilter = "ALL"
-
-                            // Output the Issue Details to the table, including the 'more' icon in the last cell
-
-                            $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
-                            );
-
-
-                        });
-
                     },
                     traditional: true
                 }).done();
             }
-
-            // As the DOM pagination values are loaded after the js is run, we click on
-            // 'document' rather than just on('page-click')
-
-            $(document).on('click', ".page-click", function() {
-
-                    let page = $(this).data('value')
-
-                    // Get the current values of the filters
-
-                    let issuesFilter = getIssuesFilterValue();
-                    let statusFilter = getStatusFilterValue();
-                    let priorityFilter = getPriorityFilterValue();
-                    let clientFilter = getClientFilterValue();
-
-                    console.log("in page-click")
-                    console.log("priorityFilter: " + priorityFilter)
-
-                    // Get the issues as per the filter values and page number
-
-                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page)
-                }
-
-            );
         });
     </script>
 
