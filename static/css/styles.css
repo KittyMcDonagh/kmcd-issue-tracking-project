@@ -465,6 +465,18 @@ footer {
 
 }
 
+.filter-name {
+    font-size: 12px!important;
+
+}
+
+@media(min-width:1025px) {
+    .filter-name {
+        font-size: 15px!important;
+    }
+
+}
+
 .dropdown-item {
     color: #8c8c8c!important;
 }

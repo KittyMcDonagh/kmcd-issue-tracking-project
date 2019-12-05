@@ -4,147 +4,114 @@
 
     <!-- Show Issues Filter -->
 
-    <div class="row no-gutters mt-2">
-        <div class="col-12 col-md-6 col-lg-3 filter-name pl-3">
-            <div class="row no-gutters mb-2">
-                <div class="col-3 ">
-                    <p><strong>Issues: </strong></p>
-                </div>
+    <div class="row no-gutters mt-2 mb-2">
+        <div class="col-12 col-md-6 col-lg-3 filter-name pb-2">
 
-                <!-- Dropdown for Issues Filter -->
+            <div class="dropdown"><strong class="pr-2">Issues: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_issues_filter }}</a>
 
-                <div class="col-9">
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_issues_filter }}</a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item issue-filter" data-value="ALL ISSUES">ALL ISSUES</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item issue-filter" data-value="ASSIGNED TO ME">ASSIGNED TO ME</a>
 
-                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item issue-filter" data-value="ALL ISSUES">ALL ISSUES</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item issue-filter" data-value="ASSIGNED TO ME">ASSIGNED TO ME</a>
+                    <!-- If the user is on the Vendor side, they will be able to filter issues by 'ALL ISSUES', and 'ISSUES ASSIGNED TO ME',
+                                     but they will also have a Client Code dropdown box from which to select clients -->
 
-                            <!-- If the user is on the Vendor side, they will be able to filter issues by 'ALL ISSUES', and 'ISSUES ASSIGNED TO ME',
-                                 but they will also have a Client Code dropdown box from which to select clients -->
+                    <!-- If the user is on the Client side, include the following options. Client-side users will not have a dropdown box
+                                     from which to select Client codes (data protection issue). Although they will be able to see other clients' issues,
+                                     they wont be able to see other clients' details -->
 
-                            <!-- If the user is on the Client side, include the following options. Client-side users will not have a dropdown box
-                                 from which to select Client codes (data protection issue). Although they will be able to see other clients' issues,
-                                 they wont be able to see other clients' details -->
+                    {% if userdetails.user_type == "C" %}
 
-                            {% if userdetails.user_type == "C" %}
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item issue-filter" data-value="OUR ISSUES ONLY">OUR ISSUES ONLY</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item issue-filter" data-value="OTHER CLIENTS' ISSUES ONLY">OTHER CLIENTS' ISSUES ONLY</a> {% endif %}
-                        </div>
-                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item issue-filter" data-value="OUR ISSUES ONLY">OUR ISSUES ONLY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item issue-filter" data-value="OTHER CLIENTS' ISSUES ONLY">OTHER CLIENTS' ISSUES ONLY</a> {% endif %}
                 </div>
             </div>
+
         </div>
+
+
 
         <!-- Show Status Filter -->
 
-        <div class="col-12 col-md-6 col-lg-3 filter-name">
-            <div class="row no-gutters">
-                <div class="col-3 ">
-                    <p><strong>Status: </strong></p>
-                </div>
+        <div class="col-12 col-md-6 col-lg-3 filter-name pb-2">
+            <div class="dropdown"><strong class="pr-2">Status: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_status_filter }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-2">
+                    <a class="dropdown-item status-filter" href="#" data-value="ALL">ALL</a>
+                    <div class="dropdown-divider"></div>
 
-                <!-- Status Dropdown -->
+                    <!-- If the user is on the vendor side, exclude 'DRAFT'. They dont see issues
+                     until they're at a status of 'LOGGED' -->
 
-                <div class="col-9">
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_status_filter }}</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-2">
-                            <a class="dropdown-item status-filter" href="#" data-value="ALL">ALL</a>
-                            <div class="dropdown-divider"></div>
-                            
-                            <!-- If the user is on the vendor side, exclude 'DRAFT'. They dont see issues
-                                 until they're at a status of 'LOGGED' -->
-                            
-                            {% if userdetails.user_type == "C" %}
-                            <a class="dropdown-item status-filter" href="#" data-value="DRAFT">DRAFT</a>
-                            <div class="dropdown-divider"></div>
-                            {% endif %}
-                            
-                            <a class="dropdown-item status-filter" href="#" data-value="LOGGED">LOGGED</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="OPEN">OPEN</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="ANALYSIS">ANALYSIS</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="FIXING">FIXING</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="TESTING">TESTING</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="DEPLOYED">DEPLOYED</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item status-filter" href="#" data-value="CLOSED">CLOSED</a>
-                        </div>
-                    </div>
+                    {% if userdetails.user_type == "C" %}
+                    <a class="dropdown-item status-filter" href="#" data-value="DRAFT">DRAFT</a>
+                    <div class="dropdown-divider"></div>
+                    {% endif %}
+
+                    <a class="dropdown-item status-filter" href="#" data-value="LOGGED">LOGGED</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="OPEN">OPEN</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="ANALYSIS">ANALYSIS</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="FIXING">FIXING</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="TESTING">TESTING</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="DEPLOYED">DEPLOYED</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item status-filter" href="#" data-value="CLOSED">CLOSED</a>
                 </div>
             </div>
         </div>
-        
-        
+
+
         <!-- Show Priority Filter -->
 
-        <div class="col-12 col-md-6 col-lg-3 filter-name">
-            <div class="row no-gutters">
-                <div class="col-3 ">
-                    <span><strong>Priority: </strong></span>
-                </div>
-
-                <!-- Priority Dropdown -->
-
-                <div class="col-9">
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_priority_filter }}</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-3">
-                            <a class="dropdown-item priority-filter" href="#" data-value="ALL">ALL</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item priority-filter" href="#" data-value="1">1 - URGENT</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item priority-filter" href="#" data-value="2">2 - HIGH PRIORITY</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item priority-filter" href="#" data-value="3">3 - MEDIUM PRIORITY</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item priority-filter" href="#" data-value="4">4 - LOW PRIORITY</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item priority-filter" href="#" data-value="5">5 - COSMETIC</a>
-                        </div>
-                    </div>
+        <div class="col-12 col-md-6 col-lg-3 filter-name pb-2">
+            <div class="dropdown"><strong class="pr-1">Priority: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_priority_filter }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-3">
+                    <a class="dropdown-item priority-filter" href="#" data-value="ALL">ALL</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item priority-filter" href="#" data-value="1">1 - URGENT</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item priority-filter" href="#" data-value="2">2 - HIGH PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item priority-filter" href="#" data-value="3">3 - MEDIUM PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item priority-filter" href="#" data-value="4">4 - LOW PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item priority-filter" href="#" data-value="5">5 - COSMETIC</a>
                 </div>
             </div>
         </div>
 
-        <!-- If the user is on the Vendor side, include Client Code dropdown -->
+
+        <!-- If the user is on the Vendor side, include Client Code dropdown 
+             the client codes are extracted from the Client database -->
 
         {% if userdetails.user_type == "V" %}
-        <div class="col-12 col-md-6 col-lg-3 filter-name">
-            <div class="row no-gutters">
-                <div class="col-3 ">
-                    <p><strong>Client: </strong></p>
-                </div>
+        <div class="col-12 col-md-6 col-lg-3 filter-name pb-2">
+            <div class="dropdown"><strong class="pr-3">Client: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" data-value={{ selected_client_filter }} role="button" id="dropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_client_filter }}</a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-4">
+                    <a class="dropdown-item client-filter" href="#" data-value="ALL">ALL</a> {% for client in all_clients %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item client-filter" href="#" data-value={{ client.client_code}}>{{ client.client_code}}</a> {% endfor %}
 
-
-                <!-- Client Dropdown - the client codes are extracted from the Client database-->
-
-                <div class="col-9">
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" data-value={{ selected_client_filter }} role="button" id="dropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_client_filter }}</a>
-                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-4">
-                            <a class="dropdown-item client-filter" href="#" data-value="ALL">ALL</a> {% for client in all_clients %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item client-filter" href="#" data-value={{ client.client_code}}>{{ client.client_code}}</a> {% endfor %}
-
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-
         {% endif %}
-
     </div>
+
+
+
+
 
     <!-- Show Issues as per the Issue & Status & Client (if applicable) Filters -->
 
