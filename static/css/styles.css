@@ -133,23 +133,22 @@ li {
 
 }
 
-.nav-option {
+.nav-issues-align {
     padding-left: 0px!important;
 }
 
 
 @media(min-width:1024px) {
-    .nav-option {
+    .nav-issues-align {
         padding-left: 20px!important
     }
 
 }
 
 @media(min-width:1025px) {
-    .nav-option {
-        padding-left: 175px!important
+    .nav-issues-align {
+        padding-left: 150px!important
     }
-
 }
 
 
@@ -487,123 +486,129 @@ footer {
 
 }
 
-
-.table-style {
-    font-size: 12px;
-    font-family: "Nunito", sans-serif;
-    width: 100%;
+/* Center the status in its col for a better look on larger screens.
+   No centering on smaller screens as the cols will be one line across the 
+   screen (col-12s) */
+   
+@media(min-width:768px) {
+    .status-align {
+        padding-left:40px!important;
+    }
 }
 
-/* The following 'td-* styles are to fix the width of the table cells so that
+
+    .table-style {
+        font-size: 12px;
+        font-family: "Nunito", sans-serif;
+        width: 100%;
+    }
+
+    /* The following 'td-* styles are to fix the width of the table cells so that
     they display smoothly and the table headings stay in the same position 
     when new data is displayed */
+    .td-username {
+        width: 115px;
+    }
 
-.td-username {
-    width: 115px;
-}
+    .td-date {
+        width: 85px;
+    }
 
-.td-date {
-    width: 85px;
-}
-
-.td-sw-comp {
-    width: 179px;
-}
-
-
-.td-priority {
-    width: 71px;
-
-}
-
-.td-summary {
-    width: 650px;
-
-}
-
-.td-status {
-    width: 75px;
-
-}
-
-.td-more {
-    width: 56px;
-
-}
-
-.more-icon-th {
-    color: #3b3b3b;
-}
-
-.more-icon-style {
-    color: #3b3b3b;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.more-icon-style:hover {
-    color: #fafaff;
-    background-color: #6666ff;
-}
+    .td-sw-comp {
+        width: 179px;
+    }
 
 
-/* css for issuelogging.html-------------------------------------------------*/
+    .td-priority {
+        width: 71px;
 
-.form-style {
-    border: solid 1px #d9d9d9;
-    border-radius: 15px;
-    background-color: #fff;
-    padding: 15px;
-}
+    }
 
-.form-font {
-    font-size: 13px;
-}
+    .td-summary {
+        width: 650px;
+
+    }
+
+    .td-status {
+        width: 75px;
+
+    }
+
+    .td-more {
+        width: 56px;
+
+    }
+
+    .more-icon-th {
+        color: #3b3b3b;
+    }
+
+    .more-icon-style {
+        color: #3b3b3b;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .more-icon-style:hover {
+        color: #fafaff;
+        background-color: #6666ff;
+    }
 
 
-@media(min-width:1024px) {
+    /* css for issuelogging.html-------------------------------------------------*/
     .form-style {
-        padding: 20px;
-        margin-left: 50px;
-        margin-right: 50px;
+        border: solid 1px #d9d9d9;
+        border-radius: 15px;
+        background-color: #fff;
+        padding: 15px;
     }
 
     .form-font {
-        font-size: 15px;
+        font-size: 13px;
     }
 
-}
 
-@media(min-width:768px) {
-    .position {
-        text-align: right;
+    @media(min-width:1024px) {
+        .form-style {
+            padding: 20px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .form-font {
+            font-size: 15px;
+        }
+
     }
-}
+
+    @media(min-width:768px) {
+        .position {
+            text-align: right;
+        }
+    }
 
 
-select {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-}
+    select {
+        background-color: #f3f2f2!important;
+        color: #3b3b3b!important;
+        font-size: 12px!important;
+    }
 
-select:hover {
-    background-color: #fff!important;
-    color: #6666ff!important;
+    select:hover {
+        background-color: #fff!important;
+        color: #6666ff!important;
 
-}
+    }
 
-/* css for issuedetails.html ------------------------------------------------*/
-
-/* Set text align for assigned user, depending on device size   */
-
-.asng-user-txt-align {
-    text-align: left;
-}
-
-@media(min-width:768px) {
+    /* css for issuedetails.html ------------------------------------------------*/
+    /* Set text align for assigned user, depending on device size   */
     .asng-user-txt-align {
-        text-align: right;
+        text-align: left;
     }
 
-}
+    @media(min-width:768px) {
+        .asng-user-txt-align {
+            text-align: right;
+        }
+
+    }

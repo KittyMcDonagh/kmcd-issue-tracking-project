@@ -124,7 +124,7 @@ def features_home(request):
     
     listing = features
   
-    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'features': features, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_filter": SelectedPaidFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing })
+    return render(request, 'featuresh.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'features': features, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_filter": SelectedPaidFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing })
 
 
 """

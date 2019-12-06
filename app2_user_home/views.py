@@ -23,7 +23,7 @@ Issues assigned to the logged in user are shown.
 
 def user_home(request):
     
-    # Initialise the Issue filters
+    # Initialise the issue filters
     
     SelectedIssuesFilter = "ASSIGNED TO ME"
     
@@ -39,13 +39,13 @@ def user_home(request):
     
     SelectedPriorityFilter = "ALL"
     
-    # Initialise these details in case user is not set up on Issue Tracker
+    # Initialise these details in case user is not set up on Issue Tracker app
     
     AllClients = ""
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracking system. It has already
+    # Get the user's details from re the Issue Tracker app. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -56,8 +56,8 @@ def user_home(request):
         
     if UserDetails.user_type == 'C':
             
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
+        # User is on the Client side. Get the Client Details, The issues Filter
+        # values the client user can use, and the filtered issues
             
         ClientDetails = get_client(request, UserDetails)
     
@@ -76,7 +76,7 @@ def user_home(request):
     
     Issues = ""
     
-    # Get the Issues assigned to the logged only. 
+    # Get the issues assigned to the logged only. 
     # An issue can be assigned both to a client-side user and a vendor-side user, 
     # so we need to verify which one it is
     
@@ -123,14 +123,12 @@ def user_home(request):
 
 
 """
-User Home Page - Get ALL Issues
-All Issues are shown.
+User Home Page - Get all issues
+All issues are shown.
 """
 
 def get_all_issues(request):
     
-    # Get the Issues filter's value from the url.
-    # It will be = 'ALL ISSUES' or 'ASSIGNED TO ME'
     
     SelectedIssuesFilter = "ALL"
     
@@ -146,13 +144,13 @@ def get_all_issues(request):
     
     SelectedPriorityFilter = "ALL"
     
-    # Initialise these details in case user is not set up on Issue Tracker
+    # Initialise these details in case user is not set up on Issue Tracker app
     
     AllClients = ""
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracking system. It has already
+    # Get the user's details from re the Issue Tracker app. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -163,8 +161,8 @@ def get_all_issues(request):
         
     if UserDetails.user_type == 'C':
             
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
+        # User is on the Client side. Get the Client Details, The Issues Filter
+        # values the client user can use, and the filtered issues
             
         ClientDetails = get_client(request, UserDetails)
     
@@ -211,7 +209,7 @@ def get_all_issues(request):
 
 """
 This function is called via the javascript in base.html
-Get the Issues, filtered by the Issues Filter option selected
+Get the issues, filtered by the issues Filter option selected
 """
 def get_issues(request):
     
@@ -219,7 +217,7 @@ def get_issues(request):
     
     data = []
     
-    # Get the user's details relating to the issue tracking system - it has
+    # Get the user's details relating to the Issue Tracker app - it has
     # already been established that the user's details exist, otherwise they
     # wouldnt have got this far
             
@@ -262,7 +260,7 @@ def get_issues(request):
                 
     else:
                 
-        # Has user requested 'Our Issues Only?
+        # Has user requested 'Our Issues Only'?
         # This option is relevant to Client-side users only'
                 
         if issues_filter == 'OUR ISSUES ONLY':
@@ -271,7 +269,7 @@ def get_issues(request):
                             
         else:
                     
-            # Has user requested 'Other Clients' Issues Only?
+            # Has user requested 'Other Clients' issues Only?
                 
             if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
             
@@ -350,7 +348,6 @@ def get_issues(request):
     data = {}
 
     # Return the pagination parameters for output to the html file
-    # Return the user message also - set above if no issues found
     
     data["pagination_props"] = {
 		"has_other_pages": has_other_pages,
@@ -361,6 +358,8 @@ def get_issues(request):
 		"next_page_nr": next_page_nr,
 		"page_range": list(page_range)
 	}
+	
+	# Return the user message also - set above if no issues found
 	
     data["user_mesg"] = {
         
@@ -433,7 +432,7 @@ def FinalFilterIssues(request, Issues, UserDetails):
 
 
 """
-Get the logged in user's details re the Issue Tracking System. 
+Get the logged in user's details re the Issue Tracker app. 
 These details tells us whether the User is on the Vendor side or 
 the Client side.
 """

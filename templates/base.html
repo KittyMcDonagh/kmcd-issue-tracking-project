@@ -85,7 +85,7 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="nav-item nav-option"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
+                    <li class="nav-item nav-issues-align"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'get_all_issues' %}" data-value="ALL ISSUES">All Issues</a></li>
 
                     <!-- Only Client-side users can enter issues -->
@@ -101,12 +101,12 @@
                     </li>
                     {% endif %}
 
-                    <li class="nav-item"><a class="nav-link" href="{% url 'my_features_list' %}" data-value="MY FEATURES">My Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES">My Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'all_features_list' %}" data-value="ALL FEATURES">All Features</a></li>
-                    
+
                     <!-- Add shopping cart - code copied from e-commerce product-->
                     <li class="cart-container">
-                        <a  class="cart-style" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
+                        <a class="cart-style" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
                         
                             {% if product_count > 0 %}
                             <!-- This will show how many items are in the cart -->
@@ -188,22 +188,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <!-- 
-   <script type="text/javascript" src="{% static 'js/issuetracker.js' %}"></script> 
-   -->
+
+    <!-- Custom Javascript -->
 
 
     <script>
+        // The following script manages the Filtering and Pagination of Issues 
+        // and Features when selections are made from the dropdown filters
+
+
         $(document).ready(function() {
 
-            // The following script manages the filtering of issues by Issue Filter,
-            // Status Filter, and Client Filter (vendor-side users only)
+            // ISSUES PROCESSING -------------------------------------------//
 
-            // Filtering by Issue Filter -------------------------------------
+            // ===========================
+            // Filtering by Issue Filter 
+            // ===========================
 
-            // The Issues Filter has been selected by the user
-            // There are 2 clickable 'issue-filter's. One in the nav bar (All Issues)
-            // and one for the status filter dropdown
+            // A value has been selected by the user from the Issues Filter 
+            // dropdown 
 
             $('.issue-filter').on('click', function() {
 
@@ -254,11 +257,13 @@
             });
 
 
-            // Filtering by Status Filter -------------------------------------
+            // ===========================
+            // Filtering by Status Filter
+            // ===========================
 
-            // Status filter has been selected by the user
+            // A value has been selected from the Status filter dropdown by the user
 
-            $('.status-filter').on('click', function() {
+            $('.iss-status-filter').on('click', function() {
 
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
@@ -300,7 +305,9 @@
             });
 
 
+            // ===========================
             // Filtering by Priority
+            // ===========================
 
             $('.priority-filter').on('click', function() {
 
@@ -309,6 +316,9 @@
                 let priorityFilter = $(this).data('value');
                 let priorityFilterText = this.innerText;
 
+
+                // A value has been selected from the Priority Filter dropdown 
+                // by the user
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -340,16 +350,20 @@
             });
 
 
-
-            // Filtering by Client Filter -------------------------------------
+            // ===========================
+            // Filtering by Client Filter 
+            // ===========================
 
             // Client Filter has been selected by the user. The Client Filter
             // will only be available when the user is a vendor-side user
 
-            $('.client-filter').on('click', function() {
+            $('.iss-client-filter').on('click', function() {
 
                 event.preventDefault();
                 let clientFilter = $(this).data('value');
+
+                // A value has been selected from the Client Filter dropdown by
+                // the user
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -381,11 +395,23 @@
             });
 
 
-            $(document).on('click', ".page-click", function() {
+            // ===========================
+            // Issues Pagination
+            // ===========================
+
+            // The user has clicked on a page number
+            // Using "$(document).on . . ." here because the 'iss-page-click' 
+            // class is not part of the html when it is first loaded, they are
+            // added by js when it displays the filtered data, and therefore the
+            // js wont respond to "$('.iss-page-click').on('click', function()"
+
+            $(document).on('click', ".iss-page-click", function() {
+
+                    // Get the page number the user clicked on
 
                     var page = $(this).data('value');
 
-                    console.log("in page-click");
+                    console.log("in iss-page-click");
 
                     console.log("this page: " + page);
 
@@ -405,7 +431,9 @@
 
             );
 
-
+            // ================
+            // HELPER FUNCTIONS
+            // ================
             // Get the current value of the issues filter
 
             function getIssuesFilterValue() {
@@ -432,6 +460,10 @@
             }
 
             // Get the current value of the Priority Filter
+            // The priority in the db is just a number from 1 - 5. But on the 
+            // screen a descriptive text is included, e.g. 1 - URGENT. When
+            // getting the value of the current priority filter, the '1' must
+            // be extracted from the text.
 
             function getPriorityFilterValue() {
 
@@ -470,16 +502,13 @@
 
             }
 
-            // User clicks on page number
-            // As the DOM pagination values are loaded after the js is run, we click on
-            // 'document' rather than just on('page-click')
 
-
-
-            // Get the issues from the database ------------------------------
+            // =================================
+            // Get the issues from the database 
+            // =================================
 
             // Get the relevant issues, based on the value of the filters
-            // 'source' tells the view the call was made from js
+
 
             function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page) {
 
@@ -504,17 +533,17 @@
                         // If the message is blank, keep the line, but make
                         // it invisible on the screen
 
-                        // var userMessage = data.user_mesg.user_message;
+                        var userMessage = data.user_mesg.user_message;
 
-                        //if (userMessage != "") {
-                        //    console.log("userMessage: " + userMessage)
-                        //    $('.user-message').text(userMessage)
-                        //    $('.user-message').removeClass('blank-line')
-                        //}
-                        //else {
-                        //    $('.user-message').text("blank")
-                        //    $('.user-message').addClass('blank-line')
-                        //}
+                        if (userMessage != "") {
+                            console.log("userMessage: " + userMessage)
+                            $('.user-message').text(userMessage)
+                            $('.user-message').removeClass('blank-line')
+                        }
+                        else {
+                            $('.user-message').text("blank")
+                            $('.user-message').addClass('blank-line')
+                        }
 
 
                         // Clear the current contents of the table
@@ -556,9 +585,10 @@
                         });
 
 
-                        // Pagination Start 
+                        // Issues Pagination:
                         // Get the pagination parameters passed from 
-                        // views.get_issues
+                        // views.get_issues and output them to the html page,
+                        // so that the user can select the pages
 
                         var has_other_pages = data.pagination_props.has_other_pages;
                         var has_prev_page = data.pagination_props.has_prev_page;
@@ -575,7 +605,7 @@
                         if (has_other_pages) {
 
                             if (has_prev_page) {
-                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
 
                             }
                             else {
@@ -605,10 +635,10 @@
 
                                     if (pageLinks == "") {
 
-                                        pageLinks = "<li class='page-item'><a class='page-link page-click page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                        pageLinks = "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                     }
                                     else {
-                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
 
                                     }
                                 }
@@ -617,7 +647,7 @@
 
                             if (has_next_page) {
 
-                                var nextPageLink = "<li class='page-item'><a class='page-link page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                                var nextPageLink = "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
 
                             }
                             else {
@@ -633,6 +663,460 @@
                                 pageNav
                             );
                         }
+
+                    },
+                    traditional: true
+                }).done();
+            }
+
+
+            // FEATURES PROCESSING -------------------------------------------//
+
+            // The following script manages the filtering of features by Features Filter,
+            // Status Filter, Paid Filter, and Client Filter (vendor-side users only)
+
+            // ============================
+            // Filtering by Features Filter
+            // ============================
+
+            // A value has been selected from the  Features Filter dropdown 
+            // by the user
+
+            $('.features-filter').on('click', function() {
+
+                event.preventDefault();
+                let featuresFilter = $(this).data('value');
+
+                console.log("featuresFilter : " + featuresFilter)
+
+                // The user has selected a value from the Features Filter dropdown
+
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
+
+                $('#dropdownMenuLink-1').text(featuresFilter);
+
+                // When the user selects a value from the Features Filter, all the
+                // other filters are reset to "ALL"
+
+                // Reset Status Filter to "ALL" and display it in the filter
+                // dropdown box
+
+                let statusFilter = "ALL"
+                $('#dropdownMenuLink-2').text(statusFilter);
+
+                // Reset Paid Filter to "ALL" and display it in the filter
+                // dropdown box
+
+                let paidFilter = "ALL"
+                $('#dropdownMenuLink-3').text(paidFilter);
+
+                // Reset Client Filter to "ALL". If this is a client-side 
+                // user, the Client Code dropdown option wont be displayed on
+                // screen. If its a vendor-side user, display "ALL" in the 
+                // Client dropdown box
+
+                let clientFilter = "ALL";
+
+                if ($("#dropdownMenuLink-4").length > 0) {
+
+                    $('#dropdownMenuLink-4').text(clientFilter);
+                }
+
+                // Get the features requested by the user, as per the filter
+                // values, starting with page 1
+
+                let page = 1;
+
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+
+            });
+
+
+            // ===========================
+            // Filtering by Status Filter
+            // ===========================
+
+            // Status filter has been selected by the user
+
+            $('.feat-status-filter').on('click', function() {
+
+                event.preventDefault();
+                let statusFilter = $(this).data('value');
+
+                // The user has selected a value from the Status Filter dropdown
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
+
+                $('#dropdownMenuLink-2').text(statusFilter);
+
+                // When the status filter is selected, it will be used in
+                // conjunction with the current values of the other 2 filters
+
+                // Get the current value of the Features Filter
+
+                let featuresFilter = getFeaturesFilterValue();
+
+                // Get the current value of the Paid Filter
+
+                let paidFilter = getPaidFilterValue();
+
+                // Get the current value of the Client Filter, if it's an
+                // option on the screen, otherwise set it to "ALL"
+
+                let clientFilter = getClientFilterValue();
+
+                // Get the features requested by the user, as per the filter
+                // values, starting with page 1
+
+                let page = 1;
+
+                console.log("in status filter click")
+                console.log("statusFilter: " + statusFilter);
+                console.log("featuresFilter: " + featuresFilter);
+                console.log("paidFilter: " + paidFilter);
+                console.log("clientFilter: " + clientFilter);
+
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+            });
+
+
+
+            // ==================
+            // Filtering by Paid
+            // ==================
+
+            $('.paid-filter').on('click', function() {
+
+                event.preventDefault();
+
+                let paidFilter = $(this).data('value');
+                let paidFilterText = this.innerText;
+
+                // The user has selected a value from the Paid Filter dropdown
+
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
+
+                $('#dropdownMenuLink-3').text(paidFilterText);
+
+                // When the priority filter is selected, it will be used in
+                // conjunction with the current values of the other 2 filters
+
+                // Get the current value of the Features Filter
+
+                let featuresFilter = getFeaturesFilterValue();
+
+                // Get the current value of the Status Filter
+
+                let statusFilter = getStatusFilterValue();
+
+                // Get the current value of the Client Filter, if it's an
+                // option on the screen, otherwise set it to "ALL"
+
+                let clientFilter = getClientFilterValue();
+
+                // Get the features requested by the user, as per the filter
+                // values, starting with page 1
+
+                let page = 1;
+
+                getFeatures(featureFilter, statusFilter, paidFilter, clientFilter, page);
+            });
+
+
+            // ==========================
+            // Filtering by Client Filter 
+            // ==========================
+
+            // Client Filter has been selected by the user. The Client Filter
+            // will only be available when the user is a vendor-side user
+
+            $('.feat-client-filter').on('click', function() {
+
+                event.preventDefault();
+                let clientFilter = $(this).data('value');
+
+                // The user has selected a value from the Client Filter dropdown
+
+                // Change the value showing in the dropdown box to the new 
+                // value selected by the user
+
+                $('#dropdownMenuLink-4').text(clientFilter);
+
+                // When the client filter is selected, it will be used in
+                // conjunction with the current values of the other 2 filters
+
+                // Get the current value of the Features Filter
+
+                let featuresFilter = getFeaturesFilterValue();
+
+                // Get the current value of the Status Filter
+
+                let statusFilter = getStatusFilterValue();
+
+                // Get the current value of the Priority Filter
+
+                let paidFilter = getPaidFilterValue();
+
+                // Get the features requested by the user, as per the filter
+                // values, starting with page 1
+
+                let page = 1;
+
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+            });
+
+
+            // ===========================
+            // Features Pagination
+            // ===========================
+
+            // The user has clicked on a page number
+            // Using "$(document).on . . ." here because the 'feat-page-click' 
+            // class is not part of the html when it is first loaded, they are
+            // added by js when it displays the filtered data, and therefore the
+            // js wont respond to "$('.iss-page-click').on('click', function()"
+
+            $(document).on('click', ".feat-page-click", function() {
+
+                    // Get the page number the user clicked on
+
+                    var page = $(this).data('value');
+
+                    console.log("in feat-page-click");
+
+                    console.log("this page: " + page);
+
+                    // Get the current values of the filters
+
+                    let featuresFilter = getFeaturesFilterValue();
+                    let statusFilter = getStatusFilterValue();
+                    let paidFilter = getPaidFilterValue();
+                    let clientFilter = getClientFilterValue();
+
+                    console.log("paidFilter: " + paidFilter);
+
+                    // Get the features as per the filter values and page number
+
+                    getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                }
+
+            );
+
+
+            // ================
+            // HELPER FUNCTIONS
+            // ================
+
+            // Get the current value of the Features Filter
+
+            function getFeaturesFilterValue() {
+
+                // Get the current value of the Features Filter
+
+                let el = document.getElementById("dropdownMenuLink-1");
+                let featuresFilter = el.innerText;
+
+                return featuresFilter;
+
+            }
+
+
+            // Get the current value of the Paid Filter
+
+            function getPaidFilterValue() {
+
+                let el = document.getElementById("dropdownMenuLink-3");
+                let paidFilter = el.innerText
+
+                if (el.innerText != "ALL") {
+
+                    let paidArray = el.innerText.split("");
+                    console.log("in getPaidFilterValue.  paidArray[0,0]: " + paidArray[0, 0])
+                    paidFilter = paidArray[0, 0];
+                }
+
+                console.log("in getPaidFilterValue. paidFilter: " + paidFilter)
+
+                return paidFilter;
+
+            }
+
+
+            // ====================
+            // PAGINATION FUNCTION
+            // ====================
+
+            // Get the pagination parameters passed from 
+            // views.get_features and output them to the html page,
+            // so that the user can select the pages
+
+            function outputPaginationValues(data) {
+
+                var has_other_pages = data.pagination_props.has_other_pages;
+                var has_prev_page = data.pagination_props.has_prev_page;
+                var current_page = data.pagination_props.current_page;
+                var has_next_page = data.pagination_props.has_next_page;
+                var prev_page_nr = data.pagination_props.prev_page_nr;
+                var next_page_nr = data.pagination_props.next_page_nr;
+                var page_range = data.pagination_props.page_range;
+
+                // Clear the pagination nav, in case we only have one page
+                $("#paginate").empty();
+
+                if (has_other_pages) {
+
+                    if (has_prev_page) {
+                        var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+
+                    }
+                    else {
+                        prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
+
+                    }
+
+                    // Output the pagination values to the html page
+
+                    var pageLinks = "";
+                    var i = 0;
+
+                    for (i in page_range) {
+
+                        if (current_page === page_range[i]) {
+
+                            if (pageLinks == "") {
+
+                                pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                            }
+                            else {
+                                pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                            }
+
+                        }
+                        else {
+
+                            if (pageLinks == "") {
+
+                                pageLinks = "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                            }
+                            else {
+                                pageLinks = pageLinks + "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                            }
+                        }
+
+                    }
+
+                    if (has_next_page) {
+
+                        var nextPageLink = "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+
+                    }
+                    else {
+
+                        nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>";
+
+                    }
+
+                    var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>";
+
+
+                    $("#paginate").append(
+                        pageNav
+                    );
+                }
+            }
+
+
+            // =================================
+            // Get the features from the database 
+            // =================================
+
+            // Get the relevant features, based on the value of the filters
+
+            function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page) {
+
+                console.log("in getFeatures(). page = " + page)
+
+                $.post({
+                    url: "{% url 'get_features' %}",
+                    
+                    data: {
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        featuresFilter: featuresFilter,
+                        statusFilter: statusFilter,
+                        paidFilter: paidFilter,
+                        clientFilter: clientFilter,
+                        page: page,
+
+                    },
+
+                    success: function(data) {
+
+                        console.log("after success")
+
+                        // Display user message if one is returned
+                        // If the message is blank, keep the line space, but make
+                        // it invisible on the screen
+
+                        var userMessage = data.user_mesg.user_message;
+                        console.log("have user_message")
+                        
+                        if (userMessage != "") {
+                            console.log("userMessage: " + userMessage);
+                            $('.user-message').text(userMessage);
+                            $('.user-message').removeClass('blank-line');
+                        }
+                        else {
+                            $('.user-message').text("blank");
+                            $('.user-message').addClass('blank-line');
+                        }
+
+
+                        // Clear the current contents of the table
+                        // Output the details of each feature to the table 
+
+                        $("tbody").empty();
+                        $.each(data.features, function(key, value) {
+                            
+                            console.log("in table body")
+
+                            var featureId = value.id;
+
+                            var inputDate = value.date;
+                            var user = value.user;
+
+                            if (value.user_type == "C") {
+                                var assignedUser = value.assigned_client_user;
+                            }
+                            else {
+                                var assignedUser = value.assigned_vendor_user;
+                            }
+
+                            var softwareComponent = value.software_component;
+                            var paid = value.paid;
+                            var summary = value.summary;
+                            var status = value.status;
+
+                            var featuresFilter = "ALL"
+                            var statusFilter = "ALL"
+                            var paidFilter = "ALL"
+                            var clientFilter = "ALL"
+
+                            // Output the Feature Details to the table, including the 'more' icon in the last cell
+
+                            $("tbody").append(
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + paid + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                            );
+
+                            console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
+
+                        });
+
+                        // Output the pagination parameters to the html page
+                        
+                        outputPaginationValues(data);
 
                     },
                     traditional: true

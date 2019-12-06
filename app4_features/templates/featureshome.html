@@ -1,0 +1,179 @@
+{% extends 'base.html' %} {% block page_title %}User Page{% endblock %} {% block content %}
+
+<main>
+    
+    <!-- Show Features Filter -->
+
+    <div class="row no-gutters mt-2 mb-2">
+        <div class="col-12 col-md-3 filter-name pb-2">
+
+            <div class="dropdown"><strong class="pr-2">Features: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_features_filter }}</a>
+
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item features-filter" data-value="ALL FEATURES">ALL FEATURES</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item features-filter" data-value="ASSIGNED TO ME">ASSIGNED TO ME</a>
+
+                    <!-- If the user is on the Vendor side, they will be able to filter features by 'ALL FEATURES', and 'FEATURES ASSIGNED TO ME',
+                                     but they will also have a Client Code dropdown box from which to select clients -->
+
+                    <!-- If the user is on the Client side, include the following options. Client-side users will not have a dropdown box
+                                     from which to select Client codes (data protection issue). Although they will be able to see other clients' features,
+                                     they wont be able to see other clients' details -->
+
+                    {% if userdetails.user_type == "C" %}
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item features-filter" data-value="OUR FEATURES ONLY">OUR FEATURES ONLY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item features-filter" data-value="OTHER CLIENTS' FEATURES ONLY">OTHER CLIENTS' FEATURES ONLY</a> {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- Show Status Filter -->
+
+        <div class="col-12 col-md-3 filter-name pb-2  status-align">
+            <div class="dropdown"><strong class="pr-2">Status: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_status_filter }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-2">
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="ALL">ALL</a>
+                    <div class="dropdown-divider"></div>
+
+                    <!-- If the user is on the vendor side, exclude 'DRAFT'. They dont see features
+                     until they're at a status of 'LOGGED' -->
+
+                    {% if userdetails.user_type == "C" %}
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="DRAFT">DRAFT</a>
+                    <div class="dropdown-divider"></div>
+                    {% endif %}
+
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="LOGGED">LOGGED</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="OPEN">OPEN</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="ANALYSIS">ANALYSIS</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="FIXING">FIXING</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="TESTING">TESTING</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="DEPLOYED">DEPLOYED</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-status-filter" href="#" data-value="CLOSED">CLOSED</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Show Priority Filter -->
+
+        <div class="col-12 col-md-3 filter-name pb-2">
+            <div class="dropdown"><strong class="pr-1">Priority: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_paid_filter }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-3">
+                    <a class="dropdown-item paid-filter" href="#" data-value="ALL">ALL</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item paid-filter" href="#" data-value="1">1 - URGENT</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item paid-filter" href="#" data-value="2">2 - HIGH PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item paid-filter" href="#" data-value="3">3 - MEDIUM PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item paid-filter" href="#" data-value="4">4 - LOW PRIORITY</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item paid-filter" href="#" data-value="5">5 - COSMETIC</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- If the user is on the Vendor side, include Client Code dropdown 
+             the client codes are extracted from the Client database -->
+
+        {% if userdetails.user_type == "V" %}
+        <div class="col-12 col-md-3 filter-name pb-2">
+            <div class="dropdown"><strong class="pr-3">Client: </strong>
+                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" data-value={{ selected_client_filter }} role="button" id="dropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_client_filter }}</a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-4">
+                    <a class="dropdown-item feat-client-filter" href="#" data-value="ALL">ALL</a> {% for client in all_clients %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item feat-client-filter" href="#" data-value={{ client.client_code}}>{{ client.client_code}}</a> {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+
+
+    <!-- Show Features as per the Feature & Status & Client (if applicable) Filters -->
+
+    <!-- On the first load of this page, the details are passed in from the 
+         'userhome' view. When the user filters by Feature, Status, Client, the
+          js in base.html is triggered, and it filters and re-displays the
+          data -->
+
+    <div class="row no-gutters">
+        <div class="table-responsive-md">
+
+            <table class="table table-striped table-style">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center td-date">Date</th>
+                        <th scope="col" class="text-center td-username">Assigned to</th>
+                        <th scope="col" class="d-md-table-cell text-center td-sw-comp">Software Component</th>
+                        <th scope="col" class="d-md-table-cell text-center td-priority">Paid</th>
+                        <th scope="col" class="text-center td-summary">Feature Summary</th>
+                        <th scope="col" class="text-center td-status">Status</th>
+                        <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h more-icon-th"></th>
+                    </tr>
+                </thead>
+               
+               <!-- After clicking on 'Features' in the navbar, the table 
+                    details will be retrieved via the 'features_list' view and 
+                    displayed via userhome.html. When the user filters the 
+                    features, it will trigger the javascript 'on click' 
+                    functions in base.html which will call the 'get_features' 
+                    view, return the details to the js function, which will 
+                    clear the table and output the new details to it. -->
+                    
+                <tbody>
+                     {% for feature in features %}
+                    <tr>
+                        <td class="d-md-table-cell td-date">{{ feature.input_date|date:"d M y" }}</td>
+                        
+                        <!-- The feature can be assigned to a user on the client side, and a user on the vendor side. 
+                             Show the relevant assigned user depending on whether the logged in user is on the client side
+                             or the vendor side -->
+                        
+                        {% if userdetails.user_type == "V"%}
+                        
+                        <td class="d-md-table-cell td-username">{{ feature.assigned_vendor_user }}</td>
+                        
+                        {% else %}
+                        <td class="d-md-table-cell td-username">{{ feature.assigned_client_user }}</td>
+                        
+                        {% endif %}
+                        
+                        <td class="d-md-table-cell td-sw-comp">{{ feature.software_component }}</td>
+                        <td class="text-center td-priority">{{ feature.paid }}</td>
+                        <td class="td-summary">{{ feature.summary }}</td>
+                        <td class="text-center td-status">{{ feature.status }}</td>
+                        <td class="text-center td-more more-icon-cell "><a class="more-icon-style" href='{% url 'feature_details' feature.id %}' ><i class="fas fa-ellipsis-h more-icon-style"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+
+{% endblock %}
