@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
 <!-- This form will be used for the Input of New Features and for Editing 
-     an existing feature -->
+     an existing feature. It will be used by Client-side users only -->
 
 
 <form method="POST" enctype="multipart/form-data" class="form-style">
@@ -26,8 +26,11 @@
 
     {% if feature.user_id == null %}
     
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> 
+    
+    {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> 
+    {% endif %}
 
     <!-- If in 'New Feature' mode, the default for this field is the input user. If in 'Edit' mode 
          the assigned user is = logged in user, otherwise they couldnt edit  -->
@@ -39,10 +42,20 @@
 
     {% if feature.assigned_vendor_user == null %}
     
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> {% endif %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> 
+    {% else %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> 
+    {% endif %}
+    
+    {% if feature.price == null %}
+    
+    <input name="price" type="hidden" id="price" value="0"> 
+    {% else %}
+    <input name="price" type="hidden" id="price" value="{{ feature.price }}"> 
+    {% endif %}
+    
 
-    <!-- Top of form: Software Component, Priority, and Status -->
+    <!-- Top of form: Software Component, Paid, and Status -->
 
      <!-- Component -->
      
@@ -101,7 +114,7 @@
         <!-- Status -->
         <!-- NOTE: featurelogging.html is for client-side users only, when inputting
                    new features or editing existing ones.
-                   A client-side user can only be in Edit mode if the issue is
+                   A client-side user can only be in Edit mode if the feature is
                    assigned to them, and the feature is at a status of DRAFT or
                    LOGGED. 
                    They can only set the feature to a status of DRAFT (this
@@ -121,8 +134,8 @@
                 <option value="LOGGED" selected>LOGGED</option>
                 {% else %}
                 
-                <!-- If client user is inputting a new issue, they can only have
-                     a status of 'DRAFT'. So if this is not a new issue, disable
+                <!-- If client user is inputting a new feature, they can only have
+                     a status of 'DRAFT'. So if this is not a new feature, disable
                      LOGGED -->
                      
                 {% if feature.status != null %}
@@ -142,42 +155,41 @@
         </div>
 
 
-        <!--  Priority -->
+        <!--  Paid -->
 
         <div class="col-12 col-md-4 form-font pt-1 position">
 
-            <label class="form-font" for="priority"><strong>Priority: </strong></label>
-            <select class="form-font" name="priority" id="priority" class="form-control" size="1">
-                        
-                {% if feature.priority == 1 %}
+            <label class="form-font" for="paid"><strong>Paid: </strong></label>
+            <select class="form-font" name="paid" id="paid" class="form-control" size="1">
+                
+                <!-- Default value for Paid is '5' (cosmetic) -->
+                <option value="5" selected>5 - COSMETIC</option>
+                
+                {% if feature.paid == 1 %}
                     <option value="1" selected>1 - URGENT</option>
                 {% else %}
                     <option value="1">1 - URGENT</option>
                 {% endif %}
                             
-                {% if feature.priority == 2 %}
+                {% if feature.paid == 2 %}
                     <option value="2" selected>2 - HIGH PRIORITY</option>
                 {% else %}
                     <option value="2">2 - HIGH PRIORITY</option>
                 {% endif %}
                         
-                {% if feature.priority == 3 %}
+                {% if feature.paid == 3 %}
                     <option value="3" selected>3 - MEDIUM PRIORITY</option>
                 {% else %}
                     <option value="3">3 - MEDIUM PRIORITY</option>
                 {% endif %}
                             
-                {% if feature.priority == 4 %}
+                {% if feature.paid == 4 %}
                     <option value="4" selected>4 - LOW PRIORITY</option>
                 {% else %}
                     <option value="4">4 - LOW PRIORITY</option>
                 {% endif %}
                             
-                {% if feature.priority == 5 %}
-                    <option value="5" selected>5 - COSMETIC</option>
-                {% else %}
-                    <option value="5">5 - COSMETIC</option>
-                {% endif %}
+                <!-- Default value '5' set above -->
                 
             </select>
         </div>
@@ -230,7 +242,8 @@
             <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700">{{ feature.details }}</textarea>
         </div>
     </div>
-
+    
+    
     <!-- Submit Button -->
     <hr>
     <div class="row no-gutters mt-2 ">

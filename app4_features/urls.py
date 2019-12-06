@@ -4,6 +4,7 @@ from .views import features_home, feature_details, all_features_list, get_featur
 urlpatterns = [
     url(r'^features/$', features_home, name="features_home"),
     url(r'^features/new_feature/$', new_edit_feature, name="new_feature"),
+    url(r'^features/new_feature/$', new_edit_feature, name="new_feature"),
     url(r'^features/(?P<pk>\d+)/edit/$', new_edit_feature, name='edit_feature'),
     url(r'^features/(?P<pk>\d+)/update/$', update_feature_status, name='update_feature_status'),
     url(r'^features/(?P<pk>\d+)/$', feature_details, name='feature_details'),
