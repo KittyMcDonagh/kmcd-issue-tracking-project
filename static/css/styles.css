@@ -181,10 +181,88 @@ li {
     color: #fafaff!important;
 }
 
+
+/* Styling for Issues list and New Isses buttons in navbar */
+
+.iss-btn-color {
+    background-color: #ffa64d!important;
+    color: fafaff!important;
+    width:120px;
+
+}
+
+.iss-button-font {
+    font-size: 14px!important;
+}
+
+/* Styling for Features list and New Features nav links in navbar */
+
+.iss-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom:2px;
+    
+}
+
+@media(min-width:1025px) {
+    .iss-nav-link {
+        font-size: 18px;
+        padding: 15px!important;
+        margin-left: 10px;
+    }
+}
+
+.iss-nav-link:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+
+}
+
+
+
+/* Styling for Features list and New Features buttons in navbar */
+
+.ftr-btn-color {
+    background-color: #9999ff!important;
+    color: fafaff!important;
+    width:120px;
+
+}
+
+.ftr-button-font {
+    font-size: 14px!important;
+}
+
+/* Styling for Features list and New Features nav links in navbar */
+
+.ftr-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom:2px;
+    
+}
+
+@media(min-width:1025px) {
+    .ftr-nav-link {
+        font-size: 18px;
+        padding: 15px!important;
+        margin-left: 10px;
+    }
+}
+
+.ftr-nav-link:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+
+}
+
+
 .cart-container {
     color: #3b3b3b!important;
     font-size: 18px;
-    padding-top: 15px;
+    
     margin-left: 0px;
 }
 
@@ -192,7 +270,7 @@ li {
     .cart-container {
         color: #3b3b3b!important;
         font-size: 18px;
-        padding-top: 15px;
+
         margin-left: 5px;
     }
 }
@@ -205,24 +283,41 @@ li {
 }
 
 
-.cart-style {
-    color: #3b3b3b!important;
-    padding: 15px;
-    font-size: 15px;
+/* Styling for cart button / icon */
 
+.cart-btn-color {
+    background-color: #9999ff!important;
+    color: fafaff!important;
+    width:120px;
+
+}
+
+.cart-button-font {
+    font-size: 14px!important;
+}
+
+.cart-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom:2px;
+    
 }
 
 @media(min-width:1025px) {
-    .cart-style {
+    .cart-nav-link {
         font-size: 18px;
-
+        padding: 15px!important;
+        margin-left: 10px;
     }
 }
 
-.cart-style:hover {
-    background-color: #6666ff;
-    color: #fafaff!important;
+.cart-nav-link:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+
 }
+
 
 /* Logo sizing and styling  */
 
@@ -336,12 +431,17 @@ li {
     height: 70px;
 }
 
+
+.page-no-link {
+    color: #3b3b3b!important;
+}
+
 .page-link {
     color: #3b3b3b!important;
 }
 
-
-.page-click:hover {
+/* Activate hover functionality on page numbers with live links only       */
+.page-live-link:hover {
     background-color: #6666ff!important;
     color: #fff!important;
 }
@@ -440,7 +540,14 @@ footer {
 
 /* css for userhome.html------------------------------------------------------*/
 
-/* Style for issues filter dropdown */
+/* Style for issues filter icon */
+
+.iss-icon-color {
+    color: #ffa64d!important;
+    background-color: #f3f2f2!important;
+
+
+}
 
 .filter-dd {
     background-color: #f3f2f2!important;
@@ -489,126 +596,189 @@ footer {
 /* Center the status in its col for a better look on larger screens.
    No centering on smaller screens as the cols will be one line across the 
    screen (col-12s) */
-   
+
 @media(min-width:768px) {
     .status-align {
-        padding-left:40px!important;
+        padding-left: 40px!important;
     }
 }
 
 
-    .table-style {
-        font-size: 12px;
-        font-family: "Nunito", sans-serif;
-        width: 100%;
-    }
+.table-style {
+    font-size: 12px;
+    font-family: "Nunito", sans-serif;
+    width: 100%;
+}
 
-    /* The following 'td-* styles are to fix the width of the table cells so that
+/* The following 'td-* styles are to fix the width of the table cells so that
     they display smoothly and the table headings stay in the same position 
     when new data is displayed */
-    .td-username {
-        width: 115px;
-    }
 
-    .td-date {
-        width: 85px;
-    }
+.td-username {
+    width: 115px;
+}
 
-    .td-sw-comp {
-        width: 179px;
-    }
+.td-date {
+    width: 85px;
+}
 
-
-    .td-priority {
-        width: 71px;
-
-    }
-
-    .td-summary {
-        width: 650px;
-
-    }
-
-    .td-status {
-        width: 75px;
-
-    }
-
-    .td-more {
-        width: 56px;
-
-    }
-
-    .more-icon-th {
-        color: #3b3b3b;
-    }
-
-    .more-icon-style {
-        color: #3b3b3b;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .more-icon-style:hover {
-        color: #fafaff;
-        background-color: #6666ff;
-    }
+.td-sw-comp {
+    width: 179px;
+}
 
 
-    /* css for issuelogging.html-------------------------------------------------*/
+.td-priority {
+    width: 71px;
+
+}
+
+.td-summary {
+    width: 650px;
+
+}
+
+.td-status {
+    width: 75px;
+
+}
+
+.td-more {
+    width: 56px;
+
+}
+
+.more-icon-th {
+    color: #3b3b3b;
+}
+
+.more-icon-style {
+    color: #3b3b3b;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.more-icon-style:hover {
+    color: #fafaff;
+    background-color: #6666ff;
+}
+
+
+/* css for issuelogging.html-------------------------------------------------*/
+
+.form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.form-font {
+    font-size: 13px;
+}
+
+
+@media(min-width:1024px) {
     .form-style {
-        border: solid 1px #d9d9d9;
-        border-radius: 15px;
-        background-color: #fff;
-        padding: 15px;
+        padding: 20px;
+        margin-left: 50px;
+        margin-right: 50px;
     }
 
     .form-font {
-        font-size: 13px;
+        font-size: 15px;
     }
 
+}
 
-    @media(min-width:1024px) {
-        .form-style {
-            padding: 20px;
-            margin-left: 50px;
-            margin-right: 50px;
-        }
 
-        .form-font {
-            font-size: 15px;
-        }
-
+@media(min-width:768px) {
+    .position {
+        text-align: right;
     }
-
-    @media(min-width:768px) {
-        .position {
-            text-align: right;
-        }
-    }
+}
 
 
-    select {
-        background-color: #f3f2f2!important;
-        color: #3b3b3b!important;
-        font-size: 12px!important;
-    }
+select {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+}
 
-    select:hover {
-        background-color: #fff!important;
-        color: #6666ff!important;
+select:hover {
+    background-color: #fff!important;
+    color: #6666ff!important;
 
-    }
+}
 
-    /* css for issuedetails.html ------------------------------------------------*/
-    /* Set text align for assigned user, depending on device size   */
+/* css for issuedetails.html ------------------------------------------------*/
+
+/* Set text align for assigned user, depending on device size   */
+
+.asng-user-txt-align {
+    text-align: left;
+}
+
+@media(min-width:768px) {
     .asng-user-txt-align {
-        text-align: left;
+        text-align: right;
     }
 
-    @media(min-width:768px) {
-        .asng-user-txt-align {
-            text-align: right;
-        }
+}
 
+
+
+.ftr-btn-color {
+    background-color: #9999ff!important;
+    color: fafaff!important;
+    width:120px;
+
+}
+
+.ftr-button-font {
+    font-size: 14px!important;
+}
+
+.ftr-icon-color {
+    color: #9999ff!important;
+    background-color: #f3f2f2!important;
+
+
+}
+
+
+
+/* Styling for New Features button in navbar */
+
+.ftr-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom:2px;
+    
+}
+
+
+@media(min-width:1025px) {
+    .ftr-nav-link {
+        font-size: 18px;
+        padding: 15px!important;
+        margin-left: 10px;
     }
+}
+
+.ftr-nav-link:hover {
+    color: #6666ff!important;
+    background-color: #e6e6ff!important;
+    border-color: #e6e6ff!important;
+
+}
+
+/* css used in featurehome.html -----------------------------------------*/
+
+/* Features Filter icon style */
+
+.ftr-icon-color {
+    color: #8080ff!important;
+    background-color: #f3f2f2!important;
+
+
+}

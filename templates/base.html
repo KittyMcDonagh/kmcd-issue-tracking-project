@@ -85,12 +85,16 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="nav-item nav-issues-align"><a class="nav-link " href="{% url 'user_home' %}">My Issues</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'get_all_issues' %}" data-value="ALL ISSUES">All Issues</a></li>
+                    <li class="nav-item nav-issues-align"><a class=" btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'user_home' %}"><i class="fas fa-list pr-1"></i>ISSUES</a></li>
+
+
+
+                    {%if userdetails.user_type == "C" %}
 
                     <!-- Only Client-side users can enter issues -->
-                    {%if userdetails.user_type == "C" %}
-                    <li class="nav-item "><a class="nav-link" href="{% url 'new_issue' %}">New Issue</a></li>
+
+                    <li class="nav-item "><a class="btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
+
 
                     {% else %}
 
@@ -101,27 +105,43 @@
                     </li>
                     {% endif %}
 
-                    <li class="nav-item"><a class="nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES">Features</a></li>
-                    
+                    <li class="nav-item"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
 
-                    <!-- Add shopping cart - code copied from e-commerce product-->
-                    <li class="cart-container">
-                        <a class="cart-style" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
+                    <!-- Only Client-side users can enter new features -->
+
+                    {%if userdetails.user_type == "C" %}
+
+                    <li class="nav-item"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
+
+                        <!-- Shopping cart is shown for client-side users only.  
+                         Add shopping cart - code copied from e-commerce product-->
+
+                        <li class="cart-container">
+                            <a class="btn cart-btn-color cart-button-font cart-nav-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
                         
                             {% if product_count > 0 %}
                             <!-- This will show how many items are in the cart -->
                             <label class="badge badge-warning">{{ feature_count }}</label>
                             {% endif %}
                         </a>
-                    </li>
+                        </li>
 
 
-                    {% else %}
-                    <!-- User is not logged in -->
+                        {% else %}
 
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
-                    {% endif %}
+                        <!-- Keep the space but blank it out (background and color will be the same). This is so
+                         that 'Features' (below) will always appear in the same space on the navbar-->
+
+                        <li class="nav-blank">New Feature</a>
+                        </li>
+
+
+                        {% endif %} {% else %}
+                        <!-- User is not logged in -->
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
+                        {% endif %}
 
                 </ul>
             </div>
@@ -162,7 +182,7 @@
 
         <ul class="pagination justify-content-center mt-3">
             {% if listing.has_previous %}
-            <li class="page-item"><a class="page-link " href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+            <li class="page-item"><a class="page-link page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&laquo;</span></li>
             {% endif %} {% for i in listing.paginator.page_range %} {% if listing.number == i %}
@@ -170,9 +190,9 @@
             </li>
 
             {% else %}
-            <li class="page-item"><a class="page-link " href="?page={{ i }}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link page-live-link" href="?page={{ i }}">{{ i }}</a></li>
             {% endif %} {% endfor %} {% if listing.has_next %}
-            <li class="page-item"><a class="page-link " href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+            <li class="page-item"><a class="page-link page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
             {% else %}
             <li class="page-item"><span class="page-link">&raquo;</span></li>
             {% endif %}
@@ -585,84 +605,10 @@
                         });
 
 
-                        // Issues Pagination:
-                        // Get the pagination parameters passed from 
-                        // views.get_issues and output them to the html page,
-                        // so that the user can select the pages
+                        // Output the pagination parameters for the issues list to the html page
 
-                        var has_other_pages = data.pagination_props.has_other_pages;
-                        var has_prev_page = data.pagination_props.has_prev_page;
-                        var current_page = data.pagination_props.current_page;
-                        var has_next_page = data.pagination_props.has_next_page;
-                        var prev_page_nr = data.pagination_props.prev_page_nr;
-                        var next_page_nr = data.pagination_props.next_page_nr;
-                        var page_range = data.pagination_props.page_range;
-
-
-                        // Clear the pagination nav, in case we only have one page
-                        $("#paginate").empty();
-
-                        if (has_other_pages) {
-
-                            if (has_prev_page) {
-                                var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
-
-                            }
-                            else {
-                                prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
-
-                            }
-
-                            // Perform pagination
-
-                            var pageLinks = "";
-                            var i = 0;
-
-                            for (i in page_range) {
-
-                                if (current_page === page_range[i]) {
-
-                                    if (pageLinks == "") {
-
-                                        pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                    }
-                                    else {
-                                        pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                    }
-
-                                }
-                                else {
-
-                                    if (pageLinks == "") {
-
-                                        pageLinks = "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-                                    }
-                                    else {
-                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-
-                                    }
-                                }
-
-                            }
-
-                            if (has_next_page) {
-
-                                var nextPageLink = "<li class='page-item'><a class='page-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
-
-                            }
-                            else {
-
-                                nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>";
-
-                            }
-
-                            var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>";
-
-
-                            $("#paginate").append(
-                                pageNav
-                            );
-                        }
+                        let listDesc = "issues"
+                        outputPaginationValues(data, listDesc)
 
                     },
                     traditional: true
@@ -821,7 +767,7 @@
 
                 let page = 1;
 
-                getFeatures(featureFilter, statusFilter, paidFilter, clientFilter, page);
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
             });
 
 
@@ -952,7 +898,7 @@
             // views.get_features and output them to the html page,
             // so that the user can select the pages
 
-            function outputPaginationValues(data) {
+            function outputPaginationValues(data, listDesc) {
 
                 var has_other_pages = data.pagination_props.has_other_pages;
                 var has_prev_page = data.pagination_props.has_prev_page;
@@ -968,9 +914,19 @@
                 if (has_other_pages) {
 
                     if (has_prev_page) {
-                        var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
 
+                        if (listDesc == "issues") {
+
+                            // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                            // list being paginated is for Issues or Features
+
+                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                        }
+                        else {
+                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                        }
                     }
+
                     else {
                         prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
 
@@ -998,10 +954,29 @@
 
                             if (pageLinks == "") {
 
-                                pageLinks = "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                                // list being paginated is for Issues or Features
+
+                                if (listDesc == "issues") {
+                                    pageLinks = "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                }
+                                else {
+                                    pageLinks = "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                                }
                             }
                             else {
-                                pageLinks = pageLinks + "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                                // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                                // list being paginated is for Issues or Features
+
+                                if (listDesc == 'issues') {
+                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                }
+                                else {
+
+                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                }
 
                             }
                         }
@@ -1010,7 +985,17 @@
 
                     if (has_next_page) {
 
-                        var nextPageLink = "<li class='page-item'><a class='page-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                        // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                        // list being paginated is for Issues or Features
+
+                        if (listDesc == "issues") {
+
+                            var nextPageLink = "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                        }
+                        else {
+
+                            var nextPageLink = "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                        }
 
                     }
                     else {
@@ -1041,7 +1026,7 @@
 
                 $.post({
                     url: "{% url 'get_features' %}",
-                    
+
                     data: {
                         csrfmiddlewaretoken: "{{csrf_token}}",
                         featuresFilter: featuresFilter,
@@ -1062,7 +1047,7 @@
 
                         var userMessage = data.user_mesg.user_message;
                         console.log("have user_message")
-                        
+
                         if (userMessage != "") {
                             console.log("userMessage: " + userMessage);
                             $('.user-message').text(userMessage);
@@ -1079,7 +1064,7 @@
 
                         $("tbody").empty();
                         $.each(data.features, function(key, value) {
-                            
+
                             console.log("in table body")
 
                             var featureId = value.id;
@@ -1114,9 +1099,10 @@
 
                         });
 
-                        // Output the pagination parameters to the html page
-                        
-                        outputPaginationValues(data);
+                        // Output the pagination parameters for the features list to the html page
+
+                        let listDesc = "features"
+                        outputPaginationValues(data, listDesc);
 
                     },
                     traditional: true
