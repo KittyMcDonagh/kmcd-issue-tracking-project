@@ -13,6 +13,8 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 from .models import Feature
 
+from .forms import LogNewFeatureForm, FeatureStatusForm
+
 
 """
 Features home page
@@ -210,7 +212,7 @@ def all_features_list(request):
     
     listing = features
   
-    return render(request, 'featureslist.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'features': features, 'all_clients': AllClients, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_filter": SelectedPaidFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing })
+    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'features': features, 'all_clients': AllClients, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_filter": SelectedPaidFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing })
 
 
 """
@@ -568,3 +570,122 @@ def FinalFilterFeatures(request, Features, UserDetails):
     Features = Features.order_by('-input_date')
         
     return Features
+
+
+"""
+Create a view that allows us to log a new feature or edit an existing one 
+depending on whether the pk is null or not. 
+"""
+def new_edit_feature(request, pk=None):
+    
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the Issue Tracker app. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Features Filter
+        # values the client user can use, and the filtered features
+            
+        ClientDetails = get_client(request, UserDetails)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+    
+    feature = get_object_or_404(Feature, pk=pk) if pk else None
+    
+    print(request.method)
+    
+    if request.method == "POST":
+        
+        print("request is post-----------------------------------------")
+        
+        form = LogNewFeatureForm(request.POST, request.FILES, instance=feature)
+        
+        if form.is_valid():
+            print("feature form is valid")
+        
+            feature = form.save()
+            
+            print("feature form: "+str(form))
+            return redirect(feature_details, feature.pk)
+        else:
+            print("feature form: "+str(form))
+            messages.error(request, "UNABLE TO LOG FEATURE!")
+            
+    else:
+        print("request is get-----------------------------------------")
+        print("feature: "+str(feature))
+        form = LogNewFeatureForm(instance=feature)
+    
+    return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+
+
+"""
+Create a view that allows a vendor-side user to change the status of a featur. 
+"""
+def update_feature_status(request, pk=None):
+    
+    print(" FEATURE UPDATE STATUS ------------------------------------------")
+    
+    # This view is for vendor-side users only
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # User is on the Vendor side
+        
+    VendorDetails = get_vendor(request, UserDetails)
+    
+    feature = get_object_or_404(Feature, pk=pk)
+    
+    FeatureClientDetails = get_feature_client_details(request, feature)
+    
+    print(request.method)
+    
+    if request.method == "POST":
+        
+        print("request is post-----------------------------------------")
+        
+        form = FeatureStatusForm(request.POST, request.FILES, instance=feature)
+        
+        if form.is_valid():
+            print("feature form is valid")
+        
+            feature = form.save()
+            
+            print("feature form: "+str(form))
+            return redirect(feature_details, feature.pk)
+        else:
+            print("feature form: "+str(form))
+            messages.error(request, "UNABLE TO LOG FEATURE!")
+            
+    else:
+        print("request is get-----------------------------------------")
+        print("feature: "+str(feature))
+        form = FeatureStatusForm(instance=feature)
+    
+    return  render(request, 'featurestatus.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+
+
+

@@ -1,0 +1,244 @@
+{% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
+
+<!-- This form will be used for the Input of New Features and for Editing 
+     an existing feature -->
+
+
+<form method="POST" enctype="multipart/form-data" class="form-style">
+
+    {% csrf_token %}
+
+
+
+    <!-- NOTE: We are in 'New Feature' or in 'Edit Feature' mode. -->
+
+    <!-- Fields with default values -->
+
+    <!-- For new features the default client code, is the user's client code.
+         If we're editing an existing feature, the user is a client-side user, and
+         the feature client code and the user client code are the same, otherwise they
+          couldnt edit -->
+
+    <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
+
+    <!-- Set the following field to the default value, or to the feature value, depending on whether 
+         inputting a new feature, or editing an existing one -->
+
+    {% if feature.user_id == null %}
+    
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
+
+    <!-- If in 'New Feature' mode, the default for this field is the input user. If in 'Edit' mode 
+         the assigned user is = logged in user, otherwise they couldnt edit  -->
+
+    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
+
+    <!-- Set the following field to the default value, or to the feature value, depending on whether 
+         inputting a new feature, or editing an existing one -->
+
+    {% if feature.assigned_vendor_user == null %}
+    
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> {% endif %}
+
+    <!-- Top of form: Software Component, Priority, and Status -->
+
+     <!-- Component -->
+     
+    <div class="row no-gutters">
+        <div class="col-12 col-md-5 pt-1">
+            <div class="row no-gutters">
+                <div class="col-12 form-font">
+                    <label for="sw_comp"><strong>Component: </strong></label>
+                    <select class="form-font" name="software_component" id="sw_comp" class="form-control" size="1">
+                        {% if feature.software_component == "ACCOUNTS RECEIVABLE" %}
+                        <option value="ACCOUNTS RECEIVABLE" selected>ACCOUNTS RECEIVABLE</option>
+                        {% else %}
+                        <option value="ACCOUNTS RECEIVABLE">ACCOUNTS RECEIVABLE</option>
+                        {% endif %}
+                            
+                        {% if feature.software_component == "ACCOUNTS PAYABLE" %}
+                        <option value="ACCOUNTS PAYABLE" selected>ACCOUNTS PAYABLE</option>
+                        {% else %}
+                        <option value="ACCOUNTS PAYABLE">ACCOUNTS PAYABLE</option>
+                        {% endif %}
+                                
+                        {% if feature.software_component == "CUSTOMERS" %}
+                        <option value="CUSTOMERS" selected>CUSTOMERS</option>
+                        {% else %}
+                        <option value="CUSTOMERS">CUSTOMERS</option>
+                        {% endif %}
+                                
+                        {% if feature.software_component == "PURCHASING" %}
+                        <option value="PURCHASING" selected>PURCHASING</option>
+                        {% else %}
+                        <option value="PURCHASING">PURCHASING</option>
+                        {% endif %}
+                                
+                        {% if feature.software_component == "SALES" %}
+                        <option value="SALES" selected>SALES</option>
+                        {% else %}
+                        <option value="SALES">SALES</option>
+                        {% endif %}
+                                
+                        {% if feature.software_component == "VENDORS" %}
+                        <option value="VENDORS" selected>VENDORS</option>
+                        {% else %}
+                        <option value="VENDORS">VENDORS</option>
+                        {% endif %}
+                                
+                        {% if feature.software_component == "OTHER" %}
+                        <option value="OTHER" selected>OTHER</option>
+                        {% else %}
+                        <option value="OTHER">OTHER</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <!-- NOTE: featurelogging.html is for client-side users only, when inputting
+                   new features or editing existing ones.
+                   A client-side user can only be in Edit mode if the issue is
+                   assigned to them, and the feature is at a status of DRAFT or
+                   LOGGED. 
+                   They can only set the feature to a status of DRAFT (this
+                   is the only option available on new features), or a status of 
+                   LOGGED.-->
+                   
+        <div class="col-12 col-md-3 form-font pt-1 pb-1">
+            <label class="form-font" for="status"><strong>Status: </strong></label>
+            <select class="form-font" name="status" id="status" class="form-control" size="1">
+                {% if feature.status == "DRAFT" %}
+                <option value="DRAFT" selected>DRAFT</option>
+                {% else %}
+                <option value="DRAFT">DRAFT</option>
+                {% endif %}
+                
+                {% if feature.status == "LOGGED" %}
+                <option value="LOGGED" selected>LOGGED</option>
+                {% else %}
+                
+                <!-- If client user is inputting a new issue, they can only have
+                     a status of 'DRAFT'. So if this is not a new issue, disable
+                     LOGGED -->
+                     
+                {% if feature.status != null %}
+                <option value="LOGGED">LOGGED</option>
+                {% else %}
+                <option value="LOGGED" disabled>LOGGED</option>
+                {% endif %} {% endif %}
+                        
+                <!-- All other status values are disabled for client-side users-->
+                <option value="OPEN" disabled>OPEN</option>
+                <option value="ANALYSIS"disabled>ANALYSIS</option>
+                <option value="FIXING" disabled>FIXING</option>
+                <option value="TESTING" disabled>TESTING</option>
+                <option value="DEPLOYED" disabled>DEPLOYED</option>
+                <option value="CLOSED" disabled>CLOSED</option>
+            </select>
+        </div>
+
+
+        <!--  Priority -->
+
+        <div class="col-12 col-md-4 form-font pt-1 position">
+
+            <label class="form-font" for="priority"><strong>Priority: </strong></label>
+            <select class="form-font" name="priority" id="priority" class="form-control" size="1">
+                        
+                {% if feature.priority == 1 %}
+                    <option value="1" selected>1 - URGENT</option>
+                {% else %}
+                    <option value="1">1 - URGENT</option>
+                {% endif %}
+                            
+                {% if feature.priority == 2 %}
+                    <option value="2" selected>2 - HIGH PRIORITY</option>
+                {% else %}
+                    <option value="2">2 - HIGH PRIORITY</option>
+                {% endif %}
+                        
+                {% if feature.priority == 3 %}
+                    <option value="3" selected>3 - MEDIUM PRIORITY</option>
+                {% else %}
+                    <option value="3">3 - MEDIUM PRIORITY</option>
+                {% endif %}
+                            
+                {% if feature.priority == 4 %}
+                    <option value="4" selected>4 - LOW PRIORITY</option>
+                {% else %}
+                    <option value="4">4 - LOW PRIORITY</option>
+                {% endif %}
+                            
+                {% if feature.priority == 5 %}
+                    <option value="5" selected>5 - COSMETIC</option>
+                {% else %}
+                    <option value="5">5 - COSMETIC</option>
+                {% endif %}
+                
+            </select>
+        </div>
+    </div>
+
+
+    <hr>
+
+    <!-- Feature Title -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+            <label for="title"><strong><em>Title:</em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50">{{ feature.title }}</textarea>
+        </div>
+    </div>
+
+
+    <!-- Feature Summary -->
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <label for=" summary "><strong><em>Summary: </em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="summary " id="summary " class="form-control form-font" rows="2 " maxlength="100">{{ feature.summary }}</textarea>
+        </div>
+    </div>
+
+
+
+    <!-- Feature Details  -->
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <label for="details "><strong><em>Details: </em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters mb-4">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700">{{ feature.details }}</textarea>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <hr>
+    <div class="row no-gutters mt-2 ">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
+            <button class="btn btn-color " type="submit ">Submit</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
