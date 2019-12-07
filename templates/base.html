@@ -93,7 +93,7 @@
 
                     <!-- Only Client-side users can enter issues -->
 
-                    <li class="nav-item "><a class="btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
+                    <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
 
 
                     {% else %}
@@ -105,25 +105,24 @@
                     </li>
                     {% endif %}
 
-                    <li class="nav-item"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
+                    <li class="nav-item iss-ftr-gap"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
 
                     <!-- Only Client-side users can enter new features -->
 
                     {%if userdetails.user_type == "C" %}
 
-                    <li class="nav-item"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
+                    <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
 
                         <!-- Shopping cart is shown for client-side users only.  
                          Add shopping cart - code copied from e-commerce product-->
 
                         <li class="cart-container">
-                            <a class="btn cart-btn-color cart-button-font cart-nav-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart "></i> Cart
-                        
+                            <a class="cart-color cart-button-font cart-nav-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
                             {% if product_count > 0 %}
                             <!-- This will show how many items are in the cart -->
                             <label class="badge badge-warning">{{ feature_count }}</label>
-                            {% endif %}
-                        </a>
+                            {% endif %}</a>
+                        
                         </li>
 
 
@@ -175,27 +174,98 @@
     <!-- Pagination 
          This is used by both the issues list and the features list.
          Both issues and features are passed back in 'listing' so that the
-         pagination variables will be picked up -->
+         pagination variables will be picked up 
+         Specific classes prefixed with 'iss- are added for issue; and classes
+         prefixed with 'ftr-' are added for features. This is because the 
+         highlighter color is different for each  -->
 
     <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
         {% if listing.has_other_pages %}
 
         <ul class="pagination justify-content-center mt-3">
-            {% if listing.has_previous %}
-            <li class="page-item"><a class="page-link page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in listing.paginator.page_range %} {% if listing.number == i %}
-            <li class="page-item"><span class="page-link selected">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
 
+            {% if listing.has_previous %} 
+            
+                <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                     features list ('ftr-')  -->
+                 
+                {% if list_type == "issues" %}
+
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+
+                {% else %}
+
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+
+                {% endif %} 
+                
             {% else %}
-            <li class="page-item"><a class="page-link page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if listing.has_next %}
-            <li class="page-item"><a class="page-link page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+                <li class="page-item"><span class="page-link">&laquo;</span></li>
+                
+                {% endif %} 
+                
+                <!-- Output the other page numbers -->
+                
+                {% for i in listing.paginator.page_range %} 
+                
+                    {% if listing.number == i %}
+
+                    <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                         features list ('ftr-')  -->
+
+                        {% if list_type == "issues" %}
+
+                            <li class="page-item"><span class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
+                            </li>
+
+                        {% else %}
+
+                            <li class="page-item"><span class="page-link ftr-selected">{{ i }} <span class="sr-only">(current)</span></span>
+                            </li>
+
+                        {% endif %} 
+                        
+                    {% else %}
+
+                        <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                             features list ('ftr-')  -->
+
+                    {% if list_type == "issues" %}
+
+                        <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+
+                    {% else %}
+
+                        <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+
+
+                    {% endif %} 
+                    
+                {% endif %} 
+                
+            {% endfor %} 
+            
+            {% if listing.has_next %} 
+            
+                 <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                     features list ('ftr-')  -->
+                 
+                {% if list_type == "issues" %}
+
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+                {% else %}
+
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+                {% endif %} 
+            
             {% else %}
-            <li class="page-item"><span class="page-link">&raquo;</span></li>
+
+                <li class="page-item"><span class="page-link">&raquo;</span></li>
             {% endif %}
+
         </ul>
         {% endif %}
     </nav>
@@ -909,7 +979,13 @@
                 var page_range = data.pagination_props.page_range;
 
                 // Clear the pagination nav, in case we only have one page
+
                 $("#paginate").empty();
+
+                // NOTE: The html elements weren't rendering correctly when I output the values straight
+                // to the <ul> / <li> e.g. it was adding </ul> / </li> in places where I didnt want them. 
+                // To get around the problem I output the html elements to a variable first, then output it
+                // to the html element. This worked.
 
                 if (has_other_pages) {
 
@@ -918,12 +994,16 @@
                         if (listDesc == "issues") {
 
                             // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
-                            // list being paginated is for Issues or Features
+                            // list being paginated is for Issues or Features, so that the correct js functions will be 
+                            // triggered for each list
+                            // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                            // list being paginated is for Issues or Features, so that they will be highlighted with the correct
+                            // color or hover
 
-                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                         else {
-                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                     }
 
@@ -943,39 +1023,66 @@
 
                             if (pageLinks == "") {
 
-                                pageLinks = "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                if (listDesc == "issues") {
+
+                                    // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
+                                    // issues list or features list, so that the highlight color for each will be applied
+
+                                    pageLinks = "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                }
+                                else {
+                                    pageLinks = "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                }
+
                             }
                             else {
-                                pageLinks = pageLinks + "<li class='page-item'><span class='page-link selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                            }
 
+                                if (listDesc == "issues") {
+
+                                    // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
+                                    // issues list or features list, so that the highlight color for each will be applied
+
+                                    pageLinks = pageLinks + "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                }
+                                else {
+                                    pageLinks = pageLinks + "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                }
+                            }
                         }
                         else {
 
                             if (pageLinks == "") {
 
                                 // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
-                                // list being paginated is for Issues or Features
+                                // list being paginated is for Issues or Features, so that the correct js functions will be 
+                                // triggered for each list
+                                // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                                // list being paginated is for Issues or Features, so that they will be highlighted with the
+                                // correct color on hover
 
                                 if (listDesc == "issues") {
-                                    pageLinks = "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
                                 else {
-                                    pageLinks = "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
 
                                 }
                             }
                             else {
 
                                 // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
-                                // list being paginated is for Issues or Features
+                                // list being paginated is for Issues or Features, so that the correct js functions will be 
+                                // triggered for each list
+                                // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                                // list being paginated is for Issues or Features, so that they will be highlighted with the
+                                // correct color on hover
 
                                 if (listDesc == 'issues') {
-                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
                                 else {
 
-                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
 
                             }
@@ -990,11 +1097,11 @@
 
                         if (listDesc == "issues") {
 
-                            var nextPageLink = "<li class='page-item'><a class='page-link page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                            var nextPageLink = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                         }
                         else {
 
-                            var nextPageLink = "<li class='page-item'><a class='page-link page-live-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                            var nextPageLink = "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                         }
 
                     }

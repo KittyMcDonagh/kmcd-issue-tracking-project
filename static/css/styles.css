@@ -140,14 +140,14 @@ li {
 
 @media(min-width:1024px) {
     .nav-issues-align {
-        padding-left: 20px!important
+        padding-left: 10px!important
     }
 
 }
 
 @media(min-width:1025px) {
     .nav-issues-align {
-        padding-left: 150px!important
+        padding-left: 100px!important
     }
 }
 
@@ -185,9 +185,9 @@ li {
 /* Styling for Issues list and New Isses buttons in navbar */
 
 .iss-btn-color {
-    background-color: #ffa64d!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
-    width:120px;
+    width: 120px;
 
 }
 
@@ -197,18 +197,25 @@ li {
 
 /* Styling for Features list and New Features nav links in navbar */
 
+.iss-ftr-ml {
+    margin-left: 0px;
+}
+
+@media(min-width:1024px) {
+    .iss-ftr-ml {
+        margin-left: 5px;
+    }
+}
+
 .iss-nav-link {
     font-size: 15px;
     padding: 15px!important;
-    margin-bottom:2px;
-    
+    margin-bottom: 2px;
 }
 
 @media(min-width:1025px) {
     .iss-nav-link {
         font-size: 18px;
-        padding: 15px!important;
-        margin-left: 10px;
     }
 }
 
@@ -224,9 +231,9 @@ li {
 /* Styling for Features list and New Features buttons in navbar */
 
 .ftr-btn-color {
-    background-color: #9999ff!important;
+    background-color: #8a8ae6!important;
     color: fafaff!important;
-    width:120px;
+    width: 100px;
 
 }
 
@@ -234,13 +241,35 @@ li {
     font-size: 14px!important;
 }
 
+/* Create a space between the Issues buttons and the Features buttons in the 
+   navbar */
+
+.iss-ftr-gap {
+    margin-left: 0px
+}
+
+@media(min-width:1024px) {
+    .iss-ftr-gap {
+        margin-left: 10px
+    }
+}
+
+
+
+@media(min-width:1025px) {
+    .iss-ftr-gap {
+        margin-left: 100px!important
+    }
+}
+
+
 /* Styling for Features list and New Features nav links in navbar */
 
 .ftr-nav-link {
     font-size: 15px;
     padding: 15px!important;
-    margin-bottom:2px;
-    
+    margin-bottom: 2px;
+
 }
 
 @media(min-width:1025px) {
@@ -261,23 +290,24 @@ li {
 
 .cart-container {
     color: #3b3b3b!important;
-    font-size: 18px;
-    
     margin-left: 0px;
+    font-size: 14px;
+    padding-top: 15px;
+
 }
 
 @media(min-width:1024px) {
     .cart-container {
-        color: #3b3b3b!important;
-        font-size: 18px;
-
         margin-left: 5px;
     }
 }
 
 @media(min-width:1025px) {
     .cart-container {
+        font-size: 18px;
         margin-left: 80px;
+        padding: 13px;
+
 
     }
 }
@@ -285,36 +315,26 @@ li {
 
 /* Styling for cart button / icon */
 
-.cart-btn-color {
-    background-color: #9999ff!important;
-    color: fafaff!important;
-    width:120px;
-
-}
-
-.cart-button-font {
-    font-size: 14px!important;
-}
-
 .cart-nav-link {
-    font-size: 15px;
-    padding: 15px!important;
-    margin-bottom:2px;
-    
+    font-size: 13px!important;
+    padding: 15px;
+    margin-bottom: 2px;
+    color: #8a8ae6!important;
+    width: 120px;
+
 }
 
 @media(min-width:1025px) {
     .cart-nav-link {
-        font-size: 18px;
-        padding: 15px!important;
         margin-left: 10px;
     }
 }
 
 .cart-nav-link:hover {
-    color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
+    background-color: #8a8ae6!important;
+    color: #fff!important;
+    border-color: #fff!important;
+    border-radius: 5px;
 
 }
 
@@ -432,21 +452,47 @@ li {
 }
 
 
-.page-no-link {
-    color: #3b3b3b!important;
-}
+/* Pagination page links are highlighted in different colors depending on whether
+   its the issues list or the features list. The colors match the colors in 
+   the navbar for the issues and features buttons and gives the user a hint
+   as to whether they're looking at the issues or features list */
 
 .page-link {
     color: #3b3b3b!important;
 }
 
+.iss-page-live-link {
+    color: #3b3b3b!important;
+}
+
 /* Activate hover functionality on page numbers with live links only       */
-.page-live-link:hover {
+
+.iss-page-live-link:hover {
     background-color: #6666ff!important;
     color: #fff!important;
 }
 
-.selected {
+.ftr-page-live-link {
+    color: #3b3b3b!important;
+}
+
+/* Activate hover functionality on page numbers with live links only       */
+
+.ftr-page-live-link:hover {
+    background-color: #8a8ae6!important;
+    color: #fff!important;
+}
+
+
+
+
+.ftr-selected {
+    background-color: #8a8ae6!important;
+    color: #fff!important;
+
+}
+
+.iss-selected {
     background-color: #6666ff!important;
     color: #fff!important;
 
@@ -540,10 +586,12 @@ footer {
 
 /* css for userhome.html------------------------------------------------------*/
 
-/* Style for issues filter icon */
+/* Style for issues filter icon. This matches the color of the issues buttons
+   in the navbar and gives a hint to the user as to whether they're looking at
+   t issues or features list */
 
 .iss-icon-color {
-    color: #ffa64d!important;
+    color: #6666ff!important;
     background-color: #f3f2f2!important;
 
 
@@ -728,9 +776,9 @@ select:hover {
 
 
 .ftr-btn-color {
-    background-color: #9999ff!important;
+    background-color: #8a8ae6!important;
     color: fafaff!important;
-    width:120px;
+    width: 120px;
 
 }
 
@@ -739,7 +787,7 @@ select:hover {
 }
 
 .ftr-icon-color {
-    color: #9999ff!important;
+    color: #8a8ae6!important;
     background-color: #f3f2f2!important;
 
 
@@ -747,37 +795,15 @@ select:hover {
 
 
 
-/* Styling for New Features button in navbar */
-
-.ftr-nav-link {
-    font-size: 15px;
-    padding: 15px!important;
-    margin-bottom:2px;
-    
-}
-
-
-@media(min-width:1025px) {
-    .ftr-nav-link {
-        font-size: 18px;
-        padding: 15px!important;
-        margin-left: 10px;
-    }
-}
-
-.ftr-nav-link:hover {
-    color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
-
-}
 
 /* css used in featurehome.html -----------------------------------------*/
 
-/* Features Filter icon style */
+/* Features Filter icon style. This matches the color of the features buttons
+   in the navbar and gives a hint to the user as to whether they're looking at
+   t issues or features list */
 
 .ftr-icon-color {
-    color: #8080ff!important;
+    color: #8a8ae6!important;
     background-color: #f3f2f2!important;
 
 
