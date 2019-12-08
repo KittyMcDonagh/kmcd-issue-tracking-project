@@ -173,7 +173,7 @@ def get_features(request):
         
         Features = Feature.objects.all()
     
-        print("after 'Feature.objects.all()' "+str(Features))
+        print("after 'Feature.objects.all()' ")
         
         # User has requested all features assigned to them?
                 
@@ -217,9 +217,7 @@ def get_features(request):
         # -side users only)
             
         if client_filter != "ALL":
-            print("before getting features by client: "+str(Features))
             Features = Features.filter(client_code=client_filter)
-            print("after getting features by client: "+str(Features))
             
         # . . . or if Paid filter is set 
         
@@ -244,11 +242,8 @@ def get_features(request):
         
         print("after getting features by search value")
     
-    print("before final filter. Features: "+str(Features))
-    
+    print("")
     Features = FinalFilterFeatures(request, Features, UserDetails)
-    
-    print("after final filter. Features: "+str(Features))
     
     user_message = ""
     

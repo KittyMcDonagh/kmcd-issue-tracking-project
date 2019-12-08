@@ -119,8 +119,9 @@ def user_home(request):
     
     listing = issues
     list_type = "issues"
+    searching = 'n'
   
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching })
 
 
 """
@@ -210,11 +211,9 @@ def get_all_issues(request):
 
 """
 This function is called via the javascript in base.html
-Get the issues, filtered by the issues Filter option selected
+Get the issues, filtered by the issues Filter options selected
 """
 def get_issues(request):
-    
-    print("in get_issues ------------------------------------------>")
     
     data = []
     
@@ -224,9 +223,6 @@ def get_issues(request):
             
     UserDetails = get_user_iss_trk_details(request)
         
-    # Get all the issues from the issues database
-        
-    Issues = Issue.objects.all()
     
     # Get the filters - passed from the js in base.html
         
@@ -234,72 +230,90 @@ def get_issues(request):
     status_filter = request.POST.get('statusFilter')
     priority_filter = request.POST.get('priorityFilter')
     client_filter = request.POST.get('clientFilter')
+    search_value = request.POST.get('searchValue')
     
     print("issues_filter: "+str(issues_filter))
     print("status_filter: "+str(status_filter))
     print("priority_filter: "+str(priority_filter))
     print("client_filter: "+str(client_filter))
+    print("search_value: "+str(search_value))
     
     print("STILL in get_issues ------------------------------------------>")
     
+    # If the user is not using the search box, filter according to the filter
+    # values
     
-    # User has requested all issues assigned to them?
+    if not search_value:
+        
+        # Get all the issues from the issues database
+        
+        Issues = Issue.objects.all()
             
-    if issues_filter == 'ASSIGNED TO ME':
+        # User has requested all issues assigned to them?
                 
-        # Is this a Client-side user?
-                
-        if UserDetails.user_type == "C":
-    
-            Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
-    			
+        if issues_filter == 'ASSIGNED TO ME':
+                    
+            # Is this a Client-side user?
+                    
+            if UserDetails.user_type == "C":
+        
+                Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
+        			
+            else:
+                    
+                # This is a Vendor-side user
+                    
+                Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
+                    
         else:
+                    
+            # Has user requested 'Our Issues Only'?
+            # This option is relevant to Client-side users only'
+                    
+            if issues_filter == 'OUR ISSUES ONLY':
+                        
+                Issues = Issues.filter(client_code = UserDetails.vend_client_code)
+                                
+            else:
+                        
+                # Has user requested 'Other Clients' issues Only?
+                    
+                if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
                 
-            # This is a Vendor-side user
-                
-            Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
-                
+                    Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
+            
+        # Filter issues further if status filter is set . . .
+            
+        if status_filter != "ALL":
+            Issues = Issues.filter(status=status_filter)
+            
+        # . . . or if Client filter is set (client filter is availabe to vendor
+        # -side users only)
+            
+        if client_filter != "ALL":
+            Issues = Issues.filter(client_code=client_filter)
+            
+        # . . . or if Priority filter is set 
+        
+        print("Before filtering by priority: priority_filter "+str(priority_filter))
+            
+        if priority_filter != "ALL":
+            Issues = Issues.filter(priority=priority_filter)
+            
+        print("After filtering by priority: priority_filter "+str(priority_filter))
+            
+        
+        # Final filtering is done here to make sure users only see what they're
+        # allowed to see, and they're sorted by date, descending
+    
     else:
-                
-        # Has user requested 'Our Issues Only'?
-        # This option is relevant to Client-side users only'
-                
-        if issues_filter == 'OUR ISSUES ONLY':
-                    
-            Issues = Issues.filter(client_code = UserDetails.vend_client_code)
-                            
-        else:
-                    
-            # Has user requested 'Other Clients' issues Only?
-                
-            if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
-            
-                Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
         
-    # Filter issues further if status filter is set . . .
+        # User is using the search box to find issues. Select issues based on the 
+        # value input by the user only - if the value is found in the 'summary' field
+        # extract the issue
         
-    if status_filter != "ALL":
-        Issues = Issues.filter(status=status_filter)
+        Issues = Issue.objects.filter(summary__icontains=search_value)
         
-    # . . . or if Client filter is set (client filter is availabe to vendor
-    # -side users only)
-        
-    if client_filter != "ALL":
-        Issues = Issues.filter(client_code=client_filter)
-        
-    # . . . or if Priority filter is set 
-    
-    print("Before filtering by priority: priority_filter "+str(priority_filter))
-        
-    if priority_filter != "ALL":
-        Issues = Issues.filter(priority=priority_filter)
-        
-    print("After filtering by priority: priority_filter "+str(priority_filter))
-        
-    
-    # Final filtering is done here to make sure users only see what they're
-    # allowed to see, and they're sorted by date, descending
-    
     Issues = FinalFilterIssues(request, Issues, UserDetails)
     
     user_message = ""

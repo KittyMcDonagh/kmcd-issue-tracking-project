@@ -152,7 +152,7 @@
         <!-- A line is kept just below the navbar to display messages -->
 
         <div class="row no-gutters">
-            <div class="col-12 offset-lg-2 col-lg-6 p-0">
+            <div class="col-12 offset-lg-2 col-lg-8 p-0">
 
                 <ul class="mesg-style p-0  text-center">
                     {% if messages %} {% for message in messages %}
@@ -162,14 +162,6 @@
                     {% endif %}
                 </ul>
             </div>
-
-            <div class="col-12 col-lg-4 p-0 text-center mt-1">
-                <form action="#" method='GET'>
-                    <input type='text' name='q'>
-                    <button class="btn btn-color" type='submit'>Search</button>
-                </form>
-            </div>
-
         </div>
 
         {% block content %}{% endblock %}
@@ -198,13 +190,22 @@
 
             {% if list_type == "issues" %}
 
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+            <!-- if the issues list was generated from the search box, the search parameter must be passed back as well -->
 
+            {% if searching == 'y' %}
+
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
             {% else %}
-
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
-
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
             {% endif %} {% else %}
+
+            <!-- Features list: If the list was generated via the search box, the search value must be passed back as well -->
+
+            {% if searching == 'y' %}
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+            {% endif %} {% endif %} {% else %}
 
             <li class="page-item"><span class="page-link">&laquo;</span></li>
 
@@ -234,14 +235,28 @@
 
             {% if list_type == "issues" %}
 
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+            <!-- If listing was generated from search box, pass back the search value as well -->
 
+            {% if searching == 'y' %}
+
+            <!-- Searching-->
+
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
+
+            {% else %}
+            <!-- Not Searching-->
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} {% else %}
+
+            <!-- Features list: If listing was generated from search box, pass back the search value as well -->
+
+            {% if searching == 'y' %}
+
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
             {% else %}
 
             <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-
-
-            {% endif %} {% endif %} {% endfor %} {% if listing.has_next %}
+            {% endif %} {% endif %} {% endif %} {% endfor %} {% if listing.has_next %}
 
             <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
                      features list ('ftr-')  -->
@@ -282,6 +297,7 @@
 
         $(document).ready(function() {
 
+
             // ISSUES PROCESSING -------------------------------------------//
 
             // ===========================
@@ -297,6 +313,10 @@
                 let issuesFilter = $(this).data('value');
 
                 console.log("issuesFilter : " + issuesFilter)
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('iss-search-val').value = ""
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -333,15 +353,22 @@
                 // Get the issues requested by the user, as per the filter
                 // values, starting with page 1
 
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
+
+                // Initialise the page number
+
                 let page = 1;
 
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
 
             });
 
 
             // ===========================
-            // Filtering by Status Filter
+            // Filtering Issues by Status Filter
             // ===========================
 
             // A value has been selected from the Status filter dropdown by the user
@@ -350,6 +377,10 @@
 
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('iss-search-val').value = ""
 
 
                 // Change the value showing in the dropdown box to the new 
@@ -361,20 +392,48 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Issues Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let issuesFilter = getIssuesFilterValue();
 
+                if (issuesFilter == "") {
+                    issuesFilter = 'ALL ISSUES'
+                    $('#dropdownMenuLink-1').text(issuesFilter);
+                }
+
                 // Get the current value of the Priority Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let priorityFilter = getPriorityFilterValue();
 
+                console.log("priorityFilter: " + priorityFilter)
+
+                if (priorityFilter == "") {
+                    priorityFilter = 'ALL'
+                    console.log("setting priorityFilter to ALL")
+                    $('#dropdownMenuLink-3').text(priorityFilter);
+                }
+
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let clientFilter = getClientFilterValue();
 
-                // Get the issues requested by the user, as per the filter
-                // values, starting with page 1
+                if (clientFilter == "") {
+                    clientFilter = 'ALL'
+                    $('#dropdownMenuLink-4').text(clientFilter);
+                }
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
+
+                // Initialise the page number
 
                 let page = 1;
 
@@ -384,12 +443,12 @@
                 console.log("priorityFilter: " + priorityFilter);
                 console.log("clientFilter: " + clientFilter);
 
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
             });
 
 
             // ===========================
-            // Filtering by Priority
+            // Filtering Issues by Priority
             // ===========================
 
             $('.priority-filter').on('click', function() {
@@ -398,6 +457,10 @@
 
                 let priorityFilter = $(this).data('value');
                 let priorityFilterText = this.innerText;
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('iss-search-val').value = ""
 
 
                 // A value has been selected from the Priority Filter dropdown 
@@ -412,29 +475,56 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Issues Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let issuesFilter = getIssuesFilterValue();
 
+                if (issuesFilter == "") {
+                    issuesFilter = 'ALL ISSUES'
+                    $('#dropdownMenuLink-1').text(issuesFilter);
+                }
+
+
                 // Get the current value of the Status Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let statusFilter = getStatusFilterValue();
 
+                if (statusFilter == "") {
+                    statusFilter = 'ALL'
+                    $('#dropdownMenuLink-2').text(statusFilter);
+                }
+
+
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let clientFilter = getClientFilterValue();
 
-                // Get the issues requested by the user, as per the filter
-                // values, starting with page 1
+                if (clientFilter == "") {
+                    clientFilter = "ALL"
+                    $('#dropdownMenuLink-4').text(clientFilter);
+                }
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
+
+                // Initialise the page number
 
                 let page = 1;
 
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
             });
 
 
             // ===========================
-            // Filtering by Client Filter 
+            // Filtering Issues by Client Filter 
             // ===========================
 
             // Client Filter has been selected by the user. The Client Filter
@@ -444,6 +534,10 @@
 
                 event.preventDefault();
                 let clientFilter = $(this).data('value');
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('iss-search-val').value = "";
 
                 // A value has been selected from the Client Filter dropdown by
                 // the user
@@ -457,25 +551,93 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Issues Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let issuesFilter = getIssuesFilterValue();
 
+                if (issuesFilter == "") {
+                    issuesFilter = 'ALL ISSUES'
+                    $('#dropdownMenuLink-1').text(issuesFilter);
+                }
+
+
                 // Get the current value of the Status Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let statusFilter = getStatusFilterValue();
 
+                if (statusFilter == "") {
+                    statusFilter = 'ALL'
+                    $('#dropdownMenuLink-2').text(statusFilter);
+                }
+
+
                 // Get the current value of the Priority Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let priorityFilter = getPriorityFilterValue();
 
+                if (priorityFilter == "") {
+                    priorityFilter = 'ALL'
+                    $('#dropdownMenuLink-3').text(priorityFilter);
+                }
+
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = "";
+
+                // Initialise the page number
+
+                let page = 1;
+
+                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+            });
+
+
+            //==================================================================
+            // SEARCH BOX - Searching for Issues where text in the Issue Summary
+            // matches the text input in the input box
+            //==================================================================
+
+            $('#iss-search-btn').on('click', function() {
+
+                // The user has input a value in the Issues search box 
+
+                event.preventDefault();
+
+                let searchValue = document.getElementById('iss-search-val').value
+
+                console.log("searchValue : " + searchValue);
+
+                // When the user enters a value in the search box, all the filters
+                // will be set to spaces, as only the search value will be used
+                // to select the issues
+
+                let issuesFilter = ""
+                $('#dropdownMenuLink-1').text(issuesFilter);
+                let statusFilter = ""
+                $('#dropdownMenuLink-2').text(statusFilter);
+                let priorityFilter = ""
+                $('#dropdownMenuLink-3').text(priorityFilter);
+                let clientFilter = "";
+                $('#dropdownMenuLink-4').text(clientFilter);
 
                 // Get the issues requested by the user, as per the filter
                 // values, starting with page 1
 
                 let page = 1;
 
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+
             });
+
+
+
 
 
             // ===========================
@@ -504,12 +666,13 @@
                     let statusFilter = getStatusFilterValue();
                     let priorityFilter = getPriorityFilterValue();
                     let clientFilter = getClientFilterValue();
+                    let searchValue = document.getElementById('iss-search-val').value
 
                     console.log("priorityFilter: " + priorityFilter);
 
                     // Get the issues as per the filter values and page number
 
-                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page);
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
                 }
 
             );
@@ -553,7 +716,7 @@
                 let el = document.getElementById("dropdownMenuLink-3");
                 let priorityFilter = el.innerText
 
-                if (el.innerText != "ALL") {
+                if (el.innerText != "ALL" & el.innerText != "") {
 
                     let priorityArray = el.innerText.split("");
                     console.log("in getPriorityFilterValue.  priorityArray[0,0]: " + priorityArray[0, 0])
@@ -593,9 +756,10 @@
             // Get the relevant issues, based on the value of the filters
 
 
-            function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page) {
+            function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue) {
 
                 console.log("in getIssues(). page = " + page)
+                console.log("searchValue: " + searchValue)
 
                 $.post({
                     url: "{% url 'get_issues' %}",
@@ -606,6 +770,7 @@
                         priorityFilter: priorityFilter,
                         clientFilter: clientFilter,
                         page: page,
+                        searchValue: searchValue,
 
                     },
 
@@ -652,11 +817,6 @@
                             var summary = value.summary;
                             var status = value.status;
 
-                            var issuesFilter = "ALL"
-                            var statusFilter = "ALL"
-                            var priorityFilter = "ALL"
-                            var clientFilter = "ALL"
-
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
@@ -670,8 +830,8 @@
 
                         // Output the pagination parameters for the issues list to the html page
 
-                        let listDesc = "issues"
-                        outputPaginationValues(data, listDesc)
+                        let listType = "issues"
+                        outputPaginationValues(data, listType)
 
                     },
                     traditional: true
@@ -695,6 +855,10 @@
 
                 event.preventDefault();
                 let featuresFilter = $(this).data('value');
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('ftr-search-val').value = ""
 
                 console.log("featuresFilter : " + featuresFilter)
 
@@ -732,12 +896,17 @@
                     $('#dropdownMenuLink-4').text(clientFilter);
                 }
 
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
+
                 // Get the features requested by the user, as per the filter
                 // values, starting with page 1
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
 
             });
 
@@ -753,6 +922,10 @@
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
 
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('ftr-search-val').value = ""
+
                 // The user has selected a value from the Status Filter dropdown
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
@@ -763,17 +936,43 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Features Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let featuresFilter = getFeaturesFilterValue();
 
+                if (featuresFilter == "") {
+                    featuresFilter = 'ALL FEATURES'
+                    $('#dropdownMenuLink-1').text(featuresFilter);
+                }
+
                 // Get the current value of the Paid Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let paidFilter = getPaidFilterValue();
 
+                if (paidFilter == "") {
+                    paidFilter = 'ALL'
+                    $('#dropdownMenuLink-3').text(paidFilter);
+                }
+
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let clientFilter = getClientFilterValue();
+
+                if (clientFilter == "") {
+                    clientFilter = 'ALL'
+                    $('#dropdownMenuLink-4').text(clientFilter);
+                }
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
 
                 // Get the features requested by the user, as per the filter
                 // values, starting with page 1
@@ -786,7 +985,7 @@
                 console.log("paidFilter: " + paidFilter);
                 console.log("clientFilter: " + clientFilter);
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
 
 
@@ -802,6 +1001,10 @@
                 let paidFilter = $(this).data('value');
                 let paidFilterText = this.innerText;
 
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('ftr-search-val').value = ""
+
                 // The user has selected a value from the Paid Filter dropdown
 
                 // Change the value showing in the dropdown box to the new 
@@ -813,24 +1016,51 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Features Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let featuresFilter = getFeaturesFilterValue();
 
+                if (featuresFilter == "") {
+                    featuresFilter = 'ALL FEATURES'
+                    $('#dropdownMenuLink-1').text(featuresFilter);
+                }
+
                 // Get the current value of the Status Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let statusFilter = getStatusFilterValue();
 
+                if (statusFilter == "") {
+                    statusFilter = 'ALL'
+                    $('#dropdownMenuLink-2').text(statusFilter);
+                }
+
+
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let clientFilter = getClientFilterValue();
+
+                if (clientFilter == "") {
+                    clientFilter = 'ALL'
+                    $('#dropdownMenuLink-4').text(clientFilter);
+                }
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = ""
 
                 // Get the features requested by the user, as per the filter
                 // values, starting with page 1
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
 
 
@@ -843,8 +1073,14 @@
 
             $('.feat-client-filter').on('click', function() {
 
+                console.log("in .feat-client-filter-------------------")
+
                 event.preventDefault();
                 let clientFilter = $(this).data('value');
+
+                // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('ftr-search-val').value = ""
 
                 // The user has selected a value from the Client Filter dropdown
 
@@ -857,24 +1093,98 @@
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Features Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let featuresFilter = getFeaturesFilterValue();
 
+                if (featuresFilter == "") {
+                    featuresFilter = 'ALL FEATURES'
+                    $('#dropdownMenuLink-1').text(featuresFilter);
+                }
+
                 // Get the current value of the Status Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let statusFilter = getStatusFilterValue();
 
+                console.log("current value of status filter; " + statusFilter)
+
+                if (statusFilter == "") {
+                    console.log("statusfilter blank: " + statusFilter)
+                    statusFilter = 'ALL';
+                    $('#dropdownMenuLink-2').text(statusFilter);
+                }
+                
+                console.log("1. statusFilter = " + statusFilter)
                 // Get the current value of the Priority Filter
+                // It may be blank if the user was previously using the search
+                // box - if so, set it to 'ALL'
 
                 let paidFilter = getPaidFilterValue();
+                console.log("2. statusFilter = " + statusFilter)
+
+                if (paidFilter == "") {
+                    paidFilter = 'ALL';
+                    $('#dropdownMenuLink-3').text(paidFilter);
+                }
+                console.log("3. statusFilter = " + statusFilter)
+
+                // Clear searchValue - it is only set when the user inputs a 
+                // value in the search box
+
+                let searchValue = "";
 
                 // Get the features requested by the user, as per the filter
                 // values, starting with page 1
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                console.log("before getFeatures, statusFilter: " + statusFilter)
+
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
+
+
+            //==================================================================
+            // SEARCH BOX - Searching for Features where text in the Feature Summary
+            // matches the text input in the input box
+            //==================================================================
+
+            $('#ftr-search-btn').on('click', function() {
+
+                // The user has input a value in the Issues search box 
+
+                event.preventDefault();
+
+                let searchValue = document.getElementById('ftr-search-val').value
+
+                console.log("features searchValue : " + searchValue);
+
+                // When the user enters a value in the search box, all the filters
+                // will be set to spaces, as only the search value will be used
+                // to select the features
+
+                let featuresFilter = ""
+                $('#dropdownMenuLink-1').text(featuresFilter);
+                let statusFilter = ""
+                $('#dropdownMenuLink-2').text(statusFilter);
+                let paidFilter = ""
+                $('#dropdownMenuLink-3').text(paidFilter);
+                let clientFilter = "";
+                $('#dropdownMenuLink-4').text(clientFilter);
+
+                // Get the features requested by the user, as per the filter
+                // values, starting with page 1
+
+                let page = 1;
+
+                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+
+            });
+
+            //==========================================================
 
 
             // ===========================
@@ -897,18 +1207,19 @@
 
                     console.log("this page: " + page);
 
-                    // Get the current values of the filters
+                    // Get the current values of the filters and the search box
 
                     let featuresFilter = getFeaturesFilterValue();
                     let statusFilter = getStatusFilterValue();
                     let paidFilter = getPaidFilterValue();
                     let clientFilter = getClientFilterValue();
+                    let searchValue = document.getElementById('ftr-search-val').value
 
                     console.log("paidFilter: " + paidFilter);
 
                     // Get the features as per the filter values and page number
 
-                    getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page);
+                    getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
                 }
 
             );
@@ -939,7 +1250,7 @@
                 let el = document.getElementById("dropdownMenuLink-3");
                 let paidFilter = el.innerText
 
-                if (el.innerText != "ALL") {
+                if (el.innerText != "ALL" & el.innerText != "") {
 
                     let paidArray = el.innerText.split("");
                     console.log("in getPaidFilterValue.  paidArray[0,0]: " + paidArray[0, 0])
@@ -961,7 +1272,7 @@
             // views.get_features and output them to the html page,
             // so that the user can select the pages
 
-            function outputPaginationValues(data, listDesc) {
+            function outputPaginationValues(data, listType) {
 
                 var has_other_pages = data.pagination_props.has_other_pages;
                 var has_prev_page = data.pagination_props.has_prev_page;
@@ -984,7 +1295,7 @@
 
                     if (has_prev_page) {
 
-                        if (listDesc == "issues") {
+                        if (listType == "issues") {
 
                             // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
                             // list being paginated is for Issues or Features, so that the correct js functions will be 
@@ -1016,7 +1327,7 @@
 
                             if (pageLinks == "") {
 
-                                if (listDesc == "issues") {
+                                if (listType == "issues") {
 
                                     // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
                                     // issues list or features list, so that the highlight color for each will be applied
@@ -1030,7 +1341,7 @@
                             }
                             else {
 
-                                if (listDesc == "issues") {
+                                if (listType == "issues") {
 
                                     // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
                                     // issues list or features list, so that the highlight color for each will be applied
@@ -1053,7 +1364,7 @@
                                 // list being paginated is for Issues or Features, so that they will be highlighted with the
                                 // correct color on hover
 
-                                if (listDesc == "issues") {
+                                if (listType == "issues") {
                                     pageLinks = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
                                 else {
@@ -1070,7 +1381,7 @@
                                 // list being paginated is for Issues or Features, so that they will be highlighted with the
                                 // correct color on hover
 
-                                if (listDesc == 'issues') {
+                                if (listType == 'issues') {
                                     pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
                                 else {
@@ -1088,7 +1399,7 @@
                         // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
                         // list being paginated is for Issues or Features
 
-                        if (listDesc == "issues") {
+                        if (listType == "issues") {
 
                             var nextPageLink = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                         }
@@ -1120,7 +1431,7 @@
 
             // Get the relevant features, based on the value of the filters
 
-            function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page) {
+            function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue) {
 
                 console.log("in getFeatures(). page = " + page)
 
@@ -1134,6 +1445,7 @@
                         paidFilter: paidFilter,
                         clientFilter: clientFilter,
                         page: page,
+                        searchValue: searchValue,
 
                     },
 
@@ -1184,11 +1496,6 @@
                             var summary = value.summary;
                             var status = value.status;
 
-                            var featuresFilter = "ALL"
-                            var statusFilter = "ALL"
-                            var paidFilter = "ALL"
-                            var clientFilter = "ALL"
-
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
@@ -1201,8 +1508,8 @@
 
                         // Output the pagination parameters for the features list to the html page
 
-                        let listDesc = "features"
-                        outputPaginationValues(data, listDesc);
+                        let listType = "features"
+                        outputPaginationValues(data, listType);
 
                     },
                     traditional: true
