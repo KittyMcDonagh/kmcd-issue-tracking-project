@@ -122,7 +122,7 @@
                             <!-- This will show how many items are in the cart -->
                             <label class="badge badge-warning">{{ feature_count }}</label>
                             {% endif %}</a>
-                        
+
                         </li>
 
 
@@ -152,7 +152,7 @@
         <!-- A line is kept just below the navbar to display messages -->
 
         <div class="row no-gutters">
-            <div class="offset-2 col-8 p-0">
+            <div class="col-12 offset-lg-2 col-lg-6 p-0">
 
                 <ul class="mesg-style p-0  text-center">
                     {% if messages %} {% for message in messages %}
@@ -161,8 +161,15 @@
                     <li class="user-message blank-line">blank</li>
                     {% endif %}
                 </ul>
-
             </div>
+
+            <div class="col-12 col-lg-4 p-0 text-center mt-1">
+                <form action="#" method='GET'>
+                    <input type='text' name='q'>
+                    <button class="btn btn-color" type='submit'>Search</button>
+                </form>
+            </div>
+
         </div>
 
         {% block content %}{% endblock %}
@@ -184,86 +191,72 @@
 
         <ul class="pagination justify-content-center mt-3">
 
-            {% if listing.has_previous %} 
-            
-                <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+            {% if listing.has_previous %}
+
+            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
                      features list ('ftr-')  -->
-                 
-                {% if list_type == "issues" %}
 
-                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+            {% if list_type == "issues" %}
 
-                {% else %}
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
 
-                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
-
-                {% endif %} 
-                
             {% else %}
 
-                <li class="page-item"><span class="page-link">&laquo;</span></li>
-                
-                {% endif %} 
-                
-                <!-- Output the other page numbers -->
-                
-                {% for i in listing.paginator.page_range %} 
-                
-                    {% if listing.number == i %}
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
 
-                    <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+            {% endif %} {% else %}
+
+            <li class="page-item"><span class="page-link">&laquo;</span></li>
+
+            {% endif %}
+
+            <!-- Output the other page numbers -->
+
+            {% for i in listing.paginator.page_range %} {% if listing.number == i %}
+
+            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
                          features list ('ftr-')  -->
 
-                        {% if list_type == "issues" %}
+            {% if list_type == "issues" %}
 
-                            <li class="page-item"><span class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
-                            </li>
+            <li class="page-item"><span class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
 
-                        {% else %}
-
-                            <li class="page-item"><span class="page-link ftr-selected">{{ i }} <span class="sr-only">(current)</span></span>
-                            </li>
-
-                        {% endif %} 
-                        
-                    {% else %}
-
-                        <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                             features list ('ftr-')  -->
-
-                    {% if list_type == "issues" %}
-
-                        <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-
-                    {% else %}
-
-                        <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-
-
-                    {% endif %} 
-                    
-                {% endif %} 
-                
-            {% endfor %} 
-            
-            {% if listing.has_next %} 
-            
-                 <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                     features list ('ftr-')  -->
-                 
-                {% if list_type == "issues" %}
-
-                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
-
-                {% else %}
-
-                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
-
-                {% endif %} 
-            
             {% else %}
 
-                <li class="page-item"><span class="page-link">&raquo;</span></li>
+            <li class="page-item"><span class="page-link ftr-selected">{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+
+            {% endif %} {% else %}
+
+            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                             features list ('ftr-')  -->
+
+            {% if list_type == "issues" %}
+
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+
+            {% else %}
+
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+
+
+            {% endif %} {% endif %} {% endfor %} {% if listing.has_next %}
+
+            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
+                     features list ('ftr-')  -->
+
+            {% if list_type == "issues" %}
+
+            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+            {% else %}
+
+            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+            {% endif %} {% else %}
+
+            <li class="page-item"><span class="page-link">&raquo;</span></li>
             {% endif %}
 
         </ul>
