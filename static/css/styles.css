@@ -305,7 +305,7 @@ li {
 @media(min-width:1025px) {
     .cart-container {
         font-size: 18px;
-        margin-left: 80px;
+        margin-left: 60px;
         padding: 13px;
 
 
@@ -338,6 +338,11 @@ li {
 
 }
 
+.cart-count-style {
+    background-color: #8a8ae6!important;
+    color: #fff!important;
+    
+}
 
 /* Logo sizing and styling  */
 

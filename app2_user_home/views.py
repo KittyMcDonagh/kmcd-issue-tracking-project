@@ -384,17 +384,29 @@ def get_issues(request):
 	# Return the issues to be output to  the html table
 	
     data["issues"] = []
-   
+    
+    
     for issue in issues:
+        
+        # If an issue is not owned by the same client as the user is 
+        # associated with, dont show their user ids
+        	
+        user_id = issue.user_id
+        assigned_client_user = issue.assigned_client_user
+        	
+        if UserDetails.user_type == "C":
+            if issue.client_code != UserDetails.vend_client_code:
+        	    user_id = "*********"
+        	    assigned_client_user = "*********"
+    
         data["issues"].append({
-            
             "id": issue.id,
         	"title": issue.title,
         	"details": issue.details,
         	"client_code": issue.client_code,
             "date": datetime.strftime(issue.input_date, '%d %b %y'),
-        	"user": issue.user_id,
-        	"assigned_client_user": issue.assigned_client_user,
+        	"user": user_id,
+        	"assigned_client_user":assigned_client_user,
         	"assigned_vendor_user": issue.assigned_vendor_user,
         	"software_component": issue.software_component,
         	"priority": issue.priority,

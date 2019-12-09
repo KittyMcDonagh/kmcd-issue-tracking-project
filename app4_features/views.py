@@ -318,8 +318,18 @@ def get_features(request):
 	# Return the features to be output to  the html table
 	
     data["features"] = []
-   
+    
+    
     for feature in features:
+        
+        user_id = feature.user_id
+        assigned_client_user = feature.assigned_client_user
+        	
+        if UserDetails.user_type == "C":
+            if feature.client_code != UserDetails.vend_client_code:
+    	        user_id = "*********"
+    	        assigned_client_user = "*********"
+    	    
         data["features"].append({
             
             "id": feature.id,
@@ -327,8 +337,8 @@ def get_features(request):
         	"details": feature.details,
         	"client_code": feature.client_code,
             "date": datetime.strftime(feature.input_date, '%d %b %y'),
-        	"user": feature.user_id,
-        	"assigned_client_user": feature.assigned_client_user,
+        	"user": user_id,
+        	"assigned_client_user": assigned_client_user,
         	"assigned_vendor_user": feature.assigned_vendor_user,
         	"software_component": feature.software_component,
         	"paid": feature.paid,

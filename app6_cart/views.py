@@ -25,15 +25,24 @@ def add_to_cart(request, id):
         
     # This takes an integer from the form we created
     
-    quantity = int(request.POST.get('quantity'))
+    print(request.method)
+    print("id = "+str(id))
+    
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity'))
+    else:
+        quantity = (request.GET.get('quantity'))
     
     print("quantity: "+str(quantity))
+   
     
     # This is going to the cart from the session (not from the database), 
     # and it gets a cart if one already exists, otherwise it gets an empty
     # dictionary
-        
+    
+    print("about to get cart----------------------------------------")
     cart = request.session.get('cart', {})
+    print("have cart----------------------------------------")
         
     # Add cart id and quantity
     
@@ -46,11 +55,11 @@ def add_to_cart(request, id):
         
     request.session['cart'] = cart
         
-    return redirect(reverse('index'))
+    return redirect(reverse('features_home'))
         
 
 """
-Adjust the quantity of the specified product to the specified amount
+Adjust the quantity of the specified feature to the specified amount
 """
 def adjust_cart(request, id):
     
