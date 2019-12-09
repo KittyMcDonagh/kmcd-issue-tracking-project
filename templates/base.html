@@ -1492,14 +1492,16 @@
                             }
 
                             var softwareComponent = value.software_component;
-                            var paid = value.paid;
                             var summary = value.summary;
                             var status = value.status;
+                            var paid = value.paid;
+                            var price = value.price;
 
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + paid + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>"+
+                                "<form method='post' class='form-inline' action=/cart/add/"  +featureId +">"+" {% csrf_token %}"+"<div class='input-group'>"+"<td class='td-qty pr-0 mr-0'>"+"<input name='quantity' type='number' min='1' max='999' class='form-control td-form-font' placeholder='Quantity'>"+"</td><td class='pl-0 ml-0'>"+"<button class='btn td-add-btn-style td-form-font td-add ' type='submit'><i class='fas fa-plus'></i>Add</button>"+"</td></div></form>"+"<td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

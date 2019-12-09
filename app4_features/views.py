@@ -332,6 +332,7 @@ def get_features(request):
         	"assigned_vendor_user": feature.assigned_vendor_user,
         	"software_component": feature.software_component,
         	"paid": feature.paid,
+        	"price":feature.price,
         	"summary": feature.summary,
         	"status": feature.status,
         	"user_type": UserDetails.user_type

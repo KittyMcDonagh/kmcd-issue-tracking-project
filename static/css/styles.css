@@ -651,6 +651,7 @@ footer {
     }
 }
 
+/* css for table in userhome.html & featureshome.html------------------------*/
 
 .table-style {
     font-size: 12px;
@@ -693,6 +694,35 @@ footer {
 .td-more {
     width: 56px;
 
+}
+
+.td-paid {
+    width: 71px;
+
+}
+
+.td-price {
+    width: 71px;
+
+}
+
+.td-qty {
+    width:120px;
+}
+
+.td-add {
+    width: 60px;
+}
+
+.td-add-btn-style {
+    background-color: #8a8ae6!important;
+    color: fafaff!important;
+
+}
+
+
+.td-form-font {
+    font-size:12px!important;
 }
 
 .more-icon-th {

@@ -20,10 +20,14 @@ Add a quantity of the specified product to the cart
 """ 
 
 def add_to_cart(request, id):
+    
+    print("in add_to_cart -------------------------------------")
         
     # This takes an integer from the form we created
     
     quantity = int(request.POST.get('quantity'))
+    
+    print("quantity: "+str(quantity))
     
     # This is going to the cart from the session (not from the database), 
     # and it gets a cart if one already exists, otherwise it gets an empty
