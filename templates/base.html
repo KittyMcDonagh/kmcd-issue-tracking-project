@@ -109,7 +109,7 @@
 
                     <!-- Only Client-side users can enter new features -->
 
-                    {%if userdetails.user_type == "C" %}
+                    {% if userdetails.user_type == "C" %}
 
                     <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
 
@@ -1273,6 +1273,8 @@
                             console.log("current value in dom: " + document.getElementById('feature_count').innerText);
     
                             var currentQty = parseInt(document.getElementById('feature_count').innerText);
+                            
+                            // If there's nothing in the cart yet - set to zero
                             
                             if (isNaN(currentQty)) {
                                 currentQty = 0

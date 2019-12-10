@@ -882,3 +882,24 @@ select:hover {
 
 
 }
+
+
+/* css for cart.html --------------------------------------------------------*/
+
+.card {
+    margin-right: 20px;
+    margin-bottom:15px;
+    padding: 10px;
+}
+
+.feature-description {
+    min-height: 40px;
+}
+
+
+.bg-style {
+    padding-top: 4px;
+    background-color: #ddd;
+    text-align: center;
+    border: solid 1px #ddd;
+}

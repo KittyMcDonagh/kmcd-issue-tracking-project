@@ -1,20 +1,42 @@
 # Initial code copied from the e-commerce project
 
 from django.shortcuts import render, redirect, reverse
+from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse 
 
+from app2_user_home.models import Vendor
+from app2_user_home.models import Client
+from app2_user_home.models import UserDetail
+
+
+# NOTE: The code for the cart and checkout was copied from the ecommerce project
+# we did on the course and adjusted.
 
 """
 A view that renders the cart contents page
 """
 
 def view_cart(request):
+    
+    print("in view_home")
+    
+    
+    # Get the user's details from re the Issue Tracker app. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Only a client-side user would be in the cart.
+    # Get the Client Details
+            
+    ClientDetails = get_client(request, UserDetails)
 
     # We dont need to return a dictionary because the cart context is available
     # to all pages
     
-    return render(request, 'cart.html')
+    return render(request, 'cart.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails })
     
 
 """
@@ -111,7 +133,7 @@ Adjust the quantity of the specified feature to the specified amount
 """
 def adjust_cart(request, id):
     
-    # This takes an integer from the form we created
+    # This takes teh quantity from the form
     
     quantity = int(request.POST.get('quantity'))
     
@@ -130,6 +152,45 @@ def adjust_cart(request, id):
     
     request.session['cart'] = cart
     
-    return redirect(reverse('view_cart'))
+    # If the cart is empty, return to the features list, otherwise go back
+    # to the cart list
     
     
+    if not cart:
+        return redirect(reverse('features_home'))
+    else:
+        return redirect(reverse('view_cart'))
+    
+   
+"""
+Get the logged in user's details re the Issue Tracker app. 
+These details tells us whether the User is on the Vendor side or 
+the Client side.
+"""
+    
+def get_user_iss_trk_details(request):
+    
+    UserDetails = ""
+
+    try:
+        UserDetails = UserDetail.objects.get(user_id=request.user.username)
+    except:
+        messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
+    
+    return UserDetails
+    
+
+"""
+The logged in user is on the Client side - get the Client details
+"""
+
+def get_client(request, UserDetails):
+
+    try:
+        ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
+    except:
+        messages.error(request, "Client details not found!")
+   
+    return  ClientDetails
+    
+ 
