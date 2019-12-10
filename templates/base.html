@@ -14,12 +14,19 @@
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
     <link rel="shortcut icon" href="{% static 'images/kmcd_acc_sol_icon.ico' %}" />
 
     <!-- This will allow us to change the title of the page depending on
              the user options -->
     <title>{% block page_title %}{% endblock %}</title>
+
+    <!-- The js we're writing in checkout.html (head_js) will injected into base.html 
+         here when checkout is clicked -->
+
+    {% block head_js %} {% endblock %}
 
 </head>
 
@@ -284,9 +291,12 @@
     <footer>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js " integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=" anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+
+
 
 
     <!-- Custom Javascript -->
@@ -1251,47 +1261,47 @@
                 var qty = document.getElementById((qtyId)).value;
 
                 console.log("qty = " + qty);
-                
-                    // Add the feature / qty to the cart
-    
-                    $.post({
-                        url: "{% url 'add_to_cart_js' %}",
-    
-                        data: {
-                            csrfmiddlewaretoken: "{{csrf_token}}",
-                            featureId: featureId,
-                            qty: qty
-    
-                        },
-    
-                        success: function(data) {
-    
-                            // We need to update the quantity showing for the cart
-                            // Get the current value showing in the cart and add the
-                            // new quantity
-    
-                            console.log("current value in dom: " + document.getElementById('feature_count').innerText);
-    
-                            var currentQty = parseInt(document.getElementById('feature_count').innerText);
-                            
-                            // If there's nothing in the cart yet - set to zero
-                            
-                            if (isNaN(currentQty)) {
-                                currentQty = 0
-                            }
-    
-                            console.log("currentQty = " + currentQty);
-    
-                            var newQty = currentQty + parseInt(qty);
-    
-                            $('#feature_count').text(newQty);
-    
-                            // Reset the qty field to zero
-    
-                            document.getElementById((qtyId)).value = 0
+
+                // Add the feature / qty to the cart
+
+                $.post({
+                    url: "{% url 'add_to_cart_js' %}",
+
+                    data: {
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        featureId: featureId,
+                        qty: qty
+
+                    },
+
+                    success: function(data) {
+
+                        // We need to update the quantity showing for the cart
+                        // Get the current value showing in the cart and add the
+                        // new quantity
+
+                        console.log("current value in dom: " + document.getElementById('feature_count').innerText);
+
+                        var currentQty = parseInt(document.getElementById('feature_count').innerText);
+
+                        // If there's nothing in the cart yet - set to zero
+
+                        if (isNaN(currentQty)) {
+                            currentQty = 0
                         }
-                    });
-                
+
+                        console.log("currentQty = " + currentQty);
+
+                        var newQty = currentQty + parseInt(qty);
+
+                        $('#feature_count').text(newQty);
+
+                        // Reset the qty field to zero
+
+                        document.getElementById((qtyId)).value = 0
+                    }
+                });
+
             });
 
 

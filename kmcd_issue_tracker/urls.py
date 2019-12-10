@@ -26,8 +26,8 @@ from app2_user_home import urls as urls_user_home
 from app3_issue_logging import urls as urls_issue_logging
 from app4_features import urls as urls_features
 
-from app5_search_issues import urls as urls_search_issues
 from app6_cart import urls as urls_cart
+from app7_checkout import urls as urls_checkout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^issue_tracker/', include(urls_user_home)),
     url(r'^issue_tracker/', include(urls_issue_logging)),
     url(r'^issue_tracker/', include(urls_features)),
-    url(r'^search/', include(urls_search_issues)),
     url(r'^cart/', include(urls_cart)),
+    url(r'^checkout/', include(urls_checkout)),
    
 ]

@@ -903,3 +903,12 @@ select:hover {
     text-align: center;
     border: solid 1px #ddd;
 }
+
+/* css used in checkout.html -----------------------------------------------*/
+
+.pay-btn-color {
+    background-color: #8a8ae6!important;
+    color: fafaff!important;
+    width: 150px;
+
+}
