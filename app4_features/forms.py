@@ -18,5 +18,15 @@ class FeatureStatusForm(forms.ModelForm):
         model = Feature
         fields = ("status",)
 
+# This form is used to update the amount paid for a feature, when a payment is 
+# successfully made
+
+class FeatureAmountPaidForm(forms.ModelForm):
+   
+    class Meta:
+        model = Feature
+        fields = ("paid",)
+
+
 
 

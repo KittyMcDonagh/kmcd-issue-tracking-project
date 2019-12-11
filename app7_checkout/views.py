@@ -13,6 +13,7 @@ from .forms import OrderForm, MakePaymentForm
 from django.conf import settings
 from django.utils import timezone
 from app4_features.models import Feature
+from app4_features.forms import FeatureAmountPaidForm
 from .models import OrderLineItem
 
 stripe.api_key = settings.STRIPE_SECRET
@@ -20,7 +21,7 @@ stripe.api_key = settings.STRIPE_SECRET
 @login_required()
 def checkout(request):
     
-    
+    print("in checkout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     if request.method=="POST":
         print("in checkout- POST====================================================")
         order_form = OrderForm(request.POST)
@@ -55,6 +56,7 @@ def checkout(request):
             # Stripe does all the security, but we have to inform our customer
             # if there's a problem
             
+            print("ABOUT TO TRY PAYING---------------------------------------")
             try:
                 customer = stripe.Charge.create(
                     amount= int(total * 100),
@@ -65,7 +67,10 @@ def checkout(request):
             
             except stripe.error.CardError:
                 messages.error(request, "Your card was declined!")
-                
+            
+            print("CHECKING CUSTOMER.PAID---------------------------------------")
+            
+            
             if customer.paid:
                 messages.error(request, "You have successfully paid")
                 
