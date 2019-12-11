@@ -5,7 +5,7 @@
     <div class="row no-gutters mt-2 mb-2">
         <div class="col-12 col-md-6 filter-name pb-2">
             <input id="ftr-search-val" type='text' value="" name='q_issues'>
-            <button id="ftr-search-btn" class="btn ftr-btn-color ">Search</button>
+            <button id="ftr-search-btn" class="btn ftr-btn-color ftr-enabled-link ">Search</button>
         </div>
     </div>
 
@@ -15,8 +15,8 @@
     <div class="row no-gutters mt-2 mb-2">
         <div class="col-12 col-md-3 filter-name pb-2">
 
-            <div class="dropdown"><strong class="pr-2"><i class="fas fa-filter ftr-icon-color"></i>Features: </strong>
-                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_features_filter }}</a>
+            <div class="dropdown ftr-dropdown"><strong class="pr-2"><i class="fas fa-filter ftr-icon-color"></i>Features: </strong>
+                <a class="btn btn-secondary dropdown-toggle ftr-filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_features_filter }}</a>
 
                 <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item features-filter" data-value="ALL FEATURES">ALL FEATURES</a>
                     <div class="dropdown-divider"></div>
@@ -45,8 +45,8 @@
         <!-- Show Status Filter -->
 
         <div class="col-12 col-md-3 filter-name pb-2  status-align">
-            <div class="dropdown"><strong class="pr-2"><i class="fas fa-filter ftr-icon-color"></i>Status: </strong>
-                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_status_filter }}</a>
+            <div class="dropdown ftr-dropdown"><strong class="pr-2"><i class="fas fa-filter ftr-icon-color"></i>Status: </strong>
+                <a class="btn btn-secondary dropdown-toggle ftr-filter-dd" href="#" role="button" id="dropdownMenuLink-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_status_filter }}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-2">
                     <a class="dropdown-item feat-status-filter" href="#" data-value="ALL">ALL</a>
                     <div class="dropdown-divider"></div>
@@ -80,8 +80,8 @@
         <!-- Show Priority Filter -->
 
         <div class="col-12 col-md-3 filter-name pb-2">
-            <div class="dropdown"><strong class="pr-1"><i class="fas fa-filter ftr-icon-color"></i>Paid: </strong>
-                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_paid_filter }}</a>
+            <div class="dropdown ftr-dropdown"><strong class="pr-1"><i class="fas fa-filter ftr-icon-color"></i>Paid: </strong>
+                <a class="btn btn-secondary dropdown-toggle ftr-filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_paid_filter }}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-3">
                     <a class="dropdown-item paid-filter" href="#" data-value="ALL">ALL</a>
                     <div class="dropdown-divider"></div>
@@ -104,8 +104,8 @@
 
         {% if userdetails.user_type == "V" %}
         <div class="col-12 col-md-3 filter-name pb-2">
-            <div class="dropdown"><strong class="pr-3"><i class="fas fa-filter ftr-icon-color"></i>Client: </strong>
-                <a class="btn btn-secondary dropdown-toggle filter-dd" href="#" data-value={{ selected_client_filter }} role="button" id="dropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_client_filter }}</a>
+            <div class="dropdown ftr-dropdown"><strong class="pr-3"><i class="fas fa-filter ftr-icon-color"></i>Client: </strong>
+                <a class="btn btn-secondary dropdown-toggle ftr-filter-dd" href="#" data-value={{ selected_client_filter }} role="button" id="dropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_client_filter }}</a>
                 <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-4">
                     <a class="dropdown-item feat-client-filter" href="#" data-value="ALL">ALL</a> {% for client in all_clients %}
                     <div class="dropdown-divider"></div>
@@ -141,7 +141,7 @@
                         <th scope="col" class="d-md-table-cell text-center td-paid">Paid</th>
                         <th scope="col" class="d-md-table-cell text-center td-price">Price</th>
                         <th scope="col" class="d-md-table-cell text-center td-qty pr-0 mr-0">Qty</th>
-                        <th scope="col" class="d-md-table-cell text-center td-add pl-0 ml-0">Cart</th>
+                        <th scope="col" class="d-md-table-cell text-center td-add pl-0 ml-0"><i class="fas fa-plus"></i>Cart</th>
                         <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h more-icon-th"></th>
                     </tr>
                 </thead>
@@ -182,14 +182,29 @@
                             <form method="post" class="form-inline" action="{% url 'add_to_cart' feature.id %}">
                                 {% csrf_token %}
                                 <div class="input-group">
+                                    
+                                    {% if userdetails.user_type == "C" %}
+                                    
+                                    <!-- if client-side user enable Quantity input and Add button -->
+                                    
+                                        <td class="td-qty pr-0 mr-0">
+                                            <input name="quantity" type="number" value="0" min="1" max="999" class="form-control td-form-font" placeholder="Quantity">
+                                        </td>
+                                        <td class="pl-0 ml-0">
+                                            <button class="btn td-add-btn-style td-form-font td-add ftr-enabled-link" type="submit"><i class="fas fa-plus"></i>Add</button>
+                                        </td>
+                                        
+                                    {% else %}
+                                    
+                                     <!-- Vendor-side user, disable Quantity input and Add button -->
+                                    
                                     <td class="td-qty pr-0 mr-0">
-                                        <input name="quantity" type="number" value="0" min="1" max="999" class="form-control td-form-font" placeholder="Quantity">
+                                        <input name="quantity" type="number" value="0" min="1" max="999" class="form-control td-form-font" placeholder="Quantity" disabled>
                                     </td>
                                     <td class="pl-0 ml-0">
-                                        
-                                        <button class="btn td-add-btn-style td-form-font td-add " type="submit"><i class="fas fa-plus"></i>Add</button>
-                                
+                                        <button class="btn td-add-btn-style td-form-font td-add " type="submit" disabled><i class="fas fa-plus"></i>Add</button>
                                     </td>
+                                    {% endif %}
                                 </div>
                             </form>
                     

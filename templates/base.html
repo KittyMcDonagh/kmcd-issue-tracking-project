@@ -94,59 +94,66 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="nav-item nav-issues-align"><a class=" btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'user_home' %}"><i class="fas fa-list pr-1"></i>ISSUES</a></li>
-
-
+                    <li class="nav-item nav-issues-align"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home' %}"><i class="fas fa-list pr-1"></i>ISSUES</a></li>
 
                     {%if userdetails.user_type == "C" %}
 
                     <!-- Only Client-side users can enter issues -->
 
-                    <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
-
-
+                    <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
+                    
                     {% else %}
 
-                    <!-- Keep the space but blank it out (background and color will be the same). This is so
-                         that 'Features' (below) will always appear in the same space on the navbar-->
+                    <!-- Else vendor-side user, Disable the new issue link -->
 
-                    <li class="nav-blank">New Issue</a>
+                     <li class="nav-item iss-ftr-ml"><span class="btn iss-btn-color iss-button-font iss-nav-link disabled-link" ><i class="fas fa-plus pr-1"></i>ISSUE</span></li>
                     </li>
                     {% endif %}
 
-                    <li class="nav-item iss-ftr-gap"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
+                    <li class="nav-item iss-ftr-gap"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
 
                     <!-- Only Client-side users can enter new features -->
 
                     {% if userdetails.user_type == "C" %}
 
-                    <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
+                        <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a>
+                    {% else %}
 
-                        <!-- Shopping cart is shown for client-side users only.  
-                         Add shopping cart - code copied from e-commerce product-->
+                        <!-- Else, vendor-side user, disable the new features link -->
 
-                        <li class="cart-container">
-                            <a class="cart-color cart-button-font cart-nav-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
+                        <li class="nav-item iss-ftr-ml"><span class="btn ftr-btn-color ftr-button-font ftr-nav-link disabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</span>
+                        </li>
+
+
+                    {% endif %}
+
+                    <!-- Shopping cart is shown for client-side users only.  
+                     Add shopping cart - code copied from e-commerce product-->
+
+                    <li class="cart-container">
+                        
+                        {% if userdetails.user_type == "C" %}
+                        
+                            <!-- If client-side user enable the cart link -->
+                            
+                            <a class="cart-color cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
+                            
                             {% if feature_count > 0 %}
                             <!-- This will show how many features are in the cart -->
                             <label id="feature_count" class="badge cart-count-style">{{ feature_count }}</label>
                             {% else %}
                             <label id="feature_count" class="badge cart-count-style"></label>
                             {% endif %}</a>
-
-                        </li>
-
-
+                        
                         {% else %}
+                        
+                            <!-- Otherwise, vendor-side user, disable the cart -->
+                            <span class="cart-color cart-button-font cart-nav-link disabled-link "><i class="fas fa-shopping-cart"></i> Cart</span>
+                        {% endif %}
 
-                        <!-- Keep the space but blank it out (background and color will be the same). This is so
-                         that 'Features' (below) will always appear in the same space on the navbar-->
-
-                        <li class="nav-blank">New Feature</a>
-                        </li>
-
-
-                        {% endif %} {% else %}
+                    </li>
+                    
+                {% else %}
                         <!-- User is not logged in -->
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -1565,12 +1572,23 @@
 
                             var inputDate = value.date;
                             var user = value.user;
+                            
+                            // Initialise 'disabled' to be added to quantity & amount
+                            
+                            var cartDisabled = "";
+                            var cartEnabled = "";
 
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
+                                cartEnabled = "ftr-enabled-link"
+                            
                             }
                             else {
                                 var assignedUser = value.assigned_vendor_user;
+                                
+                                // For vendor-side user, quantity & +Add will be disabled
+                                
+                                cartDisabled = "disabled";
                             }
 
                             var softwareComponent = value.software_component;
@@ -1583,7 +1601,7 @@
 
                             $("tbody").append(
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'>" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click' type='submit'><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled +">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click'" + cartEnabled +" type='submit'" +cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

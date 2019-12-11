@@ -65,6 +65,7 @@ li {
     color: #6666ff!important;
     background-color: #e6e6ff!important;
     border-color: #e6e6ff!important;
+    border-radius: 5px;
 
 }
 
@@ -179,6 +180,7 @@ li {
 .nav-link:hover {
     background-color: #6666ff;
     color: #fafaff!important;
+    border-radius: 5px;
 }
 
 
@@ -219,19 +221,12 @@ li {
     }
 }
 
-.iss-nav-link:hover {
-    color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
-
-}
-
 
 
 /* Styling for Features list and New Features buttons in navbar */
 
 .ftr-btn-color {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: fafaff!important;
     width: 100px;
 
@@ -280,12 +275,49 @@ li {
     }
 }
 
-.ftr-nav-link:hover {
+
+
+
+
+/* The following are used on links that are enabled to enable hovering effects */
+
+
+.iss-enabled-link {
+    
+}
+
+.iss-enabled-link:hover {
+    border-radius: 5px;
     color: #6666ff!important;
-    background-color: #e6e6ff!important;
-    border-color: #e6e6ff!important;
+    background-color: fafaff!important;
+}
+
+.ftr-enabled-link {
+    
+}
+
+.ftr-enabled-link:hover {
+    border-radius: 5px;
+    color: #66B3FF!important;
+    background-color: fafaff!important;
+}
+
+.cart-enabled-link {
+    
+}
+.cart-enabled-link:hover {
+    background-color: #66B3FF!important;
+    color: fafaff!important;
+    border-radius: 5px;
 
 }
+
+
+.disabled-link {
+    opacity: .4;
+
+}
+
 
 
 .cart-container {
@@ -319,7 +351,7 @@ li {
     font-size: 13px!important;
     padding: 15px;
     margin-bottom: 2px;
-    color: #8a8ae6!important;
+    color: #66B3FF!important;
     width: 120px;
 
 }
@@ -330,16 +362,11 @@ li {
     }
 }
 
-.cart-nav-link:hover {
-    background-color: #8a8ae6!important;
-    color: #fff!important;
-    border-color: #fff!important;
-    border-radius: 5px;
 
-}
+
 
 .cart-count-style {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: #fff!important;
     
 }
@@ -484,7 +511,7 @@ li {
 /* Activate hover functionality on page numbers with live links only       */
 
 .ftr-page-live-link:hover {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: #fff!important;
 }
 
@@ -492,7 +519,7 @@ li {
 
 
 .ftr-selected {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: #fff!important;
 
 }
@@ -602,16 +629,29 @@ footer {
 
 }
 
-.filter-dd {
+.iss-filter-dd {
     background-color: #f3f2f2!important;
     color: #3b3b3b!important;
     font-size: 12px!important;
 
 }
 
-.filter-dd:hover {
+.iss-filter-dd:hover {
     color: #fafaff!important;
     background-color: #6666ff!important;
+
+}
+
+.ftr-filter-dd {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+
+}
+
+.ftr-filter-dd:hover {
+    color: #fafaff!important;
+    background-color: #66B3FF!important;
 
 }
 
@@ -640,11 +680,20 @@ footer {
     color: #8c8c8c!important;
 }
 
-.dropdown a:hover {
+.iss-dropdown a:hover {
     color: #fafaff!important;
     background-color: #6666ff;
 
 }
+
+
+.ftr-dropdown a:hover {
+    color: #fafaff!important;
+    background-color: #66B3FF;
+
+}
+
+
 
 /* Center the status in its col for a better look on larger screens.
    No centering on smaller screens as the cols will be one line across the 
@@ -720,7 +769,7 @@ footer {
 }
 
 .td-add-btn-style {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: fafaff!important;
 
 }
@@ -768,21 +817,6 @@ footer {
   transition: opacity 0.3s;
 }
 
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
 
 
 /* css for issuelogging.html-------------------------------------------------*/
@@ -850,7 +884,7 @@ select:hover {
 
 
 .ftr-btn-color {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: fafaff!important;
     width: 120px;
 
@@ -861,7 +895,7 @@ select:hover {
 }
 
 .ftr-icon-color {
-    color: #8a8ae6!important;
+    color: #66B3FF!important;
     background-color: #f3f2f2!important;
 
 
@@ -877,7 +911,7 @@ select:hover {
    t issues or features list */
 
 .ftr-icon-color {
-    color: #8a8ae6!important;
+    color: #66B3FF!important;
     background-color: #f3f2f2!important;
 
 
@@ -907,7 +941,7 @@ select:hover {
 /* css used in checkout.html -----------------------------------------------*/
 
 .pay-btn-color {
-    background-color: #8a8ae6!important;
+    background-color: #66B3FF!important;
     color: fafaff!important;
     width: 150px;
 
