@@ -136,7 +136,7 @@
 
                         <!-- Enable the cart link -->
         
-                        <a class="cart-color cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
+                        <a class="cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
                                         
                         <!-- This will show how many features are in the cart -->
                                             
@@ -843,7 +843,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
@@ -1611,7 +1611,7 @@
 
                             $("tbody").append(
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled + ">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center more-icon-cell td-more'><a class='more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled + ">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

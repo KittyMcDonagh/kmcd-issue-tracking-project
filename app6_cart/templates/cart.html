@@ -20,7 +20,7 @@
                             <div class="input-group-append pl-2 pr-1 bg-style">{{item.quantity}}</div>
                         </div>
                     </div>
-                    <button class="btn ftr-btn-color" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
+                    <button class="btn ftr-btn-color ftr-enabled-link" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
                 </form>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <p>
                 <span class="pr-2">Total</span>
                 <span><i class="fas fa-euro-sign"></i>{{ total }}</span>
-                <span class="pl-3"><a href="{% url 'checkout' %}" class="btn btn-success" role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
+                <span class="pl-3"><a href="{% url 'checkout' %}" class="btn checkout-btn" role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
                 </span>
             </p>
         </div>

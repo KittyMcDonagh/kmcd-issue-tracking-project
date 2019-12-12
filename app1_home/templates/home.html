@@ -9,18 +9,18 @@
             {% if user.is_authenticated %}
 
             <h3 class="pt-5 pb-3">Please go to</h3>
-            <h3 class="pb-3"><a class="links" href="{% url 'user_home' %}">Issue Tracking System</a></h3>
+            <h3 class="pb-3"><a class="welcome-links" href="{% url 'user_home' %}">Issue Tracking System</a></h3>
             <h3>or</h3>
-            <h3  class="pt-3"><a class="links" href="{% url 'logout' %}">Logout</a></h3>
+            <h3  class="pt-3"><a class="welcome-links" href="{% url 'logout' %}">Logout</a></h3>
 
             {% else %}
 
             <p class="welcome-mesg pt-3 pb-2">Welcome to the Issue Tracking System for</p>
             <p class="company-name-style mb-4">KMcD Online Accounting System!</p>
             
-            <h3><a class="links" href="{% url 'login' %}">Please Login </a></h3>
+            <h3><a class="welcome-links" href="{% url 'login' %}">Please Login </a></h3>
             <h3>or</h3>
-            <h3><a class="links" href="{% url 'registration' %}">Register</a></h3>
+            <h3><a class="welcome-links" href="{% url 'registration' %}">Register</a></h3>
             
             {% endif %}
         

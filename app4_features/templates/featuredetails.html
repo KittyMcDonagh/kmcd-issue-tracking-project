@@ -140,9 +140,9 @@
 
                     {% if feature.status == "DRAFT" or feature.status == "LOGGED" %}
         
-                    <a href="{% url 'edit_feature' feature.id %}" class="btn btn-color ">Edit</a> 
+                    <a href="{% url 'edit_feature' feature.id %}" class="btn ftr-edit-update-btn-color ">Edit</a> 
                     {% else %}
-                    <span class="btn btn-color-disabled disabled" type="submit ">Edit</span> 
+                    <span class="btn ftr-edit-update-btn-color disabled-link" type="submit ">Edit</span> 
                     {% endif %} 
                 {% endif %}
             
@@ -154,7 +154,7 @@
     
                 {% if userdetails.user_id == feature.assigned_vendor_user %}
     
-                <a href="{% url 'update_feature_status' feature.id %}" class="btn btn-color ">Update Status</a>
+                <a href="{% url 'update_feature_status' feature.id %}" class="btn ftr-edit-update-btn-color ">Update Status</a>
     
                 {% endif %}
             {% endif %}
