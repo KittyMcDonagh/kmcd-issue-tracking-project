@@ -314,6 +314,7 @@ li {
 
 
 .disabled-link {
+    pointer-events: none;
     opacity: .4;
 
 }
