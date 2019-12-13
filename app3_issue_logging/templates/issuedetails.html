@@ -61,7 +61,15 @@
                      assigned to on the vendor side -->
 
     <div class="row no-gutters pt-1">
-        <div class="col-12 offset-md-9 col-md-3 offset-xl-10 col-xl-2 form-font asng-user-txt-align">
+
+        <!-- Show comments icon -->
+
+        <div class="col-1 col-md-1 ">
+            <a id="enable-comments" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
+
+        </div>
+
+        <div class="col-11 offset-md-8 col-md-3 offset-xl-9 col-xl-2 form-font asng-user-txt-align">
             <span><strong>Assigned to: </strong></span>
             <span class="pl-1">{{ issue.assigned_vendor_user}}</span>
         </div>
@@ -73,7 +81,14 @@
          client side -->
 
     <div class="row no-gutters pt-1">
-        <div class="col-12 offset-md-9 col-md-3 offset-xl-10 col-xl-2 form-font asng-user-txt-align">
+
+        <!-- Show comments icon -->
+
+        <div class="col-1 col-md-1 ">
+            <i class="fas fa-comments iss-comments-icon"></i>
+        </div>
+
+        <div class="col-11 offset-md-8 col-md-3 offset-xl-9 col-xl-2 form-font asng-user-txt-align">
             <span><strong>Assigned to: </strong></span>
             <span class="pl-1">{{ issue.assigned_client_user}}</span>
         </div>
@@ -84,145 +99,159 @@
 
     <hr>
 
+    <!-- START OF INPUT COMMENTS SECTIONS --------------------------------   -->
+
+    <!-- If comments are being input display the comment input dashboard, otherwise hide it.-->
 
 
-    <!-- Issue Title -->
+    {% if comments_input == 'y' %}
+    <div class="row no-gutters mt-3 iss-comments-dash">
+        <!-- Show plus icon -->
 
-    <div class="row no-gutters mt-3">
-        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
-            <p class="m-0"><strong><em>TITLE:</em></strong></p>
+        <div class="col-2 pl-2">
+            <button id="iss-comments-plus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
+            <button id="iss-comments-minus" class="btn iss-comments-btn-color iss-enabled-link " type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
         </div>
-    </div>
+
+        {% else %}
+
+        <div class="row no-gutters mt-3 iss-comments-dash iss-comments-dash-hide">
+
+            <!-- Show plus icon disabled, minus enabled -->
+
+            <div class="col-2 pl-2">
+                <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
+                <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
+            </div>
+
+            {% endif %}
 
 
-    <div class="row no-gutters">
-        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <p class="m-0">{{ issue.title }}</p>
+
+            <!-- Show view icon -->
+            <div class="offset-8 col-2 text-center ">
+                <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
+                <button class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash iss-comments-plus-view"></i></i></button>
+            </div>
         </div>
-    </div>
 
 
 
-    <!-- Summary -->
+        <!-- If comments are being input display the comment input form, otherwise hide it.-->
 
-    <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <p class="m-0"><strong><em>SUMMARY:</em></strong></p>
-        </div>
-    </div>
+        {% if comments_input == 'y'%}
+        <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style">
+            {% else %}
+            <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style iss-comments-form-hide">
+                {% endif %}
 
-    <div class="row no-gutters">
-        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <p class="m-0">{{ issue.summary }}</p>
-        </div>
-    </div>
+                <!-- Set the default value fields -->
+                <input name="issue_id" type="hidden" id="issue_id" value="{{ issue.id }}">
+                <input name="vend_client_ind" type="hidden" id="vend_client_ind" value="{{ userdetails.user_type }}">
+                <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ issue.client_code }}">
+                <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% csrf_token %}
+
+                <!-- Comments field -->
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <textarea name="comments" id="comments" class="form-control form-font" rows="4" maxlength="500"></textarea>
+                    </div>
+                </div>
+
+                <!-- Add Button -->
+                <div class="row no-gutters pt-2">
+                    <div class="col-12 text-center">
+                        <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                </div>
+
+            </form>
 
 
-    <!-- Details  -->
-
-    <div class="row no-gutters mt-3">
-        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <p class="m-0"><strong><em>DETAILS:</em></strong></p>
-        </div>
-    </div>
-
-    <div class="row no-gutters ">
-        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <p class="m-0">{{ issue.details }}
-                <p>
-        </div>
-    </div>
+            <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->
 
 
+            <!-- Issue Title -->
 
-    <!-- Edit Button 
+            <div class="row no-gutters mt-3">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+                    <p class="m-0"><strong><em>TITLE:</em></strong></p>
+                </div>
+            </div>
+
+
+            <div class="row no-gutters">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.title }}</p>
+                </div>
+            </div>
+
+
+
+            <!-- Summary -->
+
+            <div class="row no-gutters mt-3">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0"><strong><em>SUMMARY:</em></strong></p>
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.summary }}</p>
+                </div>
+            </div>
+
+
+            <!-- Details  -->
+
+            <div class="row no-gutters mt-3">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0"><strong><em>DETAILS:</em></strong></p>
+                </div>
+            </div>
+
+            <div class="row no-gutters ">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.details }}
+                        <p>
+                </div>
+            </div>
+
+
+
+            <!-- Edit Button 
           If the issue is assigned to the logged in user, on the client side or
           on the vendor side, enable the Edit button, otherwise disable it. -->
 
-    <hr>
-    <div class="row no-gutters mt-2">
-        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
+            <hr>
+            <div class="row no-gutters mt-2">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-            {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
+                    {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
 
-            <!-- User is a client-side user.
+                    <!-- User is a client-side user.
                          Is the issue assigned, to the logged in user, 
                          and is the status = DRAFT or LOGGED? 
                          If so, enable the Edit button, otherwise disable it -->
 
-            {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
+                    {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
-            <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color ">Edit</a> {% else %}
-            <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
+                    <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color ">Edit</a> {% else %}
+                    <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
 
-            <!-- User is a vendor-side user.
+                    <!-- User is a vendor-side user.
                         Is the issue assigned to the logged in user? 
                         If so, allow the user to update the issue status -->
 
-            {% if userdetails.user_id == issue.assigned_vendor_user %}
+                    {% if userdetails.user_id == issue.assigned_vendor_user %}
 
-            <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color ">Update Status</a> {% endif %} {% endif %}
+                    <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color ">Update Status</a> {% endif %} {% endif %}
 
-        </div>
-    </div>
-</div>
-
-<!-- START OF INPUT COMMENTS SECTIONS --------------------------------   -->
-
-<div class="row no-gutters mt-3 iss-comments-form-style">
-
-    <!-- Show plus icon -->
-
-    <div class="col-4 text-center">
-        <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
-        <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
-    </div>
-    
-    
-    <!-- Show comments icon -->
-
-    <div class="col-4 text-center">
-        <i class="fas fa-comments iss-comments-icon"></i>
-    </div>
-
-    <!-- Show view icon -->
-
-    <div class="col-4 text-center ">
-        <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
-    </div>
-</div>
-
-
-<form method="POST" id="issue-comments-form" enctype="multipart/form-data" class="iss-comments-form-style">
-
-    <!-- Set the default value fields -->
-
-    <input name="issue_id" type="hidden" id="issue_id" value="{{ issue.id }}">
-    <input name="vend_client_ind" type="hidden" id="vend_client_ind" value="{{ userdetails.user_type }}">
-    <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ issue.client_code }}">
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% csrf_token %}
-
-    <!-- Comments field -->
-
-    <div class="row no-gutters">
-        <div class="col-12">
-            <textarea name="title" id="title" class="form-control form-font" rows="4" maxlength="500"></textarea>
-        </div>
+                </div>
+            </div>
     </div>
 
 
-    <!-- Add Button -->
 
-    <div class="row no-gutters pt-2">
-        <div class="col-12 text-center">
-            <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus"></i> Add</button>
-        </div>
-    </div>
-
-</form>
-
-
-<!-- END OF INPUT COMMENTS SECTIONS --------------------------------   -->
-
-
-{% endblock %}
+    {% endblock %}

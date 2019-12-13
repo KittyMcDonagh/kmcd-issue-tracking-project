@@ -12,7 +12,10 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 
 from .models import Issue
+from .models import IssueComment
+
 from .forms import LogNewIssueForm, IssueStatusForm
+from .forms import LogNewIssueForm, IssueCommentForm
 
 
 """
@@ -242,9 +245,82 @@ def get_issue_client_details(request, issue):
     return IssueClientDetails
         
 
-
-
-
-
-
+"""
+New comment - get the issue comments form. This view is called when the user
+clicks '+' to add a comment. The id of the issue is passed to the view
+"""
+def new_issue_comment(request, pk=None):
     
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Issues Filte
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+    
+    # Get the issue for which the comment is being inpt
+    
+    issue = get_object_or_404(Issue, pk=pk) if pk else None
+    
+    save_issue_id = pk
+    
+    pk = ""
+    
+    issuecomment = get_object_or_404(Issue, pk=pk) if pk else None
+    
+    print(request.method)
+    
+    # Set comments_input to keep the comment form fields open in issuedetails.html
+    
+    comments_input = "y"
+    
+    if request.method == "POST":
+        
+        print("issue comment request is post-----------------------------------------")
+        
+        form = IssueCommentForm(request.POST, request.FILES, instance=issuecomment)
+        
+        if form.is_valid():
+            print("comment form is valid. form = "+str(form))
+        
+            issuecomment = form.save()
+            
+            # return redirect(issue_details, issuecomment.issue_id)
+        else:
+            
+            print("form invalid = "+str(form))
+            messages.error(request, "UNABLE TO LOG ISSUE COMMENT!")
+            
+    else:
+        print("issue comment request is get-----------------------------------------")
+    
+        form = IssueCommentForm()
+        
+        print("comments_input= "+str(comments_input))
+    
+    return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input})
+    
+    
+    
+

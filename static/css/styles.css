@@ -862,7 +862,7 @@ footer {
 
 .iss-comments-form-style {
     border: solid 1px #d9d9d9;
-    border-radius: 15px;
+    border-radius: 10px;
     background-color: #b3b3ff;
     padding: 15px;
 
@@ -871,19 +871,30 @@ footer {
 
 @media(min-width:1024px) {
     .iss-comments-form-style {
-        padding: 20px;
+        padding: 15px;
         
     }
 }
 
+
+.iss-comments-dash {
+
+    border-radius: 5px;
+    background-color: #8080ff;
+    padding: 5px;
+
+}
+
+
+
 .iss-comments-icon {
-    color: #fff;
-    font-size: 32px;
+    color:  #8080ff;
+    font-size: 20px;
     
 }
 
 .iss-comments-plus-view {
-    font-size: 26px;
+    font-size: 20px;
     
 }
 

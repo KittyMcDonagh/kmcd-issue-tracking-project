@@ -858,13 +858,27 @@
 
             // The following code managing the issues comments fields 
 
-            // Hide the comments input form
+            $('.iss-comments-form-hide').hide();
+            $('.iss-comments-dash-hide').hide();
+            console.log("hiding done.....................")
 
-            $('#issue-comments-form').hide();
+
+            $('#enable-comments').on('click', function() {
+                $('.iss-comments-dash').toggle();
+                $('#iss-comments-minus').removeClass('iss-enabled-link');
+                $('#iss-comments-minus').addClass('disabled-link');
+                $('#iss-comments-plus').addClass('iss-enabled-link');
+                $('#iss-comments-plus').removeClass('disabled-link');
+                
+                $('#iss-comments-form').hide();
+
+                console.log("toggling done.........................")
+
+            });
 
             $('#iss-comments-plus').on('click', function() {
-                $('#issue-comments-form').show();
-                
+                $('#iss-comments-form').show();
+
                 $('#iss-comments-plus').removeClass('iss-enabled-link');
                 $('#iss-comments-plus').addClass('disabled-link');
                 $('#iss-comments-minus').addClass('iss-enabled-link');
@@ -872,15 +886,16 @@
             });
 
             $('#iss-comments-minus').on('click', function() {
-                $('#issue-comments-form').hide();
-                
+                $('#iss-comments-form').hide();
+
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
                 $('#iss-comments-minus').addClass('disabled-link');
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
 
-
             });
+
+
 
 
 
