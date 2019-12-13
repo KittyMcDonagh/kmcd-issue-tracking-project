@@ -1,5 +1,11 @@
 {% extends "base.html" %} {% block content %}
 
+<!-- This form will be used:
+     1. To display the details of an issue 
+     2. Allow the user to view & enter comments on the issue    -->
+
+
+
 <!-- If the user is a vendor-side user, show the name of the client the issue 
      belongs to -->
 
@@ -73,10 +79,12 @@
         </div>
     </div>
 
-    {% endif %} 
+    {% endif %}
 
 
     <hr>
+
+
 
     <!-- Issue Title -->
 
@@ -130,42 +138,91 @@
     <!-- Edit Button 
           If the issue is assigned to the logged in user, on the client side or
           on the vendor side, enable the Edit button, otherwise disable it. -->
-          
+
     <hr>
     <div class="row no-gutters mt-2">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-            {% if userdetails.user_type == "C" %}
-                {% if userdetails.user_id == issue.assigned_client_user %}
+            {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
 
-                <!-- User is a client-side user.
+            <!-- User is a client-side user.
                          Is the issue assigned, to the logged in user, 
                          and is the status = DRAFT or LOGGED? 
                          If so, enable the Edit button, otherwise disable it -->
 
-                    {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
-        
-                    <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color ">Edit</a> 
-                    {% else %}
-                    <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> 
-                    {% endif %} 
-                {% endif %}
-            
-            {% else %}
+            {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
-                <!-- User is a vendor-side user.
+            <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color ">Edit</a> {% else %}
+            <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
+
+            <!-- User is a vendor-side user.
                         Is the issue assigned to the logged in user? 
                         If so, allow the user to update the issue status -->
-    
-                {% if userdetails.user_id == issue.assigned_vendor_user %}
-    
-                <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color ">Update Status</a>
-    
-                {% endif %}
-            {% endif %}
-            
+
+            {% if userdetails.user_id == issue.assigned_vendor_user %}
+
+            <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color ">Update Status</a> {% endif %} {% endif %}
+
         </div>
     </div>
 </div>
+
+<!-- START OF INPUT COMMENTS SECTIONS --------------------------------   -->
+
+<div class="row no-gutters mt-3 iss-comments-form-style">
+
+    <!-- Show plus icon -->
+
+    <div class="col-4 text-center">
+        <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
+        <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
+    </div>
+    
+    
+    <!-- Show comments icon -->
+
+    <div class="col-4 text-center">
+        <i class="fas fa-comments iss-comments-icon"></i>
+    </div>
+
+    <!-- Show view icon -->
+
+    <div class="col-4 text-center ">
+        <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
+    </div>
+</div>
+
+
+<form method="POST" id="issue-comments-form" enctype="multipart/form-data" class="iss-comments-form-style">
+
+    <!-- Set the default value fields -->
+
+    <input name="issue_id" type="hidden" id="issue_id" value="{{ issue.id }}">
+    <input name="vend_client_ind" type="hidden" id="vend_client_ind" value="{{ userdetails.user_type }}">
+    <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ issue.client_code }}">
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% csrf_token %}
+
+    <!-- Comments field -->
+
+    <div class="row no-gutters">
+        <div class="col-12">
+            <textarea name="title" id="title" class="form-control form-font" rows="4" maxlength="500"></textarea>
+        </div>
+    </div>
+
+
+    <!-- Add Button -->
+
+    <div class="row no-gutters pt-2">
+        <div class="col-12 text-center">
+            <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus"></i> Add</button>
+        </div>
+    </div>
+
+</form>
+
+
+<!-- END OF INPUT COMMENTS SECTIONS --------------------------------   -->
+
 
 {% endblock %}

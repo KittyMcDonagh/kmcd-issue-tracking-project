@@ -801,9 +801,6 @@ footer {
 
 
 
-
-
-
 /* css for issuelogging.html-------------------------------------------------*/
 
 .form-style {
@@ -855,6 +852,40 @@ footer {
 /* css for issuedetails.html ------------------------------------------------*/
 
 /* Set text align for assigned user, depending on device size   */
+
+.iss-comments-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+
+}
+
+
+.iss-comments-form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 15px;
+    background-color: #b3b3ff;
+    padding: 15px;
+
+}
+
+
+@media(min-width:1024px) {
+    .iss-comments-form-style {
+        padding: 20px;
+        
+    }
+}
+
+.iss-comments-icon {
+    color: #fff;
+    font-size: 32px;
+    
+}
+
+.iss-comments-plus-view {
+    font-size: 26px;
+    
+}
 
 .asng-user-txt-align {
     text-align: left;

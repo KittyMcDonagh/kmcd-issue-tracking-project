@@ -24,7 +24,7 @@ class Issue(models.Model):
 
 # Comments Model - Comments input on an issue by a Vendor-side user
 
-class Comment(models.Model):
+class IssueComment(models.Model):
     issue_id = models.IntegerField(blank=False)
     input_date = models.DateField(auto_now_add=True)
     vend_client_ind = models.CharField(max_length=1, blank=False)

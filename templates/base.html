@@ -92,23 +92,23 @@
                     <!-- Show relevant links depending on whether the user is logged in or not -->
 
                     {% if user.is_authenticated %}
-                    
-                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                        <li class="nav-item nav-issues-align"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home' %}"><i class="fas fa-list pr-1"></i>ISSUES</a></li>
 
-                        {%if userdetails.user_type == "C" %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    <li class="nav-item nav-issues-align"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home' %}"><i class="fas fa-list pr-1"></i>ISSUES</a></li>
 
-                        <!-- Only Client-side users can enter issues -->
-    
-                        <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
+                    {%if userdetails.user_type == "C" %}
+
+                    <!-- Only Client-side users can enter issues -->
+
+                    <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
 
                     {% else %}
 
-                        <!-- Else vendor-side user, Disable the new issue link -->
-    
-                        <li class="nav-item iss-ftr-ml"><span class="btn iss-btn-color iss-button-font iss-nav-link disabled-link"><i class="fas fa-plus pr-1"></i>ISSUE</span></li>
-                        </li>
+                    <!-- Else vendor-side user, Disable the new issue link -->
+
+                    <li class="nav-item iss-ftr-ml"><span class="btn iss-btn-color iss-button-font iss-nav-link disabled-link"><i class="fas fa-plus pr-1"></i>ISSUE</span></li>
+                    </li>
                     {% endif %}
 
                     <li class="nav-item iss-ftr-gap"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
@@ -117,47 +117,43 @@
 
                     {% if userdetails.user_type == "C" %}
 
-                        <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a> {% else %}
-    
-                            <!-- Else, vendor-side user, disable the new features link -->
-    
+                    <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a> {% else %}
+
+                        <!-- Else, vendor-side user, disable the new features link -->
+
                         <li class="nav-item iss-ftr-ml"><span class="btn ftr-btn-color ftr-button-font ftr-nav-link disabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</span></li>
 
 
-                    {% endif %}
+                        {% endif %}
 
-                    <!-- Enable shopping cart link if user is on the client-side 
+                        <!-- Enable shopping cart link if user is on the client-side 
                              and there is something in the cart -->
 
-                    <li class="cart-container">
+                        <li class="cart-container">
 
-                    {% if userdetails.user_type == "C" and feature_count > 0 %} 
-                    
+                            {% if userdetails.user_type == "C" and feature_count > 0 %}
 
-                        <!-- Enable the cart link -->
-        
-                        <a class="cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
+
+                            <!-- Enable the cart link -->
+
+                            <a class="cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
                                         
                         <!-- This will show how many features are in the cart -->
                                             
-                        <label id="feature_count" class="badge cart-count-style">{{ feature_count }}</label></a>
-                                            
-                    {% else %}
-                                
-                        <!--Either the user is on the vendor side or there's nothing in the cart.
+                        <label id="feature_count" class="badge cart-count-style">{{ feature_count }}</label></a> {% else %}
+
+                            <!--Either the user is on the vendor side or there's nothing in the cart.
                             Show cart link disabled - 'disabled-link' has 'pointer-events:none' 
                              I need to keep the link because this element will be enabled / disabled by js also. -->
-                                    
-                        <a class="cart-color cart-button-font cart-nav-link disabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
+
+                            <a class="cart-color cart-button-font cart-nav-link disabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
                                         
                         <!-- Keep the label element, but show blank. The 'feature_count' id is used by js. -->
                                         
-                        <label id="feature_count" class="badge cart-count-style"></label></a>
-                        
-                    {% endif %} 
-                            
+                        <label id="feature_count" class="badge cart-count-style"></label></a> {% endif %}
 
-                    </li>
+
+                        </li>
 
                         {% else %}
                         <!-- User is not logged in -->
@@ -323,7 +319,6 @@
 
 
         $(document).ready(function() {
-
 
             // ISSUES PROCESSING -------------------------------------------//
 
@@ -860,6 +855,35 @@
                     traditional: true
                 }).done();
             }
+
+            // The following code managing the issues comments fields 
+
+            // Hide the comments input form
+
+            $('#issue-comments-form').hide();
+
+            $('#iss-comments-plus').on('click', function() {
+                $('#issue-comments-form').show();
+                
+                $('#iss-comments-plus').removeClass('iss-enabled-link');
+                $('#iss-comments-plus').addClass('disabled-link');
+                $('#iss-comments-minus').addClass('iss-enabled-link');
+                $('#iss-comments-minus').removeClass('disabled-link');
+            });
+
+            $('#iss-comments-minus').on('click', function() {
+                $('#issue-comments-form').hide();
+                
+                $('#iss-comments-minus').removeClass('iss-enabled-link');
+                $('#iss-comments-minus').addClass('disabled-link');
+                $('#iss-comments-plus').addClass('iss-enabled-link');
+                $('#iss-comments-plus').removeClass('disabled-link');
+
+
+            });
+
+
+
 
 
             // FEATURES PROCESSING -------------------------------------------//
