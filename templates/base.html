@@ -304,13 +304,8 @@
 
 
 
-
-
-
-
-
-
     <!-- Custom Javascript -->
+
 
 
     <script>
@@ -861,42 +856,98 @@
             $('.iss-comments-form-hide').hide();
             $('.iss-comments-dash-hide').hide();
             console.log("hiding done.....................")
+            
 
+            // Enable Comments icon clicked:
+            // Show the dashboard, but keep the comments form hidden.
+            // The comments form will be enabled by the '+' on the dashboard
 
             $('#enable-comments').on('click', function() {
-                $('.iss-comments-dash').toggle();
-                $('#iss-comments-minus').removeClass('iss-enabled-link');
-                $('#iss-comments-minus').addClass('disabled-link');
+                $('#iss-comments-form').hide(700);
+                $('.iss-comments-dash').slideDown(500);
+                
+
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
-                
-                $('#iss-comments-form').hide();
 
-                console.log("toggling done.........................")
+                $('#iss-comments-minus').removeClass('iss-enabled-link');
+                $('#iss-comments-minus').addClass('disabled-link');
 
+                // Disable the 'enable comments' icon 
+
+                $('#enable-comments').removeClass('iss-enabled-link');
+                $('#enable-comments').addClass('disabled-link');
+
+                // Enable the 'disable comments' icon 
+
+                $('#disable-comments').removeClass('disabled-link');
+                $('#disable-comments').addClass('iss-enabled-link');
+
+                console.log("Comments enabled.........................")
             });
 
+
+            // Disable Comments icon clicked:
+            // Hide the comments form and the dashboard
+
+            $('#disable-comments').on('click', function() {
+                $('#iss-comments-form').slideUp(500);
+                $('.iss-comments-dash').slideUp(500);
+
+                $('#iss-comments-plus').addClass('disabled-link');
+                $('#iss-comments-plus').removeClass('iss-enabled-link');
+
+                $('#iss-comments-minus').removeClass('disabled-link');
+                $('#iss-comments-minus').addClass('iss-enabled-link');
+
+                // Enable the 'enable comments' icon 
+
+                $('#enable-comments').removeClass('disabled-link');
+                $('#enable-comments').addClass('iss-enabled-link');
+
+                // Disable the 'disable comments' icon 
+
+                $('#disable-comments').removeClass('iss-enabled-link');
+                $('#disable-comments').addClass('disabled-link');
+
+                console.log("Comments disabled.........................")
+            });
+
+            // The '+' on the comments dashboard has been clicked:
+            // Show the comments form
+
             $('#iss-comments-plus').on('click', function() {
-                $('#iss-comments-form').show();
+                $('#iss-comments-form').slideDown(500);
+
+                // Disable the '+'
 
                 $('#iss-comments-plus').removeClass('iss-enabled-link');
                 $('#iss-comments-plus').addClass('disabled-link');
+
+                // Enable the '-'
+
                 $('#iss-comments-minus').addClass('iss-enabled-link');
                 $('#iss-comments-minus').removeClass('disabled-link');
             });
 
+
+            // The '-' on the comments dashboard has been clicked:
+            // Hide the comments form
+
             $('#iss-comments-minus').on('click', function() {
-                $('#iss-comments-form').hide();
+                $('#iss-comments-form').slideUp(500);
+
+                // Disable the '-'
 
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
                 $('#iss-comments-minus').addClass('disabled-link');
+                
+                // Enable the '-'
+                
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
 
             });
-
-
-
 
 
 

@@ -886,11 +886,23 @@ footer {
 }
 
 
-
+/* The comments and no-comments icons are not the same size, so I'm giving them
+   different font sizes to make them look the same width on screen */
+   
 .iss-comments-icon {
     color:  #8080ff;
-    font-size: 20px;
+    font-size: 24px;
     
+}
+
+.iss-no-comments-icon {
+    color:  #8080ff;
+    font-size: 22px;
+    
+}
+
+.icon-height {
+    height: 24px;
 }
 
 .iss-comments-plus-view {
