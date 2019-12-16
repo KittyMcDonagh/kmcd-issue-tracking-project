@@ -95,10 +95,23 @@
     <div class="row no-gutters pt-1">
 
         <!-- Show comments icon -->
-
-        <div class="col-1 col-md-1 ">
-            <i class="fas fa-comments iss-comments-icon"></i>
+        <!-- If comments are being input, disable comments icon and enable no-comments icon -->
+        
+        {% if comments_input == 'y' %}
+        <div class="col-1 col-md-1 icon-height">
+            <a id="enable-comments" class="disabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
+            <a id="disable-comments" class="iss-enabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
         </div>
+        
+        {% else %}
+        
+        <!-- If comments are not being input, enable comments icon and disable no-comments icon -->
+         <div class="col-1 col-md-1 icon-height">
+            <a id="enable-comments" class="enabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
+            <a id="disable-comments" class="disabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
+        </div>
+        {% endif %}
+        
 
         <div class="col-11 offset-md-8 col-md-3 offset-xl-9 col-xl-2 form-font asng-user-txt-align">
             <span><strong>Assigned to: </strong></span>
@@ -113,11 +126,14 @@
 
     <!-- START OF INPUT COMMENTS SECTIONS --------------------------------   -->
 
-    <!-- If comments are being input display the comment input dashboard, otherwise hide it.-->
-
+    <!-- If comments are being input display the comment input dashboard, otherwise hide it.
+         The classes 'iss-comments-dash-hide' and 'iss-comments-form-hide' are used 
+         by js to hide/slideDown the elements -->
 
     {% if comments_input == 'y' %}
-    <div class="row no-gutters mt-3 iss-comments-dash">
+    
+    <div id="iss-comments-dash" class="row no-gutters mt-3 iss-comments-dash">
+        
         <!-- Show plus icon -->
 
         <div class="col-2 pl-2">
@@ -127,7 +143,7 @@
 
         {% else %}
 
-        <div class="row no-gutters mt-3 iss-comments-dash iss-comments-dash-hide">
+        <div id="iss-comments-dash" class="row no-gutters mt-3 iss-comments-dash iss-comments-dash-hide d-none">
 
             <!-- Show plus icon disabled, minus enabled -->
 
@@ -154,7 +170,7 @@
         {% if comments_input == 'y'%}
         <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style">
             {% else %}
-            <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style iss-comments-form-hide">
+            <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style iss-comments-form-hide d-none">
                 {% endif %}
 
                 <!-- Set the default value fields -->

@@ -851,21 +851,22 @@
                 }).done();
             }
 
-            // The following code managing the issues comments fields 
+            // The class 'd-none' prevents the issue comments dashboard and form
+            // from opening when loaded. Remove the class so that they will 
+            // be shown on slideDown (below), but keep them hidden
 
-            $('.iss-comments-form-hide').hide();
-            $('.iss-comments-dash-hide').hide();
+            $('.iss-comments-form-hide').removeClass('d-none').hide();
+            $('.iss-comments-dash-hide').removeClass('d-none').hide();
             console.log("hiding done.....................")
-            
+
 
             // Enable Comments icon clicked:
             // Show the dashboard, but keep the comments form hidden.
             // The comments form will be enabled by the '+' on the dashboard
 
             $('#enable-comments').on('click', function() {
-                $('#iss-comments-form').hide(700);
+                $('#iss-comments-form').hide();
                 $('.iss-comments-dash').slideDown(500);
-                
 
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
@@ -917,6 +918,8 @@
             // Show the comments form
 
             $('#iss-comments-plus').on('click', function() {
+
+                $('#iss-comments-form').removeClass('d-none').hide();
                 $('#iss-comments-form').slideDown(500);
 
                 // Disable the '+'
@@ -941,9 +944,9 @@
 
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
                 $('#iss-comments-minus').addClass('disabled-link');
-                
+
                 // Enable the '-'
-                
+
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
 
