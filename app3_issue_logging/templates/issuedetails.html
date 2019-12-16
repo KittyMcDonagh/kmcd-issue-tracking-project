@@ -199,7 +199,7 @@
             <!-- Comments field -->
             <div class="row no-gutters">
                 <div class="col-12">
-                    <textarea name="comments" id="comments" class="form-control form-font" rows="4" maxlength="500"></textarea>
+                    <textarea name="comments" id="comments" class="form-control form-font" rows="1" maxlength="100"></textarea>
                 </div>
             </div>
 
@@ -226,12 +226,13 @@
             
         {% endif %}
         
-            <div class="col-12 comment-table table-responsive-md m-auto">
+            <div class="table-responsive ">
 
                 <table class="table table-striped table-style">
                     <thead class="table-hd">
                         <tr>
                             <th scope="col" class="text-center td-date">Date</th>
+                            <th scope="col" class="text-center td-username">Vendor / Client</th>
                             <th scope="col" class="text-center td-username">Author</th>
                             <th scope="col" class="text-center td-comments">Comments</th>
                         </tr>
@@ -242,18 +243,24 @@
                     <tbody>
                         {% for issuecomment in issuecomments %}
                         <tr>
-                            <td class="d-md-table-cell td-date">{{ issuecomment.input_date|date:"d M y" }}</td>
+                            <td class="d-table-cell td-date">{{ issuecomment.input_date|date:"d M y" }}</td>
+                            
+                            {% if issuecomment.vend_client_ind == "V" %}
+                            <td class="d-table-cell td-username text-center">Vendor</td>
+                            {% else %}
+                             <td class="d-table-cell td-username text-center">Client</td>
+                             {% endif %}
 
-                            <!-- Only show input user if issue belongs to the client the
-                            user is associated with  or the logged in user is on the vendor side -->
-
-                            {% if userdetails.vend_client_code == issuecomment.client_code or issuecomment.vend_client_ind == 'V'%}
-
-                            <td class="d-md-table-cell td-username">{{ issuecomment.user_id }}</td>
+                            <!-- Vendor-side users can see all user ids, client-side users can see the comment user ids of 
+                                 users associated with the same client as them, and the user ids of vendor-users -->
+                            
+                            {% if userdetails.user_type == "V" or userdetails.vend_client_code == issuecomment.vend_client_code or issuecomment.vend_client_ind == "V" %}
+                            
+                            <td class="d-table-cell td-username">{{ issuecomment.user_id }}</td>
                             
                             {% else %}
                             
-                            <td class="d-md-table-cell td-username">**********</td>
+                            <td class="d-table-cell td-username">**********</td>
                             
                             {% endif %} 
 

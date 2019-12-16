@@ -897,54 +897,63 @@ footer {
     font-size: 16px;
 }
 
-.iss-comments-icon-align {
-    text-align: left;
+.iss-comments-plus-view {
+    font-size: 16px;
+
 }
+
 
 @media(min-width:321px) {
 
     .iss-comments-icon {
-        color: #8080ff;
         font-size: 20px;
 
     }
 
     .iss-no-comments-icon {
-        color: #8080ff;
+        font-size: 18px;
+
+    }
+    .iss-comments-plus-view {
         font-size: 18px;
 
     }
 }
+
+
+
+@media(min-width:1024px) {
+
+    .iss-comments-icon {
+        font-size: 24px;
+
+    }
+
+    .iss-no-comments-icon {
+        font-size: 22px;
+
+    }
+
+    .iss-comments-plus-view {
+        font-size: 20px;
+
+    }
+
+}
+
+
+
+
+.iss-comments-icon-align {
+    text-align: left;
+}
+
 
 @media(min-width:768px) {
     .iss-comments-icon-align {
         text-align: right;
     }
 }
-
-
-@media(min-width:1024px) {
-
-    .iss-comments-icon {
-        color: #8080ff;
-        font-size: 24px;
-
-    }
-
-    .iss-no-comments-icon {
-        color: #8080ff;
-        font-size: 22px;
-
-    }
-
-}
-
-
-.iss-comments-plus-view {
-    font-size: 20px;
-
-}
-
 
 .iss-edit-update-btn-color {
     background-color: #8080ff!important;
@@ -963,7 +972,7 @@ footer {
    stand out */
 
 .table-hd {
-    background-color:#dad7d7;
+    background-color: #dad7d7;
     border-bottom: solid 3px #fafaff;
     border-top: solid 2px #fafaff;
 }
