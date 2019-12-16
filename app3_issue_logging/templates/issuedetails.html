@@ -63,11 +63,22 @@
     <div class="row no-gutters pt-1">
 
         <!-- Show comments icon -->
-
+        <!-- If comments are being input, disable comments icon and enable no-comments icon -->
+        
+        {% if comments_input == 'y' %}
         <div class="col-1 col-md-1 icon-height">
+            <a id="enable-comments" class="disabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
+            <a id="disable-comments" class="iss-enabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
+        </div>
+        
+        {% else %}
+        
+        <!-- If comments are not being input, enable comments icon and disable no-comments icon -->
+         <div class="col-1 col-md-1 icon-height">
             <a id="enable-comments" class="enabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
             <a id="disable-comments" class="disabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
         </div>
+        {% endif %}
         
 
         <div class="col-11 offset-md-8 col-md-3 offset-xl-9 col-xl-2 form-font asng-user-txt-align">
@@ -159,13 +170,12 @@
                     </div>
                 </div>
 
-                <!-- Add Button -->
+                <!-- Add Comment Button -->
                 <div class="row no-gutters pt-2">
                     <div class="col-12 text-center">
                         <button class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus"></i> Add</button>
                     </div>
                 </div>
-
             </form>
 
 
