@@ -517,7 +517,7 @@ def FinalFilterFeatures(request, Features, UserDetails):
     
     # Sorting features by date, descending order
         
-    Features = Features.order_by('-input_date')
+    Features = Features.order_by('-id')
         
     return Features
 

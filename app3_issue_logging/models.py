@@ -30,7 +30,7 @@ class IssueComment(models.Model):
     vend_client_ind = models.CharField(max_length=1, blank=False)
     vend_client_code = models.CharField(max_length=6, blank=True)
     user_id = models.CharField(max_length=10, blank=False)
-    comments = models.CharField(max_length=200, blank=False)
+    comments = models.CharField(max_length=500, blank=False)
     
     def __str__(self):
         return "{0}: {1} - {2}".format(self.vend_client_code, self.issue_id, self.user_id )

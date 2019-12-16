@@ -140,11 +140,24 @@ Create a view that returns a single Post object based on the Post ID(pk)
 and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
-def issue_details(request, pk):
+def issue_details(request, pk, view_comments=None):
+    
+    # Is user requesting to view the comments?
+    
+    print("VIEW_COMMENTS: "+str(view_comments))
     
     # Retrieve the issue
     
     issue = get_object_or_404(Issue, pk=pk)
+    
+    try:
+        issuecomments = IssueComment.objects.filter(issue_id=issue.id)
+    except:
+        messages.error(request, "No comments for this Issue yet")
+        
+    # List the issue comments in reverse input order
+        
+    issuecomments = issuecomments.order_by('-id')
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -176,8 +189,13 @@ def issue_details(request, pk):
         VendorDetails = get_vendor(request, UserDetails)
         
         IssueClientDetails = get_issue_client_details(request, issue)
+        
+    print("issue: "+str(issue.id))
+    print("view_comments: "+str(view_comments))
+    print("issue: "+str(issue))
+    print("comments: "+str(issuecomments))
     
-    return  render(request, 'issuedetails.html', {'issue': issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
+    return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
     
 
 
@@ -291,13 +309,12 @@ def new_issue_comment(request, pk=None):
     
     print(request.method)
     
-    # Set comments_input to keep the comment form fields open in issuedetails.html
-    
-    comments_input = "y"
+    comments_input = "n"
+    view_comments = 'n'
     
     if request.method == "POST":
         
-        print("issue comment request is post-----------------------------------------")
+        print("issue comment request is post----------------------------------")
         
         form = IssueCommentForm(request.POST, request.FILES, instance=issuecomment)
         
@@ -306,20 +323,35 @@ def new_issue_comment(request, pk=None):
         
             issuecomment = form.save()
             
-            # return redirect(issue_details, issuecomment.issue_id)
-        else:
+            print("ISSUECOMMENT.ISSUE_ID"+str(issuecomment.issue_id))
             
+            # Redirect to issue_details and pass 'y' to let issuedetails.html
+            # know that the comments list is to be displayed
+            
+            view_comments = 'y'
+            
+            return redirect(issue_details, issuecomment.issue_id, view_comments)
+        else:
+        
             print("form invalid = "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE COMMENT!")
             
     else:
-        print("issue comment request is get-----------------------------------------")
+        print("issue comment request is get-----------------------------------")
     
         form = IssueCommentForm()
         
+        # Set comments_input to keep the comment form fields open in issuedetails.html
+    
+        comments_input = "y"
+        
+        # Set view_comments so that the comments list wont be displayedin issuedetails.html
+        
+        view_comments = 'n'
+        
         print("comments_input= "+str(comments_input))
     
-    return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input})
+    return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
     
     
     

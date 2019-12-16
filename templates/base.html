@@ -833,7 +833,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n"+ "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
@@ -851,14 +851,6 @@
                 }).done();
             }
 
-            // The class 'd-none' prevents the issue comments dashboard and form
-            // from opening when loaded. Remove the class so that they will 
-            // be shown on slideDown (below), but keep them hidden
-
-            $('.iss-comments-form-hide').removeClass('d-none').hide();
-            $('.iss-comments-dash-hide').removeClass('d-none').hide();
-            console.log("hiding done.....................")
-
 
             // Enable Comments icon clicked:
             // Show the dashboard, but keep the comments form hidden.
@@ -866,13 +858,9 @@
 
             $('#enable-comments').on('click', function() {
                 $('#iss-comments-form').hide();
+                
+                $('.iss-comments-dash').removeClass('d-none').hide();
                 $('.iss-comments-dash').slideDown(500);
-
-                $('#iss-comments-plus').addClass('iss-enabled-link');
-                $('#iss-comments-plus').removeClass('disabled-link');
-
-                $('#iss-comments-minus').removeClass('iss-enabled-link');
-                $('#iss-comments-minus').addClass('disabled-link');
 
                 // Disable the 'enable comments' icon 
 
@@ -884,22 +872,39 @@
                 $('#disable-comments').removeClass('disabled-link');
                 $('#disable-comments').addClass('iss-enabled-link');
 
+                // Enable or disable all the other icons 
+
+                // Enable the '+' icon - to open form and add comments
+
+                $('#iss-comments-plus').addClass('iss-enabled-link');
+                $('#iss-comments-plus').removeClass('disabled-link');
+
+                // Disable the '-' icon - this closes the form once its open
+
+                $('#iss-comments-minus').removeClass('iss-enabled-link');
+                $('#iss-comments-minus').addClass('disabled-link');
+
+                // Enable the 'open comments view' icon 
+
+                $('#iss-comments-open').removeClass('disabled-link');
+                $('#iss-comments-open').addClass('iss-enabled-link');
+
+                // Disable the 'close comments view' icon 
+
+                $('#iss-comments-close').removeClass('iss-enabled-link');
+                $('#iss-comments-close').addClass('disabled-link');
+
                 console.log("Comments enabled.........................")
             });
 
 
             // Disable Comments icon clicked:
-            // Hide the comments form and the dashboard
+            // Hide the comments dashboard, form, and list
 
             $('#disable-comments').on('click', function() {
-                $('#iss-comments-form').slideUp(500);
-                $('.iss-comments-dash').slideUp(500);
-
-                $('#iss-comments-plus').addClass('disabled-link');
-                $('#iss-comments-plus').removeClass('iss-enabled-link');
-
-                $('#iss-comments-minus').removeClass('disabled-link');
-                $('#iss-comments-minus').addClass('iss-enabled-link');
+                $('.iss-comments-dash').slideUp();
+                $('#iss-comments-form').slideUp();
+                $('#iss-comments-list').slideUp();
 
                 // Enable the 'enable comments' icon 
 
@@ -911,6 +916,7 @@
                 $('#disable-comments').removeClass('iss-enabled-link');
                 $('#disable-comments').addClass('disabled-link');
 
+
                 console.log("Comments disabled.........................")
             });
 
@@ -921,7 +927,7 @@
 
                 $('#iss-comments-form').removeClass('d-none').hide();
                 $('#iss-comments-form').slideDown(500);
-
+                
                 // Disable the '+'
 
                 $('#iss-comments-plus').removeClass('iss-enabled-link');
@@ -931,6 +937,24 @@
 
                 $('#iss-comments-minus').addClass('iss-enabled-link');
                 $('#iss-comments-minus').removeClass('disabled-link');
+                
+                
+                // Close the issues list, in case it's open
+                
+                $('#iss-comments-list').slideUp(500);
+                
+                // Disable the 'close comments view' icon
+
+                $('#iss-comments-close').removeClass('iss-enabled-link');
+                $('#iss-comments-close').addClass('disabled-link');
+
+                // Enable the 'open comments view' icon
+
+                $('#iss-comments-open').addClass('iss-enabled-link');
+                $('#iss-comments-open').removeClass('disabled-link');
+                
+                
+                
             });
 
 
@@ -952,6 +976,60 @@
 
             });
 
+
+            // The view comments icon on the comments dashboard has been clicked:
+            // Show the comments list
+
+            $('#iss-comments-open').on('click', function() {
+
+                // First, close the comments form, in case it's open
+
+                $('#iss-comments-form').slideUp(500);
+                
+                // Disable the '-'
+
+                $('#iss-comments-minus').removeClass('iss-enabled-link');
+                $('#iss-comments-minus').addClass('disabled-link');
+
+                // Enable the '-'
+
+                $('#iss-comments-plus').addClass('iss-enabled-link');
+                $('#iss-comments-plus').removeClass('disabled-link');
+                
+                // Show the comments list
+
+                $('#iss-comments-list').removeClass('d-none').hide();
+                $('#iss-comments-list').slideDown(500);
+
+                // Disable the 'open comments view' icon
+
+                $('#iss-comments-open').removeClass('iss-enabled-link');
+                $('#iss-comments-open').addClass('disabled-link');
+
+                // Enable the 'close comments view' icon
+
+                $('#iss-comments-close').addClass('iss-enabled-link');
+                $('#iss-comments-close').removeClass('disabled-link');
+            });
+
+
+            // The 'close comments view' on the comments dashboard has been clicked:
+            // Hide the comments list
+
+            $('#iss-comments-close').on('click', function() {
+                $('#iss-comments-list').slideUp(500);
+
+                // Disable the 'close comments view' icon
+
+                $('#iss-comments-close').removeClass('iss-enabled-link');
+                $('#iss-comments-close').addClass('disabled-link');
+
+                // Enable the 'open comments view' icon
+
+                $('#iss-comments-open').addClass('iss-enabled-link');
+                $('#iss-comments-open').removeClass('disabled-link');
+
+            });
 
 
 
@@ -1704,7 +1782,7 @@
 
                             $("tbody").append(
                                 "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled + ">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled + ">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

@@ -213,7 +213,7 @@
                         <td class="text-center td-priority">{{ issue.priority }}</td>
                         <td class="td-summary">{{ issue.summary }}</td>
                         <td class="text-center td-status">{{ issue.status }}</td>
-                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id %}' ><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
+                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' %}' ><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
                             </td>
                     </tr>
                     {% endfor %}

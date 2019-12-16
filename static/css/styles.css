@@ -217,7 +217,6 @@ li {
 
 /* Styling for Features list and New Features buttons in navbar */
 
-
 .ftr-btn-color {
     background-color: #80C0FF!important;
     color: fafaff!important;
@@ -274,7 +273,7 @@ li {
     .ftr-nav-link {
         font-size: 18px;
         padding: 15px!important;
-        
+
     }
 }
 
@@ -284,10 +283,7 @@ li {
 
 /* The following are used on links that are enabled to enable hovering effects */
 
-
-.iss-enabled-link {
-    
-}
+.iss-enabled-link {}
 
 .iss-enabled-link:hover {
     border-radius: 5px;
@@ -295,9 +291,7 @@ li {
     background-color: fafaff!important;
 }
 
-.ftr-enabled-link {
-    
-}
+.ftr-enabled-link {}
 
 .ftr-enabled-link:hover {
     border-radius: 5px;
@@ -305,9 +299,8 @@ li {
     background-color: fafaff!important;
 }
 
-.cart-enabled-link {
-    
-}
+.cart-enabled-link {}
+
 .cart-enabled-link:hover {
     background-color: #80C0FF!important;
     color: fafaff!important;
@@ -372,7 +365,7 @@ li {
 .cart-count-style {
     background-color: #80C0FF!important;
     color: #fff!important;
-    
+
 }
 
 /* Logo sizing and styling  */
@@ -745,6 +738,7 @@ footer {
 
 }
 
+
 .td-status {
     width: 75px;
 
@@ -766,7 +760,7 @@ footer {
 }
 
 .td-qty {
-    width:120px;
+    width: 120px;
 }
 
 .td-add {
@@ -781,7 +775,7 @@ footer {
 
 
 .td-form-font {
-    font-size:12px!important;
+    font-size: 12px!important;
 }
 
 .iss-more-icon-th {
@@ -872,7 +866,7 @@ footer {
 @media(min-width:1024px) {
     .iss-comments-form-style {
         padding: 15px;
-        
+
     }
 }
 
@@ -888,38 +882,69 @@ footer {
 
 /* The comments and no-comments icons are not the same size, so I'm giving them
    different font sizes to make them look the same width on screen */
-   
-.iss-comments-icon {
-    color:  #8080ff;
-    font-size: 24px;
-    
-}
-
-.iss-no-comments-icon {
-    color:  #8080ff;
-    font-size: 22px;
-    
-}
 
 .icon-height {
     height: 24px;
 }
 
-.iss-comments-plus-view {
-    font-size: 20px;
-    
+.iss-comments-icon {
+    color: #8080ff;
+    font-size: 18px;
 }
 
-.asng-user-txt-align {
+.iss-no-comments-icon {
+    color: #8080ff;
+    font-size: 16px;
+}
+
+.iss-comments-icon-align {
     text-align: left;
 }
 
+@media(min-width:321px) {
+
+    .iss-comments-icon {
+        color: #8080ff;
+        font-size: 20px;
+
+    }
+
+    .iss-no-comments-icon {
+        color: #8080ff;
+        font-size: 18px;
+
+    }
+}
+
 @media(min-width:768px) {
-    .asng-user-txt-align {
+    .iss-comments-icon-align {
         text-align: right;
+    }
+}
+
+
+@media(min-width:1024px) {
+
+    .iss-comments-icon {
+        color: #8080ff;
+        font-size: 24px;
+
+    }
+
+    .iss-no-comments-icon {
+        color: #8080ff;
+        font-size: 22px;
+
     }
 
 }
+
+
+.iss-comments-plus-view {
+    font-size: 20px;
+
+}
+
 
 .iss-edit-update-btn-color {
     background-color: #8080ff!important;
@@ -927,7 +952,21 @@ footer {
 
 }
 
+/* Styling for comments table  */
 
+.td-comments {
+    width: 700px;
+
+}
+
+/* Make table heading slightly darker than the rest of the table, to make it
+   stand out */
+
+.table-hd {
+    background-color:#dad7d7;
+    border-bottom: solid 3px #fafaff;
+    border-top: solid 2px #fafaff;
+}
 
 /* css used in featursehome.html -----------------------------------------*/
 
@@ -978,7 +1017,7 @@ footer {
 
 .card {
     margin-right: 20px;
-    margin-bottom:15px;
+    margin-bottom: 15px;
     padding: 10px;
 }
 
@@ -988,12 +1027,12 @@ footer {
 
 .checkout-btn {
     background-color: #FFBF80!important;
-    color:#fff!important;
+    color: #fff!important;
 }
 
 .checkout-btn:hover {
     color: #FFBF80!important;
-    background-color:#fff!important;
+    background-color: #fff!important;
 }
 
 

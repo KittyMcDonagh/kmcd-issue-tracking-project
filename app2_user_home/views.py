@@ -452,7 +452,7 @@ def FinalFilterIssues(request, Issues, UserDetails):
     
     # Sorting issues by date, descending order
         
-    Issues = Issues.order_by('-input_date')
+    Issues = Issues.order_by('-id')
         
     return Issues
         
