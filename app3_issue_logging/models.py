@@ -22,7 +22,10 @@ class Issue(models.Model):
         return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status )
         
 
-# Comments Model - Comments input on an issue by a Vendor-side user
+"""
+Issue Comments Model - This model contains all the fields that are required on 
+the comments entered for the issue by vendor-side and client-side users
+"""
 
 class IssueComment(models.Model):
     issue_id = models.IntegerField(blank=False)

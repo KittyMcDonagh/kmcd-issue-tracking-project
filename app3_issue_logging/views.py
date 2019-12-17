@@ -150,6 +150,8 @@ def issue_details(request, pk, view_comments=None):
     
     issue = get_object_or_404(Issue, pk=pk)
     
+    # Get this issue's comments 
+    
     try:
         issuecomments = IssueComment.objects.filter(issue_id=issue.id)
     except:
@@ -264,7 +266,7 @@ def get_issue_client_details(request, issue):
         
 
 """
-New comment - get the issue comments form. This view is called when the user
+New Issue comment - get the issue comments form. This view is called when the user
 clicks '+' to add a comment. The id of the issue is passed to the view
 """
 def new_issue_comment(request, pk=None):

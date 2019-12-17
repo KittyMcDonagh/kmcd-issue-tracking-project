@@ -11,9 +11,9 @@ from datetime import datetime
 from app2_user_home.models import Vendor
 from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
-from .models import Feature
+from .models import Feature, FeatureComment
 
-from .forms import LogNewFeatureForm, FeatureStatusForm
+from .forms import LogNewFeatureForm, FeatureStatusForm, FeatureCommentForm
 
 
 """
@@ -99,7 +99,6 @@ def features_home(request):
             Features = Feature.objects.filter(assigned_vendor_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING FEATURES!")
-                
         
     
     print("FEATURES: "+str(Features))
@@ -360,11 +359,32 @@ Create a view that returns a single Post object based on the Post ID(pk)
 and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
-def feature_details(request, pk):
+def feature_details(request, pk, view_comments=None):
+    
+    print("in feature_details ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
+    # Is user requesting to view the comments?
+    
+    print("FEATURE VIEW_COMMENTS: "+str(view_comments))
     
     # Retrieve the feature
     
     feature = get_object_or_404(Feature, pk=pk)
+    
+     # Get this feature's comments 
+    
+    try:
+        featurecomments = FeatureComment.objects.filter(feature_id=feature.id)
+    except:
+        messages.error(request, "No comments for this Feature yet")
+    
+    # List the feature comments in reverse input order
+        
+    featurecomments = featurecomments.order_by('-id')
+    
+    print("printing featurecomments --------------------------------------")
+    print(featurecomments)
+    print("---------------------------------------------------------------")
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -398,8 +418,15 @@ def feature_details(request, pk):
         VendorDetails = get_vendor(request, UserDetails)
         
         FeatureClientDetails = get_feature_client_details(request, feature)
+        
+    print("feature id: "+str(feature.id))
+    print("feature view_comments: "+str(view_comments))
+    print("feature: "+str(feature))
     
-    return  render(request, 'featuredetails.html', {'feature': feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+    print("returning to featuredetails.html~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
+    
+    return  render(request, 'featuredetails.html', {'feature': feature, 'featurecomments': featurecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
     
 
 
@@ -597,7 +624,7 @@ def update_feature_status(request, pk=None):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracking system. It has already
+    # Get the user's details from re the issue tracker app. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -636,6 +663,100 @@ def update_feature_status(request, pk=None):
         form = FeatureStatusForm(instance=feature)
     
     return  render(request, 'featurestatus.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+
+
+
+"""
+New Feature comment - get the feature comments form. This view is called when
+the user clicks '+' to add a comment. The id of the featue is passed to the view
+"""
+def new_feature_comment(request, pk=None):
+    
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details re the issue tracker app. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Features Filter
+        # values the client user can use, and the filtered Features
+            
+        ClientDetails = get_client(request, UserDetails)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+    
+    # Get the Feature for which the comment is being input
+    
+    feature = get_object_or_404(Feature, pk=pk) if pk else None
+    
+    save_feature_id = pk
+    
+    pk = ""
+    
+    featurecomment = get_object_or_404(FeatureComment, pk=pk) if pk else None
+    
+    print(request.method)
+    
+    comments_input = "n"
+    view_comments = 'n'
+    
+    if request.method == "POST":
+        
+        print("feature comment request is post----------------------------------")
+        
+        form = FeatureCommentForm(request.POST, request.FILES, instance=featurecomment)
+        
+        if form.is_valid():
+            print("comment form is valid. form = "+str(form))
+        
+            featurecomment = form.save()
+            
+            print("FEATURECOMMENT.FEATURE_ID"+str(featurecomment.feature_id))
+            
+            # Redirect to feature_details and pass 'y' to let featuredetails.html
+            # know that the comments list is to be displayed
+            
+            view_comments = 'y'
+            
+            return redirect(feature_details, featurecomment.feature_id, view_comments)
+        else:
+        
+            print("feature comments form invalid = "+str(form))
+            messages.error(request, "UNABLE TO LOG FEATURE COMMENT!")
+            
+    else:
+        print("feature comment request is get-----------------------------------")
+    
+        form = FeatureCommentForm()
+        
+        # Set comments_input to keep the comment form fields open in featuredetails.html
+    
+        comments_input = "y"
+        
+        # Set view_comments so that the comments list wont be displayed in 
+        # featuredetails.html
+        
+        view_comments = 'n'
+        
+        print("feature comments_input= "+str(comments_input))
+    
+    return  render(request, 'featuredetails.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
+
 
 
 

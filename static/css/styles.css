@@ -53,6 +53,10 @@ li {
 }
 
 
+.disabled {
+    color: fafaff!important;
+}
+
 
 /* css for Login & Registration Form ------------------------------------------*/
 
@@ -145,12 +149,6 @@ li {
 }
 
 
-
-
-.disabled {
-    color: fafaff!important;
-}
-
 /* Override bootstrap styling for nav links */
 
 .nav-link {
@@ -176,7 +174,8 @@ li {
 }
 
 
-/* Styling for Issues list and New Isses buttons in navbar */
+/* Styling that affects the Issues processing -------------------------------*/
+
 
 .iss-btn-color {
     background-color: #8080ff!important;
@@ -187,6 +186,20 @@ li {
 
 .iss-button-font {
     font-size: 14px!important;
+}
+
+/* for issue select boxes */
+
+.iss-select {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+}
+
+.iss-select:hover {
+    background-color: #fff!important;
+    color: #8080ff!important;
+
 }
 
 /* Styling for Features list and New Features nav links in navbar */
@@ -212,6 +225,154 @@ li {
         font-size: 18px;
     }
 }
+
+
+/* Set text align for assigned user, depending on device size   */
+
+.iss-comments-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+
+}
+
+
+
+
+.iss-comments-dash {
+
+    border-radius: 5px;
+    background-color: #8080ff;
+    padding: 5px;
+
+}
+
+
+/* The comments and no-comments icons are not the same size, so I'm giving them
+   different font sizes to make them look the same width on screen */
+
+.icon-height {
+    height: 24px;
+}
+
+.iss-comments-icon {
+    color: #8080ff;
+    font-size: 18px;
+}
+
+.iss-no-comments-icon {
+    color: #8080ff;
+    font-size: 16px;
+}
+
+
+@media(min-width:321px) {
+
+    .iss-comments-icon {
+        font-size: 20px;
+    }
+
+    .iss-no-comments-icon {
+        font-size: 18px;
+
+    }
+    
+}
+
+@media(min-width:1024px) {
+
+    .iss-comments-icon {
+        font-size: 24px;
+
+    }
+
+    .iss-no-comments-icon {
+        font-size: 22px;
+
+    }
+}
+
+
+
+/* Style for issues filter icon. This matches the color of the issues buttons
+   in the navbar and gives a hint to the user as to whether they're looking at
+   t issues or features list */
+
+.iss-filter-icon-color {
+    color: #8080ff!important;
+    background-color: #f3f2f2!important;
+
+
+}
+
+.iss-filter-dd {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+
+}
+
+.iss-filter-dd:hover {
+    color: #fafaff!important;
+    background-color: #8080ff!important;
+
+}
+
+
+.iss-edit-update-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+
+}
+
+.iss-more-icon-th {
+    color: #3b3b3b;
+}
+
+.iss-more-icon-style {
+    color: #3b3b3b;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.iss-more-icon-style:hover {
+    color: #fafaff;
+    background-color: #8080ff;
+}
+
+.iss-comments-form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 10px;
+    background-color: #b3b3ff;
+    padding: 10px;
+
+}
+
+
+@media(min-width:1024px) {
+    .iss-comments-form-style {
+        padding: 15px;
+
+    }
+}
+
+
+/* Styling for comments table  */
+
+.td-comments {
+    width: 700px;
+
+}
+
+/* Make table heading slightly darker than the rest of the table, to make it
+   stand out */
+
+.table-hd {
+    background-color: #dad7d7;
+    border-bottom: solid 3px #fafaff;
+    border-top: solid 2px #fafaff;
+}
+
+
 
 
 
@@ -279,9 +440,8 @@ li {
 
 
 
-
-
-/* The following are used on links that are enabled to enable hovering effects */
+/* The following are used on Issue links that are enabled to enable hovering 
+   effects with the Issues color */
 
 .iss-enabled-link {}
 
@@ -614,31 +774,7 @@ footer {
 }
 
 
-/* css for userhome.html------------------------------------------------------*/
 
-/* Style for issues filter icon. This matches the color of the issues buttons
-   in the navbar and gives a hint to the user as to whether they're looking at
-   t issues or features list */
-
-.iss-filter-icon-color {
-    color: #8080ff!important;
-    background-color: #f3f2f2!important;
-
-
-}
-
-.iss-filter-dd {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-
-}
-
-.iss-filter-dd:hover {
-    color: #fafaff!important;
-    background-color: #8080ff!important;
-
-}
 
 .ftr-filter-dd {
     background-color: #f3f2f2!important;
@@ -703,7 +839,204 @@ footer {
     }
 }
 
-/* css for table in userhome.html & featureshome.html------------------------*/
+
+
+
+/* css used Features processing ----------------------------------------------*/
+
+/* Features Filter icon style. This matches the color of the features buttons
+   in the navbar and gives a hint to the user as to whether they're looking at
+   the issues or features list */
+
+.ftr-comments-btn-color {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+
+}
+
+.ftr-filter-icon-color {
+    color: #80C0FF!important;
+    background-color: #f3f2f2!important;
+}
+
+.ftr-more-icon-th {
+    color: #3b3b3b;
+}
+
+.ftr-more-icon-style {
+    color: #3b3b3b;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.ftr-more-icon-style:hover {
+    color: #fafaff;
+    background-color: #80C0FF;
+}
+
+
+/* For feature select boxes               */
+
+.ftr-select {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+}
+
+.ftr-select:hover {
+    background-color: #fff!important;
+    color: #80C0FF!important;
+
+}
+
+.ftr-comments-icon {
+    color: #80C0FF;
+    font-size: 18px;
+}
+
+.ftr-no-comments-icon {
+    color: #80C0FF;
+    font-size: 16px;
+}
+
+
+@media(min-width:321px) {
+
+    .ftr-comments-icon {
+        font-size: 20px;
+
+    }
+
+    .ftr-no-comments-icon {
+        font-size: 18px;
+
+    }
+    
+}
+
+@media(min-width:1024px) {
+
+    .ftr-comments-icon {
+        font-size: 24px;
+
+    }
+
+    .ftr-no-comments-icon {
+        font-size: 22px;
+
+    }
+}
+
+
+.ftr-comments-dash {
+
+    border-radius: 5px;
+    background-color: #80C0FF;
+    padding: 5px;
+
+}
+
+/* The following are used on Feature links that are enabled to enable hovering 
+   effects with the Features color  */
+
+.ftr-enabled-link {}
+
+.ftr-enabled-link:hover {
+    border-radius: 5px;
+    color: #80C0FF!important;
+    background-color: fafaff!important;
+}
+
+.ftr-comments-form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 10px;
+    background-color: #b3d9ff;
+    padding: 10px;
+
+}
+
+
+@media(min-width:1024px) {
+    .ftr-comments-form-style {
+        padding: 15px;
+
+    }
+}
+
+
+
+/* css for Issues and Features processing ------------------------------------*/
+
+
+
+.form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.form-font {
+    font-size: 13px;
+}
+
+
+@media(min-width:1024px) {
+    .form-style {
+        padding: 20px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+    .form-font {
+        font-size: 15px;
+    }
+
+}
+
+
+@media(min-width:768px) {
+    .position {
+        text-align: right;
+    }
+}
+
+
+.comments-icon-align {
+    text-align: left;
+}
+
+
+@media(min-width:768px) {
+    .comments-icon-align {
+        text-align: right;
+    }
+}
+
+.comments-plus-view {
+    font-size: 16px;
+}
+
+
+@media(min-width:321px) {
+    
+    .comments-plus-view {
+        font-size: 18px;
+
+    }
+}
+
+@media(min-width:1024px) {
+    
+    .comments-plus-view {
+        font-size: 20px;
+
+    }
+
+}
+
+
+
 
 .table-style {
     font-size: 12px;
@@ -778,251 +1111,9 @@ footer {
     font-size: 12px!important;
 }
 
-.iss-more-icon-th {
-    color: #3b3b3b;
-}
 
-.iss-more-icon-style {
-    color: #3b3b3b;
-    padding-left: 10px;
-    padding-right: 10px;
-}
 
-.iss-more-icon-style:hover {
-    color: #fafaff;
-    background-color: #8080ff;
-}
-
-
-
-/* css for issuelogging.html-------------------------------------------------*/
-
-.form-style {
-    border: solid 1px #d9d9d9;
-    border-radius: 15px;
-    background-color: #fff;
-    padding: 15px;
-}
-
-.form-font {
-    font-size: 13px;
-}
-
-
-@media(min-width:1024px) {
-    .form-style {
-        padding: 20px;
-        margin-left: 50px;
-        margin-right: 50px;
-    }
-
-    .form-font {
-        font-size: 15px;
-    }
-
-}
-
-
-@media(min-width:768px) {
-    .position {
-        text-align: right;
-    }
-}
-
-/* for issue select boxes */
-
-.iss-select {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-}
-
-.iss-select:hover {
-    background-color: #fff!important;
-    color: #8080ff!important;
-
-}
-
-/* css for issuedetails.html ------------------------------------------------*/
-
-/* Set text align for assigned user, depending on device size   */
-
-.iss-comments-btn-color {
-    background-color: #8080ff!important;
-    color: fafaff!important;
-
-}
-
-
-.iss-comments-form-style {
-    border: solid 1px #d9d9d9;
-    border-radius: 10px;
-    background-color: #b3b3ff;
-    padding: 15px;
-
-}
-
-
-@media(min-width:1024px) {
-    .iss-comments-form-style {
-        padding: 15px;
-
-    }
-}
-
-
-.iss-comments-dash {
-
-    border-radius: 5px;
-    background-color: #8080ff;
-    padding: 5px;
-
-}
-
-
-/* The comments and no-comments icons are not the same size, so I'm giving them
-   different font sizes to make them look the same width on screen */
-
-.icon-height {
-    height: 24px;
-}
-
-.iss-comments-icon {
-    color: #8080ff;
-    font-size: 18px;
-}
-
-.iss-no-comments-icon {
-    color: #8080ff;
-    font-size: 16px;
-}
-
-.iss-comments-plus-view {
-    font-size: 16px;
-
-}
-
-
-@media(min-width:321px) {
-
-    .iss-comments-icon {
-        font-size: 20px;
-
-    }
-
-    .iss-no-comments-icon {
-        font-size: 18px;
-
-    }
-    .iss-comments-plus-view {
-        font-size: 18px;
-
-    }
-}
-
-
-
-@media(min-width:1024px) {
-
-    .iss-comments-icon {
-        font-size: 24px;
-
-    }
-
-    .iss-no-comments-icon {
-        font-size: 22px;
-
-    }
-
-    .iss-comments-plus-view {
-        font-size: 20px;
-
-    }
-
-}
-
-
-
-
-.iss-comments-icon-align {
-    text-align: left;
-}
-
-
-@media(min-width:768px) {
-    .iss-comments-icon-align {
-        text-align: right;
-    }
-}
-
-.iss-edit-update-btn-color {
-    background-color: #8080ff!important;
-    color: fafaff!important;
-
-}
-
-/* Styling for comments table  */
-
-.td-comments {
-    width: 700px;
-
-}
-
-/* Make table heading slightly darker than the rest of the table, to make it
-   stand out */
-
-.table-hd {
-    background-color: #dad7d7;
-    border-bottom: solid 3px #fafaff;
-    border-top: solid 2px #fafaff;
-}
-
-/* css used in featursehome.html -----------------------------------------*/
-
-/* Features Filter icon style. This matches the color of the features buttons
-   in the navbar and gives a hint to the user as to whether they're looking at
-   t issues or features list */
-
-.ftr-filter-icon-color {
-    color: #80C0FF!important;
-    background-color: #f3f2f2!important;
-}
-
-.ftr-more-icon-th {
-    color: #3b3b3b;
-}
-
-.ftr-more-icon-style {
-    color: #3b3b3b;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.ftr-more-icon-style:hover {
-    color: #fafaff;
-    background-color: #80C0FF;
-}
-
-
-/* For feature select boxes               */
-
-.ftr-select {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-}
-
-.ftr-select:hover {
-    background-color: #fff!important;
-    color: #80C0FF!important;
-
-}
-
-
-
-
-
-/* css for cart.html --------------------------------------------------------*/
+/* css for the Cart and Checkout ---------------------------------------------*/
 
 .card {
     margin-right: 20px;
@@ -1051,8 +1142,6 @@ footer {
     text-align: center;
     border: solid 1px #ddd;
 }
-
-/* css used in checkout.html -----------------------------------------------*/
 
 .pay-btn-color {
     background-color: #8080ff!important;

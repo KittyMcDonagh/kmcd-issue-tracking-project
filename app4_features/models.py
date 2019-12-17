@@ -23,3 +23,17 @@ class Feature(models.Model):
         return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status )
         
 
+"""
+Feature Comments Model - This model contains all the fields that are required on 
+the comments entered for the feature by vendor-side and client-side users
+"""
+class FeatureComment(models.Model):
+    feature_id = models.IntegerField(blank=False)
+    input_date = models.DateField(auto_now_add=True)
+    vend_client_ind = models.CharField(max_length=1, blank=False)
+    vend_client_code = models.CharField(max_length=6, blank=True)
+    user_id = models.CharField(max_length=10, blank=False)
+    comments = models.CharField(max_length=100, blank=False)
+    
+    def __str__(self):
+        return "{0}: {1} - {2}".format(self.vend_client_code, self.feature_id, self.user_id )

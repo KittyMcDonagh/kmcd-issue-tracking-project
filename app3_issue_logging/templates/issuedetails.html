@@ -4,8 +4,6 @@
      1. To display the details of an issue 
      2. Allow the user to view & enter comments on the issue    -->
 
-
-
 <!-- If the user is a vendor-side user, show the name of the client the issue 
      belongs to -->
 
@@ -84,7 +82,7 @@
 
         {% if comments_input == 'y' or view_comments == 'y' %}
 
-        <div class="col-12 offset-md-6 col-md-1 icon-height iss-comments-icon-align">
+        <div class="col-12 offset-md-6 col-md-1 icon-height comments-icon-align">
             <a id="enable-comments" class="disabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
             <a id="disable-comments" class="iss-enabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
         </div>
@@ -93,7 +91,7 @@
 
         <!-- If comments are not being input, enable comments icon and disable no-comments icon -->
 
-        <div class="col-12 offset-md-6 col-md-1 icon-height iss-comments-icon-align">
+        <div class="col-12 offset-md-6 col-md-1 icon-height comments-icon-align">
             <a id="enable-comments" class="enabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
             <a id="disable-comments" class="disabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
         </div>
@@ -121,15 +119,15 @@
              Show plus icon disabled (comments form will already be open), show minus icon enabled (to close comments form) -->
         
         <div class="col-2 pl-2">
-            <button id="iss-comments-plus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
-            <button id="iss-comments-minus" class="btn iss-comments-btn-color iss-enabled-link " type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
+            <button id="iss-comments-plus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-plus comments-plus-view"></i></button>
+            <button id="iss-comments-minus" class="btn iss-comments-btn-color iss-enabled-link " type="submit "><i class="fas fa-minus comments-plus-view"></i></button>
         </div>
         
         <!-- Show view comments icon enabled (to show comments list ), show close-view icon disabled (comments list not currently showing) -->
         
         <div class="offset-8 col-2 text-center ">
-            <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
-            <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash iss-comments-plus-view"></i></i></button>
+            <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
+            <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
         </div>
         
         {% else %}
@@ -138,15 +136,15 @@
              Show plus icon disabled (comments form will already be open), show minus icon enabled (to close comments form) -->
              
         <div class="col-2 pl-2">
-            <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
-            <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link " type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
+            <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus comments-plus-view"></i></button>
+            <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link " type="submit "><i class="fas fa-minus comments-plus-view"></i></button>
         </div>
         
         <!-- Show view comments icon enabled (to show comments list ), show close-view icon disabled (comments list not currently showing) -->
         
         <div class="offset-8 col-2 text-center ">
-            <button id="iss-comments-open" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
-            <button id="iss-comments-close" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye-slash iss-comments-plus-view"></i></i></button>
+            <button id="iss-comments-open" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
+            <button id="iss-comments-close" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
         </div>
         {% endif %}
         
@@ -161,16 +159,16 @@
         <!-- js will show this element, so make plus icon disabled, minus enabled -->
 
         <div class="col-2 pl-2">
-            <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus iss-comments-plus-view"></i></button>
-            <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-minus iss-comments-plus-view"></i></button>
+            <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus comments-plus-view"></i></button>
+            <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-minus comments-plus-view"></i></button>
         </div>
 
 
         <!-- Show view icon -->
         
         <div class="offset-8 col-2 text-center ">
-            <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye iss-comments-plus-view"></i></i></button>
-            <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash iss-comments-plus-view"></i></i></button>
+            <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
+            <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
         </div>
     </div>
     {% endif %}
@@ -272,8 +270,6 @@
                 <hr>
             </div>
         </div>
-       
-
 
 
         <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->

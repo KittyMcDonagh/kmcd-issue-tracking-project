@@ -833,7 +833,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n"+ "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
@@ -851,14 +851,21 @@
                 }).done();
             }
 
-
-            // Enable Comments icon clicked:
-            // Show the dashboard, but keep the comments form hidden.
-            // The comments form will be enabled by the '+' on the dashboard
+            /* ================================================================
+               THE FOLLOWING FUNCTIONS MANAGE THE ISSUES COMMENTS SHOW / HIDE 
+               ================================================================
+               
+                The following functions manage the Issue Comments show /hide
+            */
 
             $('#enable-comments').on('click', function() {
+
+                // Enable Comments icon clicked:
+                // Show the dashboard, but keep the comments form hidden.
+                // The comments form will be enabled by the '+' on the dashboard
+
                 $('#iss-comments-form').hide();
-                
+
                 $('.iss-comments-dash').removeClass('d-none').hide();
                 $('.iss-comments-dash').slideDown(500);
 
@@ -872,7 +879,6 @@
                 $('#disable-comments').removeClass('disabled-link');
                 $('#disable-comments').addClass('iss-enabled-link');
 
-                // Enable or disable all the other icons 
 
                 // Enable the '+' icon - to open form and add comments
 
@@ -884,12 +890,12 @@
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
                 $('#iss-comments-minus').addClass('disabled-link');
 
-                // Enable the 'open comments view' icon 
+                // Enable the 'open comments list view' icon 
 
                 $('#iss-comments-open').removeClass('disabled-link');
                 $('#iss-comments-open').addClass('iss-enabled-link');
 
-                // Disable the 'close comments view' icon 
+                // Disable the 'close comments list view' icon 
 
                 $('#iss-comments-close').removeClass('iss-enabled-link');
                 $('#iss-comments-close').addClass('disabled-link');
@@ -898,10 +904,11 @@
             });
 
 
-            // Disable Comments icon clicked:
-            // Hide the comments dashboard, form, and list
-
             $('#disable-comments').on('click', function() {
+
+                // Disable Comments icon clicked:
+                // Hide the comments dashboard, form, and list 
+
                 $('.iss-comments-dash').slideUp();
                 $('#iss-comments-form').slideUp();
                 $('#iss-comments-list').slideUp();
@@ -920,14 +927,15 @@
                 console.log("Comments disabled.........................")
             });
 
-            // The '+' on the comments dashboard has been clicked:
-            // Show the comments form
 
             $('#iss-comments-plus').on('click', function() {
 
+                // The '+' on the comments dashboard has been clicked:
+                // Show the comments input form
+
                 $('#iss-comments-form').removeClass('d-none').hide();
                 $('#iss-comments-form').slideDown(500);
-                
+
                 // Disable the '+'
 
                 $('#iss-comments-plus').removeClass('iss-enabled-link');
@@ -937,31 +945,29 @@
 
                 $('#iss-comments-minus').addClass('iss-enabled-link');
                 $('#iss-comments-minus').removeClass('disabled-link');
-                
-                
-                // Close the issues list, in case it's open
-                
+
+
+                // Close the comments list view, in case it's open
+
                 $('#iss-comments-list').slideUp(500);
-                
-                // Disable the 'close comments view' icon
+
+                // Disable the 'close comments list view' icon
 
                 $('#iss-comments-close').removeClass('iss-enabled-link');
                 $('#iss-comments-close').addClass('disabled-link');
 
-                // Enable the 'open comments view' icon
+                // Enable the 'open comments list view' icon
 
                 $('#iss-comments-open').addClass('iss-enabled-link');
                 $('#iss-comments-open').removeClass('disabled-link');
-                
-                
-                
             });
 
 
-            // The '-' on the comments dashboard has been clicked:
-            // Hide the comments form
-
             $('#iss-comments-minus').on('click', function() {
+
+                // The '-' on the comments dashboard has been clicked:
+                // Hide the comments input form
+
                 $('#iss-comments-form').slideUp(500);
 
                 // Disable the '-'
@@ -969,23 +975,23 @@
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
                 $('#iss-comments-minus').addClass('disabled-link');
 
-                // Enable the '-'
+                // Enable the '+'
 
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
-
             });
 
-
-            // The view comments icon on the comments dashboard has been clicked:
-            // Show the comments list
 
             $('#iss-comments-open').on('click', function() {
 
-                // First, close the comments form, in case it's open
+                // The view comments list icon on the comments dashboard has been 
+                // clicked:
+                // Show the comments list
+
+                // First, close the comments input form, in case it's open
 
                 $('#iss-comments-form').slideUp(500);
-                
+
                 // Disable the '-'
 
                 $('#iss-comments-minus').removeClass('iss-enabled-link');
@@ -995,36 +1001,37 @@
 
                 $('#iss-comments-plus').addClass('iss-enabled-link');
                 $('#iss-comments-plus').removeClass('disabled-link');
-                
-                // Show the comments list
+
+                // Show the comments list view
 
                 $('#iss-comments-list').removeClass('d-none').hide();
                 $('#iss-comments-list').slideDown(500);
 
-                // Disable the 'open comments view' icon
+                // Disable the 'open comments list view' icon
 
                 $('#iss-comments-open').removeClass('iss-enabled-link');
                 $('#iss-comments-open').addClass('disabled-link');
 
-                // Enable the 'close comments view' icon
+                // Enable the 'close comments list view' icon
 
                 $('#iss-comments-close').addClass('iss-enabled-link');
                 $('#iss-comments-close').removeClass('disabled-link');
             });
 
 
-            // The 'close comments view' on the comments dashboard has been clicked:
-            // Hide the comments list
-
             $('#iss-comments-close').on('click', function() {
+
+                // The 'close comments list view' on the comments dashboard has been clicked:
+                // Hide the comments list
+
                 $('#iss-comments-list').slideUp(500);
 
-                // Disable the 'close comments view' icon
+                // Disable the 'close comments list view' icon
 
                 $('#iss-comments-close').removeClass('iss-enabled-link');
                 $('#iss-comments-close').addClass('disabled-link');
 
-                // Enable the 'open comments view' icon
+                // Enable the 'open comments list view' icon
 
                 $('#iss-comments-open').addClass('iss-enabled-link');
                 $('#iss-comments-open').removeClass('disabled-link');
@@ -1032,20 +1039,22 @@
             });
 
 
+            /* ==============================================================
+               FEATURES PROCESSING 
+               ==============================================================
+               
+               The following function manage the filtering of features by 
+               Features Filter, Status Filter, Paid Filter, and Client Filter 
+               (vendor-side users only)
+            */
 
-            // FEATURES PROCESSING -------------------------------------------//
 
-            // The following scripts manage the filtering of features by Features Filter,
-            // Status Filter, Paid Filter, and Client Filter (vendor-side users only)
-
-            // ============================
             // Filtering by Features Filter
-            // ============================
-
-            // A value has been selected from the  Features Filter dropdown 
-            // by the user
 
             $('.features-filter').on('click', function() {
+
+                // A value has been selected from the  Features Filter dropdown 
+                // by the user
 
                 event.preventDefault();
                 let featuresFilter = $(this).data('value');
@@ -1107,13 +1116,12 @@
             });
 
 
-            // ===========================
-            // Filtering by Status Filter
-            // ===========================
 
-            // Status filter has been selected by the user
+            // Filtering by Status Filter
 
             $('.feat-status-filter').on('click', function() {
+
+                // Status filter has been selected by the user
 
                 event.preventDefault();
                 let statusFilter = $(this).data('value');
@@ -1185,12 +1193,12 @@
             });
 
 
-
-            // ==================
             // Filtering by Paid
-            // ==================
+
 
             $('.paid-filter').on('click', function() {
+
+                // Paid filter has been selected by the user
 
                 event.preventDefault();
 
@@ -1260,14 +1268,12 @@
             });
 
 
-            // ==========================
             // Filtering by Client Filter 
-            // ==========================
-
-            // Client Filter has been selected by the user. The Client Filter
-            // will only be available when the user is a vendor-side user
 
             $('.feat-client-filter').on('click', function() {
+
+                // Client Filter has been selected by the user. The Client Filter
+                // will only be available when the user is a vendor-side user
 
                 console.log("in .feat-client-filter-------------------")
 
@@ -1343,10 +1349,7 @@
             });
 
 
-            //==================================================================
-            // SEARCH BOX - Searching for Features where text in the Feature Summary
-            // matches the text input in the input box
-            //==================================================================
+            // Search Box - search the Feature Summary for the value the user has input
 
             $('#ftr-search-btn').on('click', function() {
 
@@ -1381,17 +1384,16 @@
             });
 
 
-            // ===========================
-            // Features Pagination
-            // ===========================
 
-            // The user has clicked on a page number
-            // Using "$(document).on . . ." here because the 'feat-page-click' 
-            // class is not part of the html when it is first loaded, they are
-            // added by js when it displays the filtered data, and therefore the
-            // js wont respond to "$('.iss-page-click').on('click', function()"
+            // Features Pagination
 
             $(document).on('click', ".feat-page-click", function() {
+
+                    // The user has clicked on a page number
+                    // Using "$(document).on . . ." here because the 'feat-page-click' 
+                    // class is not part of the html when it is first loaded, they are
+                    // added by js when it displays the filtered data, and therefore the
+                    // js wont respond to "$('.iss-page-click').on('click', function()"
 
                     // Get the page number the user clicked on
 
@@ -1800,6 +1802,193 @@
                     traditional: true
                 }).done();
             }
+
+            /*  ================================================================
+                THE FOLLOWING FUNCTIONS MANAGE THE FEATURE COMMENTS SHOW / HIDE 
+                ================================================================
+                           
+                The following functions manage the Feature Comments show /hide
+            */
+
+            $('#enable-comments').on('click', function() {
+
+                // Enable Comments icon clicked:
+                // Show the dashboard, but keep the comments form hidden.
+                // The comments form will be enabled by the '+' on the dashboard
+
+                $('#ftr-comments-form').hide();
+
+                $('.ftr-comments-dash').removeClass('d-none').hide();
+                $('.ftr-comments-dash').slideDown(500);
+
+                // Disable the 'enable comments' icon 
+
+                $('#enable-comments').removeClass('ftr-enabled-link');
+                $('#enable-comments').addClass('disabled-link');
+
+                // Enable the 'disable comments' icon 
+
+                $('#disable-comments').removeClass('disabled-link');
+                $('#disable-comments').addClass('iss-enabled-link');
+
+
+                // Enable the '+' icon - to open form and add comments
+
+                $('#ftr-comments-plus').addClass('iss-enabled-link');
+                $('#ftr-comments-plus').removeClass('disabled-link');
+
+                // Disable the '-' icon - this closes the form once its open
+
+                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                $('#ftr-comments-minus').addClass('disabled-link');
+
+                // Enable the 'open comments list view' icon 
+
+                $('#ftr-comments-open').removeClass('disabled-link');
+                $('#ftr-comments-open').addClass('ftr-enabled-link');
+
+                // Disable the 'close comments list view' icon 
+
+                $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                $('#ftr-comments-close').addClass('disabled-link');
+
+                console.log("Feature Comments enabled.........................")
+            });
+
+
+            $('#disable-comments').on('click', function() {
+
+                // Disable Comments icon clicked:
+                // Hide the comments dashboard, form, and list 
+
+                $('.ftr-comments-dash').slideUp();
+                $('#ftr-comments-form').slideUp();
+                $('#ftr-comments-list').slideUp();
+
+                // Enable the 'enable comments' icon 
+
+                $('#enable-comments').removeClass('disabled-link');
+                $('#enable-comments').addClass('ftr-enabled-link');
+
+                // Disable the 'disable comments' icon 
+
+                $('#disable-comments').removeClass('ftr-enabled-link');
+                $('#disable-comments').addClass('disabled-link');
+
+
+                console.log("Feature Comments disabled.........................")
+            });
+
+
+            $('#ftr-comments-plus').on('click', function() {
+
+                // The '+' on the comments dashboard has been clicked:
+                // Show the comments input form
+
+                $('#ftr-comments-form').removeClass('d-none').hide();
+                $('#ftr-comments-form').slideDown(500);
+
+                // Disable the '+'
+
+                $('#ftr-comments-plus').removeClass('ftr-enabled-link');
+                $('#ftr-comments-plus').addClass('disabled-link');
+
+                // Enable the '-'
+
+                $('#ftr-comments-minus').addClass('ftr-enabled-link');
+                $('#ftr-comments-minus').removeClass('disabled-link');
+
+
+                // Close the comments list view, in case it's open
+
+                $('#ftr-comments-list').slideUp(500);
+
+                // Disable the 'close comments list view' icon
+
+                $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                $('#ftr-comments-close').addClass('disabled-link');
+
+                // Enable the 'open comments list view' icon
+
+                $('#ftr-comments-open').addClass('ftr-enabled-link');
+                $('#ftr-comments-open').removeClass('disabled-link');
+            });
+
+
+            $('#ftr-comments-minus').on('click', function() {
+
+                // The '-' on the comments dashboard has been clicked:
+                // Hide the comments input form
+
+                $('#ftr-comments-form').slideUp(500);
+
+                // Disable the '-'
+
+                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                $('#ftr-comments-minus').addClass('disabled-link');
+
+                // Enable the '+'
+
+                $('#ftr-comments-plus').addClass('ftr-enabled-link');
+                $('#ftr-comments-plus').removeClass('disabled-link');
+            });
+
+
+            $('#ftr-comments-open').on('click', function() {
+
+                // The view comments list icon on the comments dashboard has been 
+                // clicked:
+                // Show the comments list
+
+                // First, close the comments input form, in case it's open
+
+                $('#ftr-comments-form').slideUp(500);
+
+                // Disable the '-'
+
+                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                $('#ftr-comments-minus').addClass('disabled-link');
+
+                // Enable the '-'
+
+                $('#ftr-comments-plus').addClass('ftr-enabled-link');
+                $('#ftr-comments-plus').removeClass('disabled-link');
+
+                // Show the comments list view
+
+                $('#ftr-comments-list').removeClass('d-none').hide();
+                $('#ftr-comments-list').slideDown(500);
+
+                // Disable the 'open comments list view' icon
+
+                $('#ftr-comments-open').removeClass('ftr-enabled-link');
+                $('#ftr-comments-open').addClass('disabled-link');
+
+                // Enable the 'close comments list view' icon
+
+                $('#ftr-comments-close').addClass('ftr-enabled-link');
+                $('#ftr-comments-close').removeClass('disabled-link');
+            });
+
+
+            $('#ftr-comments-close').on('click', function() {
+
+                // The 'close comments list view' on the comments dashboard has been clicked:
+                // Hide the comments list
+
+                $('#ftr-comments-list').slideUp(500);
+
+                // Disable the 'close comments list view' icon
+
+                $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                $('#ftr-comments-close').addClass('disabled-link');
+
+                // Enable the 'open comments list view' icon
+
+                $('#ftr-comments-open').addClass('ftr-enabled-link');
+                $('#ftr-comments-open').removeClass('disabled-link');
+
+            });
 
             // Next function here
 

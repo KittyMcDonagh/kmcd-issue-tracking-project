@@ -4,7 +4,9 @@ from django import forms
 from .models import Issue
 from .models import IssueComment
 
-# Create a form based on forms.ModelForm (see imported forms above)
+"""
+Form for inputting and Editing Issues
+"""
 
 class LogNewIssueForm(forms.ModelForm):
    
@@ -12,6 +14,9 @@ class LogNewIssueForm(forms.ModelForm):
         model = Issue
         fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "priority", "status")
 
+"""
+Form that allows updating of the Issue Status
+"""
 class IssueStatusForm(forms.ModelForm):
    
     class Meta:
@@ -19,6 +24,9 @@ class IssueStatusForm(forms.ModelForm):
         fields = ("status",)
 
 
+"""
+Form that allows inputting of Issue comments
+"""
 class IssueCommentForm(forms.ModelForm):
    
     class Meta:

@@ -2,7 +2,7 @@ from django import forms
 
 # See class Feaure in models.py - this is imported here
 
-from .models import Feature
+from .models import Feature, FeatureComment
 
 # Create a form based on forms.ModelForm (see imported forms above)
 
@@ -29,4 +29,12 @@ class FeatureAmountPaidForm(forms.ModelForm):
 
 
 
-
+"""
+Form that allows inputting of Feature comments
+"""
+class FeatureCommentForm(forms.ModelForm):
+   
+    class Meta:
+        model = FeatureComment
+        fields = ("feature_id", "vend_client_ind", "vend_client_code", "user_id", "comments",)
+        
