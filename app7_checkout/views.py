@@ -57,6 +57,9 @@ def checkout(request):
             # if there's a problem
             
             print("ABOUT TO TRY PAYING---------------------------------------")
+            print("FEATURE = "+str(feature))
+            print("feature.id = "+str(feature.id))
+            
             try:
                 customer = stripe.Charge.create(
                     amount= int(total * 100),
@@ -73,6 +76,20 @@ def checkout(request):
             
             if customer.paid:
                 messages.error(request, "You have successfully paid")
+                
+                print("================================================")
+                print("feature.paid = "+str(feature.paid))
+               
+                
+                feature.paid += total
+                
+                print("feature.paid=total = "+str(feature.paid))
+                print("================================================")
+                
+                feature.save()
+                
+                
+                
                 
                 request.session['cart'] = {}
                 return redirect(reverse('features_home'))
