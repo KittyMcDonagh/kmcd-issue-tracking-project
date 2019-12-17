@@ -176,7 +176,6 @@ li {
 
 /* Styling that affects the Issues processing -------------------------------*/
 
-
 .iss-btn-color {
     background-color: #8080ff!important;
     color: fafaff!important;
@@ -275,7 +274,7 @@ li {
         font-size: 18px;
 
     }
-    
+
 }
 
 @media(min-width:1024px) {
@@ -911,7 +910,7 @@ footer {
         font-size: 18px;
 
     }
-    
+
 }
 
 @media(min-width:1024px) {
@@ -967,8 +966,6 @@ footer {
 
 /* css for Issues and Features processing ------------------------------------*/
 
-
-
 .form-style {
     border: solid 1px #d9d9d9;
     border-radius: 15px;
@@ -1019,7 +1016,7 @@ footer {
 
 
 @media(min-width:321px) {
-    
+
     .comments-plus-view {
         font-size: 18px;
 
@@ -1027,7 +1024,7 @@ footer {
 }
 
 @media(min-width:1024px) {
-    
+
     .comments-plus-view {
         font-size: 20px;
 
@@ -1096,14 +1093,17 @@ footer {
     width: 120px;
 }
 
-.td-add {
-    width: 60px;
+.td-thumbs-up {
+    width: 50px;
 }
 
-.td-add-btn-style {
+.td-thumbs-up-style {
     background-color: #80C0FF!important;
     color: fafaff!important;
+}
 
+.thumbs-up-icon {
+    font-size:12px;
 }
 
 
@@ -1135,6 +1135,17 @@ footer {
     background-color: #fff!important;
 }
 
+
+.checkout-amount {
+    margin-right: 20px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff!important;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+
+}
 
 .bg-style {
     padding-top: 4px;

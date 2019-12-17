@@ -8,15 +8,18 @@
             <div class="card">
                 <h3>{{ item.feature.title }}</h3>
                 <p class="feature-description">{{ item.feature.summary }}</p>
-                <p>{{ item.feature.price }}</p>
+                <p>
+                    <span class="pl-5"><strong>Quantity: </strong>{{ item.quantity}}</span>
+                    <span class="pl-5"><strong>Price: </strong>{{ item.feature.price }}</span>
+                </p>
 
                 <form class="form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
                     {% csrf_token %}
                     <div class="form-group">
-                        <div class="input-group">
+                        <div class="input-group pl-5">
                             <label for="exampleInputAmount" class="sr-only">New Qty</label>
                             <div class="input-group-prepend pr-2 bg-style">Qty</div>
-                            <input name="quantity" type="number" min="0" max="999" class="form-control">
+                            <input name="quantity" type="number" value='0' min="0" max="999" class="form-control">
                             <div class="input-group-append pl-2 pr-1 bg-style">{{item.quantity}}</div>
                         </div>
                     </div>
@@ -28,7 +31,7 @@
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-sm-6 col-md-4 ">
             <p>
                 <span class="pr-2">Total</span>
                 <span><i class="fas fa-euro-sign"></i>{{ total }}</span>

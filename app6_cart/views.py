@@ -40,7 +40,8 @@ def view_cart(request):
     
 
 """
-Add a quantity of the specified feature id to the cart
+When the user clicks on the thumbs up button -
+Add 1 to the specified feature id count in the cart
 """ 
 
 def add_to_cart(request, id):
@@ -54,7 +55,7 @@ def add_to_cart(request, id):
     
     # Get the quantity we specified
     
-    quantity = int(request.POST.get('quantity'))
+    quantity = 1
     
     print("quantity: "+str(quantity))
     
@@ -65,14 +66,21 @@ def add_to_cart(request, id):
     print("about to get cart----------------------------------------")
     cart = request.session.get('cart', {})
     print("have cart----------------------------------------")
+    print("cart: "+str(cart))
         
     # Add cart id and quantity
     
     if id in cart:
+        
+        print("feature is in cart========================")
         cart[id] = int(cart[id]) + quantity
         
     else:
+        print("feature is NOT in cart========================")
         cart[id] = cart.get(id, quantity)
+        
+    
+    print("CART UPDATED: "+str(cart))
         
     request.session['cart'] = cart
         
@@ -89,7 +97,7 @@ def add_to_cart_js(request):
     
     print("request method: "+str(request.method))
     
-    id = int(request.POST.get('featureId'))
+    id = request.POST.get('featureId')
     quantity = int(request.POST.get('qty'))
     
     print("id: "+str(id))
@@ -102,17 +110,22 @@ def add_to_cart_js(request):
     print("about to get cart_js----------------------------------------")
     cart = request.session.get('cart', {})
     print("have cart_js----------------------------------------")
+    print("cart: "+str(cart))
         
     # Add cart id and quantity
     
     if id in cart:
+        
+        print("feature is in cart: =========================")
         cart[id] = int(cart[id]) + quantity
         
     else:
+        print("feature is NOT in cart: =========================")
         cart[id] = cart.get(id, quantity)
     
     # Update the cart
-        
+    
+    print("js_CART UPDATED: "+str(cart))
     request.session['cart'] = cart
     
     

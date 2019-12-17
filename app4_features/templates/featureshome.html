@@ -135,13 +135,13 @@
                     <tr>
                         <th scope="col" class="text-center td-date">Date</th>
                         <th scope="col" class="text-center td-username">Assigned to</th>
-                        <th scope="col" class="d-md-table-cell text-center td-sw-comp">Software Component</th>
+                        <th scope="col" class="text-center td-sw-comp">Software Component</th>
                         <th scope="col" class="text-center td-summary">Feature Summary</th>
                         <th scope="col" class="text-center td-status">Status</th>
-                        <th scope="col" class="d-md-table-cell text-center td-paid">Paid</th>
-                        <th scope="col" class="d-md-table-cell text-center td-price">Price</th>
-                        <th scope="col" class="d-md-table-cell text-center td-qty pr-0 mr-0">Qty</th>
-                        <th scope="col" class="d-md-table-cell text-center td-add pl-0 ml-0"><i class="fas fa-plus"></i>Cart</th>
+                        <th scope="col" class="text-center td-paid"><i class="fas fa-euro-sign"></i> Paid</th>
+                        <th scope="col" class="text-center td-price"><i class="fas fa-euro-sign"></i> Price</th>
+                        
+                        <th scope="col" class="text-center td-thumbs-up pl-0 ml-0"><i class="fas fa-plus"></i>Cart</th>
                         <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h ftr-more-icon-th"></th>
                     </tr>
                 </thead>
@@ -157,7 +157,7 @@
                 <tbody>
                      {% for feature in features %}
                     <tr>
-                        <td class="d-md-table-cell td-date">{{ feature.input_date|date:"d M y" }}</td>
+                        <td class="td-date">{{ feature.input_date|date:"d M y" }}</td>
                         
                         <!-- The feature can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
@@ -165,14 +165,14 @@
                         
                         {% if userdetails.user_type == "V"%}
                         
-                        <td class="d-md-table-cell td-username">{{ feature.assigned_vendor_user }}</td>
+                        <td class="td-username">{{ feature.assigned_vendor_user }}</td>
                         
                         {% else %}
-                        <td class="d-md-table-cell td-username">{{ feature.assigned_client_user }}</td>
+                        <td class="td-username">{{ feature.assigned_client_user }}</td>
                         
                         {% endif %}
                         
-                        <td class="d-md-table-cell td-sw-comp">{{ feature.software_component }}</td>
+                        <td class="td-sw-comp">{{ feature.software_component }}</td>
                         <td class="td-summary">{{ feature.summary }}</td>
                         <td class="text-center td-status">{{ feature.status }}</td>
                         <td class="text-center td-paid">{{ feature.paid }}</td>
@@ -185,24 +185,18 @@
                                     
                                     {% if userdetails.user_type == "C" %}
                                     
-                                    <!-- if client-side user enable Quantity input and Add button -->
-                                    
-                                        <td class="td-qty pr-0 mr-0">
-                                            <input name="quantity" type="number" value="0" min="1" max="999" class="form-control td-form-font" placeholder="Quantity">
-                                        </td>
+                                    <!-- if client-side user enable the thumbs up button -->
+                                        
                                         <td class="pl-0 ml-0">
-                                            <button class="btn td-add-btn-style td-form-font td-add ftr-enabled-link" type="submit"><i class="fas fa-plus"></i>Add</button>
+                                            <button class="btn td-thumbs-up-style td-form-font td-thumbs-up ftr-enabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
                                         </td>
                                         
                                     {% else %}
                                     
                                      <!-- Vendor-side user, disable Quantity input and Add button -->
                                     
-                                    <td class="td-qty pr-0 mr-0">
-                                        <input name="quantity" type="number" value="0" min="1" max="999" class="form-control td-form-font" placeholder="Quantity" disabled>
-                                    </td>
                                     <td class="pl-0 ml-0">
-                                        <button class="btn td-add-btn-style td-form-font td-add " type="submit" disabled><i class="fas fa-plus"></i>Add</button>
+                                        <button class="btn td-thumbs-up-style td-form-font td-thumbs-up " type="submit" disabled><i class="fas fa-thumbs-upthumbs-up-icon"></i></button>
                                     </td>
                                     {% endif %}
                                 </div>

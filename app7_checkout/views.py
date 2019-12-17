@@ -22,14 +22,23 @@ stripe.api_key = settings.STRIPE_SECRET
 def checkout(request):
     
     print("in checkout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
     if request.method=="POST":
+        
         print("in checkout- POST====================================================")
+        
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
         
+        print("payment_form: "+str(payment_form))
+        print("order_form: "+str(order_form))
+        
         if order_form.is_valid() and payment_form.is_valid():
+            
             print("forms are valid-------------------------------------------")
+            
             order = order_form.save()
+            
             print("form saved: order.date = "+str(order.date))
             
             order.date = timezone.now()
@@ -57,6 +66,7 @@ def checkout(request):
             # if there's a problem
             
             print("ABOUT TO TRY PAYING---------------------------------------")
+            print("TOTAL = "+str(total))
             print("FEATURE = "+str(feature))
             print("feature.id = "+str(feature.id))
             
@@ -73,25 +83,30 @@ def checkout(request):
             
             print("CHECKING CUSTOMER.PAID---------------------------------------")
             
+            print("CUSTOMER: "+str(customer))
+            
             
             if customer.paid:
-                messages.error(request, "You have successfully paid")
                 
-                print("================================================")
-                print("feature.paid = "+str(feature.paid))
-               
+                for id, quantity, in cart.items():
+                    feature = get_object_or_404(Feature, pk=id)
                 
-                feature.paid += total
-                
-                print("feature.paid=total = "+str(feature.paid))
-                print("================================================")
-                
-                feature.save()
-                
-                
-                
+                    print("================================================")
+                    print("feature.paid = "+str(feature.paid))
+                    
+                    feature_paid = quantity * feature.price
+                    
+                    print("feature_paid = "+str(feature_paid))
+                    feature.paid += feature_paid
+                    
+                    print("feature.paid+amount = "+str(feature.paid))
+                    print("================================================")
+                    
+                    feature.save()
                 
                 request.session['cart'] = {}
+                
+                messages.error(request, "You have successfully paid")
                 return redirect(reverse('features_home'))
                 
             else:

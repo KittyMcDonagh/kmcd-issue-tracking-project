@@ -833,7 +833,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + user + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
@@ -1428,8 +1428,8 @@
                 // Extract the button element just clicked on, and separate the
                 // classes into an array. The featureId is the first class
                 // e.g. the button element is created like this:
-                // <button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click' type='submit'>
-                // So if the feature id = '16', 'classes' below will be = "16 btn td-add-btn-style td-form-font td-add add-btn-click", 
+                // <button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add add-btn-click' type='submit'>
+                // So if the feature id = '16', 'classes' below will be = "16 btn td-thumbs-up-style td-form-font td-add add-btn-click", 
                 // where 'i6' is the id of the feature relevant to the Add button just clicked. We want to get the featureId
 
                 var classes = $(this).attr("class").split(" ");
@@ -1438,16 +1438,10 @@
 
                 console.log("addFeatureId = " + featureId);
 
-                // Get the quantity input by the user
-                // Each quantity field has an id of "qty_featureId". To find
-                // the correct qty field we need to create the 'id'. So if the
-                // featureId is '16', the id will be 'qty_16'.
-
-                var qtyId = "qty_" + featureId;
-
-                console.log("qtyId = " + qtyId);
-
-                var qty = document.getElementById((qtyId)).value;
+                // When the thumbs up button is clicked '1' will be added to the#
+                // cart count
+                
+                var qty = 1;
 
                 console.log("qty = " + qty);
 
@@ -1485,12 +1479,11 @@
                         console.log("currentQty = " + currentQty);
 
                         var newQty = currentQty + parseInt(qty);
+                        
+                        // Update the cart count
 
                         $('#feature_count').text(newQty);
-
-                        // Reset the qty field to zero
-
-                        document.getElementById((qtyId)).value = 0
+                        
                     }
                 });
 
@@ -1783,8 +1776,8 @@
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='d-table-cell td-date'>" + inputDate + "</td><td class='d-md-table-cell td-username'>" + assignedUser + "</td><td class='d-md-table-cell td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='td-qty pr-0 mr-0'>" + "<input id=" + "qty_" + featureId + " name='quantity' type='number' min='1' value='0' max='999' class='form-control td-form-font' placeholder='Quantity'" + cartDisabled + ">" + "</td><td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-add-btn-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-plus'></i>Add</button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

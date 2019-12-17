@@ -18,6 +18,7 @@
 </script>
 
 <!-- This script file is within our js dir under static -->
+
 <script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
 
 {% endblock head_js %} {% block content %}
@@ -28,9 +29,11 @@
         <div class="col-12 col-sm-6 col-md-4">
             <div class="card">
                 <h3>{{ item.feature.title }}</h3>
-                <p class="feature-description">{{ item.feature.description }}</p>
-                <p><strong>Quantity: </strong>{{ item.quantity}}</p>
-                <p><strong>Price: </strong>{{ item.feature.price }}</p>
+                <p class="feature-description">{{ item.feature.summary }}</p>
+                <p>
+                    <span class="pl-5"><strong>Quantity: </strong>{{ item.quantity}}</span>
+                    <span class="pl-5"><strong>Price: </strong>{{ item.feature.price }}</span>
+                </p>
             </div>
         </div>
         {% endfor %}
@@ -38,9 +41,9 @@
 </div>
 
 <div class="row no-gutters">
-    <div class="col-12 col-sm-6 col-md-4">
-        <p>Total</p>
-        <p><span><i class="fas fa-euro-sign"></i>{{ total }}</span></p>
+    <div class="col-12 col-sm-6 col-md-4 ml-3 p-2 checkout-amount">
+        <p class="m-0"><strong class="pr-1">Total: </strong>
+        <span><i class="fas fa-euro-sign"></i>{{ total }}</span></p>
     </div>
 </div>
 
