@@ -837,12 +837,12 @@
                             var priority = value.priority;
                             var summary = value.summary;
                             var status = value.status;
-                            var issueThumbsUp = value.thumbs_up
+                            var issuethumbsUpCount = value.thumbs_up_count
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font iss-thumbs-up-click" + linkEnabledDisabled + "'><i class='fas fa-thumbs-up thumbs-up-icon'"+"></i></a>"+"</td><td class='text-center td-thumbs-up'>" + issueThumbsUp + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font iss-thumbs-up-click" + linkEnabledDisabled + "'><i class='fas fa-thumbs-up thumbs-up-icon'"+"></i></a>"+"</td><td class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                             
                             
@@ -1789,13 +1789,13 @@
                             var status = value.status;
                             var paid = value.paid;
                             var price = value.price;
-                            var thumbsUp = value.thumbs_up
+                            var thumbsUpCount = value.thumbs_up_count
 
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
                                 "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-thumbs-up-style td-form-font ftr-thumbs-up-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + thumbsUp + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-thumbs-up-style td-form-font ftr-thumbs-up-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + thumbsUpCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

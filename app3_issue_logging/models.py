@@ -17,10 +17,10 @@ class Issue(models.Model):
     details = models.CharField(max_length=700, blank=True)
     priority = models.IntegerField(default=5)
     status  = models.CharField(max_length=8, default="DRAFT")
-    thumbs_up = models.IntegerField(default=0) 
+    thumbs_up_count = models.IntegerField(default=0) 
     
     def __str__(self):
-        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status, self.thumbs_up )
+        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status, self.thumbs_up_count )
         
 
 """
@@ -38,3 +38,22 @@ class IssueComment(models.Model):
     
     def __str__(self):
         return "{0}: {1} - {2}".format(self.vend_client_code, self.issue_id, self.user_id )
+
+
+"""
+Issue Thumbs Up Model - This model records the Issues that a client has 
+'thumbed up'. They can only have one 'thumbs up' per issue. 
+Once thumbed up, The icon for the issue will change to 'thumb down', and once 
+clicked, this will change the count back to zero.
+"""
+
+class IssueThumbsUp(models.Model):
+    issue_id = models.IntegerField(blank=False)
+    client_code = models.CharField(max_length=6, blank=True)
+    user_id = models.CharField(max_length=10, blank=False)
+    thumbs_up = models.IntegerField(default=0) 
+    
+    def __str__(self):
+        return "{0}: {1} - {2}, {3}".format(self.issue_id, self.client_code, self.user_id, self.thumbs_up )
+        
+        

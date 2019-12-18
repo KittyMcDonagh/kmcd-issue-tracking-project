@@ -4,7 +4,7 @@ from django.contrib import admin
 # Import models:
 
 from .models import Issue
-from .models import IssueComment
+from .models import IssueComment, IssueThumbsUp
 
 
 
@@ -12,3 +12,4 @@ from .models import IssueComment
 
 admin.site.register(Issue)
 admin.site.register(IssueComment)
+admin.site.register(IssueThumbsUp)

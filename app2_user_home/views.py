@@ -11,7 +11,7 @@ from datetime import datetime
 from .models import Vendor
 from .models import Client
 from .models import UserDetail
-from app3_issue_logging.models import Issue
+from app3_issue_logging.models import Issue, IssueThumbsUp
 
 from accounts.forms import UserLoginForm
 
@@ -102,6 +102,28 @@ def user_home(request):
     # allowed to see, and they're sorted by date, descending
     
     Issues = FinalFilterIssues(request, Issues, UserDetails)
+    
+    # Initialise list of issues that have already been 'thumbed up' by this client
+    
+    thumb_down_list = []
+    
+    if UserDetails.user_type == "C":
+            
+        # User is on the Client side:
+        # Get the issues this Client has already 'thumbed up' - these will be 
+        # shown in the list with 'thumb-down'
+    
+        try:
+            IssueThumbsUps = IssueThumbsUp.objects.filter(client_code=UserDetails.vend_client_code)
+            
+            for item in IssueThumbsUps:
+                if item.thumbs_up > 0:
+                    thumb_down_list.append(item.issue_id)
+        except:
+            thumb_down_list = []
+    
+    print("thumb_down_list: "+str(thumb_down_list))
+    
 
     # For Pagination
     
@@ -121,7 +143,7 @@ def user_home(request):
     list_type = "issues"
     searching = 'n'
   
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching })
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list })
 
 
 """
@@ -412,7 +434,7 @@ def get_issues(request):
         	"priority": issue.priority,
         	"summary": issue.summary,
         	"status": issue.status,
-        	"thumbs_up": issue.thumbs_up,
+        	"thumbs_up_count": issue.thumbs_up_count,
         	"user_type": UserDetails.user_type
     })
     
