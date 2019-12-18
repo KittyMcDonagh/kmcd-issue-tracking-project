@@ -1752,15 +1752,16 @@
                             // Initialise 'disabled' to be added to quantity & amount
 
                             var cartDisabled = "";
-                            var cartEnabled = "";
+                            var cartEnabledDisabled = "";
 
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
-                                cartEnabled = " ftr-enabled-link"
+                                cartEnabledDisabled = " ftr-enabled-link"
 
                             }
                             else {
                                 var assignedUser = value.assigned_vendor_user;
+                                cartEnabledDisabled = " disabled-link"
 
                                 // For vendor-side user, quantity & +Add will be disabled
 
@@ -1772,12 +1773,13 @@
                             var status = value.status;
                             var paid = value.paid;
                             var price = value.price;
+                            var thumbsUp = value.thumbs_up
 
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-paid'>" + paid + "</td><td class='text-center td-price'>" + price + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add add-btn-click" + cartEnabled + " type='submit'" + cartDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0'>" + "<button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add add-btn-click" + cartEnabledDisabled + " type='submit'" + cartDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + thumbsUp+ "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                             console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);

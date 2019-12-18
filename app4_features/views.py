@@ -344,7 +344,9 @@ def get_features(request):
         	"price":feature.price,
         	"summary": feature.summary,
         	"status": feature.status,
+        	"thumbs_up": feature.thumbs_up,
         	"user_type": UserDetails.user_type
+        	
     })
     
     print("returning to js")

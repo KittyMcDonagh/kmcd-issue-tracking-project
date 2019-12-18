@@ -98,8 +98,10 @@ def checkout(request):
                     
                     print("feature_paid = "+str(feature_paid))
                     feature.paid += feature_paid
+                    feature.thumbs_up += quantity
                     
-                    print("feature.paid+amount = "+str(feature.paid))
+                    print("feature.paid = "+str(feature.paid))
+                    print("feature.thumbs_up = "+str(feature.thumbs_up))
                     print("================================================")
                     
                     feature.save()

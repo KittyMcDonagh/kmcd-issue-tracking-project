@@ -1097,6 +1097,10 @@ footer {
     width: 50px;
 }
 
+.td-add {
+    width: 50px;
+}
+
 .td-thumbs-up-style {
     background-color: #80C0FF!important;
     color: fafaff!important;

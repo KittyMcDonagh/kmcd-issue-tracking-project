@@ -18,9 +18,10 @@ class Feature(models.Model):
     assigned_vendor_user = models.CharField(max_length=10, blank=True)
     assigned_client_user = models.CharField(max_length=10, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    thumbs_up = models.IntegerField(default=0)
     
     def __str__(self):
-        return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status )
+        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status, self.thumbs_up )
         
 
 """
