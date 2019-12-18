@@ -134,6 +134,7 @@
             <table class="table table-striped table-style">
                 <thead>
                     <tr>
+                        <th scope="col" class="text-center td-is">#</th>
                         <th scope="col" class="text-center td-date">Date</th>
                         <th scope="col" class="text-center td-username">Input User</th>
                         <th scope="col" class="text-center td-username">Assigned to</th>
@@ -141,6 +142,8 @@
                         <th scope="col" class="text-center td-priority">Priority</th>
                         <th scope="col" class="text-center td-summary">Issue Summary</th>
                         <th scope="col" class="text-center td-status">Status</th>
+                        <th scope="col" class="text-center td-thumbs-up pl-0 ml-0"><i class="fas fa-plus"></i> <i class="fas fa-thumbs-up thumbs-up-icon"></i></th>
+                        <th scope="col" class="text-center td-thumbs-up pl-0 ml-0"><i class="fas fa-thumbs-up thumbs-up-icon"></i></th>
                         <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h iss-more-icon-th"></th>
                     </tr>
                 </thead>
@@ -156,6 +159,7 @@
                 <tbody>
                      {% for issue in issues %}
                     <tr>
+                        <td class="td-id">{{ issue.id }}</td>
                         <td class="td-date">{{ issue.input_date|date:"d M y" }}</td>
                         
                         {% if userdetails.user_type == "C"%}
@@ -213,6 +217,26 @@
                         <td class="text-center td-priority">{{ issue.priority }}</td>
                         <td class="td-summary">{{ issue.summary }}</td>
                         <td class="text-center td-status">{{ issue.status }}</td>
+                        {% if userdetails.user_type == "C" %}
+                                    
+                        <!-- if client-side user enable the thumbs up button -->
+                                        
+                        <td class="pl-0 ml-0 td-thumbs-up">
+                            <button class="btn iss-td-thumbs-up-style td-form-font  iss-enabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                        </td>
+                                        
+                        {% else %}
+                                    
+                        <!-- Vendor-side user, disable Quantity input and Add button -->
+                                    
+                        <td class="pl-0 ml-0">
+                            <button class="btn iss-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                        </td>
+                        {% endif %}
+                        
+                        <td class="text-center td-thumbs-up">{{ issue.thumbs_up }}</td>
+                        
+                        
                         <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' %}' ><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
                             </td>
                     </tr>

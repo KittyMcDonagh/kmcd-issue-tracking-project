@@ -412,6 +412,7 @@ def get_issues(request):
         	"priority": issue.priority,
         	"summary": issue.summary,
         	"status": issue.status,
+        	"thumbs_up": issue.thumbs_up,
         	"user_type": UserDetails.user_type
     })
     

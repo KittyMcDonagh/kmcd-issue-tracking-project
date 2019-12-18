@@ -53,9 +53,17 @@ li {
 }
 
 
-.disabled {
-    color: fafaff!important;
+.disabled-link {
+    pointer-events: none;
+    opacity: .4;
+
 }
+
+.dropdown-item {
+    color: #8c8c8c!important;
+}
+
+
 
 
 /* css for Login & Registration Form ------------------------------------------*/
@@ -87,7 +95,7 @@ li {
 }
 
 
-/* Set width an styling of form for login and registration   */
+/* Set width an styling of form for login, registration, profile -------------*/
 
 .login-reg-form {
     padding-left: 10px;
@@ -102,430 +110,38 @@ li {
 }
 
 
-/* css for base.html ---------------------------------------------------------*/
+/* Stlye the 'sign in' text  */
 
-.vend-client-user {
-    height: 19px;
-    background-color: #f3f2f2;
-
-}
-
-
-.navbar-style {
-    background-color: #fafaff;
-    color: #3b3b3b;
-    font-family: "Nunito", sans-serif;
-    font-size: 18px;
-    ;
-}
-
-.nav-blank {
-    color: #fafaff;
-}
-
-/* Padding to left of home icon on navbar  */
-
-.navbar-padding {
-    padding-left: 15px;
-
-}
-
-.nav-issues-align {
-    padding-left: 0px!important;
-}
-
-
-@media(min-width:1024px) {
-    .nav-issues-align {
-        padding-left: 10px!important
-    }
-
-}
-
-@media(min-width:1025px) {
-    .nav-issues-align {
-        padding-left: 100px!important
-    }
-}
-
-
-/* Override bootstrap styling for nav links */
-
-.nav-link {
-    color: #3b3b3b!important;
-    font-size: 15px;
-    padding: 15px!important;
-
-}
-
-
-@media(min-width:1025px) {
-    .nav-link {
-        color: #3b3b3b!important;
-        font-size: 18px;
-        padding: 15px!important;
-    }
-}
-
-.nav-link:hover {
-    background-color: #6666ff;
-    color: #fafaff!important;
-    border-radius: 5px;
-}
-
-
-/* Styling that affects the Issues processing -------------------------------*/
-
-.iss-btn-color {
-    background-color: #8080ff!important;
-    color: fafaff!important;
-    width: 120px;
-
-}
-
-.iss-button-font {
-    font-size: 14px!important;
-}
-
-/* for issue select boxes */
-
-.iss-select {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-}
-
-.iss-select:hover {
-    background-color: #fff!important;
-    color: #8080ff!important;
-
-}
-
-/* Styling for Features list and New Features nav links in navbar */
-
-.iss-ftr-ml {
-    margin-left: 0px;
-}
-
-@media(min-width:1024px) {
-    .iss-ftr-ml {
-        margin-left: 5px;
-    }
-}
-
-.iss-nav-link {
-    font-size: 15px;
-    padding: 15px!important;
-    margin-bottom: 2px;
-}
-
-@media(min-width:1025px) {
-    .iss-nav-link {
-        font-size: 18px;
-    }
-}
-
-
-/* Set text align for assigned user, depending on device size   */
-
-.iss-comments-btn-color {
-    background-color: #8080ff!important;
-    color: fafaff!important;
-
-}
-
-
-
-
-.iss-comments-dash {
-
-    border-radius: 5px;
-    background-color: #8080ff;
-    padding: 5px;
-
-}
-
-
-/* The comments and no-comments icons are not the same size, so I'm giving them
-   different font sizes to make them look the same width on screen */
-
-.icon-height {
-    height: 24px;
-}
-
-.iss-comments-icon {
-    color: #8080ff;
-    font-size: 18px;
-}
-
-.iss-no-comments-icon {
-    color: #8080ff;
-    font-size: 16px;
-}
-
-
-@media(min-width:321px) {
-
-    .iss-comments-icon {
-        font-size: 20px;
-    }
-
-    .iss-no-comments-icon {
-        font-size: 18px;
-
-    }
-
-}
-
-@media(min-width:1024px) {
-
-    .iss-comments-icon {
-        font-size: 24px;
-
-    }
-
-    .iss-no-comments-icon {
-        font-size: 22px;
-
-    }
-}
-
-
-
-/* Style for issues filter icon. This matches the color of the issues buttons
-   in the navbar and gives a hint to the user as to whether they're looking at
-   t issues or features list */
-
-.iss-filter-icon-color {
-    color: #8080ff!important;
-    background-color: #f3f2f2!important;
-
-
-}
-
-.iss-filter-dd {
-    background-color: #f3f2f2!important;
-    color: #3b3b3b!important;
-    font-size: 12px!important;
-
-}
-
-.iss-filter-dd:hover {
-    color: #fafaff!important;
-    background-color: #8080ff!important;
-
-}
-
-
-.iss-edit-update-btn-color {
-    background-color: #8080ff!important;
-    color: fafaff!important;
-
-}
-
-.iss-more-icon-th {
+.link-text-style {
+    text-decoration: none;
     color: #3b3b3b;
 }
 
-.iss-more-icon-style {
-    color: #3b3b3b;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.iss-more-icon-style:hover {
-    color: #fafaff;
-    background-color: #8080ff;
-}
-
-.iss-comments-form-style {
-    border: solid 1px #d9d9d9;
-    border-radius: 10px;
-    background-color: #b3b3ff;
-    padding: 10px;
-
+.link-text-style:hover {
+    color: #6666ff!important;
+    text-decoration: none;
 }
 
 
-@media(min-width:1024px) {
-    .iss-comments-form-style {
-        padding: 15px;
-
-    }
+.prof-bg {
+    background-color: #e6e6ff;
 }
 
 
-/* Styling for comments table  */
-
-.td-comments {
-    width: 700px;
-
-}
-
-/* Make table heading slightly darker than the rest of the table, to make it
-   stand out */
-
-.table-hd {
-    background-color: #dad7d7;
-    border-bottom: solid 3px #fafaff;
-    border-top: solid 2px #fafaff;
-}
-
-
-
-
-
-/* Styling for Features list and New Features buttons in navbar */
-
-.ftr-btn-color {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-    width: 120px;
-
-}
-
-
-.ftr-button-font {
-    font-size: 14px!important;
-}
-
-.ftr-edit-update-btn-color {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-
-}
-
-
-
-
-/* Create a space between the Issues buttons and the Features buttons in the 
-   navbar */
-
-.iss-ftr-gap {
-    margin-left: 0px
-}
-
-@media(min-width:1024px) {
-    .iss-ftr-gap {
-        margin-left: 10px
-    }
-}
-
-
-
-@media(min-width:1025px) {
-    .iss-ftr-gap {
-        margin-left: 100px!important
-    }
-}
-
-
-/* Styling for Features list and New Features nav links in navbar */
-
-.ftr-nav-link {
-    font-size: 15px;
-    padding: 15px!important;
-    margin-bottom: 2px;
-
-}
-
-@media(min-width:1025px) {
-    .ftr-nav-link {
-        font-size: 18px;
-        padding: 15px!important;
-
-    }
-}
-
-
-
-/* The following are used on Issue links that are enabled to enable hovering 
-   effects with the Issues color */
-
-.iss-enabled-link {}
-
-.iss-enabled-link:hover {
-    border-radius: 5px;
-    color: #8080ff!important;
-    background-color: fafaff!important;
-}
-
-.ftr-enabled-link {}
-
-.ftr-enabled-link:hover {
-    border-radius: 5px;
-    color: #80C0FF!important;
-    background-color: fafaff!important;
-}
-
-.cart-enabled-link {}
-
-.cart-enabled-link:hover {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-    border-radius: 5px;
-
-}
-
-
-.disabled-link {
-    pointer-events: none;
-    opacity: .4;
-
-}
-
-
-
-.cart-container {
-    color: #3b3b3b!important;
-    margin-left: 0px;
+.prof-hd {
     font-size: 14px;
-    padding-top: 15px;
-
+    text-decoration: underline;
 }
 
-@media(min-width:1024px) {
-    .cart-container {
-        margin-left: 5px;
-    }
-}
-
-@media(min-width:1025px) {
-    .cart-container {
+@media(min-width:768px) {
+    .prof-hd {
         font-size: 18px;
-        margin-left: 60px;
-        padding: 13px;
-
-
+        text-decoration: underline;
     }
 }
 
 
-/* Styling for cart button / icon */
-
-.cart-nav-link {
-    font-size: 13px!important;
-    padding: 15px;
-    margin-bottom: 2px;
-    color: #80C0FF!important;
-    width: 120px;
-
-}
-
-@media(min-width:1025px) {
-    .cart-nav-link {
-        margin-left: 10px;
-    }
-}
-
-
-
-
-.cart-count-style {
-    background-color: #80C0FF!important;
-    color: #fff!important;
-
-}
+/* css for base.html ---------------------------------------------------------*/
 
 /* Logo sizing and styling  */
 
@@ -614,78 +230,75 @@ li {
     background-color: #f3f2f2;
 }
 
-/* base.html / js pagination  */
 
-/* Give the pagination section a height of 70px, so that if 
-   pagination is not required, the footer will still stick to the 
-   bottom of the page. Section height is set above. */
-
-.pag-nav-section {
+.vend-client-user {
+    height: 19px;
     background-color: #f3f2f2;
-    height: 70px;
+
 }
 
 
-/* Pagination page links are highlighted in different colors depending on whether
-   its the issues list or the features list. The colors match the colors in 
-   the navbar for the issues and features buttons and gives the user a hint
-   as to whether they're looking at the issues or features list */
+.navbar-style {
+    background-color: #fafaff;
+    color: #3b3b3b;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    ;
+}
 
-.page-link {
+.nav-blank {
+    color: #fafaff;
+}
+
+/* Padding to left of home icon on navbar  */
+
+.navbar-padding {
+    padding-left: 15px;
+
+}
+
+.nav-issues-align {
+    padding-left: 0px!important;
+}
+
+
+@media(min-width:1024px) {
+    .nav-issues-align {
+        padding-left: 10px!important
+    }
+
+}
+
+@media(min-width:1025px) {
+    .nav-issues-align {
+        padding-left: 100px!important
+    }
+}
+
+
+/* Override bootstrap styling for nav links */
+
+.nav-link {
     color: #3b3b3b!important;
-}
-
-.iss-page-live-link {
-    color: #3b3b3b!important;
-}
-
-/* Activate hover functionality on page numbers with live links only       */
-
-.iss-page-live-link:hover {
-    background-color: #8080ff!important;
-    color: #fff!important;
-}
-
-.ftr-page-live-link {
-    color: #3b3b3b!important;
-}
-
-/* Activate hover functionality on page numbers with live links only       */
-
-.ftr-page-live-link:hover {
-    background-color: #80C0FF!important;
-    color: #fff!important;
-}
-
-
-
-
-.ftr-selected {
-    background-color: #80C0FF!important;
-    color: #fff!important;
-
-}
-
-.iss-selected {
-    background-color: #8080ff!important;
-    color: #fff!important;
+    font-size: 15px;
+    padding: 15px!important;
 
 }
 
 
-
-
-footer {
-
-    background-color: #3b3b3b;
-    color: #b3b3b3;
-    height: 80px;
-    margin-bottom: 0px;
-    padding: 30px 30px 10px 30px;
-    text-align: center;
+@media(min-width:1025px) {
+    .nav-link {
+        color: #3b3b3b!important;
+        font-size: 18px;
+        padding: 15px!important;
+    }
 }
 
-
+.nav-link:hover {
+    background-color: #6666ff;
+    color: #fafaff!important;
+    border-radius: 5px;
+}
 
 /* css for home.html ---------------------------------------------------------*/
 
@@ -737,43 +350,254 @@ footer {
 
 
 
-/* css for registration.html -------------------------------------------------*/
+/* Styling that affects the Issues processing -------------------------------*/
 
-/* Stlye the 'sign in' text  */
+.iss-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+    width: 120px;
 
-.link-text-style {
-    text-decoration: none;
-    color: #3b3b3b;
 }
 
-.link-text-style:hover {
-    color: #6666ff!important;
-    text-decoration: none;
+.iss-button-font {
+    font-size: 14px!important;
+}
+
+/* base.html / js pagination  */
+
+/* Give the pagination section a height of 70px, so that if 
+   pagination is not required, the footer will still stick to the 
+   bottom of the page. Section height is set above. */
+
+.pag-nav-section {
+    background-color: #f3f2f2;
+    height: 70px;
 }
 
 
-/* css for registration.html -------------------------------------------------*/
+/* Pagination page links are highlighted in different colors depending on whether
+   its the issues list or the features list. The colors match the colors in 
+   the navbar for the issues and features buttons and gives the user a hint
+   as to whether they're looking at the issues or features list */
 
-.prof-bg {
-    background-color: #e6e6ff;
+.page-link {
+    color: #3b3b3b!important;
 }
 
-/* css for profile.html ------------------------------------------------------*/
 
-.prof-hd {
-    font-size: 14px;
-    text-decoration: underline;
+
+/* Styling for Issues -------------------------------------------------------*/
+
+/* for issue select boxes */
+
+.iss-select {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
 }
 
-@media(min-width:768px) {
-    .prof-hd {
+.iss-select:hover {
+    background-color: #fff!important;
+    color: #8080ff!important;
+
+}
+
+.iss-selected {
+    background-color: #8080ff!important;
+    color: #fff!important;
+
+}
+
+.iss-dropdown a:hover {
+    color: #fafaff!important;
+    background-color: #8080ff;
+
+}
+
+
+
+
+.iss-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom: 2px;
+}
+
+@media(min-width:1025px) {
+    .iss-nav-link {
         font-size: 18px;
-        text-decoration: underline;
+    }
+}
+
+
+/* Set text align for assigned user, depending on device size   */
+
+.iss-comments-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+
+}
+
+.iss-page-live-link {
+    color: #3b3b3b!important;
+}
+
+/* Activate hover functionality on page numbers with live links only       */
+
+.iss-page-live-link:hover {
+    background-color: #8080ff!important;
+    color: #fff!important;
+}
+
+
+.iss-td-thumbs-up-style {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+}
+
+
+
+.iss-comments-dash {
+
+    border-radius: 5px;
+    background-color: #8080ff;
+    padding: 5px;
+
+}
+
+
+/* The comments and no-comments icons are not the same size, so I'm giving them
+   different font sizes to make them look the same width on screen */
+
+.icon-height {
+    height: 24px;
+}
+
+.iss-comments-icon {
+    color: #8080ff;
+    font-size: 18px;
+}
+
+.iss-no-comments-icon {
+    color: #8080ff;
+    font-size: 16px;
+}
+
+
+@media(min-width:321px) {
+
+    .iss-comments-icon {
+        font-size: 20px;
+    }
+
+    .iss-no-comments-icon {
+        font-size: 18px;
+
+    }
+
+}
+
+@media(min-width:1024px) {
+
+    .iss-comments-icon {
+        font-size: 24px;
+
+    }
+
+    .iss-no-comments-icon {
+        font-size: 22px;
+
     }
 }
 
 
 
+/* Style for issues filter icon. 
+   This matches the color of the issues buttons in the navbar and gives a hint 
+   to the user as to whether they're looking at the issues or features list */
+
+.iss-filter-icon-color {
+    color: #8080ff!important;
+    background-color: #f3f2f2!important;
+
+
+}
+
+.iss-filter-dd {
+    background-color: #f3f2f2!important;
+    color: #3b3b3b!important;
+    font-size: 12px!important;
+
+}
+
+.iss-filter-dd:hover {
+    color: #fafaff!important;
+    background-color: #8080ff!important;
+
+}
+
+
+.iss-edit-update-btn-color {
+    background-color: #8080ff!important;
+    color: fafaff!important;
+
+}
+
+.iss-more-icon-th {
+    color: #3b3b3b;
+}
+
+.iss-more-icon-style {
+    color: #3b3b3b;
+}
+
+.iss-more-icon-style:hover {
+    color: #ffffff;
+    background-color: #8080ff;
+    font-weight: 900; 
+}
+
+.iss-comments-form-style {
+    border: solid 1px #d9d9d9;
+    border-radius: 10px;
+    background-color: #b3b3ff;
+    padding: 10px;
+
+}
+
+
+@media(min-width:1024px) {
+    .iss-comments-form-style {
+        padding: 15px;
+
+    }
+}
+
+/* The following are used on Issue links that are enabled to enable hovering 
+   effects with the Issues color */
+
+.iss-enabled-link {}
+
+.iss-enabled-link:hover {
+    border-radius: 5px;
+    color: #8080ff!important;
+    background-color: fafaff!important;
+}
+
+.iss-page-live-link {
+    color: #3b3b3b!important;
+}
+
+/* Activate hover functionality on page numbers with live links only       */
+
+.iss-page-live-link:hover {
+    background-color: #8080ff!important;
+    color: #fff!important;
+}
+
+
+
+/* Styling for Features list ------------------------------------------------*/
 
 .ftr-filter-dd {
     background-color: #f3f2f2!important;
@@ -788,14 +612,200 @@ footer {
 
 }
 
-/* Set filter font-sizes for larger devices----------------------------------*/
-
-@media(min-width:768px) {
-    .filter-dd {
-        font-size: 12px!important;
-    }
+.ftr-btn-color {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+    width: 120px;
 
 }
+
+.ftr-dropdown a:hover {
+    color: #fafaff!important;
+    background-color: #80C0FF;
+
+}
+
+
+.ftr-button-font {
+    font-size: 14px!important;
+}
+
+.ftr-edit-update-btn-color {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+
+}
+
+.ftr-td-thumbs-up-style {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+}
+
+
+/* Create a space between the Issues buttons and the Features buttons in the 
+   navbar */
+
+.iss-ftr-gap {
+    margin-left: 0px
+}
+
+@media(min-width:1024px) {
+    .iss-ftr-gap {
+        margin-left: 10px
+    }
+}
+
+
+
+@media(min-width:1025px) {
+    .iss-ftr-gap {
+        margin-left: 100px!important
+    }
+}
+
+
+
+.ftr-nav-link {
+    font-size: 15px;
+    padding: 15px!important;
+    margin-bottom: 2px;
+
+}
+
+@media(min-width:1025px) {
+    .ftr-nav-link {
+        font-size: 18px;
+        padding: 15px!important;
+
+    }
+}
+
+
+.ftr-enabled-link {}
+
+.ftr-enabled-link:hover {
+    border-radius: 5px;
+    color: #80C0FF!important;
+    background-color: fafaff!important;
+}
+
+.ftr-page-live-link {
+    color: #3b3b3b!important;
+}
+
+/* Activate hover functionality on page numbers with live links only       */
+
+.ftr-page-live-link:hover {
+    background-color: #80C0FF!important;
+    color: #fff!important;
+}
+
+
+.ftr-selected {
+    background-color: #80C0FF!important;
+    color: #fff!important;
+
+}
+
+
+
+/* Styling for comments table  ----------------------------------------------*/
+
+.td-comments {
+    width: 700px;
+
+}
+
+/* Make table heading slightly darker than the rest of the table, to make it
+   stand out */
+
+.table-hd {
+    background-color: #dad7d7;
+    border-bottom: solid 3px #fafaff;
+    border-top: solid 2px #fafaff;
+}
+
+
+
+
+/* Styling for the cart -----------------------------------------------------*/
+
+.cart-enabled-link {}
+
+.cart-enabled-link:hover {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+    border-radius: 5px;
+
+}
+
+
+.cart-container {
+    color: #3b3b3b!important;
+    margin-left: 0px;
+    font-size: 14px;
+    padding-top: 15px;
+
+}
+
+@media(min-width:1024px) {
+    .cart-container {
+        margin-left: 5px;
+    }
+}
+
+@media(min-width:1025px) {
+    .cart-container {
+        font-size: 18px;
+        margin-left: 60px;
+        padding: 13px;
+
+
+    }
+}
+
+
+/* Styling for cart button / icon */
+
+.cart-nav-link {
+    font-size: 13px!important;
+    padding: 15px;
+    margin-bottom: 2px;
+    color: #80C0FF!important;
+    width: 120px;
+
+}
+
+@media(min-width:1025px) {
+    .cart-nav-link {
+        margin-left: 10px;
+    }
+}
+
+
+.cart-count-style {
+    background-color: #80C0FF!important;
+    color: #fff!important;
+
+}
+
+
+
+footer {
+
+    background-color: #3b3b3b;
+    color: #b3b3b3;
+    height: 80px;
+    margin-bottom: 0px;
+    padding: 30px 30px 10px 30px;
+    text-align: center;
+}
+
+
+
+
+/* Set filter font-sizes for larger devices----------------------------------*/
+
 
 .filter-name {
     font-size: 12px!important;
@@ -809,22 +819,11 @@ footer {
 
 }
 
-.dropdown-item {
-    color: #8c8c8c!important;
-}
-
-.iss-dropdown a:hover {
-    color: #fafaff!important;
-    background-color: #8080ff;
-
-}
 
 
-.ftr-dropdown a:hover {
-    color: #fafaff!important;
-    background-color: #80C0FF;
 
-}
+
+
 
 
 
@@ -864,13 +863,12 @@ footer {
 
 .ftr-more-icon-style {
     color: #3b3b3b;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 .ftr-more-icon-style:hover {
-    color: #fafaff;
-    background-color: #80C0FF;
+    background-color:  #80C0FF;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 
@@ -964,7 +962,19 @@ footer {
 
 
 
-/* css for Issues and Features processing ------------------------------------*/
+/* Styling for both Issues and Features --------------------------------------*/
+
+/* Create a gap between Issues and Features buttons in the navbar */
+
+.iss-ftr-ml {
+    margin-left: 0px;
+}
+
+@media(min-width:1024px) {
+    .iss-ftr-ml {
+        margin-left: 5px;
+    }
+}
 
 .form-style {
     border: solid 1px #d9d9d9;
@@ -1046,15 +1056,20 @@ footer {
     when new data is displayed */
 
 .td-username {
-    width: 115px;
+    width: 100px;
+}
+
+.td-id {
+    width: 60px;
+    text-align: center;
 }
 
 .td-date {
-    width: 85px;
+    width: 90px;
 }
 
 .td-sw-comp {
-    width: 179px;
+    width: 180px;
 }
 
 
@@ -1075,7 +1090,7 @@ footer {
 }
 
 .td-more {
-    width: 56px;
+    width: 50px;
 
 }
 
@@ -1101,10 +1116,7 @@ footer {
     width: 50px;
 }
 
-.td-thumbs-up-style {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-}
+
 
 .thumbs-up-icon {
     font-size:12px;

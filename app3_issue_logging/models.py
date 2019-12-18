@@ -17,9 +17,10 @@ class Issue(models.Model):
     details = models.CharField(max_length=700, blank=True)
     priority = models.IntegerField(default=5)
     status  = models.CharField(max_length=8, default="DRAFT")
+    thumbs_up = models.IntegerField(default=0) 
     
     def __str__(self):
-        return "{0} - {1}: {2}, {3}, {4}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status )
+        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.assigned_client_user, self.title, self.status, self.thumbs_up )
         
 
 """
