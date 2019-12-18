@@ -338,6 +338,27 @@ def get_issues(request):
         
     Issues = FinalFilterIssues(request, Issues, UserDetails)
     
+    # Initialise list of issues that have already been 'thumbed up' by this client
+    
+    thumb_down_list = []
+    
+    if UserDetails.user_type == "C":
+            
+        # User is on the Client side:
+        # Get the issues this Client has already 'thumbed up' - these will be 
+        # shown in the list with 'thumb-down'
+    
+        try:
+            IssueThumbsUps = IssueThumbsUp.objects.filter(client_code=UserDetails.vend_client_code)
+            
+            for item in IssueThumbsUps:
+                if item.thumbs_up > 0:
+                    thumb_down_list.append(item.issue_id)
+        except:
+            thumb_down_list = []
+    
+    print("js_thumb_down_list: "+str(thumb_down_list))
+    
     user_message = ""
     
     if not Issues:
@@ -401,12 +422,21 @@ def get_issues(request):
     data["user_mesg"] = {
         
         "user_message": user_message
-	  }
+	}
+	
+	# Return thelist of issues this client has already 'thumbed up' to give
+	# them a chance to change it
+	
+    data["thumb"] = {
+        
+        "thumb_down_list": list(thumb_down_list)
+	}
+	
+	
 	
 	# Return the issues to be output to  the html table
 	
     data["issues"] = []
-    
     
     for issue in issues:
         
@@ -436,6 +466,7 @@ def get_issues(request):
         	"status": issue.status,
         	"thumbs_up_count": issue.thumbs_up_count,
         	"user_type": UserDetails.user_type
+        	
     })
     
     return JsonResponse(data, safe=False)

@@ -795,6 +795,8 @@
                         // it invisible on the screen
 
                         var userMessage = data.user_mesg.user_message;
+                        var thumbDownList = data.thumb.thumb_down_list
+                        console.log("thumb_down_list; "+thumbDownList)
 
                         if (userMessage != "") {
                             console.log("userMessage: " + userMessage)
@@ -838,11 +840,22 @@
                             var summary = value.summary;
                             var status = value.status;
                             var issuethumbsUpCount = value.thumbs_up_count
+                            
+                            // If the issue has already been 'thumbed up' by 
+                            // this client, show 'thumb-down', to allow the 
+                            // user to change it
+                            
+                            if (thumbDownList.includes(issueId)) {
+                                var thumbUpDown = "<i class='fas fa-thumbs-down thumbs-up-icon'></i>"
+                                
+                            } else {
+                                var thumbUpDown = "<i class='fas fa-thumbs-up thumbs-up-icon'></i>"
+                            }
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font iss-thumbs-up-click" + linkEnabledDisabled + "'><i class='fas fa-thumbs-up thumbs-up-icon'"+"></i></a>"+"</td><td class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font iss-thumbs-up-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</i></a>"+"</td><td class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
                             
                             
