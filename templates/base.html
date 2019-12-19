@@ -425,7 +425,7 @@
 
                 if (priorityFilter == "") {
                     priorityFilter = 'ALL'
-                    
+
                     $('#dropdownMenuLink-3').text(priorityFilter);
                 }
 
@@ -530,9 +530,10 @@
             });
 
 
-            // ===========================
-            // Filtering Issues by Client Filter 
-            // ===========================
+            /*  =====================================
+                Filtering Issues by Client Filter 
+                ======================================
+            */
 
             // Client Filter has been selected by the user. The Client Filter
             // will only be available when the user is a vendor-side user
@@ -540,9 +541,16 @@
             $('.iss-client-filter').on('click', function() {
 
                 event.preventDefault();
-                let clientFilter = $(this).data('value');
 
-                // Clear the contents of the search box, to avoid confusing the user
+                // Client dropdown has the client code followed by client name
+                // Extract the client code & name
+
+                let clientCodeName = $(this).data('value');
+
+                var clientDetails = $(this).data('value').split(" ");
+                let clientFilter = clientDetails[0];
+
+                // Clear the contents of the text search box, to avoid confusing the user
 
                 document.getElementById('iss-search-val').value = "";
 
@@ -552,7 +560,7 @@
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-4').text(clientFilter);
+                $('#dropdownMenuLink-4').text(clientCodeName);
 
                 // When the client filter is selected, it will be used in
                 // conjunction with the current values of the other 2 filters
@@ -714,7 +722,7 @@
                 if (el.innerText != "ALL" & el.innerText != "") {
 
                     let priorityArray = el.innerText.split("");
-                    
+
                     priorityFilter = priorityArray[0, 0];
                 }
 
@@ -775,7 +783,7 @@
                         var thumbDownList = data.thumb.thumb_down_list
 
                         if (userMessage != "") {
-                            
+
                             $('.user-message').text(userMessage)
                             $('.user-message').removeClass('blank-line')
                         }
@@ -826,13 +834,13 @@
 
                             }
                             else {
-                                var thumbUpDown = "<i id='thumb_"+ issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
+                                var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
                             }
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId+ "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -897,7 +905,7 @@
                 $('#iss-comments-close').removeClass('iss-enabled-link');
                 $('#iss-comments-close').addClass('disabled-link');
 
-                
+
             });
 
 
@@ -1041,18 +1049,18 @@
 
             // Using "$(document).on('click" as the html page is re-displayed
             // via js on filter selections
-            
+
             $(document).on('click', ".thumb-click", function() {
-                
+
                 // User has clicked thumb up/down on an issue
 
                 var classes = $(this).attr("class").split(" ");
                 let issueId = classes[0];
-                
+
 
                 // Call iss_thumbs_up_down view to update the thumbs up
                 // count on this issue, etc
-                
+
                 $.post({
                     url: "{% url 'iss_thumbs_up_down' %}",
 
@@ -1067,17 +1075,17 @@
                         var thumbsUpDownAddClass = data.thumbs_up_down_add_class;
                         var thumbsUpCount = data.thumbs_up_count
 
-                        var thumbId = "#thumb_"+issueId;
-                        
+                        var thumbId = "#thumb_" + issueId;
+
                         /* Flip the thumbs up / down  */
-                        
+
                         $(thumbId).removeClass(thumbsUpDownRemoveClass);
                         $(thumbId).addClass(thumbsUpDownAddClass);
-                        
-                        var thumbsUpCountId = "#thumbs_up_count_"+issueId;
-                        
+
+                        var thumbsUpCountId = "#thumbs_up_count_" + issueId;
+
                         $(thumbsUpCountId).text(thumbsUpCount);
-                        
+
                     },
                     traditional: true
                 }).done();
@@ -1109,7 +1117,7 @@
                 // Clear the contents of the search box, to avoid confusing the user
 
                 document.getElementById('ftr-search-val').value = "";
-                
+
                 // The user has selected a value from the Features Filter dropdown
 
                 // Change the value showing in the dropdown box to the new 
@@ -1225,7 +1233,7 @@
                 // values, starting with page 1
 
                 let page = 1;
-                
+
 
                 getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
@@ -1313,20 +1321,27 @@
                 // Client Filter has been selected by the user. The Client Filter
                 // will only be available when the user is a vendor-side user
 
-                
+
                 event.preventDefault();
-                let clientFilter = $(this).data('value');
 
-                // Clear the contents of the search box, to avoid confusing the user
+                // Client dropdown has the client code followed by client name
+                // Extract the client code & name
 
-                document.getElementById('ftr-search-val').value = ""
+                let clientCodeName = $(this).data('value');
+
+                var clientDetails = $(this).data('value').split(" ");
+                let clientFilter = clientDetails[0];
+
+               // Clear the contents of the search box, to avoid confusing the user
+
+                document.getElementById('ftr-search-val').value = "";
 
                 // The user has selected a value from the Client Filter dropdown
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-4').text(clientFilter);
+                $('#dropdownMenuLink-4').text(clientCodeName);
 
                 // When the client filter is selected, it will be used in
                 // conjunction with the current values of the other 2 filters
@@ -1338,7 +1353,7 @@
                 let featuresFilter = getFeaturesFilterValue();
 
                 if (featuresFilter == "") {
-                    featuresFilter = 'ALL FEATURES'
+                    featuresFilter = 'ALL FEATURES';
                     $('#dropdownMenuLink-1').text(featuresFilter);
                 }
 
@@ -1348,9 +1363,9 @@
 
                 let statusFilter = getStatusFilterValue();
 
-                
+
                 if (statusFilter == "") {
-                    
+
                     statusFilter = 'ALL';
                     $('#dropdownMenuLink-2').text(statusFilter);
                 }
@@ -1360,12 +1375,12 @@
                 // box - if so, set it to 'ALL'
 
                 let paidFilter = getPaidFilterValue();
-                
+
                 if (paidFilter == "") {
                     paidFilter = 'ALL';
                     $('#dropdownMenuLink-3').text(paidFilter);
                 }
-                
+
 
                 // Clear searchValue - it is only set when the user inputs a 
                 // value in the search box
@@ -1429,7 +1444,7 @@
 
                     var page = $(this).data('value');
 
-                    
+
                     // Get the current values of the filters and the search box
 
                     let featuresFilter = getFeaturesFilterValue();
@@ -1438,7 +1453,7 @@
                     let clientFilter = getClientFilterValue();
                     let searchValue = document.getElementById('ftr-search-val').value
 
-                    
+
                     // Get the features as per the filter values and page number
 
                     getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
@@ -1462,12 +1477,12 @@
 
                 let featureId = classes[0];
 
-                
+
                 // When the thumbs up button is clicked '1' will be added to the#
                 // cart count
 
                 var qty = 1;
-                
+
                 // Add the feature / qty to the cart
 
                 $.post({
@@ -1485,7 +1500,7 @@
                         // We need to update the quantity showing for the cart
                         // Get the current value showing in the cart and add the
                         // new quantity
-                       
+
 
                         var currentQty = parseInt(document.getElementById('feature_count').innerText);
 
@@ -1498,7 +1513,7 @@
                             $('.cart-nav-link').addClass('cart-enabled-link')
                         }
 
-                        
+
                         var newQty = currentQty + parseInt(qty);
 
                         // Update the cart count
@@ -1539,7 +1554,7 @@
                 if (el.innerText != "ALL" & el.innerText != "") {
 
                     let paidArray = el.innerText.split("");
-                    
+
                     paidFilter = paidArray[0, 0];
                 }
 
@@ -1716,7 +1731,7 @@
             // Get the relevant features, based on the value of the filters
 
             function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue) {
-                
+
                 $.post({
                     url: "{% url 'get_features' %}",
 
@@ -1738,9 +1753,9 @@
                         // it invisible on the screen
 
                         var userMessage = data.user_mesg.user_message;
-                        
+
                         if (userMessage != "") {
-                            
+
                             $('.user-message').text(userMessage);
                             $('.user-message').removeClass('blank-line');
                         }
@@ -1862,7 +1877,7 @@
                 $('#ftr-comments-close').removeClass('ftr-enabled-link');
                 $('#ftr-comments-close').addClass('disabled-link');
 
-                
+
             });
 
 

@@ -33,6 +33,7 @@ def user_home(request):
         
     SelectedClientFilter = "ALL"
     
+    
     # set Status Filter to ALL
     
     SelectedStatusFilter = "ALL"
@@ -221,6 +222,7 @@ def get_issues(request):
         # -side users only)
             
         if client_filter != "ALL":
+            
             Issues = Issues.filter(client_code=client_filter)
             
         # . . . or if Priority filter is set 
@@ -263,8 +265,6 @@ def get_issues(request):
             
             
             thumb_down_list = []
-    
-    
     
     user_message = ""
     
@@ -446,6 +446,7 @@ def get_client(request, UserDetails):
    
     return  ClientDetails
     
+
 
 """
 All Client records needed for Client Dropdown if Vendor user is logged in 

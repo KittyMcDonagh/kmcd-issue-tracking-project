@@ -109,7 +109,7 @@
                 <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-4">
                     <a class="dropdown-item iss-client-filter" href="#" data-value="ALL">ALL</a> {% for client in all_clients %}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item iss-client-filter" href="#" data-value={{ client.client_code}}>{{ client.client_code}}</a> {% endfor %}
+                    <a class="dropdown-item iss-client-filter" href="#" data-value="{{ client.client_code}} {{client.client_name}}">{{ client.client_code}} {{client.client_name}}</a> {% endfor %}
 
                 </div>
             </div>
