@@ -2,7 +2,7 @@ from django import forms
 
 # See class Issue in models.py - this is imported here
 from .models import Issue
-from .models import IssueComment
+from .models import IssueComment, IssueThumbsUp
 
 """
 Form for inputting and Editing Issues
@@ -35,5 +35,14 @@ class IssueCommentForm(forms.ModelForm):
         
         
 
+"""
+Form that allows record to be created for a thumbs up on an Issue
+"""
 
-
+class IssueThumbsUpForm(forms.ModelForm):
+    
+    class Meta:
+        model = IssueThumbsUp
+        fields = ("issue_id", "client_code", "user_id", "thumbs_up")
+        
+    

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -11,6 +11,8 @@ from datetime import datetime
 from .models import Vendor
 from .models import Client
 from .models import UserDetail
+
+from app3_issue_logging.forms import IssueThumbsUpForm
 from app3_issue_logging.models import Issue, IssueThumbsUp
 
 from accounts.forms import UserLoginForm
@@ -122,9 +124,7 @@ def user_home(request):
         except:
             thumb_down_list = []
     
-    print("thumb_down_list: "+str(thumb_down_list))
     
-
     # For Pagination
     
     page = request.GET.get('page', 1)
@@ -144,90 +144,6 @@ def user_home(request):
     searching = 'n'
   
     return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list })
-
-
-"""
-User Home Page - Get all issues
-All issues are shown.
-"""
-
-def get_all_issues(request):
-    
-    
-    SelectedIssuesFilter = "ALL"
-    
-    # Set Client Filter to ALL
-        
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter to ALL
-    
-    SelectedStatusFilter = "ALL"
-    
-    # set Status Filter to ALL
-    
-    SelectedPriorityFilter = "ALL"
-    
-    # Initialise these details in case user is not set up on Issue Tracker app
-    
-    AllClients = ""
-    ClientDetails = ""
-    VendorDetails = ""
-    
-    # Get the user's details from re the Issue Tracker app. It has already
-    # been confirmed at login that they exist, otherwise the user wouldnt have
-    # come this far
-    
-    UserDetails = get_user_iss_trk_details(request)
-    
-    # Get the Vendor or Client Details depending on which the user is 
-    # associated with
-        
-    if UserDetails.user_type == 'C':
-            
-        # User is on the Client side. Get the Client Details, The Issues Filter
-        # values the client user can use, and the filtered issues
-            
-        ClientDetails = get_client(request, UserDetails)
-    
-    else:
-            
-        # User is on the Vendor side
-        
-        VendorDetails = get_vendor(request, UserDetails)
-            
-        # Get all clients for Client Dropdown - only available to Vendor-side 
-        # users
-            
-        AllClients = get_all_clients(request)
-        
-
-    # Get all issues
-    
-    Issues = Issue.objects.all()
-    
-    # Final filtering is done here to make sure users only see what they're
-    # allowed to see, and they're sorted by date, descending
-    
-    Issues = FinalFilterIssues(request, Issues, UserDetails)
-
-    # For Pagination
-    
-    page = request.GET.get('page', 1)
-    paginator = Paginator(Issues, 5)
-    try:
-        issues = paginator.page(page)
-    except PageNotAnInteger:
-        issues = paginator.page(1)
-    except EmptyPage:
-        issues = paginator.page(paginator.num_pages)
-    
-    # Pass issues back as 'listing'. It will be used t pick up the pagination
-    # variables in base.html. The same will be done with the features list.
-    
-    listing = issues
-  
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_client_filter': SelectedClientFilter, 'selected_status_filter': SelectedStatusFilter, "selected_priority_filter": SelectedPriorityFilter, "listing":listing })
 
 
 
@@ -253,14 +169,6 @@ def get_issues(request):
     priority_filter = request.POST.get('priorityFilter')
     client_filter = request.POST.get('clientFilter')
     search_value = request.POST.get('searchValue')
-    
-    print("issues_filter: "+str(issues_filter))
-    print("status_filter: "+str(status_filter))
-    print("priority_filter: "+str(priority_filter))
-    print("client_filter: "+str(client_filter))
-    print("search_value: "+str(search_value))
-    
-    print("STILL in get_issues ------------------------------------------>")
     
     # If the user is not using the search box, filter according to the filter
     # values
@@ -317,12 +225,9 @@ def get_issues(request):
             
         # . . . or if Priority filter is set 
         
-        print("Before filtering by priority: priority_filter "+str(priority_filter))
-            
+        
         if priority_filter != "ALL":
             Issues = Issues.filter(priority=priority_filter)
-            
-        print("After filtering by priority: priority_filter "+str(priority_filter))
             
         
         # Final filtering is done here to make sure users only see what they're
@@ -355,24 +260,22 @@ def get_issues(request):
                 if item.thumbs_up > 0:
                     thumb_down_list.append(item.issue_id)
         except:
+            
+            
             thumb_down_list = []
     
-    print("js_thumb_down_list: "+str(thumb_down_list))
+    
     
     user_message = ""
     
     if not Issues:
         user_message = "No issues found for the selected criteria!"
     
-    print("user_message: "+str(user_message))
-
+    
     # For Pagination
     
-    print("request.method: "+str(request.method))
     
     page = request.POST.get('page', 1)
-    
-    print("page = "+str(page))
     
     paginator = Paginator(Issues, 5)
     
@@ -571,3 +474,98 @@ def get_vendor(request, UserDetails):
             messages.error(request, "Vendor details not found!")
         
         return  VendorDetails
+        
+        
+
+
+"""
+User has clicked on 'thumbs up' for this issue - called via js in base.html
+This function is called via ".thumb-click" in base.html
+I used js so as not to have to reload the page each time a user clicked a
+thumbs up/down
+"""
+def iss_thumbs_up_down(request):
+    
+    pk = request.POST.get('issueId')
+    
+    # Get the user details re the Issue Tracker
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the issue to which the thumbs up / down is being given
+    
+    issue = get_object_or_404(Issue, pk=pk)
+    
+    # Does a thumbs up record already exist for this Issue?
+        
+    issue_thumbs_up = IssueThumbsUp.objects.filter(issue_id=issue.id)
+    issue_thumbs_up=  issue_thumbs_up.filter(client_code = UserDetails.vend_client_code)
+    
+    # If no thumbs up record exists, then the user did a thumbs up and we need 
+    # to create a thumbs up record, and increment the thumbs up count for this 
+    # issue
+    
+    if not issue_thumbs_up:
+        
+        # Insert into django code based on solution on https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file
+        
+        issue_thumbs_up = IssueThumbsUp.objects.create(issue_id=issue.id, client_code=UserDetails.vend_client_code, user_id=UserDetails.user_id, thumbs_up = 1)
+        
+        # Return 'thumbs down' to js function 'thumbsUpDown' in base.html - it
+        # will flip the thumbs up to thumbs down
+        
+        thumbs_up_down_remove_class = "fa-thumbs-up"
+        thumbs_up_down_add_class = "fa-thumbs-down"
+        
+        # Increment this issue's 'thumbs up'
+        
+        issue.thumbs_up_count = issue.thumbs_up_count + 1
+        
+        issue.save()
+        
+        # Return data to the .thumb-click function in js in base.html
+        
+        thumbs_up_count = issue.thumbs_up_count 
+        
+    else:
+        
+        # A thumbs up record exists for this issue, so the user did a thumbs 
+        # down. We need to delete the thumbs up record and decrement the 
+        # issue's thumbs up count
+        
+        issue_thumbs_up.delete()
+        
+        # Return 'thumbs up' to js function 'thumbsUpDown' in base.html - it
+        # will flip the thumbs down to thumbs up
+        
+        thumbs_up_down_remove_class = "fa-thumbs-down"
+        thumbs_up_down_add_class = "fa-thumbs-up"
+        
+        # Decrement the issue's 'thumbs up' count
+        
+        issue.thumbs_up_count = issue.thumbs_up_count - 1
+        issue.save()
+        
+        # Return issue's thumbs up count to js function 'thumbsUpDown' in base.html
+        
+        thumbs_up_count = issue.thumbs_up_count
+        thumbs_up_down_add_class = "fa-thumbs-up"
+        
+    # Create data dictionary to return to the js function (in base.html)
+    
+    data = {}
+
+    # Return the pagination parameters for output to the html file
+    
+    data = {
+		"thumbs_up_down_remove_class": thumbs_up_down_remove_class,
+		"thumbs_up_down_add_class": thumbs_up_down_add_class,
+		"thumbs_up_count": thumbs_up_count
+	}
+	
+	
+    return JsonResponse(data, safe=False)
+
+    
+
+    

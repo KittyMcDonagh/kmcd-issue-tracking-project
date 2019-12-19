@@ -12,7 +12,7 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 
 from .models import Issue
-from .models import IssueComment
+from .models import IssueComment, IssueThumbsUp
 
 from .forms import LogNewIssueForm, IssueStatusForm
 from .forms import LogNewIssueForm, IssueCommentForm
@@ -299,11 +299,9 @@ def new_issue_comment(request, pk=None):
         
         VendorDetails = get_vendor(request, UserDetails)
     
-    # Get the issue for which the comment is being inpt
+    # Get the issue for which the comment is being input
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
-    
-    save_issue_id = pk
     
     pk = ""
     
@@ -355,6 +353,3 @@ def new_issue_comment(request, pk=None):
     
     return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
     
-    
-    
-

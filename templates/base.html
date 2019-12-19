@@ -329,8 +329,6 @@
                 event.preventDefault();
                 let issuesFilter = $(this).data('value');
 
-                console.log("issuesFilter : " + issuesFilter)
-
                 // Clear the contents of the search box, to avoid confusing the user
 
                 document.getElementById('iss-search-val').value = ""
@@ -425,11 +423,9 @@
 
                 let priorityFilter = getPriorityFilterValue();
 
-                console.log("priorityFilter: " + priorityFilter)
-
                 if (priorityFilter == "") {
                     priorityFilter = 'ALL'
-                    console.log("setting priorityFilter to ALL")
+                    
                     $('#dropdownMenuLink-3').text(priorityFilter);
                 }
 
@@ -453,12 +449,6 @@
                 // Initialise the page number
 
                 let page = 1;
-
-                console.log("in status filter click")
-                console.log("statusFilter: " + statusFilter);
-                console.log("issuesFilter: " + issuesFilter);
-                console.log("priorityFilter: " + priorityFilter);
-                console.log("clientFilter: " + clientFilter);
 
                 getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
             });
@@ -629,8 +619,6 @@
 
                 let searchValue = document.getElementById('iss-search-val').value
 
-                console.log("searchValue : " + searchValue);
-
                 // When the user enters a value in the search box, all the filters
                 // will be set to spaces, as only the search value will be used
                 // to select the issues
@@ -670,10 +658,6 @@
 
                 var page = $(this).data('value');
 
-                console.log("in iss-page-click");
-
-                console.log("this page: " + page);
-
                 // Get the current values of the filters
 
                 let issuesFilter = getIssuesFilterValue();
@@ -681,8 +665,6 @@
                 let priorityFilter = getPriorityFilterValue();
                 let clientFilter = getClientFilterValue();
                 let searchValue = document.getElementById('iss-search-val').value
-
-                console.log("priorityFilter: " + priorityFilter);
 
                 // Get the issues as per the filter values and page number
 
@@ -732,11 +714,9 @@
                 if (el.innerText != "ALL" & el.innerText != "") {
 
                     let priorityArray = el.innerText.split("");
-                    console.log("in getPriorityFilterValue.  priorityArray[0,0]: " + priorityArray[0, 0])
+                    
                     priorityFilter = priorityArray[0, 0];
                 }
-
-                console.log("in getPriorityFilterValue. priorityFilter: " + priorityFilter)
 
                 return priorityFilter;
 
@@ -771,9 +751,6 @@
 
             function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue) {
 
-                console.log("in getIssues(). page = " + page)
-                console.log("searchValue: " + searchValue)
-
                 $.post({
                     url: "{% url 'get_issues' %}",
                     data: {
@@ -796,10 +773,9 @@
 
                         var userMessage = data.user_mesg.user_message;
                         var thumbDownList = data.thumb.thumb_down_list
-                        console.log("thumb_down_list; "+thumbDownList)
 
                         if (userMessage != "") {
-                            console.log("userMessage: " + userMessage)
+                            
                             $('.user-message').text(userMessage)
                             $('.user-message').removeClass('blank-line')
                         }
@@ -840,27 +816,24 @@
                             var summary = value.summary;
                             var status = value.status;
                             var issuethumbsUpCount = value.thumbs_up_count
-                            
+
                             // If the issue has already been 'thumbed up' by 
                             // this client, show 'thumb-down', to allow the 
                             // user to change it
-                            
+
                             if (thumbDownList.includes(issueId)) {
-                                var thumbUpDown = "<i class='fas fa-thumbs-down thumbs-up-icon'></i>"
-                                
-                            } else {
-                                var thumbUpDown = "<i class='fas fa-thumbs-up thumbs-up-icon'></i>"
+                                var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-down thumbs-up-icon'></i>"
+
+                            }
+                            else {
+                                var thumbUpDown = "<i id='thumb_"+ issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
                             }
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font iss-thumbs-up-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</i></a>"+"</td><td class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId+ "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
-                            
-                            
-
-                            console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
 
                         });
 
@@ -924,7 +897,7 @@
                 $('#iss-comments-close').removeClass('iss-enabled-link');
                 $('#iss-comments-close').addClass('disabled-link');
 
-                console.log("Comments enabled.........................")
+                
             });
 
 
@@ -947,8 +920,6 @@
                 $('#disable-comments').removeClass('iss-enabled-link');
                 $('#disable-comments').addClass('disabled-link');
 
-
-                console.log("Comments disabled.........................")
             });
 
 
@@ -1042,7 +1013,6 @@
                 $('#iss-comments-close').removeClass('disabled-link');
             });
 
-
             $('#iss-comments-close').on('click', function() {
 
                 // The 'close comments list view' on the comments dashboard has been clicked:
@@ -1061,6 +1031,59 @@
                 $('#iss-comments-open').removeClass('disabled-link');
 
             });
+
+
+            /*
+                ==============================================================
+                THUMBS UP / DOWN PROCESSING 
+                ==============================================================
+            */
+
+            // Using "$(document).on('click" as the html page is re-displayed
+            // via js on filter selections
+            
+            $(document).on('click', ".thumb-click", function() {
+                
+                // User has clicked thumb up/down on an issue
+
+                var classes = $(this).attr("class").split(" ");
+                let issueId = classes[0];
+                
+
+                // Call iss_thumbs_up_down view to update the thumbs up
+                // count on this issue, etc
+                
+                $.post({
+                    url: "{% url 'iss_thumbs_up_down' %}",
+
+                    data: {
+                        csrfmiddlewaretoken: "{{csrf_token}}",
+                        issueId: issueId
+                    },
+
+                    success: function(data) {
+
+                        var thumbsUpDownRemoveClass = data.thumbs_up_down_remove_class;
+                        var thumbsUpDownAddClass = data.thumbs_up_down_add_class;
+                        var thumbsUpCount = data.thumbs_up_count
+
+                        var thumbId = "#thumb_"+issueId;
+                        
+                        /* Flip the thumbs up / down  */
+                        
+                        $(thumbId).removeClass(thumbsUpDownRemoveClass);
+                        $(thumbId).addClass(thumbsUpDownAddClass);
+                        
+                        var thumbsUpCountId = "#thumbs_up_count_"+issueId;
+                        
+                        $(thumbsUpCountId).text(thumbsUpCount);
+                        
+                    },
+                    traditional: true
+                }).done();
+            });
+
+            /* THUMBS UP END ===============================================*/
 
 
             /* ==============================================================
@@ -1085,10 +1108,8 @@
 
                 // Clear the contents of the search box, to avoid confusing the user
 
-                document.getElementById('ftr-search-val').value = ""
-
-                console.log("featuresFilter : " + featuresFilter)
-
+                document.getElementById('ftr-search-val').value = "";
+                
                 // The user has selected a value from the Features Filter dropdown
 
                 // Change the value showing in the dropdown box to the new 
@@ -1132,8 +1153,6 @@
                 // values, starting with page 1
 
                 let page = 1;
-
-                console.log("about to call getFeatures")
 
                 getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
 
@@ -1206,12 +1225,7 @@
                 // values, starting with page 1
 
                 let page = 1;
-
-                console.log("in status filter click")
-                console.log("statusFilter: " + statusFilter);
-                console.log("featuresFilter: " + featuresFilter);
-                console.log("paidFilter: " + paidFilter);
-                console.log("clientFilter: " + clientFilter);
+                
 
                 getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
@@ -1299,8 +1313,7 @@
                 // Client Filter has been selected by the user. The Client Filter
                 // will only be available when the user is a vendor-side user
 
-                console.log("in .feat-client-filter-------------------")
-
+                
                 event.preventDefault();
                 let clientFilter = $(this).data('value');
 
@@ -1335,27 +1348,24 @@
 
                 let statusFilter = getStatusFilterValue();
 
-                console.log("current value of status filter; " + statusFilter)
-
+                
                 if (statusFilter == "") {
-                    console.log("statusfilter blank: " + statusFilter)
+                    
                     statusFilter = 'ALL';
                     $('#dropdownMenuLink-2').text(statusFilter);
                 }
 
-                console.log("1. statusFilter = " + statusFilter)
                 // Get the current value of the Priority Filter
                 // It may be blank if the user was previously using the search
                 // box - if so, set it to 'ALL'
 
                 let paidFilter = getPaidFilterValue();
-                console.log("2. statusFilter = " + statusFilter)
-
+                
                 if (paidFilter == "") {
                     paidFilter = 'ALL';
                     $('#dropdownMenuLink-3').text(paidFilter);
                 }
-                console.log("3. statusFilter = " + statusFilter)
+                
 
                 // Clear searchValue - it is only set when the user inputs a 
                 // value in the search box
@@ -1366,8 +1376,6 @@
                 // values, starting with page 1
 
                 let page = 1;
-
-                console.log("before getFeatures, statusFilter: " + statusFilter)
 
                 getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
             });
@@ -1382,8 +1390,6 @@
                 event.preventDefault();
 
                 let searchValue = document.getElementById('ftr-search-val').value
-
-                console.log("features searchValue : " + searchValue);
 
                 // When the user enters a value in the search box, all the filters
                 // will be set to spaces, as only the search value will be used
@@ -1423,10 +1429,7 @@
 
                     var page = $(this).data('value');
 
-                    console.log("in feat-page-click");
-
-                    console.log("this page: " + page);
-
+                    
                     // Get the current values of the filters and the search box
 
                     let featuresFilter = getFeaturesFilterValue();
@@ -1435,8 +1438,7 @@
                     let clientFilter = getClientFilterValue();
                     let searchValue = document.getElementById('ftr-search-val').value
 
-                    console.log("paidFilter: " + paidFilter);
-
+                    
                     // Get the features as per the filter values and page number
 
                     getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
@@ -1460,15 +1462,12 @@
 
                 let featureId = classes[0];
 
-                console.log("addFeatureId = " + featureId);
-
+                
                 // When the thumbs up button is clicked '1' will be added to the#
                 // cart count
 
                 var qty = 1;
-
-                console.log("qty = " + qty);
-
+                
                 // Add the feature / qty to the cart
 
                 $.post({
@@ -1486,8 +1485,7 @@
                         // We need to update the quantity showing for the cart
                         // Get the current value showing in the cart and add the
                         // new quantity
-
-                        console.log("current value in dom: " + parseInt(document.getElementById('feature_count').innerText));
+                       
 
                         var currentQty = parseInt(document.getElementById('feature_count').innerText);
 
@@ -1500,8 +1498,7 @@
                             $('.cart-nav-link').addClass('cart-enabled-link')
                         }
 
-                        console.log("currentQty = " + currentQty);
-
+                        
                         var newQty = currentQty + parseInt(qty);
 
                         // Update the cart count
@@ -1542,11 +1539,9 @@
                 if (el.innerText != "ALL" & el.innerText != "") {
 
                     let paidArray = el.innerText.split("");
-                    console.log("in getPaidFilterValue.  paidArray[0,0]: " + paidArray[0, 0])
+                    
                     paidFilter = paidArray[0, 0];
                 }
-
-                console.log("in getPaidFilterValue. paidFilter: " + paidFilter)
 
                 return paidFilter;
 
@@ -1721,9 +1716,7 @@
             // Get the relevant features, based on the value of the filters
 
             function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue) {
-
-                console.log("in getFeatures(). page = " + page)
-
+                
                 $.post({
                     url: "{% url 'get_features' %}",
 
@@ -1740,17 +1733,14 @@
 
                     success: function(data) {
 
-                        console.log("after success")
-
                         // Display user message if one is returned
                         // If the message is blank, keep the line space, but make
                         // it invisible on the screen
 
                         var userMessage = data.user_mesg.user_message;
-                        console.log("have user_message")
-
+                        
                         if (userMessage != "") {
-                            console.log("userMessage: " + userMessage);
+                            
                             $('.user-message').text(userMessage);
                             $('.user-message').removeClass('blank-line');
                         }
@@ -1765,8 +1755,6 @@
 
                         $("tbody").empty();
                         $.each(data.features, function(key, value) {
-
-                            console.log("in table body")
 
                             var featureId = value.id;
 
@@ -1810,8 +1798,6 @@
                                 "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
                                 "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-thumbs-up-style td-form-font ftr-thumbs-up-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + thumbsUpCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
-
-                            console.log("input date: " + inputDate + " user:  " + user + " summary: " + summary);
 
                         });
 
@@ -1876,7 +1862,7 @@
                 $('#ftr-comments-close').removeClass('ftr-enabled-link');
                 $('#ftr-comments-close').addClass('disabled-link');
 
-                console.log("Feature Comments enabled.........................")
+                
             });
 
 
@@ -1899,8 +1885,6 @@
                 $('#disable-comments').removeClass('ftr-enabled-link');
                 $('#disable-comments').addClass('disabled-link');
 
-
-                console.log("Feature Comments disabled.........................")
             });
 
 

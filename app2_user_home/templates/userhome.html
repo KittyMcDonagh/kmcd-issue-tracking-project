@@ -4,8 +4,8 @@
 
     <div class="row no-gutters mt-2 mb-2">
         <div class="col-12 col-md-6 filter-name pb-2">
-                <input id="iss-search-val" type='text' value="" name='q_issues'>
-                <button id="iss-search-btn" class="btn iss-btn-color iss-enabled-link">Search</button>
+            <input id="iss-search-val" type='text' value="" name='q_issues'>
+            <button id="iss-search-btn" class="btn iss-btn-color iss-enabled-link">Search</button>
         </div>
     </div>
 
@@ -220,38 +220,49 @@
                         
                         {% if userdetails.user_type == "C" %}
                                     
-                        <!-- if client-side user enable the thumbs up button -->
-                                        
-                        <td class="pl-0 ml-0 td-thumbs-up">
+                        <!-- if client-side user enable the thumbs up / down button -->
+                    
+                        <!-- Thumbs up field -->
+                                
+                            <td class="pl-0 ml-0 td-thumbs-up">
                             
-                            {% if issue.id in thumb_down_list %}
-                            <button class="btn iss-td-thumbs-up-style td-form-font  iss-enabled-link" type="submit"><i class="fas fa-thumbs-down thumbs-up-icon"></i></button>
+                                {% if issue.id in thumb_down_list %}
+
+                                    <!-- Thumb Down - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+
+                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}"  class="fas fa-thumbs-down thumbs-up-icon"></i></a>
+                                
+                                {% else %}
+
+                                    <!-- Thumb Up - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+
+                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
                             
-                            {% else %}
-                            
-                            <button class="btn iss-td-thumbs-up-style td-form-font  iss-enabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
-                            
-                            {% endif %}
-                        
-                        </td>
-                                        
-                        {% else %}
-                                    
-                        <!-- Vendor-side user, disable Quantity input and Add button -->
-                                    
-                        <td class="pl-0 ml-0">
-                            <button class="btn iss-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
-                        </td>
-                        {% endif %}
-                        
-                        <td class="text-center td-thumbs-up">{{ issue.thumbs_up_count }}</td>
-                        
-                        
-                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' %}' ><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
+                                {% endif %}
+                                
                             </td>
+
+
+                        {% else %}
+
+                            <!-- Vendor-side user, disable thumbs up button -->
+
+                            <td class="pl-0 ml-0">
+                                <button class="btn iss-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                            </td>
+                            
+                        {% endif %}
+
+                        <td id="thumbs_up_count_{{issue.id}}" class="text-center td-thumbs-up">{{ issue.thumbs_up_count }}</td>
+
+                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' %}'><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
+                        </td>
+                        
                     </tr>
+                    
                     {% endfor %}
-                    </tbody>
+                    
+                </tbody>
             </table>
         </div>
     </div>
