@@ -143,13 +143,6 @@ li {
 
 /* css for base.html ---------------------------------------------------------*/
 
-/* Logo sizing and styling  */
-
-.nav-logo {
-    height: 39px;
-    width: 180px;
-}
-
 .nav-c-v-name {
     font-size: 13px;
     font-style: italic;
@@ -165,8 +158,15 @@ li {
 
 }
 
+/* Logo sizing and styling  */
+
+.nav-logo {
+    height: 32px;
+    width: 100px;
+}
+
 .logo {
-    background: url("../images/kmcd_issue_tracking_system.png");
+    background: url("../images/kmcd_logo.png");
     height: 100%;
     width: 100%;
     border: solid 1px #fafaff;
@@ -180,6 +180,15 @@ li {
     -webkit-transition: all .5s ease-in-out;
     -o-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
+}
+
+.home-page-img {
+    background-image: url("../images/kmcd_home_page.png");
+    width:100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
 }
 
 /* Transform logo when hovered over 
@@ -316,6 +325,7 @@ li {
 
 }
 
+
 .company-name-style {
     font-size: 16px;
     color: #6666ff;
@@ -333,6 +343,8 @@ li {
     }
 }
 
+
+
 /* Style all links, other than nav links, so that they behave the same */
 
 .welcome-links {
@@ -349,11 +361,16 @@ li {
 }
 
 
+.footer-copyright {
+    font-size: 12px;
+    color: #6666ff;
+}
+
 
 /* Styling that affects the Issues processing -------------------------------*/
 
 .iss-btn-color {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: fafaff!important;
     width: 120px;
 
@@ -398,19 +415,19 @@ li {
 
 .iss-select:hover {
     background-color: #fff!important;
-    color: #8080ff!important;
+    color: #C080FF!important;
 
 }
 
 .iss-selected {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: #fff!important;
 
 }
 
 .iss-dropdown a:hover {
     color: #fafaff!important;
-    background-color: #8080ff;
+    background-color: #C080FF;
 
 }
 
@@ -433,7 +450,7 @@ li {
 /* Set text align for assigned user, depending on device size   */
 
 .iss-comments-btn-color {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: fafaff!important;
 
 }
@@ -445,13 +462,13 @@ li {
 /* Activate hover functionality on page numbers with live links only       */
 
 .iss-page-live-link:hover {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: #fff!important;
 }
 
 
 .iss-td-thumbs-up-style {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: fafaff!important;
 }
 
@@ -460,7 +477,7 @@ li {
 .iss-comments-dash {
 
     border-radius: 5px;
-    background-color: #8080ff;
+    background-color: #C080FF;
     padding: 5px;
 
 }
@@ -475,18 +492,18 @@ li {
 }
 
 .iss-comments-icon {
-    color: #8080ff;
+    color: #C080FF;
     font-size: 18px;
 }
 
 .iss-no-comments-icon {
-    color: #8080ff;
+    color: #C080FF;
     font-size: 16px;
 }
 
 .iss-id-style {
     font-size: 12px;
-    color:#8080ff;
+    color: #C080FF;
 }
 
 @media(min-width:321px) {
@@ -522,7 +539,7 @@ li {
    to the user as to whether they're looking at the issues or features list */
 
 .iss-filter-icon-color {
-    color: #8080ff!important;
+    color: #C080FF!important;
     background-color: #f3f2f2!important;
 
 
@@ -537,13 +554,13 @@ li {
 
 .iss-filter-dd:hover {
     color: #fafaff!important;
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
 
 }
 
 
 .iss-edit-update-btn-color {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: fafaff!important;
 
 }
@@ -558,8 +575,8 @@ li {
 
 .iss-more-icon-style:hover {
     color: #ffffff;
-    background-color: #8080ff;
-    font-weight: 900; 
+    background-color: #C080FF;
+    font-weight: 900;
 }
 
 .iss-comments-form-style {
@@ -585,7 +602,7 @@ li {
 
 .iss-enabled-link:hover {
     border-radius: 5px;
-    color: #8080ff!important;
+    color: #C080FF!important;
     background-color: fafaff!important;
 }
 
@@ -596,7 +613,7 @@ li {
 /* Activate hover functionality on page numbers with live links only       */
 
 .iss-page-live-link:hover {
-    background-color: #8080ff!important;
+    background-color: #C080FF!important;
     color: #fff!important;
 }
 
@@ -619,7 +636,7 @@ li {
 
 .ftr-id-style {
     font-size: 12px;
-    color:#80C0FF;
+    color: #80C0FF;
 }
 
 .ftr-btn-color {
@@ -725,6 +742,12 @@ li {
 
 }
 
+.ftr-selected {
+    background-color: #80C0FF!important;
+    color: #fff!important;
+
+}
+
 
 
 
@@ -817,14 +840,13 @@ footer {
     height: 80px;
     margin-bottom: 0px;
     padding: 30px 30px 10px 30px;
-    text-align: center;
+
 }
 
 
 
 
 /* Set filter font-sizes for larger devices----------------------------------*/
-
 
 .filter-name {
     font-size: 12px!important;
@@ -885,7 +907,7 @@ footer {
 }
 
 .ftr-more-icon-style:hover {
-    background-color:  #80C0FF;
+    background-color: #80C0FF;
     color: #ffffff;
     font-weight: bold;
 }
@@ -1141,7 +1163,7 @@ footer {
 
 
 .thumbs-up-icon {
-    font-size:12px;
+    font-size: 12px;
 }
 
 
@@ -1202,4 +1224,3 @@ footer {
     color: #FFBF80!important;
     background-color: fafaff!important;
 }
-
