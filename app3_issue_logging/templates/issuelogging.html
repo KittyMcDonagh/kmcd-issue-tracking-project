@@ -9,6 +9,13 @@
 
     {% csrf_token %}
 
+    {% if issue.id != null %}
+    <div class="row no-gutters">
+        <div class="col-12 iss-id-style ">
+            <span><em><strong>#: </strong>{{ issue.id}}</em></span>
+        </div>
+    </div>
+    {% endif%}
 
 
     <!-- NOTE: We are in 'New Issue' or in 'Edit Issue' mode. -->
@@ -50,7 +57,7 @@
             <div class="row no-gutters">
                 <div class="col-12 form-font">
                     <label for="sw_comp"><strong>Component: </strong></label>
-                    <select class="form-font" name="software_component" id="sw_comp" class="form-control" size="1">
+                    <select name="software_component" id="sw_comp" class="iss-select" size="1">
                         {% if issue.software_component == "ACCOUNTS RECEIVABLE" %}
                         <option value="ACCOUNTS RECEIVABLE" selected>ACCOUNTS RECEIVABLE</option>
                         {% else %}
@@ -109,7 +116,7 @@
                    
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
             <label class="form-font" for="status"><strong>Status: </strong></label>
-            <select class="form-font" name="status" id="status" class="form-control" size="1">
+            <select name="status" id="status" class="iss-select" size="1">
                 {% if issue.status == "DRAFT" %}
                 <option value="DRAFT" selected>DRAFT</option>
                 {% else %}
@@ -146,7 +153,7 @@
         <div class="col-12 col-md-4 form-font pt-1 position">
 
             <label class="form-font" for="priority"><strong>Priority: </strong></label>
-            <select class="form-font" name="priority" id="priority" class="form-control" size="1">
+            <select name="priority" id="priority" class="iss-select" size="1">
                         
                 {% if issue.priority == 1 %}
                     <option value="1" selected>1 - URGENT</option>

@@ -1,106 +1,114 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
 <!-- This form will be used by vendor-side users only to allow them to change
-     the Issue status -->
+     the Feature status -->
 
 
 <form method="POST" enctype="multipart/form-data" class="form-style">
 
     {% csrf_token %}
 
-    <!-- NOTE: We are in 'New Issue' or in 'Edit Issue' mode. -->
+    <!-- NOTE: We are in 'New Feature' or in 'Edit Feature' mode. -->
 
     <!-- Fields with default values -->
 
-    <!-- For new issues the default client code, is the user's client code.
-         If we're editing an existing issue, the user is a client-side user, and
-         the issue client code and the user client code are the same, otherwise they
+    <!-- For new features the default client code, is the user's client code.
+         If we're editing an existing feature, the user is a client-side user, and
+         the feature client code and the user client code are the same, otherwise they
           couldnt edit -->
+
+    <!-- Show Feature Id -->
+
+    <div class="row no-gutters">
+        <div class="col-12 ftr-id-style ">
+            <span><em><strong>#: </strong>{{ feature.id}}</em></span>
+        </div>
+    </div>
 
     <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
 
-    <!-- Set the following field to the default value, or to the issue value, depending on whether 
-         inputting a new issue, or editing an existing one -->
+    <!-- Set the following field to the default value, or to the feature value, depending on whether 
+         inputting a new feature, or editing an existing one -->
 
-    {% if issue.user_id == null %}
+    {% if feature.user_id == null %}
     <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ issue.user_id }}"> {% endif %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
 
-    <!-- If in 'New Issue' mode, the default for this field is the input user. If in 'Edit' mode 
+    <!-- If in 'New feature' mode, the default for this field is the input user. If in 'Edit' mode 
          the assigned user is = logged in user, otherwise they couldnt edit  -->
 
     <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
 
-    <!-- Set the following field to the default value, or to the issue value, depending on whether 
-         inputting a new issue, or editing an existing one -->
+    <!-- Set the following field to the default value, or to the feature value, depending on whether 
+         inputting a new feature, or editing an existing one -->
 
-    {% if issue.assigned_vendor_user == null %}
+    {% if feature.assigned_vendor_user == null %}
     <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ issue.assigned_vendor_user }}"> {% endif %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> {% endif %}
 
-    <!-- Top of form: Software Component, Priority, and Status -->
+    <!-- Top of form: Software Component, Status and Price -->
 
-     <!-- Show Component. Don't allow it to be changed -->
+    <!-- Show Component. Don't allow it to be changed -->
 
     <div class="row no-gutters">
         <div class="col-12 col-md-5">
             <div class="row no-gutters">
                 <div class="col-12 form-font">
-                    <span><strong>Component: </strong>{{ issue.software_component}}</span>
+                    <span><strong>Component: </strong>{{ feature.software_component}}</span>
                 </div>
             </div>
         </div>
 
         <!-- Status -->
-        <!-- NOTE: issuestatus.html is for vendor-side users only, to change the
-                   issue status. They can select any of the status values. -->
-                   
+        <!-- NOTE: featurestatus.html is for vendor-side users only, to change the
+                   feature status. They can select any of the status values. -->
+
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
             <label class="form-font" for="status"><strong>Status: </strong></label>
-            <select name="status" id="status" class="form-font form-control iss-select" size="1">
-                {% if issue.status == "DRAFT" %}
+            <select name="status" id="status" class="form-font ftr-select" size="1">
+                {% if feature.status == "DRAFT" %}
                 <option value="DRAFT" selected>DRAFT</option>
                 {% else %}
                 <option value="DRAFT">DRAFT</option>
                 {% endif %}
                 
-                {% if issue.status == "LOGGED" %}
+                {% if feature.status == "LOGGED" %}
                 <option value="LOGGED" selected>LOGGED</option>
                 {% else %}
                 <option value="LOGGED">LOGGED</option>
                 {% endif %}
                         
-                {% if issue.status == "OPEN" %}
+                {% if feature.status == "OPEN" %}
                 <option value="OPEN" selected>OPEN</option>
                 {% else %}
                 <option value="OPEN">OPEN</option>
                 {% endif %}
                 
-                {% if issue.status == "ANALYSIS" %}
+                {% if feature.status == "ANALYSIS" %}
                 <option value="ANALYSIS" selected>ANALYSIS</option>
                 {% else %}
                 <option value="ANALYSIS">ANALYSIS</option>
                 {% endif %}
                 
-                {% if issue.status == "FIXING" %}
+                {% if feature.status == "FIXING" %}
                 <option value="FIXING" selected>FIXING</option>
                 {% else %}
                 <option value="FIXING">FIXING</option>
                 {% endif %}
                 
-                {% if issue.status == "TESTING" %}
+                {% if feature.status == "TESTING" %}
                 <option value="TESTING" selected>TESTING</option>
                 {% else %}
                 <option value="TESTING">TESTING</option>
                 {% endif %}
                 
-                {% if issue.status == "DEPLOYED" %}
+                {% if feature.status == "DEPLOYED" %}
                 <option value="DEPLOYED" selected>DEPLOYED</option>
                 {% else %}
                 <option value="DEPLOYED">DEPLOYED</option>
                 {% endif %}
                 
-                {% if issue.status == "CLOSED" %}
+                {% if feature.status == "CLOSED" %}
                 <option value="CLOSED" selected>CLOSED</option>
                 {% else %}
                 <option value="CLOSED">CLOSED</option>
@@ -110,20 +118,19 @@
         </div>
 
 
-        <!--  Show Priority. Dont allow it to be changed -->
+        <!--  The Unit Price for this feature
+              Show the price but disable it - only vendor-side users can
+              change it -->
 
-        <div class="col-12 col-md-4 form-font pt-1 position">
-            <span><strong>Priority: </strong></span> {% if issue.priority == 1 %}
-            <span>1 - URGENT</span> {% else %} {% if issue.priority == 2 %}
-            <span>2 - HIGH PRIORITY</span> {% else %} {% if issue.priority == 3 %}
-            <span>3 - MEDIUM PRIORITY</span> {% else %} {% if issue.priority == 4 %}
-            <span>4 - LOW PRIORITY</span> {% else %} {% if issue.priority == 5 %}
-            <span>5 - COSMETIC</span> {% endif %} {% endif %} {% endif %} {% endif %} {% endif %}
+        <div class="col-12 offset-md-1 col-md-3 form-font pt-1 position">
+
+            <label class="form-font" for="price"><strong>Price: </strong></label>
+            <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999"> 
         </div>
     </div>
     <hr>
 
-    <!-- Issue Title -->
+    <!-- feature Title -->
 
     <div class="row no-gutters mt-3">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
@@ -133,7 +140,7 @@
 
     <div class="row no-gutters">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50" disabled>{{ issue.title }}</textarea>
+            <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50" disabled>{{ feature.title }}</textarea>
         </div>
     </div>
 
@@ -148,10 +155,10 @@
 
     <div class="row no-gutters">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <textarea name="summary " id="summary " class="form-control form-font" rows="2 " maxlength="100" disabled>{{ issue.summary }}</textarea>
+            <textarea name="summary " id="summary " class="form-control form-font" rows="2 " maxlength="100" disabled>{{ feature.summary }}</textarea>
         </div>
     </div>
-    
+
 
     <!-- Details  -->
 
@@ -163,7 +170,7 @@
 
     <div class="row no-gutters mb-4">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-            <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700" disabled>{{ issue.details }}</textarea>
+            <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700" disabled>{{ feature.details }}</textarea>
         </div>
     </div>
 
@@ -171,7 +178,7 @@
     <hr>
     <div class="row no-gutters mt-2 ">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
-            <button class="btn btn-color " type="submit ">Submit</button>
+            <button class="btn ftr-btn-color ftr-enabled-link" type="submit ">Submit</button>
         </div>
     </div>
 

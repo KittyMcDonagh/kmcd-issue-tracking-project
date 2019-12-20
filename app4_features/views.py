@@ -13,7 +13,7 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 from .models import Feature, FeatureComment
 
-from .forms import LogNewFeatureForm, FeatureStatusForm, FeatureCommentForm
+from .forms import LogNewFeatureForm, FeatureStatusPriceForm, FeatureCommentForm
 
 
 """
@@ -595,7 +595,9 @@ def new_edit_feature(request, pk=None):
             feature = form.save()
             
             print("feature form: "+str(form))
-            return redirect(feature_details, feature.pk)
+            
+            view_comments = 'n'
+            return redirect(feature_details, feature.pk, view_comments)
         else:
             print("feature form: "+str(form))
             messages.error(request, "UNABLE TO LOG FEATURE!")
@@ -611,7 +613,7 @@ def new_edit_feature(request, pk=None):
 """
 Create a view that allows a vendor-side user to change the status of a featur. 
 """
-def update_feature_status(request, pk=None):
+def update_feature_status_price(request, pk=None):
     
     print(" FEATURE UPDATE STATUS ------------------------------------------")
     
@@ -640,7 +642,7 @@ def update_feature_status(request, pk=None):
         
         print("request is post-----------------------------------------")
         
-        form = FeatureStatusForm(request.POST, request.FILES, instance=feature)
+        form = FeatureStatusPriceForm(request.POST, request.FILES, instance=feature)
         
         if form.is_valid():
             print("feature form is valid")
@@ -648,7 +650,9 @@ def update_feature_status(request, pk=None):
             feature = form.save()
             
             print("feature form: "+str(form))
-            return redirect(feature_details, feature.pk)
+            
+            view_comments = 'n'
+            return redirect(feature_details, feature.pk, view_comments)
         else:
             print("feature form: "+str(form))
             messages.error(request, "UNABLE TO LOG FEATURE!")
@@ -656,9 +660,9 @@ def update_feature_status(request, pk=None):
     else:
         print("request is get-----------------------------------------")
         print("feature: "+str(feature))
-        form = FeatureStatusForm(instance=feature)
+        form = FeatureStatusPriceForm(instance=feature)
     
-    return  render(request, 'featurestatus.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+    return  render(request, 'featurestatusprice.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
 
 
 

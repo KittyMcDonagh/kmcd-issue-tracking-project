@@ -6,7 +6,13 @@
 
 <form method="POST" enctype="multipart/form-data" class="form-style">
 
-    {% csrf_token %}
+    {% csrf_token %} {% if feature.id != null %}
+    <div class="row no-gutters">
+        <div class="col-12 ftr-id-style ">
+            <span><em><strong>#: </strong>{{ feature.id}}</em></span>
+        </div>
+    </div>
+    {% endif%}
 
 
 
@@ -25,12 +31,9 @@
          inputting a new feature, or editing an existing one -->
 
     {% if feature.user_id == null %}
-    
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> 
-    
-    {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> 
-    {% endif %}
+
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
 
     <!-- If in 'New Feature' mode, the default for this field is the input user. If in 'Edit' mode 
          the assigned user is = logged in user, otherwise they couldnt edit  -->
@@ -41,30 +44,20 @@
          inputting a new feature, or editing an existing one -->
 
     {% if feature.assigned_vendor_user == null %}
-    
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> 
-    {% else %}
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> 
-    {% endif %}
-    
-    {% if feature.price == null %}
-    
-    <input name="price" type="hidden" id="price" value="0"> 
-    {% else %}
-    <input name="price" type="hidden" id="price" value="{{ feature.price }}"> 
-    {% endif %}
-    
 
-    <!-- Top of form: Software Component, Paid, and Status -->
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> {% endif %}
 
-     <!-- Component -->
-     
+    <!-- Top of form: Software Component, Status, and Price -->
+
+    <!-- Component -->
+
     <div class="row no-gutters">
         <div class="col-12 col-md-5 pt-1">
             <div class="row no-gutters">
                 <div class="col-12 form-font">
                     <label for="sw_comp"><strong>Component: </strong></label>
-                    <select class="form-font" name="software_component" id="sw_comp" class="form-control" size="1">
+                    <select name="software_component" id="sw_comp" class="ftr-select" size="1">
                         {% if feature.software_component == "ACCOUNTS RECEIVABLE" %}
                         <option value="ACCOUNTS RECEIVABLE" selected>ACCOUNTS RECEIVABLE</option>
                         {% else %}
@@ -120,10 +113,10 @@
                    They can only set the feature to a status of DRAFT (this
                    is the only option available on new features), or a status of 
                    LOGGED.-->
-                   
+
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
             <label class="form-font" for="status"><strong>Status: </strong></label>
-            <select class="form-font" name="status" id="status" class="form-control" size="1">
+            <select name="status" id="status" class="ftr-select" size="1">
                 {% if feature.status == "DRAFT" %}
                 <option value="DRAFT" selected>DRAFT</option>
                 {% else %}
@@ -155,43 +148,18 @@
         </div>
 
 
-        <!--  Paid -->
+        <!--  The Unit Price for this feature
+              Show the price but disable it - only vendor-side users can
+              change it -->
 
-        <div class="col-12 col-md-4 form-font pt-1 position">
+        <div class="col-12 offset-md-1 col-md-3 form-font pt-1 position">
+            
+            <label class="form-font" for="price"><strong>Price: </strong></label>
 
-            <label class="form-font" for="paid"><strong>Paid: </strong></label>
-            <select class="form-font" name="paid" id="paid" class="form-control" size="1">
-                
-                <!-- Default value for Paid is '5' (cosmetic) -->
-                <option value="5" selected>5 - COSMETIC</option>
-                
-                {% if feature.paid == 1 %}
-                    <option value="1" selected>1 - URGENT</option>
-                {% else %}
-                    <option value="1">1 - URGENT</option>
-                {% endif %}
-                            
-                {% if feature.paid == 2 %}
-                    <option value="2" selected>2 - HIGH PRIORITY</option>
-                {% else %}
-                    <option value="2">2 - HIGH PRIORITY</option>
-                {% endif %}
-                        
-                {% if feature.paid == 3 %}
-                    <option value="3" selected>3 - MEDIUM PRIORITY</option>
-                {% else %}
-                    <option value="3">3 - MEDIUM PRIORITY</option>
-                {% endif %}
-                            
-                {% if feature.paid == 4 %}
-                    <option value="4" selected>4 - LOW PRIORITY</option>
-                {% else %}
-                    <option value="4">4 - LOW PRIORITY</option>
-                {% endif %}
-                            
-                <!-- Default value '5' set above -->
-                
-            </select>
+            {% if feature.price == null %}
+
+            <input id="price" name="price" type="number" value="0" min="0" max="99999999" disabled> {% else %}
+            <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999" disabled> {% endif %}
         </div>
     </div>
 
@@ -242,8 +210,8 @@
             <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700">{{ feature.details }}</textarea>
         </div>
     </div>
-    
-    
+
+
     <!-- Submit Button -->
     <hr>
     <div class="row no-gutters mt-2 ">

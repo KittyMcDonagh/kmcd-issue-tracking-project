@@ -17,11 +17,11 @@ class LogNewIssueForm(forms.ModelForm):
 """
 Form that allows updating of the Issue Status
 """
-class IssueStatusForm(forms.ModelForm):
+class IssueStatusPriorityForm(forms.ModelForm):
    
     class Meta:
         model = Issue
-        fields = ("status",)
+        fields = ("status", "priority")
 
 
 """

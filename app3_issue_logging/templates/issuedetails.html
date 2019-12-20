@@ -18,9 +18,15 @@
 </div>
 
 
-<!-- Software Component  -->
+<!-- Issue ID  -->
 
 <div class="form-style">
+    
+    <div class="row no-gutters">
+        <div class="col-12 iss-id-style ">
+            <span><em><strong>#: </strong>{{ issue.id}}</em></span>
+        </div>
+    </div>
 
     <!-- Software Component -->
 
@@ -95,17 +101,17 @@
             <a id="enable-comments" class="enabled-link" href="#"><i class="fas fa-comments iss-comments-icon"></i></a>
             <a id="disable-comments" class="disabled-link" href="#"><i class="fas fa-comment-slash iss-no-comments-icon"></i></a>
         </div>
-        
+
         {% endif %}
 
     </div>
 
     <hr>
 
- <!-- START OF ISSUE COMMENTS SECTIONS ---------------------------------->
+    <!-- START OF ISSUE COMMENTS SECTIONS ---------------------------------->
 
     {% if comments_input == 'y' or view_comments == 'y' %}
-    
+
     <!-- COMMENTS ICONS:
         If comments are currently being input display the comments dashboard,
          Or if the comments list is required, display the comments dashboard,
@@ -114,46 +120,46 @@
     <div id="iss-comments-dash" class="row no-gutters mt-3 iss-comments-dash">
 
         {% if comments_input == 'y' %}
-        
+
         <!-- If the user is entering comments, the form will be open, so,
              Show plus icon disabled (comments form will already be open), show minus icon enabled (to close comments form) -->
-        
+
         <div class="col-2 pl-2">
             <button id="iss-comments-plus" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="fas fa-plus comments-plus-view"></i></button>
             <button id="iss-comments-minus" class="btn iss-comments-btn-color iss-enabled-link " type="submit "><i class="fas fa-minus comments-plus-view"></i></button>
         </div>
-        
+
         <!-- Show view comments icon enabled (to show comments list ), show close-view icon disabled (comments list not currently showing) -->
-        
+
         <div class="offset-8 col-2 text-center ">
             <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
             <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
         </div>
-        
+
         {% else %}
-        
+
         <!-- If the user is has just entered a comment, we are showing the comments list, and the comment form is closed, so
              Show plus icon disabled (comments form will already be open), show minus icon enabled (to close comments form) -->
-             
+
         <div class="col-2 pl-2">
             <button id="iss-comments-plus" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="fas fa-plus comments-plus-view"></i></button>
             <button id="iss-comments-minus" class="btn iss-comments-btn-color disabled-link " type="submit "><i class="fas fa-minus comments-plus-view"></i></button>
         </div>
-        
+
         <!-- Show view comments icon enabled (to show comments list ), show close-view icon disabled (comments list not currently showing) -->
-        
+
         <div class="offset-8 col-2 text-center ">
             <button id="iss-comments-open" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
             <button id="iss-comments-close" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
         </div>
         {% endif %}
-        
+
     </div>
 
     {% else %}
 
     <!-- Otherwise, hide the comments dashboard and comments form -->
-    
+
     <div id="iss-comments-dash" class="row no-gutters mt-3 iss-comments-dash  d-none">
 
         <!-- js will show this element, so make plus icon disabled, minus enabled -->
@@ -165,7 +171,7 @@
 
 
         <!-- Show view icon -->
-        
+
         <div class="offset-8 col-2 text-center ">
             <button id="iss-comments-open" class="btn iss-comments-btn-color iss-enabled-link" type="submit "><i class="far fa-eye comments-plus-view"></i></i></button>
             <button id="iss-comments-close" class="btn iss-comments-btn-color disabled-link" type="submit "><i class="far fa-eye-slash comments-plus-view"></i></i></button>
@@ -186,7 +192,7 @@
 
         <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style d-none">
 
-        {% endif %}
+            {% endif %}
 
             <!-- Set the default value fields -->
             <input name="issue_id" type="hidden" id="issue_id" value="{{ issue.id }}">
@@ -217,150 +223,145 @@
         {% if view_comments == 'y'%}
 
         <div id="iss-comments-list" class="row no-gutters">
-        
-        {% else %}
-        
-        <div id="iss-comments-list" class="row no-gutters d-none">
-            
-        {% endif %}
-        
-            <div class="table-responsive ">
 
-                <table class="table table-striped table-style">
-                    <thead class="table-hd">
-                        <tr>
-                            <th scope="col" class="text-center td-date">Date</th>
-                            <th scope="col" class="text-center td-username">Vendor / Client</th>
-                            <th scope="col" class="text-center td-username">Author</th>
-                            <th scope="col" class="text-center td-comments">Comments</th>
-                        </tr>
-                    </thead>
+            {% else %}
 
-                    <!-- Show the date, author (user) and comments -->
-                    
-                    <tbody>
-                        {% for issuecomment in issuecomments %}
-                        <tr>
-                            <td class="d-table-cell td-date">{{ issuecomment.input_date|date:"d M y" }}</td>
-                            
-                            {% if issuecomment.vend_client_ind == "V" %}
-                            <td class="d-table-cell td-username text-center">Vendor</td>
-                            {% else %}
-                             <td class="d-table-cell td-username text-center">Client</td>
-                             {% endif %}
+            <div id="iss-comments-list" class="row no-gutters d-none">
 
-                            <!-- Vendor-side users can see all user ids, client-side users can see the comment user ids of 
+                {% endif %}
+
+                <div class="table-responsive ">
+
+                    <table class="table table-striped table-style">
+                        <thead class="table-hd">
+                            <tr>
+                                <th scope="col" class="text-center td-date">Date</th>
+                                <th scope="col" class="text-center td-username">Vendor / Client</th>
+                                <th scope="col" class="text-center td-username">Author</th>
+                                <th scope="col" class="text-center td-comments">Comments</th>
+                            </tr>
+                        </thead>
+
+                        <!-- Show the date, author (user) and comments -->
+
+                        <tbody>
+                            {% for issuecomment in issuecomments %}
+                            <tr>
+                                <td class="d-table-cell td-date">{{ issuecomment.input_date|date:"d M y" }}</td>
+
+                                {% if issuecomment.vend_client_ind == "V" %}
+                                <td class="d-table-cell td-username text-center">Vendor</td>
+                                {% else %}
+                                <td class="d-table-cell td-username text-center">Client</td>
+                                {% endif %}
+
+                                <!-- Vendor-side users can see all user ids, client-side users can see the comment user ids of 
                                  users associated with the same client as them, and the user ids of vendor-users -->
-                            
-                            {% if userdetails.user_type == "V" or userdetails.vend_client_code == issuecomment.vend_client_code or issuecomment.vend_client_ind == "V" %}
-                            
-                            <td class="d-table-cell td-username">{{ issuecomment.user_id }}</td>
-                            
-                            {% else %}
-                            
-                            <td class="d-table-cell td-username">**********</td>
-                            
-                            {% endif %} 
 
-                            <td class="td-summary">{{ issuecomment.comments }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <hr>
+                                {% if userdetails.user_type == "V" or userdetails.vend_client_code == issuecomment.vend_client_code or issuecomment.vend_client_ind == "V" %}
+
+                                <td class="d-table-cell td-username">{{ issuecomment.user_id }}</td>
+
+                                {% else %}
+
+                                <td class="d-table-cell td-username">**********</td>
+
+                                {% endif %}
+
+                                <td class="td-summary">{{ issuecomment.comments }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
             </div>
-        </div>
 
 
-        <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->
+            <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->
 
 
-        <!-- Issue Title -->
+            <!-- Issue Title -->
 
-        <div class="row no-gutters mt-3">
-            <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
-                <p class="m-0"><strong><em>TITLE:</em></strong></p>
+            <div class="row no-gutters mt-3">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+                    <p class="m-0"><strong><em>TITLE:</em></strong></p>
+                </div>
             </div>
-        </div>
 
 
-        <div class="row no-gutters">
-            <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-                <p class="m-0">{{ issue.title }}</p>
+            <div class="row no-gutters">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.title }}</p>
+                </div>
             </div>
-        </div>
 
 
 
-        <!-- Summary -->
+            <!-- Summary -->
 
-        <div class="row no-gutters mt-3">
-            <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-                <p class="m-0"><strong><em>SUMMARY:</em></strong></p>
+            <div class="row no-gutters mt-3">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0"><strong><em>SUMMARY:</em></strong></p>
+                </div>
             </div>
-        </div>
 
-        <div class="row no-gutters">
-            <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-                <p class="m-0">{{ issue.summary }}</p>
+            <div class="row no-gutters">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.summary }}</p>
+                </div>
             </div>
-        </div>
 
 
-        <!-- Details  -->
+            <!-- Details  -->
 
-        <div class="row no-gutters mt-3">
-            <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-                <p class="m-0"><strong><em>DETAILS:</em></strong></p>
+            <div class="row no-gutters mt-3">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0"><strong><em>DETAILS:</em></strong></p>
+                </div>
             </div>
-        </div>
 
-        <div class="row no-gutters ">
-            <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
-                <p class="m-0">{{ issue.details }}
-                    <p>
+            <div class="row no-gutters ">
+                <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+                    <p class="m-0">{{ issue.details }}
+                        <p>
+                </div>
             </div>
-        </div>
 
 
 
-        <!-- Edit Button 
+            <!-- Edit Button 
           If the issue is assigned to the logged in user, on the client side or
           on the vendor side, enable the Edit button, otherwise disable it. -->
 
-        <hr>
-        <div class="row no-gutters mt-2">
-            <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
+            <hr>
+            <div class="row no-gutters mt-2">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-                {% if userdetails.user_type == "C" %} 
-                {% if userdetails.user_id == issue.assigned_client_user %}
+                    {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
 
-                <!-- User is a client-side user.
+                    <!-- User is a client-side user.
                          Is the issue assigned, to the logged in user, 
                          and is the status = DRAFT or LOGGED? 
                          If so, enable the Edit button, otherwise disable it -->
 
-                {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
+                    {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
-                <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> 
-                {% else %}
-                <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> 
-                {% endif %} 
-                {% endif %} 
-                {% else %}
+                    <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> {% else %}
+                    <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
 
-                <!-- User is a vendor-side user.
+                    <!-- User is a vendor-side user.
                         Is the issue assigned to the logged in user? 
                         If so, allow the user to update the issue status -->
 
-                {% if userdetails.user_id == issue.assigned_vendor_user %}
+                    {% if userdetails.user_id == issue.assigned_vendor_user %}
 
-                <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-lnk">Update Status</a> {% endif %} {% endif %}
+                    <a href="{% url 'update_issue_status_priority' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %} {% endif %}
 
+                </div>
             </div>
         </div>
-</div>
 
 
 
-{% endblock %}
+        {% endblock %}

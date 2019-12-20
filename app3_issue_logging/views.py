@@ -14,7 +14,7 @@ from app2_user_home.models import UserDetail
 from .models import Issue
 from .models import IssueComment, IssueThumbsUp
 
-from .forms import LogNewIssueForm, IssueStatusForm
+from .forms import LogNewIssueForm, IssueStatusPriorityForm
 from .forms import LogNewIssueForm, IssueCommentForm
 
 
@@ -68,7 +68,9 @@ def new_edit_issue(request, pk=None):
             issue = form.save()
             
             print("form.priority: "+str(form))
-            return redirect(issue_details, issue.pk)
+            
+            view_comments = 'n'
+            return redirect(issue_details, issue.pk, view_comments)
         else:
             print("form.priority: "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE!")
@@ -84,7 +86,7 @@ def new_edit_issue(request, pk=None):
 """
 Create a view that allows a vendor-side user to change the status of an issue. 
 """
-def update_issue_status(request, pk=None):
+def update_issue_status_priority(request, pk=None):
     
     print("UPDATE STATUS ------------------------------------------")
     
@@ -113,7 +115,7 @@ def update_issue_status(request, pk=None):
         
         print("request is post-----------------------------------------")
         
-        form = IssueStatusForm(request.POST, request.FILES, instance=issue)
+        form = IssueStatusPriorityForm(request.POST, request.FILES, instance=issue)
         
         if form.is_valid():
             print("form is valid")
@@ -121,7 +123,9 @@ def update_issue_status(request, pk=None):
             issue = form.save()
             
             print("form.priority: "+str(form))
-            return redirect(issue_details, issue.pk)
+            
+            view_comments ='n'
+            return redirect(issue_details, issue.pk, view_comments)
         else:
             print("form.priority: "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE!")
@@ -129,9 +133,9 @@ def update_issue_status(request, pk=None):
     else:
         print("request is get-----------------------------------------")
         print("issue: "+str(issue))
-        form = IssueStatusForm(instance=issue)
+        form = IssueStatusPriorityForm(instance=issue)
     
-    return  render(request, 'issuestatus.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
+    return  render(request, 'issuestatuspriority.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
 
     
 
@@ -141,6 +145,8 @@ and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
 def issue_details(request, pk, view_comments=None):
+    
+    print("IN ISSUE DETAILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     # Is user requesting to view the comments?
     

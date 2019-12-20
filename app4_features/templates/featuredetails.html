@@ -17,6 +17,12 @@
 <!-- Software Component  -->
 
 <div class="form-style">
+    
+    <div class="row no-gutters">
+        <div class="col-12 ftr-id-style ">
+            <span><em><strong>#: </strong>{{ feature.id}}</em></span>
+        </div>
+    </div>
 
     <!-- Software Component -->
 
@@ -35,11 +41,11 @@
             <span><strong>Status: </strong>{{ feature.status }}</span>
         </div>
 
-        <!--  Paid -->
+        <!--  Price -->
 
         <div class="col-12 col-md-4 form-font pt-1 position">
-            <span><strong>Paid: </strong></span> 
-            <span><i class="fas fa-euro-sign"></i>{{ feature.paid }}</span>
+            <span><strong>Price: </strong></span> 
+            <span><i class="fas fa-euro-sign"></i>{{ feature.price}}</span>
         </div>
     </div>
 
@@ -351,7 +357,7 @@
     
                 {% if userdetails.user_id == feature.assigned_vendor_user %}
     
-                <a href="{% url 'update_feature_status' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update Status</a>
+                <a href="{% url 'update_feature_status_price' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a>
     
                 {% endif %}
             {% endif %}
