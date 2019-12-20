@@ -31,11 +31,11 @@
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 col-sm-6 col-md-4 ">
-            <p>
-                <span class="pr-2">Total</span>
+        <div class="col-12 col-sm-6 col-md-4 checkout-amount pl-1">
+            <p class="p-0 m-0">
+                <span class="pr-2 ">Total</span>
                 <span><i class="fas fa-euro-sign"></i>{{ total }}</span>
-                <span class="pl-3"><a href="{% url 'checkout' %}" class="btn checkout-btn" role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
+                <span class="pl-3 text-right"><a href="{% url 'checkout' %}" class="btn checkout-btn " role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
                 </span>
             </p>
         </div>

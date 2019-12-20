@@ -332,7 +332,8 @@
         <div class="row no-gutters mt-2">
             <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-                {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
+                {% if userdetails.user_type == "C" %} 
+                {% if userdetails.user_id == issue.assigned_client_user %}
 
                 <!-- User is a client-side user.
                          Is the issue assigned, to the logged in user, 
@@ -341,8 +342,12 @@
 
                 {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
-                <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color ">Edit</a> {% else %}
-                <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
+                <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> 
+                {% else %}
+                <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> 
+                {% endif %} 
+                {% endif %} 
+                {% else %}
 
                 <!-- User is a vendor-side user.
                         Is the issue assigned to the logged in user? 
@@ -350,7 +355,7 @@
 
                 {% if userdetails.user_id == issue.assigned_vendor_user %}
 
-                <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color ">Update Status</a> {% endif %} {% endif %}
+                <a href="{% url 'update_issue_status' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-lnk">Update Status</a> {% endif %} {% endif %}
 
             </div>
         </div>

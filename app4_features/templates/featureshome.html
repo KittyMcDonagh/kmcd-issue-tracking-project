@@ -182,11 +182,21 @@
                                     
                                     {% if userdetails.user_type == "C" %}
                                     
-                                    <!-- if client-side user enable the thumbs up button -->
+                                    <!-- if client-side user enable the thumbs up button, if the price is > 0 -->
+                                    
+                                    {% if feature.price > 0 %}
                                         
                                         <td class="pl-0 ml-0 td-thumbs-up">
                                             <button class="btn ftr-td-thumbs-up-style td-form-font  ftr-enabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
                                         </td>
+                                        
+                                        {% else %}
+                                        
+                                        <td class="pl-0 ml-0 td-thumbs-up">
+                                            <button class="btn ftr-td-thumbs-up-style td-form-font  disabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                                        </td>
+                                        
+                                        {% endif %}
                                         
                                     {% else %}
                                     

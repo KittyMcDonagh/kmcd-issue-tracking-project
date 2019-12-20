@@ -1172,9 +1172,14 @@ footer {
     border: solid 1px #ddd;
 }
 
-.pay-btn-color {
-    background-color: #8080ff!important;
+.pay-btn {
+    background-color: #FFBF80!important;
     color: fafaff!important;
     width: 150px;
-
 }
+
+.pay-btn:hover {
+    color: #FFBF80!important;
+    background-color: fafaff!important;
+}
+

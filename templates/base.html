@@ -1330,7 +1330,7 @@
                 var clientDetails = $(this).data('value').split(" ");
                 let clientFilter = clientDetails[0];
 
-               // Clear the contents of the search box, to avoid confusing the user
+                // Clear the contents of the search box, to avoid confusing the user
 
                 document.getElementById('ftr-search-val').value = "";
 
@@ -1763,9 +1763,14 @@
                         $.each(data.features, function(key, value) {
 
                             var featureId = value.id;
-
                             var inputDate = value.date;
                             var user = value.user;
+                            var softwareComponent = value.software_component;
+                            var summary = value.summary;
+                            var status = value.status;
+                            var paid = value.paid;
+                            var price = value.price;
+                            var thumbsUpCount = value.thumbs_up_count;
 
                             // Initialise 'inputDisabled'. To be added to input field
                             // for quantity & amount, to enable / disabled input
@@ -1779,7 +1784,17 @@
 
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
-                                linkEnabledDisabled = " ftr-enabled-link"
+                                
+                                // Only enable thumbs up for client if price 
+                                // is > zero
+                                
+                                if (price > 0) {
+                                    linkEnabledDisabled = " ftr-enabled-link"
+                                }
+                                else {
+                                    linkEnabledDisabled = " disabled-link"
+                                }
+
 
                             }
                             else {
@@ -1791,12 +1806,7 @@
                                 inputDisabled = "disabled";
                             }
 
-                            var softwareComponent = value.software_component;
-                            var summary = value.summary;
-                            var status = value.status;
-                            var paid = value.paid;
-                            var price = value.price;
-                            var thumbsUpCount = value.thumbs_up_count;
+
 
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
