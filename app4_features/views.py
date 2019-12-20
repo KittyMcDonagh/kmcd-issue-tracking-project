@@ -36,9 +36,9 @@ def features_home(request):
     
     SelectedStatusFilter = "ALL"
     
-    # set Paid Filter to ALL
+    # set Paid Order to ALL
     
-    SelectedPaidFilter = "ALL"
+    SelectedPaidOrder = "SORT BY"
     
     # Initialise these details in case user is not set up on the Issue Tracker app
     
@@ -106,7 +106,7 @@ def features_home(request):
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
-    Features = FinalFilterFeatures(request, Features, UserDetails)
+    Features = FinalFilterFeatures(request, Features, UserDetails, SelectedPaidOrder)
                 
     
     # For Pagination
@@ -127,7 +127,7 @@ def features_home(request):
     list_type = "features"
     searching = 'n'
   
-    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "all_clients": AllClients,'features': features, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_filter": SelectedPaidFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching })
+    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "all_clients": AllClients,'features': features, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_order": SelectedPaidOrder, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching })
 
 
 
@@ -151,17 +151,9 @@ def get_features(request):
         
     features_filter = request.POST.get('featuresFilter')
     status_filter = request.POST.get('statusFilter')
-    paid_filter = request.POST.get('paidFilter')
+    paid_order = request.POST.get('paidOrder')
     client_filter = request.POST.get('clientFilter')
     search_value = request.POST.get('searchValue')
-    
-    print("features_filter: "+str(features_filter))
-    print("status_filter: "+str(status_filter))
-    print("paid_filter: "+str(paid_filter))
-    print("client_filter: "+str(client_filter))
-    print("search_value: "+str(search_value))
-    
-    print("STILL in get_features ------------------------------------------>")
     
     # If the user is not using the search box, filter according to the filter
     # values
@@ -219,19 +211,6 @@ def get_features(request):
             print("before getting features by client: "+str(Features))
             Features = Features.filter(client_code=client_filter)
             print("after getting features by client: "+str(Features))
-            
-        # . . . or if Paid filter is set 
-        
-        print("Before filtering by paid: paid_filter "+str(paid_filter))
-            
-        if paid_filter != "ALL":
-            Features = Features.filter(paid=paid_filter)
-            
-        print("After filtering by paid: paid_filter "+str(paid_filter))
-            
-        
-        # Final filtering is done here to make sure users only see what they're
-        # allowed to see, and they're sorted by date, descending
     
     else:
         
@@ -245,7 +224,10 @@ def get_features(request):
     
     print("before final filter. Features: "+str(Features))
     
-    Features = FinalFilterFeatures(request, Features, UserDetails)
+    # Final filtering is done here to make sure users only see what they're
+    # allowed to see, and they're sorted by date, descending, or by paid amount
+    
+    Features = FinalFilterFeatures(request, Features, UserDetails, paid_order)
     
     print("after final filter. Features: "+str(Features))
     
@@ -518,7 +500,7 @@ see 'DRAFT')
 Clients cannot see features of other clients that are of status 'DRAFT' or 'LOGGED'
 """
 
-def FinalFilterFeatures(request, Features, UserDetails):
+def FinalFilterFeatures(request, Features, UserDetails, paid_order):
     
     if UserDetails.user_type == "V":
         
@@ -544,9 +526,21 @@ def FinalFilterFeatures(request, Features, UserDetails):
         
         Features = OurClientsFeatures | OtherClientsFeatures
     
-    # Sorting features by date, descending order
+    # Sorting features by date, descending order, or by paid amount if selected
+    
+    if paid_order != "SORT BY":
         
-    Features = Features.order_by('-id')
+        print("paid_order = "+str(paid_order))
+        if paid_order == "LOWEST TO HIGHEST":
+            print("LOWEST TO HIGHEST")
+            Features = Features.order_by('paid')
+        else:
+            print("HIGHEST TO LOWEST")
+            Features = Features.order_by('-paid')
+            
+    else:
+        
+        Features = Features.order_by('-id')
         
     return Features
 

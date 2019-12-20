@@ -1134,11 +1134,11 @@
                 let statusFilter = "ALL"
                 $('#dropdownMenuLink-2').text(statusFilter);
 
-                // Reset Paid Filter to "ALL" and display it in the filter
+                // Reset Paid Order to "SORT BY" and display it in the filter
                 // dropdown box
 
-                let paidFilter = "ALL"
-                $('#dropdownMenuLink-3').text(paidFilter);
+                let paidOrder = "SORT BY"
+                $('#dropdownMenuLink-3').text(paidOrder);
 
                 // Reset Client Filter to "ALL". If this is a client-side 
                 // user, the Client Code dropdown option wont be displayed on
@@ -1162,7 +1162,7 @@
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
 
             });
 
@@ -1205,11 +1205,11 @@
                 // It may be blank if the user was previously using the search
                 // box - if so, set it to 'ALL'
 
-                let paidFilter = getPaidFilterValue();
+                let paidOrder = getpaidOrderValue();
 
-                if (paidFilter == "") {
-                    paidFilter = 'ALL'
-                    $('#dropdownMenuLink-3').text(paidFilter);
+                if (paidOrder == "") {
+                    paidOrder = 'SORT BY'
+                    $('#dropdownMenuLink-3').text(paidOrder);
                 }
 
                 // Get the current value of the Client Filter, if it's an
@@ -1235,34 +1235,32 @@
                 let page = 1;
 
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
             });
 
 
-            // Filtering by Paid
+            // Ordering by Paid
 
+            $('.paid-order').on('click', function() {
 
-            $('.paid-filter').on('click', function() {
-
-                // Paid filter has been selected by the user
+                // Paid sort order has been selected by the user
 
                 event.preventDefault();
 
-                let paidFilter = $(this).data('value');
-                let paidFilterText = this.innerText;
+                let paidOrder = $(this).data('value');
 
                 // Clear the contents of the search box, to avoid confusing the user
 
                 document.getElementById('ftr-search-val').value = ""
 
-                // The user has selected a value from the Paid Filter dropdown
+                // The user has selected a value from the Paid Order dropdown
 
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-3').text(paidFilterText);
+                $('#dropdownMenuLink-3').text(paidOrder);
 
-                // When the priority filter is selected, it will be used in
+                // When the Paid Order is selected, it will be used in
                 // conjunction with the current values of the other 2 filters
 
                 // Get the current value of the Features Filter
@@ -1310,7 +1308,7 @@
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
             });
 
 
@@ -1370,15 +1368,15 @@
                     $('#dropdownMenuLink-2').text(statusFilter);
                 }
 
-                // Get the current value of the Priority Filter
+                // Get the current value of the Paid Order
                 // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
+                // box - if so, set it to 'SORT BY'
 
-                let paidFilter = getPaidFilterValue();
+                let paidOrder = getpaidOrderValue();
 
-                if (paidFilter == "") {
-                    paidFilter = 'ALL';
-                    $('#dropdownMenuLink-3').text(paidFilter);
+                if (paidOrder == "") {
+                    paidOrder = 'SORT BY';
+                    $('#dropdownMenuLink-3').text(paidOrder);
                 }
 
 
@@ -1392,7 +1390,7 @@
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
             });
 
 
@@ -1414,8 +1412,8 @@
                 $('#dropdownMenuLink-1').text(featuresFilter);
                 let statusFilter = ""
                 $('#dropdownMenuLink-2').text(statusFilter);
-                let paidFilter = ""
-                $('#dropdownMenuLink-3').text(paidFilter);
+                let paidOrder = ""
+                $('#dropdownMenuLink-3').text(paidOrder);
                 let clientFilter = "";
                 $('#dropdownMenuLink-4').text(clientFilter);
 
@@ -1424,7 +1422,7 @@
 
                 let page = 1;
 
-                getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
 
             });
 
@@ -1449,14 +1447,14 @@
 
                     let featuresFilter = getFeaturesFilterValue();
                     let statusFilter = getStatusFilterValue();
-                    let paidFilter = getPaidFilterValue();
+                    let paidOrder = getpaidOrderValue();
                     let clientFilter = getClientFilterValue();
                     let searchValue = document.getElementById('ftr-search-val').value
 
 
                     // Get the features as per the filter values and page number
 
-                    getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue);
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
                 }
 
             );
@@ -1546,19 +1544,12 @@
 
             // Get the current value of the Paid Filter
 
-            function getPaidFilterValue() {
+            function getpaidOrderValue() {
 
                 let el = document.getElementById("dropdownMenuLink-3");
-                let paidFilter = el.innerText
+                let paidOrder = el.innerText
 
-                if (el.innerText != "ALL" & el.innerText != "") {
-
-                    let paidArray = el.innerText.split("");
-
-                    paidFilter = paidArray[0, 0];
-                }
-
-                return paidFilter;
+                return paidOrder;
 
             }
 
@@ -1730,7 +1721,7 @@
 
             // Get the relevant features, based on the value of the filters
 
-            function getFeatures(featuresFilter, statusFilter, paidFilter, clientFilter, page, searchValue) {
+            function getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue) {
 
                 $.post({
                     url: "{% url 'get_features' %}",
@@ -1739,7 +1730,7 @@
                         csrfmiddlewaretoken: "{{csrf_token}}",
                         featuresFilter: featuresFilter,
                         statusFilter: statusFilter,
-                        paidFilter: paidFilter,
+                        paidOrder: paidOrder,
                         clientFilter: clientFilter,
                         page: page,
                         searchValue: searchValue,
@@ -1805,7 +1796,7 @@
                             var status = value.status;
                             var paid = value.paid;
                             var price = value.price;
-                            var thumbsUpCount = value.thumbs_up_count
+                            var thumbsUpCount = value.thumbs_up_count;
 
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 

@@ -960,7 +960,9 @@ footer {
     }
 }
 
-
+.ftr-sort-icon {
+    font-size: 18px;
+}
 
 /* Styling for both Issues and Features --------------------------------------*/
 
