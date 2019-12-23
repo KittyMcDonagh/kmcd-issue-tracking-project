@@ -160,15 +160,10 @@ li {
 
 /* Logo sizing and styling  */
 
-.nav-logo {
-    height: 32px;
-    width: 100px;
-}
-
 .logo {
     background: url("../images/kmcd_logo.png");
-    height: 100%;
-    width: 100%;
+    min-height: 53px;
+    min-width: 170px;
     border: solid 1px #fafaff;
     border-style: outset;
     border-radius: 10px;
@@ -184,7 +179,7 @@ li {
 
 .home-page-img {
     background-image: url("../images/kmcd_home_page.png");
-    width:100%;
+    width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -195,11 +190,11 @@ li {
    (taken from https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_transform) */
 
 .logo:hover {
-    -ms-transform: scaleY(1.5);
+    -ms-transform: scaleY(1.2);
     /* IE 9 */
-    -webkit-transform: scaleY(1.5);
+    -webkit-transform: scaleY(1.2);
     /* Safari 3-8 */
-    transform: scaleY(1.5);
+    transform: scaleY(1.2);
 }
 
 .home-icon {
@@ -618,6 +613,56 @@ li {
 }
 
 
+.iss-report {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+@media(min-width:768px) {
+    .iss-report {
+        padding-top: 20px;
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+}
+
+.iss-report-th {
+    background-color: #C080FF;
+    color: #fff;
+}
+
+
+
+.iss-report-total {
+    background-color: #f2e6ff!important;
+    color: #3b3b3b;
+    font-weight: 900;
+    padding: 5px;
+    
+}
+
+@media(min-width: 50px) {
+    .iss-report-total {
+        padding: 10px;
+       
+    }
+}
+
+
+.iss-report-client-name {
+    width: 650px;
+}
+
+.iss-report-flagged {
+    width: 100px;
+}
+
+.iss-chevron-down-style {
+    background-color: #C080FF!important;
+    color: fafaff!important;
+}
+
 
 /* Styling for Features list ------------------------------------------------*/
 
@@ -770,74 +815,11 @@ li {
 
 
 
-/* Styling for the cart -----------------------------------------------------*/
-
-.cart-enabled-link {}
-
-.cart-enabled-link:hover {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-    border-radius: 5px;
-
-}
-
-
-.cart-container {
-    color: #3b3b3b!important;
-    margin-left: 0px;
-    font-size: 14px;
-    padding-top: 15px;
-
-}
-
-@media(min-width:1024px) {
-    .cart-container {
-        margin-left: 5px;
-    }
-}
-
-@media(min-width:1025px) {
-    .cart-container {
-        font-size: 18px;
-        margin-left: 60px;
-        padding: 13px;
-
-
-    }
-}
-
-
-/* Styling for cart button / icon */
-
-.cart-nav-link {
-    font-size: 13px!important;
-    padding: 15px;
-    margin-bottom: 2px;
-    color: #80C0FF!important;
-    width: 120px;
-
-}
-
-@media(min-width:1025px) {
-    .cart-nav-link {
-        margin-left: 10px;
-    }
-}
-
-
-.cart-count-style {
-    background-color: #80C0FF!important;
-    color: #fff!important;
-
-}
-
-
-
 footer {
 
     background-color: #3b3b3b;
     color: #b3b3b3;
-    height: 80px;
+
     margin-bottom: 0px;
     padding: 30px 30px 10px 30px;
 
@@ -859,10 +841,6 @@ footer {
     }
 
 }
-
-
-
-
 
 
 
@@ -1174,6 +1152,71 @@ footer {
 
 
 /* css for the Cart and Checkout ---------------------------------------------*/
+
+/* Styling for the cart -----------------------------------------------------*/
+
+.cart-enabled-link {}
+
+.cart-enabled-link:hover {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+    border-radius: 5px;
+
+}
+
+
+.cart-container {
+    color: #3b3b3b!important;
+    margin-left: 0px;
+    font-size: 14px;
+    padding-top: 15px;
+
+}
+
+@media(min-width:1024px) {
+    .cart-container {
+        margin-left: 5px;
+    }
+}
+
+@media(min-width:1025px) {
+    .cart-container {
+        font-size: 18px;
+        margin-left: 60px;
+        padding: 13px;
+
+
+    }
+}
+
+
+/* Styling for cart button / icon */
+
+.cart-nav-link {
+    font-size: 13px!important;
+    padding: 15px;
+    margin-bottom: 2px;
+    color: #80C0FF!important;
+    width: 120px;
+
+}
+
+@media(min-width:1025px) {
+    .cart-nav-link {
+        margin-left: 10px;
+    }
+}
+
+
+.cart-count-style {
+    background-color: #80C0FF!important;
+    color: #fff!important;
+
+}
+
+
+
+
 
 .card {
     margin-right: 20px;

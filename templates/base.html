@@ -77,10 +77,9 @@
         <!-- Show the navigation bar -->
 
         <nav class="navbar navbar-expand-lg navbar-light navbar-style nav-links">
-            <div class="nav-logo">
+            <div>
                 <a class="navbar-brand logo" href="{% url 'home' %}"></a>
             </div>
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -300,10 +299,23 @@
 
 
     <footer>
-        
+        <div class="row no-gutters">
+            <div class="col-12 col-md-6">
+                <ul class="p-0">
+                    <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <ul class="p-0">
+                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
+                </ul>
+            </div>
+        </div>
+
         <div class="row no-gutters">
             <div class="col-12">
-                <p class="courgette-font footer-copyright text-right">Copyright @2020 Kitty McDonagh Accounting Solutions</p>
+                <p class="courgette-font footer-copyright text-right">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
             </div>
         </div>
     </footer>
@@ -780,13 +792,13 @@
 
                     success: function(data) {
 
+                        var thumbDownList = data.thumb.thumb_down_list
+                        var userMessage = data.user_mesg.user_message;
+
 
                         // Display user message if one is returned
                         // If the message is blank, keep the line, but make
                         // it invisible on the screen
-
-                        var userMessage = data.user_mesg.user_message;
-                        var thumbDownList = data.thumb.thumb_down_list
 
                         if (userMessage != "") {
 
@@ -806,23 +818,34 @@
                         $.each(data.issues, function(key, value) {
 
                             var issueId = value.id;
-
                             var inputDate = value.date;
                             var user = value.user;
+                            var clientCode = value.client_code;
+                            var userClientCode = value.user_client_code
 
-                            // Initialise 'linkEnabledDisabled'. Class To be 
+                            console.log("clientCode = " + clientCode)
+                            console.log("userClientCode = " + userClientCode)
+
+
+                            // Initialise 'tuEnabledDisabled'. Class To be 
                             // added to thumbs up to enable / disable
 
-                            var linkEnabledDisabled = "";
-
+                            var tuEnabledDisabled = "";
 
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
-                                linkEnabledDisabled = " iss-enabled-link"
+                                tuEnabledDisabled = " iss-enabled-link"
+
+                                // If this issue belongs to the client the user is associated with
+                                // disable the 'thumbs up'
+
+                                if (userClientCode == clientCode) {
+                                    tuEnabledDisabled = " disabled-link"
+                                }
                             }
                             else {
                                 var assignedUser = value.assigned_vendor_user;
-                                linkEnabledDisabled = " disabled-link"
+                                tuEnabledDisabled = " disabled-link"
                             }
 
                             var softwareComponent = value.software_component;
@@ -846,7 +869,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + linkEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -1097,8 +1120,25 @@
                 }).done();
             });
 
-            /* THUMBS UP END ===============================================*/
 
+            /*
+                ==================================
+                Issues Report
+                ==================================
+            */
+
+            $('#show-issues-report').on('click', function() {
+                
+                console.log("in show-issues-report")
+
+                // User has clicked on 'chevron-down' to see the list of 
+                // issues above the client total
+                // Remove d-none class, but keep hidden. Show by sliding down
+
+                $('#issues-report').removeClass('d-none').hide();
+                $('#issues-report').slideDown(1500);
+
+            });
 
             /* ==============================================================
                FEATURES PROCESSING 
@@ -1790,10 +1830,10 @@
 
                             if (value.user_type == "C") {
                                 var assignedUser = value.assigned_client_user;
-                                
+
                                 // Only enable thumbs up for client if price 
                                 // is > zero
-                                
+
                                 if (price > 0) {
                                     linkEnabledDisabled = " ftr-enabled-link"
                                 }

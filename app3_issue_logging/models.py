@@ -50,10 +50,11 @@ clicked, this will change the count back to zero.
 class IssueThumbsUp(models.Model):
     issue_id = models.IntegerField(blank=False)
     client_code = models.CharField(max_length=6, blank=True)
+    author = models.CharField(max_length=6, blank=True)
     user_id = models.CharField(max_length=10, blank=False)
     thumbs_up = models.IntegerField(default=0) 
     
     def __str__(self):
-        return "{0}: {1} - {2}, {3}".format(self.issue_id, self.client_code, self.user_id, self.thumbs_up )
+        return "{0}: {1} - {2}, {3}, {4}".format(self.issue_id, self.client_code, self.user_id, self.author, self.thumbs_up )
         
         

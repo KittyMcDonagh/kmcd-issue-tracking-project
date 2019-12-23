@@ -368,7 +368,8 @@ def get_issues(request):
         	"summary": issue.summary,
         	"status": issue.status,
         	"thumbs_up_count": issue.thumbs_up_count,
-        	"user_type": UserDetails.user_type
+        	"user_type": UserDetails.user_type,
+        	"user_client_code": UserDetails.vend_client_code
         	
     })
     
@@ -510,7 +511,7 @@ def iss_thumbs_up_down(request):
         
         # Insert into django code based on solution on https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file
         
-        issue_thumbs_up = IssueThumbsUp.objects.create(issue_id=issue.id, client_code=UserDetails.vend_client_code, user_id=UserDetails.user_id, thumbs_up = 1)
+        issue_thumbs_up = IssueThumbsUp.objects.create(issue_id=issue.id, client_code=UserDetails.vend_client_code, author=issue.client_code, user_id=UserDetails.user_id, thumbs_up = 1)
         
         # Return 'thumbs down' to js function 'thumbsUpDown' in base.html - it
         # will flip the thumbs up to thumbs down

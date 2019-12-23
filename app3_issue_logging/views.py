@@ -44,7 +44,7 @@ def new_edit_issue(request, pk=None):
         # User is on the Client side. Get the Client Details, The Issues Filte
         # values the client user can use, and the filtered Issues
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -68,6 +68,12 @@ def new_edit_issue(request, pk=None):
             issue = form.save()
             
             print("form.priority: "+str(form))
+            
+            # Create a 'thumbs up' record for this client / issue, but make the 'thumbs_up' field = '0'
+            # A client will not be able to 'thumbs up' their own issues, and we want to distinguish issues a
+            # client input, from ones they 'thumbed up' (i.e. saying 'I have this too.')
+            
+            issue_thumbs_up, _ = IssueThumbsUp.objects.get_or_create(issue_id=issue.id, client_code=UserDetails.vend_client_code, defaults={"author":issue.client_code, "user_id":UserDetails.user_id, "thumbs_up": 0})
             
             view_comments = 'n'
             return redirect(issue_details, issue.pk, view_comments)
@@ -188,7 +194,7 @@ def issue_details(request, pk, view_comments=None):
         # User is on the Client side. Get the Client Details, The Issues Filte
         # values the client user can use, and the filtered Issues
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -230,10 +236,10 @@ def get_user_iss_trk_details(request):
 The logged in user is on the Client side - get the Client details
 """
 
-def get_client(request, UserDetails):
+def get_client(request, get_client_code):
 
     try:
-        ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
+        ClientDetails = Client.objects.get(client_code=get_client_code)
     except:
         messages.error(request, "Client details not found!")
    
@@ -297,7 +303,7 @@ def new_issue_comment(request, pk=None):
         # User is on the Client side. Get the Client Details, The Issues Filte
         # values the client user can use, and the filtered Issues
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -358,4 +364,127 @@ def new_issue_comment(request, pk=None):
         print("comments_input= "+str(comments_input))
     
     return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
+
+
+"""
+ISSUES REPORT - 
+For Client-side users - This report will show a total line of the number of issues the Client has - these will include those
+logged by this Client, and those that they flagged as having via the 'thumbs up'. They can click the down arrow to see a list of
+these issues, and click on the more icon to see the details of an issue.
+
+For Vendor-side users - This report will show a total line for each client, showing the number of issues they have  these will include those
+logged by the Client, and those that they flagged as having via the 'thumbs up'. They can click the down arrow to see a list of
+these issues, and click on the more icon to see the details of an issue.
+
+This function is called via the javascript in base.html
+"""
+def issues_report(request):
     
+    print("IN ISSUES REPORT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracking system. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Issues Filte
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+
+    
+    # Is this a Client-side user?
+                    
+    if UserDetails.user_type == "C":
+        
+        # For client-side user, get this Clients flagged issues only
+        
+        issuethumbsups = IssueThumbsUp.objects.filter(client_code = UserDetails.vend_client_code)
+        
+        print("client user: issuethumbsups = "+str(issuethumbsups))
+        			
+    else:
+                    
+        # For vendor-side user, get this Clients flagged issues only
+                    
+        issuethumbsups = IssueThumbsUp.objects.all()
+        print("vendor user: issuethumbsups = "+str(issuethumbsups))
+                    
+    user_message = ""
+    
+    if not issuethumbsups:
+        user_message = "No flagged issues found!"
+
+    # Create data dictionary to return to the js function (in base.html)
+        
+    data = {}
+        
+    # Return the user message also - set above if no issues found
+    	
+    data["user_mesg"] = {
+            
+        "user_message": user_message
+    }
+    	
+    # Return the issues to be output to  the html table
+    	
+    data["issues"] = []
+    nr_flagged_issues = 0
+        
+    for issuethumbsup in issuethumbsups:
+        
+        issue = Issue.objects.get(id=issuethumbsup.issue_id)
+        
+        print("ISSUE ################# = "+str(issue))
+        
+        nr_flagged_issues+=1
+            
+        print("nr_flagged_issues = "+str(nr_flagged_issues))
+        
+        data["issues"].append({
+            "id": issue.id,
+            "client_code": issue.client_code,
+        	"software_component": issue.software_component,
+        	"priority": issue.priority,
+        	"summary": issue.summary,
+        	"status": issue.status,
+        })
+            
+    clienttotal = {}
+    clienttotal = {
+        "client_code": issuethumbsup.client_code,
+        "client_name": ClientDetails.client_name,
+        "nr_flagged_issues": nr_flagged_issues
+            
+    }
+        
+    ClientDetails = get_client(request, issuethumbsup.client_code)
+            
+    print("issues = "+str(data["issues"]))
+    print("clienttotal = "+str(clienttotal))
+    
+    return  render(request, 'issuereport.html', {"clienttotal": clienttotal, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+
+
+
+
+
+

@@ -226,6 +226,11 @@
                                 
                             <td class="pl-0 ml-0 td-thumbs-up">
                             
+                            <!-- If the user has already 'thumbed up' this issue, show a 'thumb down'
+                                 to allow them to change it. 
+                                 A user cant 'thumb up/down' issues that belong to the client they're associated
+                                 so those issues wont be in this list -->
+                                 
                                 {% if issue.id in thumb_down_list %}
 
                                     <!-- Thumb Down - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
@@ -233,10 +238,20 @@
                                     <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}"  class="fas fa-thumbs-down thumbs-up-icon"></i></a>
                                 
                                 {% else %}
-
+                                    
                                     <!-- Thumb Up - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+                                    
+                                    <!-- If this issue belongs to the client the user is associated with, disable the
+                                         'thumbs up' - they cant 'thumbs up/down' their own issues  -->
 
+                                    {% if userdetails.vend_client_code == issue.client_code %}
+                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font disabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
+                                    
+                                    {% else %}
+                                    
                                     <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
+                                    
+                                    {% endif%}
                             
                                 {% endif %}
                                 
