@@ -614,29 +614,30 @@ li {
 
 
 .iss-report {
-    padding-top: 5px;
     padding-right: 5px;
     padding-left: 5px;
 }
 
 @media(min-width:768px) {
     .iss-report {
-        padding-top: 20px;
         padding-right: 50px;
         padding-left: 50px;
     }
 }
 
 .iss-report-th {
-    background-color: #C080FF;
-    color: #fff;
+   
+    color: #3b3b3b;
+   
 }
 
 
 
 .iss-report-total {
-    background-color: #f2e6ff!important;
-    color: #3b3b3b;
+    border-radius: 5px;
+    
+    background-color: #C080FF;
+     color: #fff;
     font-weight: 900;
     padding: 5px;
     
@@ -658,12 +659,25 @@ li {
     width: 100px;
 }
 
-.iss-chevron-down-style {
+.iss-chevron-style {
     background-color: #C080FF!important;
     color: fafaff!important;
 }
 
+.iss-det-chevron-style {
+    color: #C080FF!important;
+    
+}
 
+.iss-det-chevron-style:hover {
+    border-radius: 5px;
+    background-color: #C080FF!important;
+    color: fafaff!important;
+}
+
+.iss-hr-style {
+    background-color:#C080FF!important;
+}
 /* Styling for Features list ------------------------------------------------*/
 
 .ftr-filter-dd {

@@ -465,6 +465,7 @@ def issues_report(request):
         	"software_component": issue.software_component,
         	"priority": issue.priority,
         	"summary": issue.summary,
+        	"details": issue.details,
         	"status": issue.status,
         })
             

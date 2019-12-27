@@ -7,6 +7,33 @@
 <!-- If the user is a vendor-side user, show the name of the client the issue 
      belongs to -->
 
+<!-- Show the rolled up total for the Client -->
+
+<div class="row no-gutters iss-report-total">
+
+    <div class="col-12 col-md-4">
+        <span>Client Code: {{ clienttotal.client_code }}</span>
+    </div>
+
+    <div class="col-12 col-md-4 text-center">
+        <span>Client Name: {{ clienttotal.client_name }}</span>
+    </div>
+
+    <div class="col-12 col-md-4 text-right">
+        <span class="pr-2">No. of Issues: {{ clienttotal.nr_flagged_issues }}</span>
+
+
+        <!-- The user can click on chevron-down/up to open / close the report
+            Note that "fa-chevron-down" is used by js in determing whether the report needs to be opened
+             or closed. It expects it to be the 2nd class of the <i> element. So if adding classes, add them
+             at the end. -->
+
+        <span><a id="show-issues-report" class="btn td-form-font iss-enabled-link iss-chevron-style" href="#"><i  id="report-open-close" class="fas fa-chevron-down "></i></a></span>
+    </div>
+
+</div>
+
+<!-- Show the individual issues for the client, but keep them hidden (d-none) -->
 
 <div id="issues-report" class="row no-gutters d-none">
 
@@ -18,7 +45,8 @@
                     <th scope="col" class="text-center td-date">#</th>
                     <th scope="col" class="text-center td-username">Author</th>
                     <th scope="col" class="text-center td-sw-comp">Component</th>
-                    <th scope="col" class="text-center td-summary">Summary</th>
+                    <th scope="col" class="text-center td-summary">Summary / Details </th>
+                    <th class="text-center">Details</th>
                     <th scope="col" class="text-center td-priority">Priority</th>
                     <th scope="col" class="text-center td-status">Status</th>
                 </tr>
@@ -29,6 +57,7 @@
             <tbody>
 
                 {% for issue in issues %}
+
                 <tr>
                     <td class="td-id">{{ issue.id }}</td>
 
@@ -40,43 +69,40 @@
 
                     <td class="td-sw-comp">{{ issue.software_component }}</td>
                     <td class="td-summary">{{ issue.summary }}</td>
+
+                    <!-- 'show-issue-details' class is used by js for when user clicks on the chevron-down/up. The issue id identifies which 
+                         Issue has been clicked on. The class 'det-chevron-down' is changed to 'det-chevron-up' when 'fa-chevron-down' is
+                         flipped to 'up'. 'det-chevron-up' helps find and details up chevrons and changes them to down, when the full report is close
+                         -->
+
+                    <td><a class="{{issue.id}} show-issue-details btn td-form-font iss-det-chevron-style" href="#"><i  id="details-open-close-{{issue.id}}" class="fas fa-chevron-down det-chevron-down"></i></a></td>
                     <td class="td-priority">{{ issue.priority }}</td>
                     <td class="td-status">{{ issue.status }}</td>
                 </tr>
-                {% endfor %}
 
+                <!-- The Issue Details are initially hidden (d-none). The user will use the 'chevron-down' to display the details, and 'chevron-up'
+                     to hide them -->
+
+                <tr id="issue-details-{{issue.id}}" class="issue-details d-none">
+
+                    <td class="td-id"></td>
+                    <td class="td-username"></td>
+                    <td class="td-sw-comp "><strong>Issue Details: </strong></td>
+                    <td class="">{{ issue.details }}</td>
+                    <td></td>
+                    <td class="td-priority"></td>
+                    <td class="td-status"></td>
+
+                </tr>
+
+                {% endfor %}
 
             </tbody>
         </table>
-    </div>
-</div>
-
-
-<!-- Print the total for the client -->
-<hr>
-<div class="row no-gutters iss-report-total">
-
-    <div class="col-12 offset-md-3 col-md-2">
-        <span>{{ clienttotal.client_code }}</span>
-    </div>
-
-    <div class="col-12 col-md-3">
-        <span> {{ clienttotal.client_name }}</span>
-    </div>
-
-    <div class="col-12 col-md-3">
-        <span>Number of Issues: {{ clienttotal.nr_flagged_issues }}</span>
-    </div>
-
-    <div class="col-md-1">
-        <span><a id="show-issues-report" class="btn td-form-font iss-enabled-link iss-chevron-down-style" href="#"><i  class="fas fa-chevron-down "></i></a></span>
+        <hr class="iss-hr-style">
     </div>
 
 </div>
-
-
-
-
 
 
 {% endblock %}
