@@ -823,9 +823,6 @@
                             var clientCode = value.client_code;
                             var userClientCode = value.user_client_code
 
-                            console.log("clientCode = " + clientCode)
-                            console.log("userClientCode = " + userClientCode)
-
 
                             // Initialise 'tuEnabledDisabled'. Class To be 
                             // added to thumbs up to enable / disable
@@ -1127,28 +1124,39 @@
                 ==================================
             */
 
-            $('#show-issues-report').on('click', function() {
+            $('.show-issues-report').on('click', function() {
 
                 // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
                 // open/close the Issues Report for a particular Client
+                // The first class for this element is the Client Code
+                
+                var classes = $(this).attr("class").split(" ");
+                var clientCode = classes[0]
+                
+                // Create ids for accessing the DOM
+                
+                reportId = "#issues-report-"+clientCode
+                chevronId = "#report-open-close-"+clientCode
 
-                console.log("in show-issues-report")
+                // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
+                
+                var classes = $(chevronId).attr("class").split(" ");
+                var chevronType = classes[1]
 
-                var classes = $('#report-open-close').attr("class").split(" ");
-
-                if (classes[1] == "fa-chevron-down") {
+                if (chevronType == "fa-chevron-down") {
 
                     // User has clicked on 'fa-chevron-down' to
                     // open the Issues Report for a particular client
                     // Remove d-none class, but keep hidden. Show by sliding down
 
-                    $('#issues-report').removeClass('d-none').hide();
-                    $('#issues-report').slideDown(1500);
+                    $(reportId).removeClass('d-none').hide();
+                    $(reportId).slideDown(1000);
 
                     // Change the chevron from down to up.
 
-                    $('#report-open-close').removeClass('fa-chevron-down');
-                    $('#report-open-close').addClass('fa-chevron-up');
+                    $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    
+                
                 }
                 else {
 
@@ -1158,18 +1166,18 @@
                     // First, close all Issue Details rows, in case any are open
                     // And add back the down chevron
                     
-                    $('.issue-details').hide("fast");
-                    $('.det-chevron-up').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('.det-chevron-up').removeClass('det-chevron-up').addClass('det-chevron-down');
+                    $('.issue-details-'+clientCode).hide("fast");
+                    $('.det-chevron-up-'+clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('.det-chevron-up-'+clientCode).removeClass('det-chevron-up-'+clientCode).addClass('det-chevron-down-'+clientCode);
                     
                     // Close the Issue Report
                     
-                    $('#issues-report').slideUp(1500);
+                    $(reportId).slideUp(1000);
                     
                     // Change the chevron from up to down.
 
-                    $('#report-open-close').removeClass('fa-chevron-up');
-                    $('#report-open-close').addClass('fa-chevron-down');
+                    $(chevronId).removeClass('fa-chevron-up');
+                    $(chevronId).addClass('fa-chevron-down');
 
                 }
             });
@@ -1177,56 +1185,47 @@
             $('.show-issue-details').on('click', function() {
 
                 // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
-                // open/clse the details of a particular issue in the Issues Report
-
-                console.log("in show-issue-details")
-
-                // Get the id of the issue that was clicked on 
+                // open/close the details of a particular issue in the Issues Report
+                
+                // Get the client code and issue id of the issue that was clicked on 
 
                 var classes = $(this).attr("class").split(" ");
-                issueId = classes[0]
+                
+                var clientCode = classes[0];
+                var issueId = classes[1];
+                var clientCodeIssueId = clientCode+'-'+issueId;
 
                 // Check whether its 'chevron-down' or 'chevron-up'
 
-                var classes = $('#details-open-close-' + issueId).attr("class").split(" ");
+                var classes = $('#details-open-close-' + clientCodeIssueId).attr("class").split(" ");
+                var chevronType = classes[1]
 
-                if (classes[1] == "fa-chevron-down") {
-
-                    console.log("chevron-down:")
-                    console.log('#issue-details-' + issueId)
+                if (chevronType == "fa-chevron-down") {
 
                     // User has clicked on 'chevron-down' to see the details of a
                     // particular issue in the Issues Report.
                     // Remove d-none class, but keep hidden. Show by sliding down
 
-                    $('#issue-details-' + issueId).removeClass('d-none').hide();
-                    $('#issue-details-' + issueId).show("fast");
+                    $('#issue-details-' + clientCodeIssueId).removeClass('d-none').hide();
+                    $('#issue-details-' + clientCodeIssueId).fadeIn(700);
 
                     // Change the chevron from down to up.
 
-                    $('#details-open-close-' + issueId).removeClass('fa-chevron-down');
-                    $('#details-open-close-' + issueId).removeClass('det-chevron-down');
-                    $('#details-open-close-' + issueId).addClass('fa-chevron-up');
-                    $('#details-open-close-' + issueId).addClass('det-chevron-up');
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-down-'+clientCode).addClass('det-chevron-up-'+clientCode);
                 }
                 else {
-
-                    console.log("chevron-up:")
-                    console.log('#issue-details-' + issueId)
-                    console.log('#details-open-close-' + issueId)
 
                     // User has clicked on 'chevron-up' to close the details of a
                     // particular issue in the Issues Report.
                     // Close by sliding up
 
-                    $('#issue-details-' + issueId).hide("fast");
+                    $('#issue-details-' + clientCodeIssueId).fadeOut(700);
 
                     // Change the chevron from up to down.
 
-                    $('#details-open-close-' + issueId).removeClass('fa-chevron-up');
-                    $('#details-open-close-' + issueId).removeClass('det-chevron-up');
-                    $('#details-open-close-' + issueId).addClass('fa-chevron-down');
-                    $('#details-open-close-' + issueId).addClass('det-chevron-down');
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-up-'+clientCode).addClass('det-chevron-down-'+clientCode);
 
                 }
 

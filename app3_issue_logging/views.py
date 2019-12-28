@@ -54,20 +54,12 @@ def new_edit_issue(request, pk=None):
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
     
-    print(request.method)
-    
     if request.method == "POST":
-        
-        print("request is post-----------------------------------------")
         
         form = LogNewIssueForm(request.POST, request.FILES, instance=issue)
         
         if form.is_valid():
-            print("form is valid")
-        
             issue = form.save()
-            
-            print("form.priority: "+str(form))
             
             # Create a 'thumbs up' record for this client / issue, but make the 'thumbs_up' field = '0'
             # A client will not be able to 'thumbs up' their own issues, and we want to distinguish issues a
@@ -78,12 +70,11 @@ def new_edit_issue(request, pk=None):
             view_comments = 'n'
             return redirect(issue_details, issue.pk, view_comments)
         else:
-            print("form.priority: "+str(form))
+            
             messages.error(request, "UNABLE TO LOG ISSUE!")
             
     else:
-        print("request is get-----------------------------------------")
-        print("issue: "+str(issue))
+        
         form = LogNewIssueForm(instance=issue)
     
     return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
@@ -93,8 +84,6 @@ def new_edit_issue(request, pk=None):
 Create a view that allows a vendor-side user to change the status of an issue. 
 """
 def update_issue_status_priority(request, pk=None):
-    
-    print("UPDATE STATUS ------------------------------------------")
     
     # This view is for vendor-side users only
     
@@ -115,30 +104,20 @@ def update_issue_status_priority(request, pk=None):
     
     IssueClientDetails = get_issue_client_details(request, issue)
     
-    print(request.method)
-    
     if request.method == "POST":
-        
-        print("request is post-----------------------------------------")
         
         form = IssueStatusPriorityForm(request.POST, request.FILES, instance=issue)
         
         if form.is_valid():
-            print("form is valid")
-        
             issue = form.save()
-            
-            print("form.priority: "+str(form))
-            
+           
             view_comments ='n'
             return redirect(issue_details, issue.pk, view_comments)
         else:
-            print("form.priority: "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE!")
             
     else:
-        print("request is get-----------------------------------------")
-        print("issue: "+str(issue))
+        
         form = IssueStatusPriorityForm(instance=issue)
     
     return  render(request, 'issuestatuspriority.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
@@ -151,12 +130,6 @@ and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
 def issue_details(request, pk, view_comments=None):
-    
-    print("IN ISSUE DETAILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    # Is user requesting to view the comments?
-    
-    print("VIEW_COMMENTS: "+str(view_comments))
     
     # Retrieve the issue
     
@@ -203,11 +176,6 @@ def issue_details(request, pk, view_comments=None):
         VendorDetails = get_vendor(request, UserDetails)
         
         IssueClientDetails = get_issue_client_details(request, issue)
-        
-    print("issue: "+str(issue.id))
-    print("view_comments: "+str(view_comments))
-    print("issue: "+str(issue))
-    print("comments: "+str(issuecomments))
     
     return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
     
@@ -318,24 +286,16 @@ def new_issue_comment(request, pk=None):
     pk = ""
     
     issuecomment = get_object_or_404(Issue, pk=pk) if pk else None
-    
-    print(request.method)
-    
+   
     comments_input = "n"
     view_comments = 'n'
     
     if request.method == "POST":
         
-        print("issue comment request is post----------------------------------")
-        
         form = IssueCommentForm(request.POST, request.FILES, instance=issuecomment)
         
         if form.is_valid():
-            print("comment form is valid. form = "+str(form))
-        
             issuecomment = form.save()
-            
-            print("ISSUECOMMENT.ISSUE_ID"+str(issuecomment.issue_id))
             
             # Redirect to issue_details and pass 'y' to let issuedetails.html
             # know that the comments list is to be displayed
@@ -344,13 +304,10 @@ def new_issue_comment(request, pk=None):
             
             return redirect(issue_details, issuecomment.issue_id, view_comments)
         else:
-        
-            print("form invalid = "+str(form))
             messages.error(request, "UNABLE TO LOG ISSUE COMMENT!")
             
     else:
-        print("issue comment request is get-----------------------------------")
-    
+        
         form = IssueCommentForm()
         
         # Set comments_input to keep the comment form fields open in issuedetails.html
@@ -361,8 +318,6 @@ def new_issue_comment(request, pk=None):
         
         view_comments = 'n'
         
-        print("comments_input= "+str(comments_input))
-    
     return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
 
 
@@ -379,8 +334,6 @@ these issues, and click on the more icon to see the details of an issue.
 This function is called via the javascript in base.html
 """
 def issues_report(request):
-    
-    print("IN ISSUES REPORT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -409,7 +362,6 @@ def issues_report(request):
         # User is on the Vendor side
         
         VendorDetails = get_vendor(request, UserDetails)
-
     
     # Is this a Client-side user?
                     
@@ -426,8 +378,7 @@ def issues_report(request):
                     
         issuethumbsups = IssueThumbsUp.objects.all()
         issuethumbsups = issuethumbsups.order_by('client_code', '-issue_id')
-        print("vendor user: issuethumbsups = "+str(issuethumbsups))
-                    
+        
     user_message = ""
     
     if not issuethumbsups:
@@ -456,16 +407,11 @@ def issues_report(request):
     i = 0
         
     for item in issuethumbsups:
-        print("item.client_code........: "+str(item.client_code))
         if item.client_code != prev_client:
             client_list.append(item.client_code)
             prev_client = item.client_code
-            
-    print ("client_list"+str(client_list))
     
     for client in client_list:
-        
-        print("getting client from issuethumbsups........: "+str(client))
         
         issuethumbsups = IssueThumbsUp.objects.filter(client_code = client)
         
@@ -475,20 +421,14 @@ def issues_report(request):
     
             # Loop through the issues for this client
             
-            print("getting issue from issue for client ..: "+str(client)+"...and id.....: "+str(issuethumbsup.issue_id))
-            
             issue = Issue.objects.get(client_code = issuethumbsup.author, id=issuethumbsup.issue_id)
-        
-            print("this issue id = "+str(issue.id))
-            print("this issue client = "+str(issue.client_code))
         
             nr_flagged_issues+=1
             
-            print("nr_flagged_issues = "+str(nr_flagged_issues))
-        
             data["issues"].append({
                 "id": issue.id,
-                "client_code": issue.client_code,
+                "client_code": issuethumbsup.client_code,
+                "author": issue.client_code,
             	"software_component": issue.software_component,
             	"priority": issue.priority,
             	"summary": issue.summary,
@@ -504,10 +444,6 @@ def issues_report(request):
             "nr_flagged_issues": nr_flagged_issues
             })
         nr_flagged_issues = 0
-        print("clienttotal appended.........................")
-                
-    print("data(issues) = "+str(data["issues"]))
-    print("clienttotal = "+str(clienttotal))
-    
+        
     return  render(request, 'issuereport.html', {"clienttotal": clienttotal, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 

@@ -625,28 +625,78 @@ li {
     }
 }
 
-.iss-report-th {
-   
-    color: #3b3b3b;
-   
+
+.iss-report-align {
+    text-align: left;
+    font-size:14px;
+}
+
+@media(min-width: 768px) {
+    .iss-report-align {
+        text-align: right;
+    }
+}
+
+@media(min-width: 1024px) {
+    .iss-report-align {
+        font-size:16px;
+    }
+}
+
+
+.iss-rep-client-code {
+    font-size: 14px;
+}
+
+@media(min-width: 1024px) {
+    .iss-rep-client-code {
+        font-size:16px;
+    }
 }
 
 
 
-.iss-report-total {
+.iss-report-th {
+
+    color: #3b3b3b;
+
+}
+
+.iss-rep-shadow {
+    position: relative;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px #0d001a;
+    padding: 10px;
+}
+
+
+.iss-rep-shadow::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    /* hide shadow behind box */
+    -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 20px #1a0033;
+    width: 70%;
+    height: 100px;
+}
+
+.iss-rep-client-total {
     border-radius: 5px;
-    
     background-color: #C080FF;
-     color: #fff;
+    color: #fff;
     font-weight: 900;
     padding: 5px;
-    
+    margin: 5px;
+
 }
 
-@media(min-width: 50px) {
-    .iss-report-total {
+@media(min-width: 768px) {
+    .iss-rep-client-total {
         padding: 10px;
-       
+
     }
 }
 
@@ -666,7 +716,7 @@ li {
 
 .iss-det-chevron-style {
     color: #C080FF!important;
-    
+
 }
 
 .iss-det-chevron-style:hover {
@@ -676,8 +726,11 @@ li {
 }
 
 .iss-hr-style {
-    background-color:#C080FF!important;
+    background-color: #C080FF!important;
 }
+
+
+
 /* Styling for Features list ------------------------------------------------*/
 
 .ftr-filter-dd {
