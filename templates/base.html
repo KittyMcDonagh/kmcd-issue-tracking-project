@@ -299,6 +299,7 @@
 
 
     <footer>
+        {% if user.is_authenticated %}
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
                 <ul class="p-0">
@@ -308,10 +309,11 @@
 
             <div class="col-12 col-md-6">
                 <ul class="p-0">
-                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
+                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}" ><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
                 </ul>
             </div>
         </div>
+        {% endif %}
 
         <div class="row no-gutters">
             <div class="col-12">
@@ -1129,17 +1131,17 @@
                 // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
                 // open/close the Issues Report for a particular Client
                 // The first class for this element is the Client Code
-                
+
                 var classes = $(this).attr("class").split(" ");
                 var clientCode = classes[0]
-                
+
                 // Create ids for accessing the DOM
-                
-                reportId = "#issues-report-"+clientCode
-                chevronId = "#report-open-close-"+clientCode
+
+                reportId = "#issues-report-" + clientCode
+                chevronId = "#report-open-close-" + clientCode
 
                 // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
-                
+
                 var classes = $(chevronId).attr("class").split(" ");
                 var chevronType = classes[1]
 
@@ -1155,8 +1157,8 @@
                     // Change the chevron from down to up.
 
                     $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    
-                
+
+
                 }
                 else {
 
@@ -1165,15 +1167,15 @@
 
                     // First, close all Issue Details rows, in case any are open
                     // And add back the down chevron
-                    
-                    $('.issue-details-'+clientCode).hide("fast");
-                    $('.det-chevron-up-'+clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('.det-chevron-up-'+clientCode).removeClass('det-chevron-up-'+clientCode).addClass('det-chevron-down-'+clientCode);
-                    
+
+                    $('.issue-details-' + clientCode).hide("fast");
+                    $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+
                     // Close the Issue Report
-                    
+
                     $(reportId).slideUp(1000);
-                    
+
                     // Change the chevron from up to down.
 
                     $(chevronId).removeClass('fa-chevron-up');
@@ -1186,14 +1188,14 @@
 
                 // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
                 // open/close the details of a particular issue in the Issues Report
-                
+
                 // Get the client code and issue id of the issue that was clicked on 
 
                 var classes = $(this).attr("class").split(" ");
-                
+
                 var clientCode = classes[0];
                 var issueId = classes[1];
-                var clientCodeIssueId = clientCode+'-'+issueId;
+                var clientCodeIssueId = clientCode + '-' + issueId;
 
                 // Check whether its 'chevron-down' or 'chevron-up'
 
@@ -1212,7 +1214,7 @@
                     // Change the chevron from down to up.
 
                     $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-down-'+clientCode).addClass('det-chevron-up-'+clientCode);
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
                 }
                 else {
 
@@ -1225,7 +1227,7 @@
                     // Change the chevron from up to down.
 
                     $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-up-'+clientCode).addClass('det-chevron-down-'+clientCode);
+                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
 
                 }
 
@@ -2150,6 +2152,118 @@
 
                 $('#ftr-comments-open').addClass('ftr-enabled-link');
                 $('#ftr-comments-open').removeClass('disabled-link');
+
+            });
+            
+
+            /*
+                ==================================
+                Features Report
+                ==================================
+            */
+
+            $('.show-features-report').on('click', function() {
+
+                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
+                // open/close the Features Report for a particular Client
+                // The first class for this element is the Client Code
+
+                var classes = $(this).attr("class").split(" ");
+                var clientCode = classes[0]
+
+                // Create ids for accessing the DOM
+
+                reportId = "#features-report-" + clientCode
+                chevronId = "#report-open-close-" + clientCode
+
+                // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
+
+                var classes = $(chevronId).attr("class").split(" ");
+                var chevronType = classes[1]
+
+                if (chevronType == "fa-chevron-down") {
+
+                    // User has clicked on 'fa-chevron-down' to
+                    // open the Features Report for a particular client
+                    // Remove d-none class, but keep hidden. Show by sliding down
+
+                    $(reportId).removeClass('d-none').hide();
+                    $(reportId).slideDown(1000);
+
+                    // Change the chevron from down to up.
+
+                    $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+
+                }
+                else {
+
+                    // User has clicked on 'fa-chevron-up' to
+                    // close the Features Report for a particular client
+
+                    // First, close all Features Details rows, in case any are open
+                    // And add back the down chevron
+
+                    $('.feature-details-' + clientCode).hide("fast");
+                    $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+
+                    // Close the Features Report
+
+                    $(reportId).slideUp(1000);
+
+                    // Change the chevron from up to down.
+
+                    $(chevronId).removeClass('fa-chevron-up');
+                    $(chevronId).addClass('fa-chevron-down');
+
+                }
+            });
+
+            $('.show-feature-details').on('click', function() {
+
+                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
+                // open/close the details of a particular feature in the Features Report
+
+                // Get the client code and feature id of the feature that was clicked on 
+
+                var classes = $(this).attr("class").split(" ");
+
+                var clientCode = classes[0];
+                var featureId = classes[1];
+                var clientCodeFeatureId = clientCode + '-' + featureId;
+
+                // Check whether its 'chevron-down' or 'chevron-up'
+
+                var classes = $('#details-open-close-' + clientCodeFeatureId).attr("class").split(" ");
+                var chevronType = classes[1]
+
+                if (chevronType == "fa-chevron-down") {
+
+                    // User has clicked on 'chevron-down' to see the details of a
+                    // particular feature in the Features Report.
+                    // Remove d-none class, but keep hidden. Show by sliding down
+
+                    $('#feature-details-' + clientCodeFeatureId).removeClass('d-none').hide();
+                    $('#feature-details-' + clientCodeFeatureId).fadeIn(700);
+
+                    // Change the chevron from down to up.
+
+                    $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
+                }
+                else {
+
+                    // User has clicked on 'chevron-up' to close the details of a
+                    // particular feature in the Features Report.
+                    // Close by sliding up
+
+                    $('#feature-details-' + clientCodeFeatureId).fadeOut(700);
+
+                    // Change the chevron from up to down.
+
+                    $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+                }
 
             });
 

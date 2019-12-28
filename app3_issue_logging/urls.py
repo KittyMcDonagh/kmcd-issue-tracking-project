@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/edit/$', new_edit_issue, name='edit_issue'),
     url(r'^(?P<pk>\d+)/update/$', update_issue_status_priority, name='update_issue_status_priority'),
     url(r'^(?P<pk>\d+)/comments/$', new_issue_comment, name='new_issue_comment'),
-    url(r'^report/$', issues_report, name='issues_report'),
+    url(r'^issuesreport/$', issues_report, name='issues_report'),
 ]

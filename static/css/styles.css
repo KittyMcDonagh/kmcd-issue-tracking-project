@@ -613,76 +613,6 @@ li {
 }
 
 
-.iss-report {
-    padding-right: 5px;
-    padding-left: 5px;
-}
-
-@media(min-width:768px) {
-    .iss-report {
-        padding-right: 50px;
-        padding-left: 50px;
-    }
-}
-
-
-.iss-report-align {
-    text-align: left;
-    font-size:14px;
-}
-
-@media(min-width: 768px) {
-    .iss-report-align {
-        text-align: right;
-    }
-}
-
-@media(min-width: 1024px) {
-    .iss-report-align {
-        font-size:16px;
-    }
-}
-
-
-.iss-rep-client-code {
-    font-size: 14px;
-}
-
-@media(min-width: 1024px) {
-    .iss-rep-client-code {
-        font-size:16px;
-    }
-}
-
-
-
-.iss-report-th {
-
-    color: #3b3b3b;
-
-}
-
-.iss-rep-shadow {
-    position: relative;
-    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-    box-shadow: 1px 2px 4px #0d001a;
-    padding: 10px;
-}
-
-
-.iss-rep-shadow::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    /* hide shadow behind box */
-    -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 15px 20px #1a0033;
-    width: 70%;
-    height: 100px;
-}
-
 .iss-rep-client-total {
     border-radius: 5px;
     background-color: #C080FF;
@@ -727,6 +657,7 @@ li {
 
 .iss-hr-style {
     background-color: #C080FF!important;
+     
 }
 
 
@@ -859,6 +790,24 @@ li {
     color: #fff!important;
 
 }
+
+.ftr-rep-client-total {
+    border-radius: 5px;
+    background-color: #80C0FF;
+    color: #fff;
+    font-weight: 900;
+    padding: 5px;
+    margin: 5px;
+
+}
+
+@media(min-width: 768px) {
+    .ftr-rep-client-total {
+        padding: 10px;
+
+    }
+}
+
 
 
 
@@ -1131,6 +1080,96 @@ footer {
 
 }
 
+
+/* Styling for rolled up client total line */
+
+.rep-client-code {
+    font-size: 14px;
+}
+
+@media(min-width: 1024px) {
+    .rep-client-code {
+        font-size:16px;
+    }
+}
+
+.report-align {
+    text-align: left;
+    font-size:13px;
+}
+
+@media(min-width: 768px) {
+    .report-align {
+        text-align: right;
+    }
+}
+
+@media(min-width: 1024px) {
+    .report-align {
+        font-size:16px;
+    }
+}
+
+.ftr-chevron-style {
+    background-color: #80C0FF!important;
+    color: fafaff!important;
+}
+
+.ftr-det-chevron-style {
+    color:  #80C0FF!important;
+
+}
+
+.ftr-det-chevron-style:hover {
+    border-radius: 5px;
+    background-color:  #80C0FF!important;
+    color: fafaff!important;
+}
+
+.report {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+@media(min-width:768px) {
+    .report {
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+}
+
+.report-th {
+    color: #3b3b3b;
+
+}
+
+.ftr-hr-style {
+    background-color: #80C0FF!important;
+}
+
+
+/* Shadow for rolled up client totals */
+
+.rep-shadow {
+    position: relative;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px #0d001a;
+    padding: 10px;
+}
+
+
+.rep-shadow::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    /* hide shadow behind box */
+    -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 20px #1a0033;
+    width: 70%;
+    height: 100px;
+}
 
 
 

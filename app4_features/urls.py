@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import features_home, feature_details, get_features, new_edit_feature, update_feature_status_price,new_feature_comment
+from .views import features_home, feature_details, get_features, new_edit_feature, update_feature_status_price,new_feature_comment, features_report
 
 urlpatterns = [
     url(r'^features/$', features_home, name="features_home"),
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^features/(?P<pk>\d+)/update/$', update_feature_status_price, name='update_feature_status_price'),
     url(r'^features/featurelist$', get_features, name="get_features"),
     url(r'^features(?P<pk>\d+)/comments/$', new_feature_comment, name='new_feature_comment'),
+    url(r'^featuresreport/$', features_report, name='features_report'),
 ]

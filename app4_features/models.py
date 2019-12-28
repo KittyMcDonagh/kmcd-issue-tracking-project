@@ -48,11 +48,12 @@ the number of thumbs ups, and the amounts paid
 class FeaturePaid(models.Model):
     feature_id = models.IntegerField(blank=False)
     client_code = models.CharField(max_length=6, blank=True)
+    author = models.CharField(max_length=6, blank=True)
     user_id = models.CharField(max_length=10, blank=False)
     thumbs_up = models.IntegerField(default=0) 
     amount_paid = models.DecimalField(max_digits=6, decimal_places=2)
     
     def __str__(self):
-        return "{0}: {1} - {2}, {3}, {4}".format(self.feature_id, self.client_code, self.user_id, self.thumbs_up, self.amount_paid  )
+        return "{0}: {1} - {2}, {3}, {4}, {5}".format(self.feature_id, self.client_code, self.author, self.user_id, self.thumbs_up, self.amount_paid  )
 
 

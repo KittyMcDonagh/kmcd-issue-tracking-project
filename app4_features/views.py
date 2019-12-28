@@ -11,7 +11,7 @@ from datetime import datetime
 from app2_user_home.models import Vendor
 from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
-from .models import Feature, FeatureComment
+from .models import Feature, FeatureComment, FeaturePaid
 
 from .forms import LogNewFeatureForm, FeatureStatusPriceForm, FeatureCommentForm
 
@@ -59,7 +59,7 @@ def features_home(request):
             
         # User is on the Client side. Get the Client Details
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -393,7 +393,7 @@ def feature_details(request, pk, view_comments=None):
         # User is on the Client side. Get the Client Details, The features Filter
         # values the client user can use, and the filtered Features
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -434,13 +434,13 @@ def get_user_iss_trk_details(request):
         
     
 """
-The logged in user is on the Client side - get the Client details
+Get the Client details
 """
 
-def get_client(request, UserDetails):
+def get_client(request, get_client_code):
 
     try:
-        ClientDetails = Client.objects.get(client_code=UserDetails.vend_client_code)
+        ClientDetails = Client.objects.get(client_code=get_client_code)
     except:
         messages.error(request, "Client details not found!")
    
@@ -571,7 +571,7 @@ def new_edit_feature(request, pk=None):
         # User is on the Client side. Get the Client Details, The Features Filter
         # values the client user can use, and the filtered features
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -692,7 +692,7 @@ def new_feature_comment(request, pk=None):
         # User is on the Client side. Get the Client Details, The Features Filter
         # values the client user can use, and the filtered Features
             
-        ClientDetails = get_client(request, UserDetails)
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
     
     else:
             
@@ -756,6 +756,191 @@ def new_feature_comment(request, pk=None):
         print("feature comments_input= "+str(comments_input))
     
     return  render(request, 'featuredetails.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
+
+
+"""
+FEATURES REPORT - 
+For Client-side users - This report will show a total line of the number of features the Client has requested - these will include those
+logged by this Client, and those that they flagged as having via the 'thumbs up' and have paid for. They can click the down arrow to see a list of
+these features, and click on the chevron icon to see the details of a feature.
+
+For Vendor-side users - This report will show a total line for each client, showing the number of features they have  requested. These will include those
+logged by the Client, and those that they flagged as having via the 'thumbs up' and have paid for. They can click the down arrow to see a list of
+these issues, and click on the chevron icon to see the details of a feature.
+
+This function is called via the javascript in base.html
+"""
+def features_report(request):
+    
+    print("in features report~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
+    
+    ClientDetails = ""
+    VendorDetails = ""
+    
+    # Get the user's details from re the issue tracker. It has already
+    # been confirmed at login that they exist, otherwise the user wouldnt have
+    # come this far
+    
+    UserDetails = get_user_iss_trk_details(request)
+    
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
+        
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details
+            
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
+    
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+    
+    
+    # Get the feature paid records, depending on the user type
+   
+    if UserDetails.user_type == "C":
+        
+        # For client-side user, get the input and paid features for 
+        # the client the user is associated with only
+        
+        featurepaids = FeaturePaid.objects.filter(client_code = UserDetails.vend_client_code)
+        
+    else:
+                    
+        # For vendor-side user, get all Clients paid features
+                    
+        featurepaids = FeaturePaid.objects.all()
+    
+    data = {}
+    user_message = ""
+    
+    if not featurepaids:
+        user_message = "No flagged features found!"
+        
+    # Return the user message also - set above if no features found
+    
+    data= {}
+    data["user_mesg"] = {
+            
+        "user_message": user_message
+    }
+
+   # Initialise the top level variables
+   
+    client_list = []
+    clienttotals = []
+    data["features"] = []
+    features = ""
+   
+    # Order feature paid records by client code and create the client list
+    
+    featurepaids = featurepaids.order_by('client_code')
+    
+    # We just want one copy of the client code in the list
+    
+    prev_client = ""
+        
+    for item in featurepaids:
+        if item.client_code != prev_client:
+            client_list.append(item.client_code)
+            prev_client = item.client_code
+    
+    # Loop through the clients and loop through the features, either input or paid
+    # by them. Create a total line per client and a line per feature
+    
+    for client in client_list:
+        
+        # Initialise client level fields
+        
+        total_paid = 0
+        nr_flagged_features = 0
+        features = ""
+        
+        # Get all the paid records for this client - These will be
+        # features that were input by this client, and features that were 'paid for'
+        # by this client
+        
+        featurepaids = FeaturePaid.objects.filter(client_code = client)
+        
+        for featurepaid in featurepaids:
+            
+            # Accumulate the total paid per feature by this client
+            
+            total_paid += featurepaid.amount_paid
+            print("featurepaid.amount_paid=================: "+str(featurepaid.amount_paid))
+            print("total_paid=================: "+str(total_paid))
+    
+            # Loop through the features for this client or paid by this client
+            
+            feature = Feature.objects.get(id=featurepaid.feature_id)
+            
+            # Replace the total amount paid for this feature with the amount 
+            # paid for it by this client so that we can sort them by the amount
+            # paid
+            
+            print("BEFORE: feature.paid = "+str(feature.paid))
+            
+            feature.paid = featurepaid.amount_paid
+            print("AFTER: feature.paid = "+str(feature.paid))
+            
+            if not features:
+                features = feature
+                print("FIRST FEATURE.......: "+str(features))
+            else:
+                features = features | feature
+                print("SUBSEQUENT FEATURE.......: "+str(features))
+        
+            nr_flagged_features += 1
+            
+            
+            print("NUMER FLAGGED. . . : "+str(nr_flagged_features))
+        
+            
+        # Order this client's issues and flaggeissues by priority - 1 being the most urgent 
+        
+        features = features.order_by('-paid', '-id')
+        
+        # Create a line per feature entered or paid for by this client
+        # Note that the 'client_code' field below is the client who input or 
+        # paid for the issue, author is the client who originally input the issue.
+        # Both codes are sometimes the same and sometimes not - as when a client
+        # pays for another client's feature
+        
+        for feature in features:
+            
+            # Output the details as required for the report
+            
+            data["features"].append({
+                "id": feature.id,
+                "client_code": client,
+                "author": feature.client_code,
+            	"software_component": feature.software_component,
+            	"amount_paid": feature.paid,
+            	"summary": feature.summary,
+            	"details": feature.details,
+            	"status": feature.status,
+            })
+        
+        # Get the details of the current client
+        
+        ThisClientDetails = get_client(request, client)
+        
+        # Create a total record for the current client
+         
+        clienttotals.append({
+            "client_code": client,
+            "client_name": ThisClientDetails.client_name,
+            "total_paid": total_paid,
+            "nr_flagged_features": nr_flagged_features
+            })
+
+    return  render(request, 'featurereport.html', {"clienttotals": clienttotals, "features": data["features"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+
 
 
 

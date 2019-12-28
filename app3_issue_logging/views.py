@@ -201,7 +201,7 @@ def get_user_iss_trk_details(request):
  
    
 """
-The logged in user is on the Client side - get the Client details
+Get the Client details
 """
 
 def get_client(request, get_client_code):
@@ -325,7 +325,7 @@ def new_issue_comment(request, pk=None):
 ISSUES REPORT - 
 For Client-side users - This report will show a total line of the number of issues the Client has - these will include those
 logged by this Client, and those that they flagged as having via the 'thumbs up'. They can click the down arrow to see a list of
-these issues, and click on the more icon to see the details of an issue.
+these issues, and click on the chevron icon to see the details of an issue.
 
 For Vendor-side users - This report will show a total line for each client, showing the number of issues they have  these will include those
 logged by the Client, and those that they flagged as having via the 'thumbs up'. They can click the down arrow to see a list of
@@ -341,7 +341,7 @@ def issues_report(request):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracking system. It has already
+    # Get the user's details from re the issue tracker. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -352,8 +352,7 @@ def issues_report(request):
         
     if UserDetails.user_type == 'C':
             
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
+        # User is on the Client side. Get the Client Details
             
         ClientDetails = get_client(request, UserDetails.vend_client_code)
     
@@ -363,71 +362,97 @@ def issues_report(request):
         
         VendorDetails = get_vendor(request, UserDetails)
     
-    # Is this a Client-side user?
+    
+    # Get the thumbs up records from the database, depending on user type
                     
     if UserDetails.user_type == "C":
         
-        # For client-side user, get this Clients flagged issues only
+        # For client-side user, get the input and flagged issues for 
+        # the client the user is associated with only
         
         issuethumbsups = IssueThumbsUp.objects.filter(client_code = UserDetails.vend_client_code)
-        issuethumbsups = issuethumbsups.order_by('client_code', '-issue_id')
         
     else:
                     
-        # For vendor-side user, get this Clients flagged issues only
+        # For vendor-side user, get all Clients flagged issues 
                     
         issuethumbsups = IssueThumbsUp.objects.all()
-        issuethumbsups = issuethumbsups.order_by('client_code', '-issue_id')
-        
+    
+    # Return a user message if no records found
+    
+    data = {}
     user_message = ""
     
     if not issuethumbsups:
         user_message = "No flagged issues found!"
-
-    # Create data dictionary to return to the js function (in base.html)
-        
-    data = {}
-        
-    # Return the user message also - set above if no issues found
-    	
-    data["user_mesg"] = {
-            
-        "user_message": user_message
-    }
-    	
-    # Return the issues to be output to  the html table
-    	
-    data["issues"] = []
-    nr_flagged_issues = 0
-    prev_client = ""
-    clienttotal = []
+   
+    # Initialise top level variables
     
     client_list = []
+    clienttotals = []
+    data["issues"] = []
+    issues  = ""
+    
+    
+    # Order the thumbs up records by client code, then create client code list 
+    
+    issuethumbsups = issuethumbsups.order_by('client_code')
+    
+    # We just want one copy of the client code in the list
+    
     prev_client = ""
-    i = 0
-        
+     
     for item in issuethumbsups:
         if item.client_code != prev_client:
             client_list.append(item.client_code)
             prev_client = item.client_code
+
+    # Loop through the clients and loop through the issues, either input or flagged
+    # by them. Create a total line per client and a line per issue
     
     for client in client_list:
         
-        issuethumbsups = IssueThumbsUp.objects.filter(client_code = client)
+        # Initialise client level fields
         
-        i = 0
+        nr_flagged_issues = 0
+        issues = ""
+        
+        # Get all the thumbs up records for this client - These will be
+        # issues that were input by this client, and issues that were 'thumbed up'
+        # by this client
+        
+        issuethumbsups = IssueThumbsUp.objects.filter(client_code = client)
         
         for issuethumbsup in issuethumbsups:
     
-            # Loop through the issues for this client
+            # Loop through the issues input or flagged by this client
             
-            issue = Issue.objects.get(client_code = issuethumbsup.author, id=issuethumbsup.issue_id)
+            issue = Issue.objects.filter(id=issuethumbsup.issue_id)
         
-            nr_flagged_issues+=1
+            if not issues:
+                issues = issue
+                print("FIRST ISSUE.......: "+str(issues))
+            else:
+                issues = issues | issue
+                print("SUBSEQUENT ISSUE.......: "+str(issues))
+                
+            nr_flagged_issues += 1
+            print("NUMER FLAGGED. . . : "+str(nr_flagged_issues))
             
+        # Order this client's issues and flaggeissues by priority - 1 being the most urgent 
+        
+        issues = issues.order_by('priority', '-id')
+        
+        # Create a line per issue entered or flagged by this client
+        # Note that the 'client_code' field below is the client who input or 
+        # flagged the issue, author is the client who originally input the issue.
+        # Both codes are sometimes the same and sometimes not - as when a client
+        # 'thumbs up' another client's issue
+        
+        for issue in issues:
             data["issues"].append({
                 "id": issue.id,
-                "client_code": issuethumbsup.client_code,
+                "client_code": client,
                 "author": issue.client_code,
             	"software_component": issue.software_component,
             	"priority": issue.priority,
@@ -436,14 +461,25 @@ def issues_report(request):
             	"status": issue.status,
             })
         
+        # Get the details of the current client
+        
         ThisClientDetails = get_client(request, client)
         
-        clienttotal.append({
+        # Create a total record for the current client
+        
+        clienttotals.append({
             "client_code": client,
             "client_name": ThisClientDetails.client_name,
             "nr_flagged_issues": nr_flagged_issues
             })
-        nr_flagged_issues = 0
+            
+    
+    print("FINAL SET OF ISSUES ==============================:"+str(data["issues"]))
+    print("FINAL CLIENT TOTALS ==============================:"+str(clienttotals))
+
+    # Return the user message also - set above if no issues found
+    	
+   
         
-    return  render(request, 'issuereport.html', {"clienttotal": clienttotal, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+    return  render(request, 'issuereport.html', {"clienttotals": clienttotals, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 

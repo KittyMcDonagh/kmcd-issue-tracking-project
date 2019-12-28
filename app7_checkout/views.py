@@ -81,7 +81,7 @@ def checkout(request):
                     # If this a record doesnt exist for this feature, for this client, create it
                     # (I got help with this code from @mormoran on Slack :-) )
         
-                    feature_paid, created = FeaturePaid.objects.get_or_create(feature_id=id, client_code = UserDetails.vend_client_code, defaults={ "user_id":UserDetails.user_id, "thumbs_up":quantity, "amount_paid":ftr_amount_paid})
+                    feature_paid, created = FeaturePaid.objects.get_or_create(feature_id=id, client_code = UserDetails.vend_client_code, defaults={ "user_id":UserDetails.user_id, "author": feature.client_code, "thumbs_up":quantity, "amount_paid":ftr_amount_paid})
                     
                     # If Feature Paid record already exists for this client (i.e. did no have to be created above), update it
                     
