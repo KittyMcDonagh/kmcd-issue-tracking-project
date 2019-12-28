@@ -498,10 +498,15 @@ def iss_thumbs_up_down(request):
     
     issue = get_object_or_404(Issue, pk=pk)
     
-    # Does a thumbs up record already exist for this Issue?
+    # Has the client already 'thumbed up' this Issue - 
+    # 'thumbs_up' will be = 0 if the issue was input by the client - we dont want
+    # to delete this record,
+    # 'thumbs_up' will be = 1 for issues that belong to another client, but have
+    # been thumbed up by this client - we can delete this when the client does 
+    # a thumbs down on the same issue
         
     issue_thumbs_up = IssueThumbsUp.objects.filter(issue_id=issue.id)
-    issue_thumbs_up=  issue_thumbs_up.filter(client_code = UserDetails.vend_client_code)
+    issue_thumbs_up = issue_thumbs_up.filter(client_code = UserDetails.vend_client_code).filter(thumbs_up = 1)
     
     # If no thumbs up record exists, then the user did a thumbs up and we need 
     # to create a thumbs up record, and increment the thumbs up count for this 

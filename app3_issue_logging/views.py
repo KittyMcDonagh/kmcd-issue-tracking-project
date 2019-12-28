@@ -418,14 +418,14 @@ def issues_report(request):
         # For client-side user, get this Clients flagged issues only
         
         issuethumbsups = IssueThumbsUp.objects.filter(client_code = UserDetails.vend_client_code)
+        issuethumbsups = issuethumbsups.order_by('client_code', '-issue_id')
         
-        print("client user: issuethumbsups = "+str(issuethumbsups))
-        			
     else:
                     
         # For vendor-side user, get this Clients flagged issues only
                     
         issuethumbsups = IssueThumbsUp.objects.all()
+        issuethumbsups = issuethumbsups.order_by('client_code', '-issue_id')
         print("vendor user: issuethumbsups = "+str(issuethumbsups))
                     
     user_message = ""
@@ -448,44 +448,66 @@ def issues_report(request):
     	
     data["issues"] = []
     nr_flagged_issues = 0
+    prev_client = ""
+    clienttotal = []
+    
+    client_list = []
+    prev_client = ""
+    i = 0
         
-    for issuethumbsup in issuethumbsups:
-        
-        issue = Issue.objects.get(id=issuethumbsup.issue_id)
-        
-        print("ISSUE ################# = "+str(issue))
-        
-        nr_flagged_issues+=1
+    for item in issuethumbsups:
+        print("item.client_code........: "+str(item.client_code))
+        if item.client_code != prev_client:
+            client_list.append(item.client_code)
+            prev_client = item.client_code
             
-        print("nr_flagged_issues = "+str(nr_flagged_issues))
+    print ("client_list"+str(client_list))
+    
+    for client in client_list:
         
-        data["issues"].append({
-            "id": issue.id,
-            "client_code": issue.client_code,
-        	"software_component": issue.software_component,
-        	"priority": issue.priority,
-        	"summary": issue.summary,
-        	"details": issue.details,
-        	"status": issue.status,
-        })
-            
-    clienttotal = {}
-    clienttotal = {
-        "client_code": issuethumbsup.client_code,
-        "client_name": ClientDetails.client_name,
-        "nr_flagged_issues": nr_flagged_issues
-            
-    }
+        print("getting client from issuethumbsups........: "+str(client))
         
-    ClientDetails = get_client(request, issuethumbsup.client_code)
+        issuethumbsups = IssueThumbsUp.objects.filter(client_code = client)
+        
+        i = 0
+        
+        for issuethumbsup in issuethumbsups:
+    
+            # Loop through the issues for this client
             
-    print("issues = "+str(data["issues"]))
+            print("getting issue from issue for client ..: "+str(client)+"...and id.....: "+str(issuethumbsup.issue_id))
+            
+            issue = Issue.objects.get(client_code = issuethumbsup.author, id=issuethumbsup.issue_id)
+        
+            print("this issue id = "+str(issue.id))
+            print("this issue client = "+str(issue.client_code))
+        
+            nr_flagged_issues+=1
+            
+            print("nr_flagged_issues = "+str(nr_flagged_issues))
+        
+            data["issues"].append({
+                "id": issue.id,
+                "client_code": issue.client_code,
+            	"software_component": issue.software_component,
+            	"priority": issue.priority,
+            	"summary": issue.summary,
+            	"details": issue.details,
+            	"status": issue.status,
+            })
+        
+        ThisClientDetails = get_client(request, client)
+        
+        clienttotal.append({
+            "client_code": client,
+            "client_name": ThisClientDetails.client_name,
+            "nr_flagged_issues": nr_flagged_issues
+            })
+        nr_flagged_issues = 0
+        print("clienttotal appended.........................")
+                
+    print("data(issues) = "+str(data["issues"]))
     print("clienttotal = "+str(clienttotal))
     
     return  render(request, 'issuereport.html', {"clienttotal": clienttotal, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
-
-
-
-
-
 
