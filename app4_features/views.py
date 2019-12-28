@@ -816,7 +816,7 @@ def features_report(request):
                     
         featurepaids = FeaturePaid.objects.all()
     
-    data = {}
+    
     user_message = ""
     
     if not featurepaids:
@@ -824,18 +824,16 @@ def features_report(request):
         
     # Return the user message also - set above if no features found
     
-    data= {}
-    data["user_mesg"] = {
+    user_mesg = ({
             
         "user_message": user_message
-    }
+    })
 
    # Initialise the top level variables
    
     client_list = []
     clienttotals = []
-    data["features"] = []
-    features = ""
+    client_features = []
    
     # Order feature paid records by client code and create the client list
     
@@ -866,6 +864,7 @@ def features_report(request):
         # by this client
         
         featurepaids = FeaturePaid.objects.filter(client_code = client)
+        featurepaids = featurepaids.order_by('-amount_paid', '-id')
         
         for featurepaid in featurepaids:
             
@@ -873,58 +872,33 @@ def features_report(request):
             
             total_paid += featurepaid.amount_paid
             print("featurepaid.amount_paid=================: "+str(featurepaid.amount_paid))
-            print("total_paid=================: "+str(total_paid))
-    
+            
             # Loop through the features for this client or paid by this client
             
             feature = Feature.objects.get(id=featurepaid.feature_id)
             
-            # Replace the total amount paid for this feature with the amount 
-            # paid for it by this client so that we can sort them by the amount
-            # paid
-            
-            print("BEFORE: feature.paid = "+str(feature.paid))
-            
-            feature.paid = featurepaid.amount_paid
-            print("AFTER: feature.paid = "+str(feature.paid))
-            
-            if not features:
-                features = feature
-                print("FIRST FEATURE.......: "+str(features))
-            else:
-                features = features | feature
-                print("SUBSEQUENT FEATURE.......: "+str(features))
-        
             nr_flagged_features += 1
-            
-            
             print("NUMER FLAGGED. . . : "+str(nr_flagged_features))
-        
             
-        # Order this client's issues and flaggeissues by priority - 1 being the most urgent 
-        
-        features = features.order_by('-paid', '-id')
-        
-        # Create a line per feature entered or paid for by this client
-        # Note that the 'client_code' field below is the client who input or 
-        # paid for the issue, author is the client who originally input the issue.
-        # Both codes are sometimes the same and sometimes not - as when a client
-        # pays for another client's feature
-        
-        for feature in features:
+            # Create a line per feature entered or paid for by this client
+            # Note that the 'client_code' field below is the client who input or 
+            # paid for the issue, author is the client who originally input the issue.
+            # Both codes are sometimes the same and sometimes not - as when a client
+            # pays for another client's feature
             
             # Output the details as required for the report
             
-            data["features"].append({
+            client_features.append({
                 "id": feature.id,
                 "client_code": client,
                 "author": feature.client_code,
             	"software_component": feature.software_component,
-            	"amount_paid": feature.paid,
+            	"amount_paid": featurepaid.amount_paid,
             	"summary": feature.summary,
             	"details": feature.details,
             	"status": feature.status,
             })
+        
         
         # Get the details of the current client
         
@@ -939,7 +913,7 @@ def features_report(request):
             "nr_flagged_features": nr_flagged_features
             })
 
-    return  render(request, 'featurereport.html', {"clienttotals": clienttotals, "features": data["features"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+    return  render(request, 'featurereport.html', {"clienttotals": clienttotals, "features": client_features, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 
 
 
