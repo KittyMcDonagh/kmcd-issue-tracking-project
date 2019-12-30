@@ -16,14 +16,25 @@
 {% for client in clienttotals %}
 <div class="row no-gutters ftr-rep-client-total rep-shadow">
 
-    <div class="col-12 col-md-6 rep-client-code ">
+    <div class="col-12 col-md-4 rep-client-code ">
         <span class="pr-2">{{ client.client_code }}:</span>
         <span>{{ client.client_name }}</span>
     </div>
 
-    <div class="col-12 col-md-6 report-align">
+    <div class="col-12 col-md-3 report-align">
         <div class="row no-gutters">
-            <div class="col-9 offset-md-3 col-md-6 offset-lg-5 col-lg-5 p-0">
+            <div class="col-3 col-md-8">
+                <span class="pr-2">Total Paid:</span>
+            </div>
+            <div class="col-9 col-md-4">
+                <span>{{ client.total_paid }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-5 report-align">
+        <div class="row no-gutters">
+            <div class="col-9 offset-md-1 col-md-8 offset-lg-2 col-lg-8 p-0">
                 <span class="pr-2">Features Input and / or Paid for: </span>
             </div>
             <div class="col-3 col-md-3 col-lg-2 p-0 text-right">
@@ -72,13 +83,13 @@
                     <td class="td-id">{{ feature.id }}</td>
 
                     {% if userdetails.user_type == "C" %} {% if userdetails.vend_client_code == feature.author %}
-                    <td class="td-username">{{ feature.author }}</td>
+                    <td class="text-center td-username">{{ feature.author }}</td>
                     {% else %}
-                    <td class="td-username">******</td>
+                    <td class="text-center td-username">******</td>
                     {% endif %} {% else %}
 
                     <!-- User is on the vendor side - show the Client who raised the Feature -->
-                    <td class="td-username">{{ feature.author }}</td>
+                    <td class="text-center td-username">{{ feature.author }}</td>
 
                     {% endif %}
 

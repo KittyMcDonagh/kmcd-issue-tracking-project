@@ -639,6 +639,10 @@ li {
     width: 100px;
 }
 
+.iss-rep-td-priority {
+    width: 200px;
+
+}
 .iss-chevron-style {
     background-color: #C080FF!important;
     color: fafaff!important;

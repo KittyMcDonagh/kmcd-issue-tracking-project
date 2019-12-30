@@ -191,14 +191,14 @@
             
             <input name="feature_id" type="hidden" id="feature_id" value="{{ feature.id }}">
             <input name="vend_client_ind" type="hidden" id="vend_client_ind" value="{{ userdetails.user_type }}">
-            <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ feature.client_code }}">
+            <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ userdetails.vend_client_code }}">
             <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% csrf_token %}
 
             <!-- Comments field -->
             
             <div class="row no-gutters">
                 <div class="col-12">
-                    <textarea name="comments" id="comments" class="form-control form-font" rows="1" maxlength="100"></textarea>
+                    <textarea name="comments" id="comments" class="form-control form-font" rows="2" maxlength="300"></textarea>
                 </div>
             </div>
 

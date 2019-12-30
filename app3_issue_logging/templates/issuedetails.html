@@ -197,13 +197,13 @@
             <!-- Set the default value fields -->
             <input name="issue_id" type="hidden" id="issue_id" value="{{ issue.id }}">
             <input name="vend_client_ind" type="hidden" id="vend_client_ind" value="{{ userdetails.user_type }}">
-            <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ issue.client_code }}">
+            <input name="vend_client_code" type="hidden" id="vend_client_code" value="{{ userdetails.vend_client_code }}">
             <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% csrf_token %}
 
             <!-- Comments field -->
             <div class="row no-gutters">
                 <div class="col-12">
-                    <textarea name="comments" id="comments" class="form-control form-font" rows="1" maxlength="100"></textarea>
+                    <textarea name="comments" id="comments" class="form-control form-font" rows="2" maxlength="300"></textarea>
                 </div>
             </div>
 
@@ -260,11 +260,11 @@
 
                                 {% if userdetails.user_type == "V" or userdetails.vend_client_code == issuecomment.vend_client_code or issuecomment.vend_client_ind == "V" %}
 
-                                <td class="d-table-cell td-username">{{ issuecomment.user_id }}</td>
+                                <td class="d-table-cell text-center td-username">{{ issuecomment.user_id }}</td>
 
                                 {% else %}
 
-                                <td class="d-table-cell td-username">**********</td>
+                                <td class="d-table-cell text-center td-username">**********</td>
 
                                 {% endif %}
 

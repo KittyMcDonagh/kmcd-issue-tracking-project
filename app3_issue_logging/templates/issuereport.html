@@ -23,7 +23,7 @@
 
     <div class="col-12 col-md-6 report-align">
         <div class="row no-gutters">
-            <div class="col-9 offset-md-3 col-md-6 offset-lg-5 col-lg-5 p-0">
+            <div class="col-9 offset-md-2 col-md-7 offset-lg-4 col-lg-6 p-0">
                 <span class="pr-2">Issues Input and / or Flagged: </span>
             </div>
             <div class="col-3 col-md-3 col-lg-2 p-0 text-right">
@@ -57,7 +57,7 @@
                     <th scope="col" class="text-center td-sw-comp">Component</th>
                     <th scope="col" class="text-center td-summary">Summary / Details </th>
                     <th class="text-center">Details</th>
-                    <th scope="col" class="text-center td-priority">Priority</th>
+                    <th scope="col" class="text-center iss-rep-td-priority">Priority</th>
                     <th scope="col" class="text-center td-status">Status</th>
                 </tr>
             </thead>
@@ -72,13 +72,13 @@
                     <td class="td-id">{{ issue.id }}</td>
 
                     {% if userdetails.user_type == "C" %} {% if userdetails.vend_client_code == issue.author %}
-                    <td class="td-username">{{ issue.author }}</td>
+                    <td class="text-center td-username">{{ issue.author }}</td>
                     {% else %}
-                    <td class="td-username">******</td>
+                    <td class="text-center td-username">******</td>
                     {% endif %} {% else %}
 
                     <!-- User is on the vendor side - show the Client who raised the issue -->
-                    <td class="td-username">{{ issue.author }}</td>
+                    <td class="text-center td-username">{{ issue.author }}</td>
 
                     {% endif %}
 
@@ -93,7 +93,26 @@
                                  -->
 
                     <td><a class="{{client.client_code}} {{issue.id}} show-issue-details btn td-form-font iss-det-chevron-style" href="#"><i  id="details-open-close-{{client.client_code}}-{{issue.id}}" class="fas fa-chevron-down det-chevron-down-{{client.client_code}}"></i></a></td>
-                    <td class="td-priority text-center">{{ issue.priority }}</td>
+                    
+                    <!-- Show the priority with its description -->
+                    
+                    {% if issue.priority == 1 %}
+                    <td class="iss-rep-td-priority text-center">1 - URGENT</td>
+                    {%else%}
+                    {% if issue.priority == 2 %}
+                    <td class="iss-rep-td-priority text-center">2 - HIGH PRIORITY</td>
+                    {%else%}
+                    {% if issue.priority == 3 %}
+                    <td class="iss-rep-td-priority text-center">3 - MEDIUM PRIORITY</td>
+                    {%else%}
+                    {% if issue.priority == 4 %}
+                    <td class="iss-rep-td-priority text-center">4 - LOW PRIORITY</td>
+                    {%else%}
+                    
+                    <!-- Priority must be = 5 -->
+                    <td class="iss-rep-td-priority text-center">5 - COSMETIC</td>
+                    {% endif %}
+                    {% endif %}{% endif %}{% endif %}
                     <td class="td-status">{{ issue.status }}</td>
                 </tr>
 
@@ -110,7 +129,7 @@
                     <td class="td-sw-comp "><strong>Issue Details: </strong></td>
                     <td class="">{{ issue.details }}</td>
                     <td></td>
-                    <td class="td-priority"></td>
+                    <td class="iss-rep-td-priority"></td>
                     <td class="td-status"></td>
 
                 </tr>

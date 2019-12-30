@@ -32,8 +32,15 @@
 
     {% if feature.user_id == null %}
 
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> 
+    <input name="paid" type="hidden" id="paid" value="0"> 
+    <input name="price" type="hidden" value="0"> 
+    {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> 
+    <input name="paid" type="hidden" id="paid" value="{{ feature.paid }}"> 
+    <input name="price" type="hidden" value="{{ feature.price }}">  
+    
+    {% endif %}
 
     <!-- If in 'New Feature' mode, the default for this field is the input user. If in 'Edit' mode 
          the assigned user is = logged in user, otherwise they couldnt edit  -->
@@ -158,7 +165,9 @@
 
             {% if feature.price == null %}
 
-            <input id="price" name="price" type="number" value="0" min="0" max="99999999" disabled> {% else %}
+            <input id="price" name="price" type="number" value="0" disabled> 
+            
+            {% else %}
             <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999" disabled> {% endif %}
         </div>
     </div>

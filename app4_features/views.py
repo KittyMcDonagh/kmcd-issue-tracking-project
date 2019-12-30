@@ -22,8 +22,6 @@ Features home page
 
 def features_home(request):
     
-    print("in features_home")
-    
     # Initialise the feature filters
     
     SelectedFeaturesFilter = "ASSIGNED TO ME"
@@ -84,8 +82,6 @@ def features_home(request):
     if UserDetails.user_type == "C":
             
         # User is on the Client side
-    
-        print("client-user: "+str(UserDetails.user_id))
         
         try:
             Features = Feature.objects.filter(assigned_client_user=UserDetails.user_id)
@@ -99,9 +95,6 @@ def features_home(request):
             Features = Feature.objects.filter(assigned_vendor_user=UserDetails.user_id)
         except:
             messages.error(request, "PROBLEM RETRIEVING FEATURES!")
-        
-    
-    print("FEATURES: "+str(Features))
     
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
@@ -137,8 +130,6 @@ Get the features, filtered by the features Filter options selected
 """
 def get_features(request):
     
-    print("in get_features ------------------------------------------>")
-    
     data = []
     
     # Get the user's details relating to the Issue Tracker app - it has
@@ -163,8 +154,6 @@ def get_features(request):
         # Get all the features from the features database
         
         Features = Feature.objects.all()
-    
-        print("after 'Feature.objects.all()' "+str(Features))
         
         # User has requested all features assigned to them?
                 
@@ -208,10 +197,9 @@ def get_features(request):
         # -side users only)
             
         if client_filter != "ALL":
-            print("before getting features by client: "+str(Features))
+            
             Features = Features.filter(client_code=client_filter)
-            print("after getting features by client: "+str(Features))
-    
+            
     else:
         
         # User is using the search box to find features. Select features based on the 
@@ -220,31 +208,19 @@ def get_features(request):
         
         Features = Feature.objects.filter(summary__icontains=search_value)
         
-        print("after getting features by search value")
-    
-    print("before final filter. Features: "+str(Features))
-    
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending, or by paid amount
     
     Features = FinalFilterFeatures(request, Features, UserDetails, paid_order)
-    
-    print("after final filter. Features: "+str(Features))
     
     user_message = ""
     
     if not Features:
         user_message = "No features found for the selected criteria!"
     
-    print("user_message: "+str(user_message))
-
     # For Pagination
     
-    print("request.method: "+str(request.method))
-    
     page = request.POST.get('page', 1)
-    
-    print("page = "+str(page))
     
     paginator = Paginator(Features, 5)
     
@@ -330,8 +306,6 @@ def get_features(request):
         	"user_type": UserDetails.user_type
         	
     })
-    
-    print("returning to js")
         
     return JsonResponse(data, safe=False)
 
@@ -344,12 +318,6 @@ and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
 def feature_details(request, pk, view_comments=None):
-    
-    print("in feature_details ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    # Is user requesting to view the comments?
-    
-    print("FEATURE VIEW_COMMENTS: "+str(view_comments))
     
     # Retrieve the feature
     
@@ -365,10 +333,6 @@ def feature_details(request, pk, view_comments=None):
     # List the feature comments in reverse input order
         
     featurecomments = featurecomments.order_by('-id')
-    
-    print("printing featurecomments --------------------------------------")
-    print(featurecomments)
-    print("---------------------------------------------------------------")
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -402,13 +366,6 @@ def feature_details(request, pk, view_comments=None):
         VendorDetails = get_vendor(request, UserDetails)
         
         FeatureClientDetails = get_feature_client_details(request, feature)
-        
-    print("feature id: "+str(feature.id))
-    print("feature view_comments: "+str(view_comments))
-    print("feature: "+str(feature))
-    
-    print("returning to featuredetails.html~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
     
     return  render(request, 'featuredetails.html', {'feature': feature, 'featurecomments': featurecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
     
@@ -530,12 +487,9 @@ def FinalFilterFeatures(request, Features, UserDetails, paid_order):
     
     if paid_order != "SORT BY":
         
-        print("paid_order = "+str(paid_order))
         if paid_order == "LOWEST TO HIGHEST":
-            print("LOWEST TO HIGHEST")
             Features = Features.order_by('paid')
         else:
-            print("HIGHEST TO LOWEST")
             Features = Features.order_by('-paid')
             
     else:
@@ -581,30 +535,23 @@ def new_edit_feature(request, pk=None):
     
     feature = get_object_or_404(Feature, pk=pk) if pk else None
     
-    print(request.method)
-    
     if request.method == "POST":
-        
-        print("request is post-----------------------------------------")
         
         form = LogNewFeatureForm(request.POST, request.FILES, instance=feature)
         
+        print("feature form: "+str(form))
+        
         if form.is_valid():
-            print("feature form is valid")
         
             feature = form.save()
-            
-            print("feature form: "+str(form))
             
             view_comments = 'n'
             return redirect(feature_details, feature.pk, view_comments)
         else:
-            print("feature form: "+str(form))
             messages.error(request, "UNABLE TO LOG FEATURE!")
             
     else:
-        print("request is get-----------------------------------------")
-        print("feature: "+str(feature))
+        
         form = LogNewFeatureForm(instance=feature)
     
     return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
@@ -614,8 +561,6 @@ def new_edit_feature(request, pk=None):
 Create a view that allows a vendor-side user to change the status of a featur. 
 """
 def update_feature_status_price(request, pk=None):
-    
-    print(" FEATURE UPDATE STATUS ------------------------------------------")
     
     # This view is for vendor-side users only
     
@@ -636,30 +581,21 @@ def update_feature_status_price(request, pk=None):
     
     FeatureClientDetails = get_feature_client_details(request, feature)
     
-    print(request.method)
-    
     if request.method == "POST":
-        
-        print("request is post-----------------------------------------")
         
         form = FeatureStatusPriceForm(request.POST, request.FILES, instance=feature)
         
         if form.is_valid():
-            print("feature form is valid")
         
             feature = form.save()
-            
-            print("feature form: "+str(form))
             
             view_comments = 'n'
             return redirect(feature_details, feature.pk, view_comments)
         else:
-            print("feature form: "+str(form))
             messages.error(request, "UNABLE TO LOG FEATURE!")
             
     else:
-        print("request is get-----------------------------------------")
-        print("feature: "+str(feature))
+        
         form = FeatureStatusPriceForm(instance=feature)
     
     return  render(request, 'featurestatusprice.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
@@ -710,23 +646,16 @@ def new_feature_comment(request, pk=None):
     
     featurecomment = get_object_or_404(FeatureComment, pk=pk) if pk else None
     
-    print(request.method)
-    
     comments_input = "n"
     view_comments = 'n'
     
     if request.method == "POST":
         
-        print("feature comment request is post----------------------------------")
-        
         form = FeatureCommentForm(request.POST, request.FILES, instance=featurecomment)
         
         if form.is_valid():
-            print("comment form is valid. form = "+str(form))
         
             featurecomment = form.save()
-            
-            print("FEATURECOMMENT.FEATURE_ID"+str(featurecomment.feature_id))
             
             # Redirect to feature_details and pass 'y' to let featuredetails.html
             # know that the comments list is to be displayed
@@ -736,11 +665,9 @@ def new_feature_comment(request, pk=None):
             return redirect(feature_details, featurecomment.feature_id, view_comments)
         else:
         
-            print("feature comments form invalid = "+str(form))
             messages.error(request, "UNABLE TO LOG FEATURE COMMENT!")
             
     else:
-        print("feature comment request is get-----------------------------------")
     
         form = FeatureCommentForm()
         
@@ -752,8 +679,6 @@ def new_feature_comment(request, pk=None):
         # featuredetails.html
         
         view_comments = 'n'
-        
-        print("feature comments_input= "+str(comments_input))
     
     return  render(request, 'featuredetails.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
 
@@ -771,10 +696,6 @@ these issues, and click on the chevron icon to see the details of a feature.
 This function is called via the javascript in base.html
 """
 def features_report(request):
-    
-    print("in features report~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    # If the user is on the Client side we need the Client details, otherwise
-    # we need the Vendor details
     
     ClientDetails = ""
     VendorDetails = ""
@@ -816,20 +737,10 @@ def features_report(request):
                     
         featurepaids = FeaturePaid.objects.all()
     
-    
-    user_message = ""
-    
     if not featurepaids:
-        user_message = "No flagged features found!"
+        messages.error(request, "NO FLAGGED FEATURES FOUND!")
         
-    # Return the user message also - set above if no features found
-    
-    user_mesg = ({
-            
-        "user_message": user_message
-    })
-
-   # Initialise the top level variables
+    # Initialise the top level variables
    
     client_list = []
     clienttotals = []
@@ -848,6 +759,38 @@ def features_report(request):
             client_list.append(item.client_code)
             prev_client = item.client_code
     
+    # Calculate the total amount paid per client, so as to create a report by
+    # client in order of amount paid - highest to lowest
+    
+    client_total = []
+    
+    for client in client_list:
+        
+        total_paid_by_client = 0
+        
+        # Get the features this client has paid for
+        
+        featurepaids = FeaturePaid.objects.filter(client_code = client)
+        
+        # Accumulate the amounts paid per feature
+        
+        for featurepaid in featurepaids:
+            total_paid_by_client += featurepaid.amount_paid
+        
+        # Create a tuple list with client code and total amount paid
+        
+        client_total.append((client, total_paid_by_client))
+    
+    # Sort the client/total list by the total amount (Solution for sorting list 
+    # by second parameter (total paid) found on https://www.geeksforgeeks.org/python-list-sort/)
+    
+    client_total.sort(key=sortTotal, reverse = True)
+    
+    client_list = []
+    
+    for item in client_total:
+        client_list.append(item[0])
+        
     # Loop through the clients and loop through the features, either input or paid
     # by them. Create a total line per client and a line per feature
     
@@ -862,25 +805,26 @@ def features_report(request):
         # Get all the paid records for this client - These will be
         # features that were input by this client, and features that were 'paid for'
         # by this client
+        # Order the feature list by amount paid - highest to lowest, and feature id - highest to lowest
         
         featurepaids = FeaturePaid.objects.filter(client_code = client)
-        featurepaids = featurepaids.order_by('-amount_paid', '-id')
+        featurepaids = featurepaids.order_by('-amount_paid', '-feature_id')
         
         for featurepaid in featurepaids:
             
             # Accumulate the total paid per feature by this client
             
             total_paid += featurepaid.amount_paid
-            print("featurepaid.amount_paid=================: "+str(featurepaid.amount_paid))
             
             # Loop through the features for this client or paid by this client
             
             feature = Feature.objects.get(id=featurepaid.feature_id)
             
-            nr_flagged_features += 1
-            print("NUMER FLAGGED. . . : "+str(nr_flagged_features))
+            # Count the number of features input and / or flagged by this client
             
-            # Create a line per feature entered or paid for by this client
+            nr_flagged_features += 1
+            
+            # Create a line per feature input and / or paid for by this client
             # Note that the 'client_code' field below is the client who input or 
             # paid for the issue, author is the client who originally input the issue.
             # Both codes are sometimes the same and sometimes not - as when a client
@@ -915,7 +859,15 @@ def features_report(request):
 
     return  render(request, 'featurereport.html', {"clienttotals": clienttotals, "features": client_features, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 
+"""
+'sortTotal' is the key provided to 'client_total.sort'. 'client_total' is a list of 
+tuples (client_code, total_paid_by_client). These are sorted by the amount field 
+so as to create a client report in order of amount paid by client - highest to lowest.
+"""
 
-
-
-
+    # Sort the (client, total amount) list by the total amount (Solution for sorting list 
+    # by second parameter (amount) found on https://www.geeksforgeeks.org/python-list-sort/)
+    
+def sortTotal(val): 
+    return val[1]  
+  

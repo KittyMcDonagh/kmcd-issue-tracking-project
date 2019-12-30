@@ -335,9 +335,6 @@ This function is called via the javascript in base.html
 """
 def issues_report(request):
     
-    # If the user is on the Client side we need the Client details, otherwise
-    # we need the Vendor details
-    
     ClientDetails = ""
     VendorDetails = ""
     
@@ -363,7 +360,7 @@ def issues_report(request):
         VendorDetails = get_vendor(request, UserDetails)
     
     
-    # Get the thumbs up records from the database, depending on user type
+    # Get the 'thumbs up' records from the database, depending on user type
                     
     if UserDetails.user_type == "C":
         
@@ -381,10 +378,9 @@ def issues_report(request):
     # Return a user message if no records found
     
     data = {}
-    user_message = ""
     
     if not issuethumbsups:
-        user_message = "No flagged issues found!"
+        messages.error(request, "NO FLAGGED ISSUES FOUND!")
    
     # Initialise top level variables
     
@@ -394,7 +390,7 @@ def issues_report(request):
     issues  = ""
     
     
-    # Order the thumbs up records by client code, then create client code list 
+    # Order the 'thumbs up' records by client code, then create client code list 
     
     issuethumbsups = issuethumbsups.order_by('client_code')
     
@@ -406,6 +402,40 @@ def issues_report(request):
         if item.client_code != prev_client:
             client_list.append(item.client_code)
             prev_client = item.client_code
+            
+    
+    # Calculate the total number of issues input and / or flagge by each client, 
+    # so as to create a report by client in order of number of issues - highest to lowest
+    
+    client_total = []
+    
+    for client in client_list:
+        
+        total_client_issues = 0
+        
+        # Get the isues this client has input or thumbed up
+        
+        issuethumbsups = IssueThumbsUp.objects.filter(client_code = client)
+        
+        # Increment the number of issues input or 'thumbed up' by this client
+        
+        for issuethumbsup in issuethumbsups:
+            total_client_issues += 1
+        
+        # Create a tuple list with client code and total number of issues
+        
+        client_total.append((client, total_client_issues))
+    
+    # Sort the client/total list by the total number of issues (Solution for sorting list 
+    # by 2nd parameter (total number of issues) found on https://www.geeksforgeeks.org/python-list-sort/)
+    
+    client_total.sort(key=sortTotal, reverse = True)
+    
+    client_list = []
+    
+    for item in client_total:
+        client_list.append(item[0])
+        
 
     # Loop through the clients and loop through the issues, either input or flagged
     # by them. Create a total line per client and a line per issue
@@ -483,3 +513,14 @@ def issues_report(request):
         
     return  render(request, 'issuereport.html', {"clienttotals": clienttotals, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 
+"""
+'sortTotal' is the key provided to 'client_total.sort'. 'client_total' is a list of 
+tuples (client_code, total_client_issues). These are sorted by the amount field 
+so as to create a client report in order of number of issues per client - highest to lowest.
+"""
+
+    # Sort the (client, total number of issues) list by the total amount (Solution for sorting list 
+    # by second parameter (amount) found on https://www.geeksforgeeks.org/python-list-sort/)
+    
+def sortTotal(val): 
+    return val[1]  
