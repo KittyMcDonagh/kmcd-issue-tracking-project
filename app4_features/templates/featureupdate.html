@@ -1,21 +1,19 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
-<!-- This form will be used by vendor-side users only to allow them to change
-     the Feature status -->
+<!-- This form will be used by:
+     Vendor-side users to allow them to change the Feature Status, Unit Price, 
+     and Assigned Vendor User 
+     Client-side users to allow them to change the Assigned Client user
+     -->
 
 
 <form method="POST" enctype="multipart/form-data" class="form-style">
 
     {% csrf_token %}
 
-    <!-- NOTE: We are in 'New Feature' or in 'Edit Feature' mode. -->
+    <!-- NOTE: We are in Feature Update mode - we have the Feature we want to update
+         already. -->
 
-    <!-- Fields with default values -->
-
-    <!-- For new features the default client code, is the user's client code.
-         If we're editing an existing feature, the user is a client-side user, and
-         the feature client code and the user client code are the same, otherwise they
-          couldnt edit -->
 
     <!-- Show Feature Id -->
 
@@ -25,26 +23,14 @@
         </div>
     </div>
 
-    <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
+    <!-- Populate these fields with the feature values -->
 
-    <!-- Set the following field to the default value, or to the feature value, depending on whether 
-         inputting a new feature, or editing an existing one -->
-
-    {% if feature.user_id == null %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> {% endif %}
-
-    <!-- If in 'New feature' mode, the default for this field is the input user. If in 'Edit' mode 
-         the assigned user is = logged in user, otherwise they couldnt edit  -->
-
-    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
-
-    <!-- Set the following field to the default value, or to the feature value, depending on whether 
-         inputting a new feature, or editing an existing one -->
-
-    {% if feature.assigned_vendor_user == null %}
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="admin"> {% else %}
-    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}"> {% endif %}
+    <input name="client_code" type="hidden" id="client_code" value="{{ feature.client_code }}">
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}">
+    <input name="status" type="hidden" id="status" value="{{ feature.status }}">
+    <input name="price" type="hidden" id="price" value="{{ feature.price }}">
+    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ feature.assigned_client_user }}">
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ feature.assigned_vendor_user }}">
 
     <!-- Top of form: Software Component, Status and Price -->
 
@@ -58,10 +44,21 @@
                 </div>
             </div>
         </div>
+        
+        {% if userdetails.user_type == "C" %}
+        
+         <!-- Status - Client-side users cant change it  -->
+
+        <div class="col-12 col-md-3 form-font pt-1">
+            <span><strong>Status: </strong>{{ feature.status }}</span>
+        </div>
+        
+        {% else %}
 
         <!-- Status -->
-        <!-- NOTE: featurestatus.html is for vendor-side users only, to change the
-                   feature status. They can select any of the status values. -->
+        <!-- Vendor-side users can change the feature status. Note that they cant
+             see any feature until it has reached a status of LOGGED. I.e. they
+             cant see any features that are still at DRAFT status -->
 
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
             <label class="form-font" for="status"><strong>Status: </strong></label>
@@ -116,18 +113,70 @@
                 
             </select>
         </div>
+        {% endif %}
 
+        {% if userdetails.user_type == "C" %}
+        
+        <!--  Price - Client-side users cannot change the price -->
 
-        <!--  The Unit Price for this feature
-              Show the price but disable it - only vendor-side users can
-              change it -->
+        <div class="col-12 col-md-4 form-font pt-1 position">
+            <span><strong>Price: </strong></span> 
+            <span><i class="fas fa-euro-sign"></i>{{ feature.price}}</span>
+        </div>
+        
+        {% else %}
+
+        <!--  Unit Price for this feature
+             Vendor-side users can change the feature unit price -->
 
         <div class="col-12 offset-md-1 col-md-3 form-font pt-1 position">
 
             <label class="form-font" for="price"><strong>Price: </strong></label>
-            <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999"> 
+            <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999">
         </div>
+        
+        {% endif %}
     </div>
+
+    {% if userdetails.user_type == "V" %}
+    
+    <!-- Vendor-side users can change the Assigned Vendor User -->
+
+    <div class="row no-gutters pt-1">
+
+        <label class="form-font pr-1" for="assigned_vendor_user"><strong>Assigned to: V: {{userdetails.user_type}}</strong></label>
+        <select name="assigned_vendor_user" id="assigned_vendor_user" class="ftr-select" size="1">
+                
+            {% for assigneduser in assigned_users %}
+            {% if assigneduser.user_id == feature.assigned_vendor_user %}
+               <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+            {% else %}
+                <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    
+    {% else %}
+    
+    <div class="row no-gutters pt-1">
+
+        <label class="form-font pr-1" for="assigned_client_user"><strong>Assigned to: C: {{userdetails.user_type}}</strong></label>
+        <select name="assigned_client_user" id="assigned_client_user" class="ftr-select" size="1">
+                
+            {% for assigneduser in assigned_users %}
+            {% if assigneduser.user_id == feature.assigned_client_user %}
+               <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+            {% else %}
+                <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    
+    {% endif %}
+
+
     <hr>
 
     <!-- feature Title -->

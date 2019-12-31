@@ -432,7 +432,8 @@ def get_user_iss_trk_details(request):
         messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
     
     return UserDetails
-        
+
+    
     
 """
 The logged in user is on the Client side - get the Client details
@@ -463,6 +464,10 @@ def get_all_clients(request):
         messages.error(request, "Problem retrieving all Client Records!")
    
     return  AllClients
+
+
+    
+    
     
     
 """

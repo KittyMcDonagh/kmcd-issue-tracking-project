@@ -68,11 +68,22 @@
         {% else %}
 
         <!-- Client-side user: Show the user the feature is assigned to on the 
-         client side -->
+             client side, but only if the feature belongs to the client the user is 
+             associated with -->
 
         <div class="col-12 col-md-5 form-font">
             <span><strong>Assigned to: </strong></span>
+            
+            {% if userdetails.vend_client_code == feature.client_code %}
+            
+            <!-- Only show the assigned user if the user client and feature 
+            client are the same-->
+            
             <span class="pl-1">{{ feature.assigned_client_user}}</span>
+            
+            {% else %}
+            <span class="pl-1">******</span>
+            {% endif %}
         </div>
 
         {% endif %}
@@ -334,32 +345,35 @@
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
             {% if userdetails.user_type == "C" %}
-                {% if userdetails.user_id == feature.assigned_client_user %}
 
-                <!-- User is a client-side user.
-                         Is the Feature assigned, to the logged in user, 
-                         and is the status = DRAFT or LOGGED? 
-                         If so, enable the Edit button, otherwise disable it -->
+                {% if userdetails.vend_client_code == feature.client_code %}
+
+                    <!-- User is a client-side user - they can only Edit the details of 
+                         their own features and only while they're at status DRAFT or LOGGED. They cannot
+                         see DRAFT or LOGGED features that belong to other clients.
+                         If the feature is not status DRAFT or LOGGED, they can update the Assigned Client User only.
+                                 
+                         Is the Feature status = DRAFT or LOGGED? 
+                         If so, enable the Edit button, otherwise enable the Update Button -->
 
                     {% if feature.status == "DRAFT" or feature.status == "LOGGED" %}
         
                     <a href="{% url 'edit_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Edit</a> 
                     {% else %}
-                    <span class="btn ftr-edit-update-btn-color disabled-link" type="submit ">Edit</span> 
+                    
+                     <!-- Allow the user to update the assigned client user only -->
+                     
+                    <a href="{% url 'update_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a> 
                     {% endif %} 
                 {% endif %}
             
             {% else %}
 
-                <!-- User is a vendor-side user.
-                        Is the feature assigned to the logged in user? 
-                        If so, allow the user to update the feature status -->
+                <!-- User is a vendor-side user. 
+                     Allow the user to update the feature status, price and assigned vendor user -->
     
-                {% if userdetails.user_id == feature.assigned_vendor_user %}
+                <a href="{% url 'update_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a>
     
-                <a href="{% url 'update_feature_status_price' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a>
-    
-                {% endif %}
             {% endif %}
             
         </div>

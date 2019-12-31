@@ -1,0 +1,280 @@
+{% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
+
+<!-- This form will be used by:
+     Vendor-side users to allow them to change the Issue Status, Priority, 
+     and Assigned Vendor User 
+     Client-side users to allow them to change the Assigned Client user
+     -->
+
+<form method="POST" enctype="multipart/form-data" class="form-style">
+
+    {% csrf_token %}
+
+    <!-- NOTE: We are in Issue Update mode - we have the Issue we want to update
+         already. -->
+
+    <!-- Show Issue Id -->
+
+    <div class="row no-gutters">
+        <div class="col-12 iss-id-style ">
+            <span><em><strong>#: </strong>{{ issue.id }}</em></span>
+        </div>
+    </div>
+
+    <!-- Set the following fields to the issue value  -->
+
+    <input name="client_code" type="hidden" id="client_code" value="{{ issue.client_code }}">
+    <input name="user_id" type="hidden" id="user_id" value="{{ issue.user_id }}">
+    <input name="status" type="hidden" id="status" value="{{ issue.status }}">
+    <input name="priority" type="hidden" id="priority" value="{{ issue.priority }}">
+    <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ issue.assigned_client_user }}">
+    <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ issue.assigned_vendor_user }}">
+
+    <!-- Top of form: Software Component, Priority, and Status -->
+
+    <!-- Show Component. Don't allow it to be changed -->
+
+    <div class="row no-gutters">
+        <div class="col-12 col-md-5">
+            <div class="row no-gutters">
+                <div class="col-12 form-font">
+                    <span><strong>Component: </strong>{{ issue.software_component}}</span>
+                </div>
+            </div>
+        </div>
+
+        
+        {% if userdetails.user_type == "C" %}
+
+        <!-- If this is a client-side user, they are in this form because the
+             status is not = to DRAFT or LOGGED, and they can only update the
+             Assigned Client User field. -->
+
+        <!-- Show Issue Status and dont allow it to be changed -->
+
+        <div class="col-12 col-md-3 form-font pt-1">
+            <span><strong>Status: </strong>{{ issue.status }}</span>
+        </div>
+
+        {% else %}
+
+        <!-- Status -->
+        <!-- Vendor-side users can change the issue status. Note that they cant
+                 see any issue until it has reached a status of LOGGED. I.e. they
+                 cant see any issues that are still at DRAFT status -->
+
+        <div class="col-12 col-md-3 form-font pt-1 pb-1">
+            <label class="form-font" for="status"><strong>Status: </strong></label>
+            <select name="status" id="status" class="iss-select" size="1">
+                    {% if issue.status == "DRAFT" %}
+                    <option value="DRAFT" selected>DRAFT</option>
+                    {% else %}
+                    <option value="DRAFT">DRAFT</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "LOGGED" %}
+                    <option value="LOGGED" selected>LOGGED</option>
+                    {% else %}
+                    <option value="LOGGED">LOGGED</option>
+                    {% endif %}
+                            
+                    {% if issue.status == "OPEN" %}
+                    <option value="OPEN" selected>OPEN</option>
+                    {% else %}
+                    <option value="OPEN">OPEN</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "ANALYSIS" %}
+                    <option value="ANALYSIS" selected>ANALYSIS</option>
+                    {% else %}
+                    <option value="ANALYSIS">ANALYSIS</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "FIXING" %}
+                    <option value="FIXING" selected>FIXING</option>
+                    {% else %}
+                    <option value="FIXING">FIXING</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "TESTING" %}
+                    <option value="TESTING" selected>TESTING</option>
+                    {% else %}
+                    <option value="TESTING">TESTING</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "DEPLOYED" %}
+                    <option value="DEPLOYED" selected>DEPLOYED</option>
+                    {% else %}
+                    <option value="DEPLOYED">DEPLOYED</option>
+                    {% endif %}
+                    
+                    {% if issue.status == "CLOSED" %}
+                    <option value="CLOSED" selected>CLOSED</option>
+                    {% else %}
+                    <option value="CLOSED">CLOSED</option>
+                    {% endif %}
+                    
+                </select>
+        </div>
+        {% endif %} 
+        
+        {% if userdetails.user_type == "C" %}
+
+        <!--  Client-side users cannot change the Priority -->
+
+        <!-- Show Issue Priority and dont allow it to be changed -->
+
+        <div class="col-12 col-md-4 form-font pt-1 position">
+            <span><strong>Priority: </strong></span> {% if issue.priority == 1 %}
+            <span>1 - URGENT</span> {% else %} {% if issue.priority == 2 %}
+            <span>2 - HIGH PRIORITY</span> {% else %} {% if issue.priority == 3 %}
+            <span>3 - MEDIUM PRIORITY</span> {% else %} {% if issue.priority == 4 %}
+            <span>4 - LOW PRIORITY</span> {% else %} {% if issue.priority == 5 %}
+            <span>5 - COSMETIC</span> {% endif %} {% endif %} {% endif %} {% endif %} {% endif %}
+        </div>
+
+        {% else %}
+
+        <!--  Vendor-side users can change the Priority -->
+
+        <div class="col-12 col-md-4 form-font pt-1 position">
+
+            <label class="form-font" for="priority"><strong>Priority: </strong></label>
+            <select name="priority" id="priority" class="iss-select" size="1">
+                            
+                    {% if issue.priority == 1 %}
+                        <option value="1" selected>1 - URGENT</option>
+                    {% else %}
+                        <option value="1">1 - URGENT</option>
+                    {% endif %}
+                                
+                    {% if issue.priority == 2 %}
+                        <option value="2" selected>2 - HIGH PRIORITY</option>
+                    {% else %}
+                        <option value="2">2 - HIGH PRIORITY</option>
+                    {% endif %}
+                            
+                    {% if issue.priority == 3 %}
+                        <option value="3" selected>3 - MEDIUM PRIORITY</option>
+                    {% else %}
+                        <option value="3">3 - MEDIUM PRIORITY</option>
+                    {% endif %}
+                                
+                    {% if issue.priority == 4 %}
+                        <option value="4" selected>4 - LOW PRIORITY</option>
+                    {% else %}
+                        <option value="4">4 - LOW PRIORITY</option>
+                    {% endif %}
+                                
+                    {% if issue.priority == 5 %}
+                        <option value="5" selected>5 - COSMETIC</option>
+                    {% else %}
+                        <option value="5">5 - COSMETIC</option>
+                    {% endif %}
+                    
+                </select>
+        </div>
+        {% endif %}
+    </div>
+
+
+    {% if userdetails.user_type == "V" %}
+
+    <!-- Vendor-side users can change the Assigned Vendor User -->
+
+    <div class="row no-gutters pt-1">
+
+        <label class="form-font pr-1" for="assigned_vendor_user"><strong>Assigned to: </strong></label>
+        <select name="assigned_vendor_user" id="assigned_vendor_user" class="iss-select" size="1">
+                
+                    {% for assigneduser in assigned_users %}
+                        {% if assigneduser.user_id == issue.assigned_vendor_user %}
+                           <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                        {% else %}
+                            <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                        {% endif %}
+                    {% endfor %}
+            </select>
+    </div>
+
+    {% else %}
+
+    <!-- Client-side users can change the Assigned Client User only on this form -->
+
+    <div class="row no-gutters pt-1">
+
+        <label class="form-font pr-1" for="assigned_vendor_user"><strong>Assigned to: </strong></label>
+        <select name="assigned_client_user" id="assigned_client_user" class="iss-select" size="1">
+                
+            {% for assigneduser in assigned_users %}
+                {% if assigneduser.user_id == issue.assigned_client_user %}
+                   <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                {% else %}
+                    <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    {% endif %}
+
+
+
+
+    <hr>
+
+    <!-- Issue Title -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+            <label for="title"><strong><em>Title:</em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50" disabled>{{ issue.title }}</textarea>
+        </div>
+    </div>
+
+
+    <!-- Summary -->
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <label for=" summary "><strong><em>Summary: </em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="summary " id="summary " class="form-control form-font" rows="2 " maxlength="100" disabled>{{ issue.summary }}</textarea>
+        </div>
+    </div>
+
+
+    <!-- Details  -->
+
+    <div class="row no-gutters mt-2">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <label for="details "><strong><em>Details: </em></strong></label>
+        </div>
+    </div>
+
+    <div class="row no-gutters mb-4">
+        <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
+            <textarea name="details " id="details " class="form-control form-font" rows="10 " maxlength="700" disabled>{{ issue.details }}</textarea>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <hr>
+    <div class="row no-gutters mt-2 ">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
+            <button class="btn iss-btn-color iss-enabled-link" type="submit ">Submit</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

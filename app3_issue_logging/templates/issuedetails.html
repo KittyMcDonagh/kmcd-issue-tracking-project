@@ -2,7 +2,8 @@
 
 <!-- This form will be used:
      1. To display the details of an issue 
-     2. Allow the user to view & enter comments on the issue    -->
+     2. Allow the user to view & enter comments on the issue
+     3. Allow user to Edit / Update the issue  -->
 
 <!-- If the user is a vendor-side user, show the name of the client the issue 
      belongs to -->
@@ -73,12 +74,23 @@
 
         {% else %}
 
-        <!-- Client-side user: Show the user the issue is assigned to on the 
-         client side -->
+        <!-- Client-side user: Show the user the feature is assigned to on the 
+             client side, but only if the issue belongs to the client the user is 
+             associated with -->
 
         <div class="col-12 col-md-5 form-font">
             <span><strong>Assigned to: </strong></span>
+            
+            {% if userdetails.vend_client_code == issue.client_code %}
+            
+            <!-- Only show the assigned user if the user client and issue 
+            client are the same-->
+            
             <span class="pl-1">{{ issue.assigned_client_user}}</span>
+            
+            {% else %}
+            <span class="pl-1">******</span>
+            {% endif %}
         </div>
 
         {% endif %}
@@ -328,35 +340,45 @@
                 </div>
             </div>
 
-
-
-            <!-- Edit Button 
-          If the issue is assigned to the logged in user, on the client side or
-          on the vendor side, enable the Edit button, otherwise disable it. -->
-
             <hr>
+            
+            <!-- Edit Button  -->
+         
             <div class="row no-gutters mt-2">
                 <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 text-center">
 
-                    {% if userdetails.user_type == "C" %} {% if userdetails.user_id == issue.assigned_client_user %}
+                    {% if userdetails.user_type == "C" %} 
+                    
+                        {% if userdetails.vend_client_code == issue.client_code %}
 
-                    <!-- User is a client-side user.
-                         Is the issue assigned, to the logged in user, 
-                         and is the status = DRAFT or LOGGED? 
-                         If so, enable the Edit button, otherwise disable it -->
-
-                    {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
-
-                    <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> {% else %}
-                    <span class="btn iss-edit-update-btn-color disabled-link" type="submit ">Edit</span> {% endif %} {% endif %} {% else %}
+                            <!-- User is a client-side user - they can only Edit the details of 
+                                 their own issues and only while they're at status DRAFT or LOGGED. They cannot
+                                 see DRAFT or LOGGED issues that belong to other clients.
+                                 If the issue is not status DRAFT or LOGGED, they can update the Assigned Client User only.
+                                 
+                                 Is the issue status = DRAFT or LOGGED? 
+                                 If so, enable the Edit button, otherwise enable the Update Button -->
+        
+                            {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
+    
+                                <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> 
+                            {% else %}
+                            
+                             <!-- Allow the user to update the assigned client user only -->
+                             
+                                <a href="{% url 'update_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> 
+                            {% endif %} 
+                        
+                        {% endif %}
+                    
+                    {% else %}
 
                     <!-- User is a vendor-side user.
-                        Is the issue assigned to the logged in user? 
-                        If so, allow the user to update the issue status -->
+                         Allow the user to update the issue status, the priority and the assigned vendor user -->
 
-                    {% if userdetails.user_id == issue.assigned_vendor_user %}
-
-                    <a href="{% url 'update_issue_status_priority' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %} {% endif %}
+                        <a href="{% url 'update_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> 
+                    
+                    {% endif %} 
 
                 </div>
             </div>

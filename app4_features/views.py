@@ -13,7 +13,7 @@ from app2_user_home.models import Client
 from app2_user_home.models import UserDetail
 from .models import Feature, FeatureComment, FeaturePaid
 
-from .forms import LogNewFeatureForm, FeatureStatusPriceForm, FeatureCommentForm
+from .forms import LogNewFeatureForm, UpdateFeatureForm, FeatureCommentForm
 
 
 """
@@ -388,7 +388,46 @@ def get_user_iss_trk_details(request):
         messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
     
     return UserDetails
+
+
+"""
+Get all client-side users - needed for the 'assigned user dropdown' when editing a feature.
+"""
+    
+def get_all_client_users(request, user_client_code):
+    
+    print("in features get_all_client_users~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
+    print("user_client_code: "+str(user_client_code))
+    
+    AllClientUsers = ""
+
+    try:
+        AllClientUsers = UserDetail.objects.filter(vend_client_code = user_client_code, user_type = "C")
+    except:
+        messages.error(request, "Problem retrieving the all client users from Issue Tracker!")
         
+    print("AllClientUsers: "+str(AllClientUsers))
+    
+    return AllClientUsers
+    
+
+"""
+Get all vendor-side users - needed for the 'assigned user dropdown' when updating a feature.
+"""
+    
+def get_all_vendor_users(request):
+    
+    AllVendorUsers = ""
+
+    try:
+        AllVendorUsers = UserDetail.objects.filter(user_type = "V")
+    except:
+        messages.error(request, "Problem retrieving the all vendor users from Issue Tracker!")
+    
+    return AllVendorUsers
+    
+
     
 """
 Get the Client details
@@ -517,21 +556,15 @@ def new_edit_feature(request, pk=None):
     
     UserDetails = get_user_iss_trk_details(request)
     
-    # Get the Vendor or Client Details depending on which the user is 
-    # associated with
-        
-    if UserDetails.user_type == 'C':
+    # User is on the Client side - otherwise they wouldnt be in this view. 
+    # Get the Client Details.
             
-        # User is on the Client side. Get the Client Details, The Features Filter
-        # values the client user can use, and the filtered features
-            
-        ClientDetails = get_client(request, UserDetails.vend_client_code)
+    ClientDetails = get_client(request, UserDetails.vend_client_code)
     
-    else:
-            
-        # User is on the Vendor side
+    # Get a list of all client-side users, to be used in the Assigned User
+    # dropdown list when updating an issue
         
-        VendorDetails = get_vendor(request, UserDetails)
+    AssignedUsers = get_all_client_users(request, UserDetails.vend_client_code)
     
     feature = get_object_or_404(Feature, pk=pk) if pk else None
     
@@ -554,13 +587,13 @@ def new_edit_feature(request, pk=None):
         
         form = LogNewFeatureForm(instance=feature)
     
-    return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+    return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers })
 
 
 """
 Create a view that allows a vendor-side user to change the status of a featur. 
 """
-def update_feature_status_price(request, pk=None):
+def update_feature(request, pk=None):
     
     # This view is for vendor-side users only
     
@@ -573,17 +606,34 @@ def update_feature_status_price(request, pk=None):
     
     UserDetails = get_user_iss_trk_details(request)
     
-    # User is on the Vendor side
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
         
-    VendorDetails = get_vendor(request, UserDetails)
-    
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Issues Filter
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
+        AssignedUsers = get_all_client_users(request, UserDetails.vend_client_code)
+        
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+        AssignedUsers = get_all_vendor_users(request)
+        
     feature = get_object_or_404(Feature, pk=pk)
     
     FeatureClientDetails = get_feature_client_details(request, feature)
     
+    
     if request.method == "POST":
         
-        form = FeatureStatusPriceForm(request.POST, request.FILES, instance=feature)
+        form = UpdateFeatureForm(request.POST, request.FILES, instance=feature)
+        
+        print("featureupdateform=============: "+str(form))
         
         if form.is_valid():
         
@@ -596,9 +646,9 @@ def update_feature_status_price(request, pk=None):
             
     else:
         
-        form = FeatureStatusPriceForm(instance=feature)
+        form = UpdateFeatureForm(instance=feature)
     
-    return  render(request, 'featurestatusprice.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+    return  render(request, 'featureupdate.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails, "assigned_users": AssignedUsers})
 
 
 

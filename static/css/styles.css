@@ -1181,6 +1181,7 @@ footer {
     font-size: 12px;
     font-family: "Nunito", sans-serif;
     width: 100%;
+    border: solid 2px #dad7d7;
 }
 
 /* The following 'td-* styles are to fix the width of the table cells so that

@@ -132,7 +132,7 @@
         <div class="table-responsive">
 
             <table class="table table-striped table-style">
-                <thead>
+                <thead class="table-hd">
                     <tr>
                         <th scope="col" class="text-center td-is">#</th>
                         <th scope="col" class="text-center td-date">Date</th>
@@ -243,8 +243,9 @@
                                     
                                     <!-- If this issue belongs to the client the user is associated with, disable the
                                          'thumbs up' - they cant 'thumbs up/down' their own issues  -->
-
-                                    {% if userdetails.vend_client_code == issue.client_code %}
+                                    
+                                    
+                                    {% if userdetails.vend_client_code == issue.client_code or issue.status == "DEPLOYED" or issue.status == "CLOSED" %}
                                     <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font disabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
                                     
                                     {% else %}

@@ -14,18 +14,16 @@ from app2_user_home.models import UserDetail
 from .models import Issue
 from .models import IssueComment, IssueThumbsUp
 
-from .forms import LogNewIssueForm, IssueStatusPriorityForm
+from .forms import LogNewIssueForm, UpdateIssueForm
 from .forms import LogNewIssueForm, IssueCommentForm
 
 
 """
-Create a view that allows us to log a new issue or edit an existing one 
+Create a view that allows a client-side user to log a new issue or edit an existing one 
 depending on whether the pk is null or not. 
 """
 def new_edit_issue(request, pk=None):
     
-    # If the user is on the Client side we need the Client details, otherwise
-    # we need the Vendor details
     
     ClientDetails = ""
     VendorDetails = ""
@@ -35,22 +33,16 @@ def new_edit_issue(request, pk=None):
     # come this far
     
     UserDetails = get_user_iss_trk_details(request)
-    
-    # Get the Vendor or Client Details depending on which the user is 
-    # associated with
+            
+    # User is on the Client side - otherwise they wouldnt be in this view. 
+    # Get the Client Details.
+            
+    ClientDetails = get_client(request, UserDetails.vend_client_code)
         
-    if UserDetails.user_type == 'C':
-            
-        # User is on the Client side. Get the Client Details, The Issues Filte
-        # values the client user can use, and the filtered Issues
-            
-        ClientDetails = get_client(request, UserDetails.vend_client_code)
-    
-    else:
-            
-        # User is on the Vendor side
+    # Get a list of all client-side users, to be used in the Assigned User
+    # dropdown list when updating an issue
         
-        VendorDetails = get_vendor(request, UserDetails)
+    AssignedUsers = get_all_client_users(request, UserDetails.vend_client_code)
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
     
@@ -76,16 +68,19 @@ def new_edit_issue(request, pk=None):
     else:
         
         form = LogNewIssueForm(instance=issue)
-    
-    return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
+        
+    return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers})
 
 
 """
-Create a view that allows a vendor-side user to change the status of an issue. 
+Create a view that allows:
+    A Vendor-side user to change the Status, Price and Assigned Vendor User of an Issue
+    A Client-side user to change the Assigne Client User of an Issue
 """
-def update_issue_status_priority(request, pk=None):
+def update_issue(request, pk=None):
     
-    # This view is for vendor-side users only
+    # If the user is on the Client side we need the Client details, otherwise
+    # we need the Vendor details
     
     ClientDetails = ""
     VendorDetails = ""
@@ -96,9 +91,24 @@ def update_issue_status_priority(request, pk=None):
     
     UserDetails = get_user_iss_trk_details(request)
     
-    # User is on the Vendor side
+    # Get the Vendor or Client Details depending on which the user is 
+    # associated with
         
-    VendorDetails = get_vendor(request, UserDetails)
+    if UserDetails.user_type == 'C':
+            
+        # User is on the Client side. Get the Client Details, The Issues Filter
+        # values the client user can use, and the filtered Issues
+            
+        ClientDetails = get_client(request, UserDetails.vend_client_code)
+        AssignedUsers = get_all_client_users(request, UserDetails.vend_client_code)
+        
+    else:
+            
+        # User is on the Vendor side
+        
+        VendorDetails = get_vendor(request, UserDetails)
+        AssignedUsers = get_all_vendor_users(request)
+    
     
     issue = get_object_or_404(Issue, pk=pk)
     
@@ -106,7 +116,9 @@ def update_issue_status_priority(request, pk=None):
     
     if request.method == "POST":
         
-        form = IssueStatusPriorityForm(request.POST, request.FILES, instance=issue)
+        form = UpdateIssueForm(request.POST, request.FILES, instance=issue)
+        
+        print("updateissuesform======================: "+str(form))
         
         if form.is_valid():
             issue = form.save()
@@ -118,9 +130,9 @@ def update_issue_status_priority(request, pk=None):
             
     else:
         
-        form = IssueStatusPriorityForm(instance=issue)
+        form = UpdateIssueForm(instance=issue)
     
-    return  render(request, 'issuestatuspriority.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
+    return  render(request, 'issueupdate.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "assigned_users": AssignedUsers})
 
     
 
@@ -164,11 +176,12 @@ def issue_details(request, pk, view_comments=None):
         
     if UserDetails.user_type == 'C':
             
-        # User is on the Client side. Get the Client Details, The Issues Filte
+        # User is on the Client side. Get the Client Details, The Issues Filter
         # values the client user can use, and the filtered Issues
             
         ClientDetails = get_client(request, UserDetails.vend_client_code)
-    
+        
+        
     else:
             
         # User is on the Vendor side
@@ -176,6 +189,7 @@ def issue_details(request, pk, view_comments=None):
         VendorDetails = get_vendor(request, UserDetails)
         
         IssueClientDetails = get_issue_client_details(request, issue)
+       
     
     return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
     
@@ -198,7 +212,44 @@ def get_user_iss_trk_details(request):
     
     return UserDetails
         
- 
+
+"""
+Get all client-side users - needed for the 'assigned user dropdown' when editing an issue.
+"""
+    
+def get_all_client_users(request, user_client_code):
+    
+    print("in get_all_client_users~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("user_client_code: "+str(user_client_code))
+    
+    AllClientUsers = ""
+
+    try:
+        AllClientUsers = UserDetail.objects.filter(vend_client_code = user_client_code, user_type = "C")
+    except:
+        messages.error(request, "Problem retrieving the all client users from Issue Tracker!")
+        
+    print("AllClientUsers: "+str(AllClientUsers))
+    
+    return AllClientUsers
+
+"""
+Get all vendor-side users - needed for the 'assigned user dropdown' when updating an issue.
+"""
+    
+def get_all_vendor_users(request):
+    
+    AllVendorUsers = ""
+
+    try:
+        AllVendorUsers = UserDetail.objects.filter(user_type = "V")
+    except:
+        messages.error(request, "Problem retrieving the all vendor users from Issue Tracker!")
+    
+    return AllVendorUsers
+    
+    
+
    
 """
 Get the Client details

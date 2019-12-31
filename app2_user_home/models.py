@@ -49,7 +49,3 @@ class UserDetail(models.Model):
     
     def __str__(self):
         return  "{0}: {1} - {2} {3}".format(self.vend_client_code, self.user_id, self.user_first_name, self.user_second_name  )
-
-
-
-        

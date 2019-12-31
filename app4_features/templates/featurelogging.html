@@ -32,18 +32,14 @@
 
     {% if feature.user_id == null %}
 
-    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}"> 
-    <input name="paid" type="hidden" id="paid" value="0"> 
-    <input name="price" type="hidden" value="0"> 
-    {% else %}
-    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}"> 
-    <input name="paid" type="hidden" id="paid" value="{{ feature.paid }}"> 
-    <input name="price" type="hidden" value="{{ feature.price }}">  
-    
-    {% endif %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ userdetails.user_id }}">
+    <input name="paid" type="hidden" id="paid" value="0">
+    <input name="price" type="hidden" value="0"> {% else %}
+    <input name="user_id" type="hidden" id="user_id" value="{{ feature.user_id }}">
+    <input name="paid" type="hidden" id="paid" value="{{ feature.paid }}">
+    <input name="price" type="hidden" value="{{ feature.price }}"> {% endif %}
 
-    <!-- If in 'New Feature' mode, the default for this field is the input user. If in 'Edit' mode 
-         the assigned user is = logged in user, otherwise they couldnt edit  -->
+    <!-- If in 'New Feature' mode, the default for this field is the input user. -->
 
     <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
 
@@ -160,15 +156,46 @@
               change it -->
 
         <div class="col-12 offset-md-1 col-md-3 form-font pt-1 position">
-            
-            <label class="form-font" for="price"><strong>Price: </strong></label>
 
-            {% if feature.price == null %}
+            <label class="form-font" for="price"><strong>Price: </strong></label> {% if feature.price == null %}
 
-            <input id="price" name="price" type="number" value="0" disabled> 
-            
-            {% else %}
+            <input id="price" name="price" type="number" value="0" disabled> {% else %}
             <input id="price" name="price" type="number" value="{{ feature.price }}" min="0" max="99999999" disabled> {% endif %}
+        </div>
+    </div>
+
+    <!--  Assigned Client User -->
+
+    <div class="row no-gutters pt-1">
+
+        <div class="row no-gutters pt-1">
+
+            <!-- The user is a client-side user (otherwise they wouldnt be inputting
+                  or editing an issue. If inputting a new Issue, select the users 
+                  user id as the assigned user, otherwise select the issue assigned user -->
+
+            <label class="form-font pr-1" for="assigned_client_user"><strong>Assigned to: </strong></label>
+            <select name="assigned_client_user" id="assigned_client_user" class="ftr-select" size="1">
+                    
+                    {% if feature.assigned_client_user == null %}
+                        {% for assigneduser in assigned_users %}
+                            {% if assigneduser.user_id == userdetails.user_id %}
+                               <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                            {% else %}
+                                <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        
+                    {% else %}
+                        {% for assigneduser in assigned_users %}
+                            {% if assigneduser.user_id == feature.assigned_client_user %}
+                               <option value="{{ assigneduser.user_id }}" selected>{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                            {% else %}
+                                <option value="{{ assigneduser.user_id }}" >{{ assigneduser.user_id }} - {{assigneduser.user_first_name }} {{ assigneduser.user_second_name  }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </select>
         </div>
     </div>
 

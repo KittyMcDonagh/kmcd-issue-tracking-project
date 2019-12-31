@@ -824,6 +824,12 @@
                             var user = value.user;
                             var clientCode = value.client_code;
                             var userClientCode = value.user_client_code
+                            
+                            var softwareComponent = value.software_component;
+                            var priority = value.priority;
+                            var summary = value.summary;
+                            var status = value.status;
+                            var issuethumbsUpCount = value.thumbs_up_count
 
 
                             // Initialise 'tuEnabledDisabled'. Class To be 
@@ -835,10 +841,10 @@
                                 var assignedUser = value.assigned_client_user;
                                 tuEnabledDisabled = " iss-enabled-link"
 
-                                // If this issue belongs to the client the user is associated with
-                                // disable the 'thumbs up'
+                                // If this issue belongs to the client the user is associated with,
+                                // or if the status is DEPLOYED or CLOSED disable the 'thumbs up'
 
-                                if (userClientCode == clientCode) {
+                                if (userClientCode == clientCode || status == "DEPLOYED" || status == "CLOSED" ) {
                                     tuEnabledDisabled = " disabled-link"
                                 }
                             }
@@ -846,12 +852,6 @@
                                 var assignedUser = value.assigned_vendor_user;
                                 tuEnabledDisabled = " disabled-link"
                             }
-
-                            var softwareComponent = value.software_component;
-                            var priority = value.priority;
-                            var summary = value.summary;
-                            var status = value.status;
-                            var issuethumbsUpCount = value.thumbs_up_count
 
                             // If the issue has already been 'thumbed up' by 
                             // this client, show 'thumb-down', to allow the 

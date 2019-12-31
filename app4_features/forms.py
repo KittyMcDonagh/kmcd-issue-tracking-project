@@ -12,11 +12,11 @@ class LogNewFeatureForm(forms.ModelForm):
         model = Feature
         fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "paid", "status", "price")
 
-class FeatureStatusPriceForm(forms.ModelForm):
+class UpdateFeatureForm(forms.ModelForm):
    
     class Meta:
         model = Feature
-        fields = ("status", "price",)
+        fields = ("status", "price", "assigned_vendor_user", "assigned_client_user")
 
 # This form is used to update the amount paid for a feature, when a payment is 
 # successfully made
