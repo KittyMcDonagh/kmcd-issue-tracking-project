@@ -4,40 +4,73 @@
     <div class="row no-gutters">
 
         {% for item in cart_items %}
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
-                <h3>{{ item.feature.title }}</h3>
-                <p class="feature-description">{{ item.feature.summary }}</p>
-                <p>
-                    <span class="pl-5"><strong>Quantity: </strong>{{ item.quantity}}</span>
-                    <span class="pl-5"><strong>Price: </strong>{{ item.feature.price }}</span>
-                </p>
+                <div class="row no-gutters">
+                    <div class="col-12 ftr-id-style text-center">
+                        <span><em><strong>Feature Id: </strong>{{ item.feature.id}}</em></span>
+                    </div>
+                </div>
+                <hr>
 
-                <form class="form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <p class="text-center mb-0"><strong>{{ item.feature.title }}</strong></p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <p class="feature-description">{{ item.feature.summary }}</p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row no-gutters pl-3">
+                    <div class="offset-1 col-4">
+                        <span><strong>Price: </strong>{{ item.feature.price }}</span>
+                    </div>
+                    <div class="col-4">
+                        <span class=""><strong>Quantity: </strong>{{ item.quantity}}</span>
+                    </div>
+                </div>
+
+                <form class="row no-gutters form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <div class="input-group pl-5">
-                            <label for="exampleInputAmount" class="sr-only">New Qty</label>
-                            <div class="input-group-prepend pr-2 bg-style">Qty</div>
-                            <input name="quantity" type="number" value='0' min="0" max="999" class="form-control">
-                            <div class="input-group-append pl-2 pr-1 bg-style">{{item.quantity}}</div>
+                    <div class="col-12 form-group cart-form-group">
+                        <div class="row no-gutters">
+                            <div class="col-4 ">
+                                <label for="exampleInputAmount" class="sr-only">New Qty</label>
+                                <span class="input-group-prepend cart-qty-style">Qty: </span>
+                            </div>
+                            <div class="col-4 p-0">
+                                <input class="form-control cart-form-control " name=" quantity " type="number " value='0' min="0 " max="999 ">
+                            </div>
+                            <div class="col-4 p-0">
+                                <span class="input-group-append cart-qty-style">{{item.quantity}}</span>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <button class="cart-btn btn cart-enabled-link" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
+                            </div>
                         </div>
                     </div>
-                    <button class="btn ftr-btn-color ftr-enabled-link" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
                 </form>
+
             </div>
         </div>
         {% endfor %}
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 col-sm-6 col-md-4 checkout-amount pl-1">
-            <p class="p-0 m-0">
-                <span class="pr-2 ">Total</span>
-                <span><i class="fas fa-euro-sign"></i>{{ total }}</span>
-                <span class="pl-3 text-right"><a href="{% url 'checkout' %}" class="btn checkout-btn " role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
-                </span>
-            </p>
+        <div class="col-12 checkout-amount pl-1 text-center">
+            <span class="pr-2 "><strong>Total:</strong></span>
+            <span><i class="fas fa-euro-sign pl-1 "></i><strong>{{ total }}</strong></span>
+            <span class="pl-3 text-right"><a href="{% url 'checkout' %}" class="btn checkout-btn " role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
+            </span>
+
         </div>
     </div>
 </div>

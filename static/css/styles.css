@@ -81,14 +81,14 @@ li {
 }
 
 .login-reg-btn-color {
-    background-color: #6666ff!important;
+    background-color: #C080FF!important;
     color: fafaff!important;
     width: 120px;
 
 }
 
 .login-reg-btn-color:hover {
-    color: #6666ff!important;
+    color: #C080FF!important;
     background-color: fafaff!important;
     width: 120px;
 
@@ -118,7 +118,7 @@ li {
 }
 
 .link-text-style:hover {
-    color: #6666ff!important;
+    color: #C080FF!important;
     text-decoration: none;
 }
 
@@ -162,10 +162,10 @@ li {
 
 .logo {
     background: url("../images/kmcd_logo.png");
-    min-height: 53px;
+    min-height: 64px;
     min-width: 170px;
     border: solid 1px #fafaff;
-    border-style: outset;
+
     border-radius: 10px;
     background-position: center;
     background-repeat: no-repeat;
@@ -213,7 +213,7 @@ li {
 .mesg-style {
     margin: 0px;
     font-size: 13px;
-    background-color: #b3b3ff;
+    background-color: #C080FF;
     color: #fafaff;
 }
 
@@ -252,13 +252,22 @@ li {
 
 .nav-blank {
     color: #fafaff;
+    font-size: 14px;
 }
 
 /* Padding to left of home icon on navbar  */
 
 .navbar-padding {
-    padding-left: 15px;
+    padding-left: 0px;
+    font-size: 15px;
 
+}
+
+
+@media(min-width:1025px) {
+    .navbar-padding {
+        padding-left: 15px;
+    }
 }
 
 .nav-issues-align {
@@ -284,8 +293,8 @@ li {
 
 .nav-link {
     color: #3b3b3b!important;
-    font-size: 15px;
-    padding: 15px!important;
+    font-size: 14px;
+    padding: 14px!important;
 
 }
 
@@ -299,7 +308,7 @@ li {
 }
 
 .nav-link:hover {
-    background-color: #6666ff;
+    background-color: #C080FF;
     color: #fafaff!important;
     border-radius: 5px;
 }
@@ -323,7 +332,7 @@ li {
 
 .company-name-style {
     font-size: 16px;
-    color: #6666ff;
+    color: #C080FF;
 }
 
 @media(min-width:768px) {
@@ -334,7 +343,7 @@ li {
 
     .company-name-style {
         font-size: 32px;
-        color: #6666ff;
+        color: #C080FF;
     }
 }
 
@@ -349,7 +358,7 @@ li {
 }
 
 .welcome-links:hover {
-    background-color: #6666ff;
+    background-color: #C080FF;
     color: #fafaff!important;
     text-decoration: none;
     border-radius: 5px;
@@ -358,14 +367,14 @@ li {
 
 .footer-copyright {
     font-size: 12px;
-    color: #6666ff;
+    color: #C080FF;
 }
 
 
 /* Styling that affects the Issues processing -------------------------------*/
 
 .iss-btn-color {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
     width: 120px;
 
@@ -410,19 +419,19 @@ li {
 
 .iss-select:hover {
     background-color: #fff!important;
-    color: #C080FF!important;
+    color: #6666ff!important;
 
 }
 
 .iss-selected {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: #fff!important;
 
 }
 
 .iss-dropdown a:hover {
     color: #fafaff!important;
-    background-color: #C080FF;
+    background-color: #6666ff;
 
 }
 
@@ -445,7 +454,7 @@ li {
 /* Set text align for assigned user, depending on device size   */
 
 .iss-comments-btn-color {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
 
 }
@@ -457,13 +466,13 @@ li {
 /* Activate hover functionality on page numbers with live links only       */
 
 .iss-page-live-link:hover {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: #fff!important;
 }
 
 
 .iss-td-thumbs-up-style {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
 }
 
@@ -472,7 +481,7 @@ li {
 .iss-comments-dash {
 
     border-radius: 5px;
-    background-color: #C080FF;
+    background-color: #6666ff;
     padding: 5px;
 
 }
@@ -487,18 +496,18 @@ li {
 }
 
 .iss-comments-icon {
-    color: #C080FF;
+    color: #6666ff;
     font-size: 18px;
 }
 
 .iss-no-comments-icon {
-    color: #C080FF;
+    color: #6666ff;
     font-size: 16px;
 }
 
 .iss-id-style {
     font-size: 12px;
-    color: #C080FF;
+    color: #6666ff;
 }
 
 @media(min-width:321px) {
@@ -534,7 +543,7 @@ li {
    to the user as to whether they're looking at the issues or features list */
 
 .iss-filter-icon-color {
-    color: #C080FF!important;
+    color: #6666ff!important;
     background-color: #f3f2f2!important;
 
 
@@ -549,13 +558,13 @@ li {
 
 .iss-filter-dd:hover {
     color: #fafaff!important;
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
 
 }
 
 
 .iss-edit-update-btn-color {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
 
 }
@@ -570,7 +579,7 @@ li {
 
 .iss-more-icon-style:hover {
     color: #ffffff;
-    background-color: #C080FF;
+    background-color: #6666ff;
     font-weight: 900;
 }
 
@@ -597,7 +606,7 @@ li {
 
 .iss-enabled-link:hover {
     border-radius: 5px;
-    color: #C080FF!important;
+    color: #6666ff!important;
     background-color: fafaff!important;
 }
 
@@ -608,14 +617,14 @@ li {
 /* Activate hover functionality on page numbers with live links only       */
 
 .iss-page-live-link:hover {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: #fff!important;
 }
 
 
 .iss-rep-client-total {
     border-radius: 5px;
-    background-color: #C080FF;
+    background-color: #6666ff;
     color: #fff;
     font-weight: 900;
     padding: 5px;
@@ -643,25 +652,26 @@ li {
     width: 200px;
 
 }
+
 .iss-chevron-style {
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
 }
 
 .iss-det-chevron-style {
-    color: #C080FF!important;
+    color: #6666ff!important;
 
 }
 
 .iss-det-chevron-style:hover {
     border-radius: 5px;
-    background-color: #C080FF!important;
+    background-color: #6666ff!important;
     color: fafaff!important;
 }
 
 .iss-hr-style {
-    background-color: #C080FF!important;
-     
+    background-color: #6666ff!important;
+
 }
 
 
@@ -710,7 +720,7 @@ li {
 
 }
 
-.ftr-td-cart-plus-style{
+.ftr-td-cart-plus-style {
     background-color: #80C0FF!important;
     color: fafaff!important;
 }
@@ -1098,13 +1108,13 @@ footer {
 
 @media(min-width: 1024px) {
     .rep-client-code {
-        font-size:16px;
+        font-size: 16px;
     }
 }
 
 .report-align {
     text-align: left;
-    font-size:13px;
+    font-size: 13px;
 }
 
 @media(min-width: 768px) {
@@ -1115,7 +1125,7 @@ footer {
 
 @media(min-width: 1024px) {
     .report-align {
-        font-size:16px;
+        font-size: 16px;
     }
 }
 
@@ -1125,13 +1135,13 @@ footer {
 }
 
 .ftr-det-chevron-style {
-    color:  #80C0FF!important;
+    color: #80C0FF!important;
 
 }
 
 .ftr-det-chevron-style:hover {
     border-radius: 5px;
-    background-color:  #80C0FF!important;
+    background-color: #80C0FF!important;
     color: fafaff!important;
 }
 
@@ -1271,16 +1281,6 @@ footer {
 
 /* Styling for the cart -----------------------------------------------------*/
 
-.cart-enabled-link {}
-
-.cart-enabled-link:hover {
-    background-color: #80C0FF!important;
-    color: fafaff!important;
-    border-radius: 5px;
-
-}
-
-
 .cart-container {
     color: #3b3b3b!important;
     margin-left: 0px;
@@ -1332,25 +1332,111 @@ footer {
 
 
 
+.bg-style {
+    padding: 6px 12px;
+    background-color: #80C0FF;
+    border: solid 1px #fafaff;
+    min-width: 35px;
+
+}
+
+.cart-qty-style {
+    padding: 6px 12px;
+    background-color: #80C0FF;
+    border: solid 1px #f3f2f2;
+    border-radius: .25rem;
+    color: fafaff;
+    font-size: 13px!important;
+}
+
+
+.cart-form-group {
+    padding-top: 10px;
+}
 
 
 .card {
     margin-right: 20px;
     margin-bottom: 15px;
     padding: 10px;
+    background-color: #e6f2ff!important;
+    font-size: 13px;
 }
+
+.cart-btn {
+    font-size: 13px!important;
+    border: solid 1px #f3f2f2;
+    width: 100%;
+    background-color: #C080FF!important;
+    color: fafaff!important;
+}
+
+
+
+.cart-enabled-link {}
+
+.cart-enabled-link:hover {
+    border-radius: 5px;
+    color: #C080FF!important;
+    background-color: fafaff!important;
+}
+
+
+
+.cart-form-control {
+    font-size: 13px!important;
+    border: solid 1px #f3f2f2;
+    border-radius: .25rem;
+    width: 100%!important;
+}
+
+
+@media(min-width: 768px) {
+    .card {
+        font-size: 14px!important;
+    }
+    .cart-form-control {
+        font-size: 14px!important;
+    }
+    .cart-btn {
+        font-size: 14px!important;
+    }
+    .cart-qty-style {
+        font-size: 14px!important;
+    }
+}
+
+
+@media(min-width: 1024px) {
+    .card {
+        font-size: 16px;
+    }
+    .cart-form-control {
+        font-size: 16px!important;
+    }
+    .cart-btn {
+        font-size: 16px!important;
+    }
+    .cart-qty-style {
+        font-size: 16px!important;
+
+    }
+}
+
+
+
 
 .feature-description {
     min-height: 40px;
 }
 
 .checkout-btn {
-    background-color: #FFBF80!important;
+    background-color: #C080FF!important;
     color: #fff!important;
 }
 
 .checkout-btn:hover {
-    color: #FFBF80!important;
+    color: #C080FF!important;
     background-color: #fff!important;
 }
 
@@ -1359,19 +1445,15 @@ footer {
     margin-right: 20px;
     margin-bottom: 15px;
     padding: 10px;
-    background-color: #fff!important;
+    background-color: #80C0FF;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
+    color: fafaff;
 
 }
 
-.bg-style {
-    padding-top: 4px;
-    background-color: #ddd;
-    text-align: center;
-    border: solid 1px #ddd;
-}
+
 
 .pay-btn {
     background-color: #FFBF80!important;
