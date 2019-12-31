@@ -1302,7 +1302,7 @@
                 // values, starting with page 1
 
                 let page = 1;
-
+                
                 getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
 
             });
@@ -1603,14 +1603,14 @@
 
             // User wants to add a quantity of a specific feature to the cart
 
-            $(document).on('click', ".ftr-thumbs-up-click", function() {
+            $(document).on('click', ".ftr-cart-plus-click", function() {
 
                 // Extract the button element just clicked on, and separate the
                 // classes into an array. The featureId is the first class
                 // e.g. the button element is created like this:
-                // <button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add ftr-thumbs-up-click' type='submit'>
-                // So if the feature id = '16', 'classes' below will be = "16 btn td-thumbs-up-style td-form-font td-add ftr-thumbs-up-click", 
-                // where 'i6' is the id of the feature relevant to the Add button just clicked. We want to get the featureId
+                // <button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click' type='submit'>
+                // So if the feature id = '16', 'classes' below will be = "16 btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click", 
+                // where 'i6' is the id of the feature relevant to the cart+ button just clicked. We want to get the featureId
 
                 var classes = $(this).attr("class").split(" ");
 
@@ -1911,15 +1911,15 @@
                             var status = value.status;
                             var paid = value.paid;
                             var price = value.price;
-                            var thumbsUpCount = value.thumbs_up_count;
+                            var featureClientCount = value.client_count;
 
                             // Initialise 'inputDisabled'. To be added to input field
-                            // for quantity & amount, to enable / disabled input
+                            // for amount, to enable / disabled input
 
                             var inputDisabled = "";
 
                             // Initialise 'linkEnabledDisabled'. Class To be 
-                            // added to thumbs up to enable / disable
+                            // added to cart+ to enable / disable
 
                             var linkEnabledDisabled = "";
 
@@ -1942,7 +1942,7 @@
                                 var assignedUser = value.assigned_vendor_user;
                                 linkEnabledDisabled = " disabled-link"
 
-                                // For vendor-side user, quantity & +Add will be disabled
+                                // For vendor-side user, cart+ will be disabled
 
                                 inputDisabled = "disabled";
                             }
@@ -1953,7 +1953,7 @@
 
                             $("tbody").append(
                                 "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-thumbs-up-style td-form-font ftr-thumbs-up-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-thumbs-up thumbs-up-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + thumbsUpCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });

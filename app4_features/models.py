@@ -18,10 +18,10 @@ class Feature(models.Model):
     assigned_vendor_user = models.CharField(max_length=10, blank=True)
     assigned_client_user = models.CharField(max_length=10, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    thumbs_up_count = models.IntegerField(default=0)
+    client_count = models.IntegerField(default=0)
     
     def __str__(self):
-        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.title, self.status, self.thumbs_up_count, self.paid )
+        return "{0} - {1}: {2}, {3}, {4}, {5}".format(self.id, self.client_code, self.title, self.status, self.client_count, self.paid )
         
 
 """
@@ -50,10 +50,10 @@ class FeaturePaid(models.Model):
     client_code = models.CharField(max_length=6, blank=True)
     author = models.CharField(max_length=6, blank=True)
     user_id = models.CharField(max_length=10, blank=False)
-    thumbs_up = models.IntegerField(default=0) 
+    quantity = models.IntegerField(default=0) 
     amount_paid = models.DecimalField(max_digits=6, decimal_places=2)
     
     def __str__(self):
-        return "{0}: {1} - {2}, {3}, {4}, {5}".format(self.feature_id, self.client_code, self.author, self.user_id, self.thumbs_up, self.amount_paid  )
+        return "{0}: {1} - {2}, {3}, {4}, {5}".format(self.feature_id, self.client_code, self.author, self.user_id, self.quantity, self.amount_paid  )
 
 

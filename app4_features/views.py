@@ -302,7 +302,7 @@ def get_features(request):
         	"price":feature.price,
         	"summary": feature.summary,
         	"status": feature.status,
-        	"thumbs_up_count": feature.thumbs_up_count,
+        	"client_count": feature.client_count,
         	"user_type": UserDetails.user_type
         	
     })

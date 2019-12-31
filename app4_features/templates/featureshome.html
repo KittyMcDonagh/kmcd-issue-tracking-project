@@ -136,8 +136,8 @@
                         <th scope="col" class="text-center td-status">Status</th>
                         <th scope="col" class="text-center td-price"><i class="fas fa-euro-sign"></i> Price</th>
                         <th scope="col" class="text-center td-paid"><i class="fas fa-euro-sign"></i> Paid</th>
-                        <th scope="col" class="text-center td-add pl-0 ml-0"><i class="fas fa-plus"></i>Cart</th>
-                        <th scope="col" class="text-center td-thumbs-up pl-0 ml-0"><i class="fas fa-thumbs-up thumbs-up-icon"></i></th>
+                        <th scope="col" class="text-center td-add pl-0 ml-0"><i class="fas fa-cart-plus "></i></th>
+                        <th scope="col" class="text-center td-cart-plus pl-0 ml-0"><i class="fas fa-flag"></i></th>
                         <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h ftr-more-icon-th"></th>
                     </tr>
                 </thead>
@@ -182,34 +182,34 @@
                                     
                                     {% if userdetails.user_type == "C" %}
                                     
-                                    <!-- if client-side user enable the thumbs up button, if the price is > 0 -->
+                                    <!-- if client-side user enable the cart button, if the price is > 0 -->
                                     
                                     {% if feature.price > 0 %}
                                         
-                                        <td class="pl-0 ml-0 td-thumbs-up">
-                                            <button class="btn ftr-td-thumbs-up-style td-form-font  ftr-enabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                                        <td class="pl-0 ml-0 td-cart-plus">
+                                            <button class="btn ftr-td-cart-plus-style td-form-font  ftr-enabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
                                         </td>
                                         
                                         {% else %}
                                         
-                                        <td class="pl-0 ml-0 td-thumbs-up">
-                                            <button class="btn ftr-td-thumbs-up-style td-form-font  disabled-link" type="submit"><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                                        <td class="pl-0 ml-0 td-cart-plus">
+                                            <button class="btn ftr-td-cart-plus-style td-form-font  disabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
                                         </td>
                                         
                                         {% endif %}
                                         
                                     {% else %}
                                     
-                                     <!-- Vendor-side user, disable Quantity input and Add button -->
+                                     <!-- Vendor-side user, disable cart button -->
                                     
                                     <td class="pl-0 ml-0">
-                                        <button class="btn ftr-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                                        <button class="btn ftr-td-cart-plus-style td-form-font td-cart-plus disabled-link " type="submit" disabled><i class="fas fa-cart-plus cart-plus-icon"></i></button>
                                     </td>
                                     {% endif %}
                                 </div>
                             </form>
                             
-                            <td class="text-center td-thumbs-up">{{ feature.thumbs_up_count }}</td>
+                            <td class="text-center td-cart-plus">{{ feature.client_count }}</td>
                         
                         <td class="text-center td-more"><a class="ftr-more-icon-style" href='{% url 'feature_details' feature.id 'n' %}' ><i class="fas fa-ellipsis-h ftr-more-icon-style"></i></a>
                             </td>

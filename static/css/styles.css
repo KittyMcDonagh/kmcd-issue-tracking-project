@@ -710,7 +710,7 @@ li {
 
 }
 
-.ftr-td-thumbs-up-style {
+.ftr-td-cart-plus-style{
     background-color: #80C0FF!important;
     color: fafaff!important;
 }
@@ -812,8 +812,13 @@ li {
     }
 }
 
+.cart-plus-icon {
+    font-size: 12px;
+}
 
-
+.td-cart-plus {
+    width: 50px;
+}
 
 
 /* Styling for comments table  ----------------------------------------------*/
