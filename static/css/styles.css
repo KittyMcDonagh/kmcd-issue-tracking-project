@@ -89,7 +89,7 @@ li {
 
 .login-reg-btn-color:hover {
     color: #C080FF!important;
-    background-color: fafaff!important;
+    background-color: fff!important;
     width: 120px;
 
 }
@@ -309,7 +309,7 @@ li {
 
 .nav-link:hover {
     background-color: #C080FF;
-    color: #fafaff!important;
+    color: #fff!important;
     border-radius: 5px;
 }
 
@@ -359,7 +359,7 @@ li {
 
 .welcome-links:hover {
     background-color: #C080FF;
-    color: #fafaff!important;
+    color: #fff!important;
     text-decoration: none;
     border-radius: 5px;
 }
@@ -607,7 +607,7 @@ li {
 .iss-enabled-link:hover {
     border-radius: 5px;
     color: #6666ff!important;
-    background-color: fafaff!important;
+    background-color: fff!important;
 }
 
 .iss-page-live-link {
@@ -770,7 +770,7 @@ li {
 .ftr-enabled-link:hover {
     border-radius: 5px;
     color: #80C0FF!important;
-    background-color: fafaff!important;
+    background-color: fff!important;
 }
 
 .ftr-page-live-link {
@@ -921,7 +921,7 @@ footer {
 
 .ftr-more-icon-style:hover {
     background-color: #80C0FF;
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -995,7 +995,7 @@ footer {
 .ftr-enabled-link:hover {
     border-radius: 5px;
     color: #80C0FF!important;
-    background-color: fafaff!important;
+    background-color: fff!important;
 }
 
 .ftr-comments-form-style {
@@ -1356,11 +1356,18 @@ footer {
 
 
 .card {
-    margin-right: 20px;
+
     margin-bottom: 15px;
     padding: 10px;
     background-color: #e6f2ff!important;
     font-size: 13px;
+}
+
+@media(min-width: 768px) {
+    .card {
+        margin-right: 20px;
+        
+    }
 }
 
 .cart-btn {
@@ -1377,9 +1384,19 @@ footer {
 
 .cart-enabled-link:hover {
     border-radius: 5px;
-    color: #C080FF!important;
-    background-color: fafaff!important;
+    color: #fafaff!important;
+    background-color: #80C0FF!important;
 }
+
+
+.amend-enabled-link {}
+
+.amend-enabled-link:hover {
+    border-radius: 5px;
+    color: #C080FF!important;
+    background-color: fff!important;
+}
+
 
 
 
@@ -1424,11 +1441,10 @@ footer {
 }
 
 
-
-
 .feature-description {
     min-height: 40px;
 }
+
 
 .checkout-btn {
     background-color: #C080FF!important;
@@ -1453,15 +1469,29 @@ footer {
 
 }
 
+.checkout-bg {
+    background-color: #C080FF!important;
+    color: #fafaff!important;
+}
+
+.pay-details-legend {
+    background-color: #80C0FF;
+    color:#fafaff;
+}
 
 
 .pay-btn {
-    background-color: #FFBF80!important;
-    color: fafaff!important;
-    width: 150px;
+    background-color: #C080FF!important;
+    color: #fff!important;
 }
 
 .pay-btn:hover {
-    color: #FFBF80!important;
-    background-color: fafaff!important;
+    border-radius: 5px;
+    color: #C080FF!important;
+    background-color: fff!important;
+    width: 150px;
 }
+
+
+
+

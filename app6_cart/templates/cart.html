@@ -4,6 +4,7 @@
     <div class="row no-gutters">
 
         {% for item in cart_items %}
+        
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
                 <div class="row no-gutters">
@@ -26,7 +27,7 @@
                     </div>
                 </div>
                 <hr>
-
+                
                 <div class="row no-gutters pl-3">
                     <div class="offset-1 col-4">
                         <span><strong>Price: </strong>{{ item.feature.price }}</span>
@@ -45,7 +46,7 @@
                                 <span class="input-group-prepend cart-qty-style">Qty: </span>
                             </div>
                             <div class="col-4 p-0">
-                                <input class="form-control cart-form-control " name=" quantity " type="number " value='0' min="0 " max="999 ">
+                                <input class="form-control cart-form-control" name="quantity" type="number" value='0' min="0 " max="999 ">
                             </div>
                             <div class="col-4 p-0">
                                 <span class="input-group-append cart-qty-style">{{item.quantity}}</span>
@@ -53,7 +54,7 @@
                         </div>
                         <div class="row no-gutters">
                             <div class="col-12">
-                                <button class="cart-btn btn cart-enabled-link" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
+                                <button class="cart-btn btn amend-enabled-link" type="submit"><span><i class="fas fa-edit"></i></span>Amend</button>
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,7 @@
     </div>
 
     <div class="row no-gutters">
-        <div class="col-12 checkout-amount pl-1 text-center">
+        <div class="col-12 checkout-amount pl-1 text-center ">
             <span class="pr-2 "><strong>Total:</strong></span>
             <span><i class="fas fa-euro-sign pl-1 "></i><strong>{{ total }}</strong></span>
             <span class="pl-3 text-right"><a href="{% url 'checkout' %}" class="btn checkout-btn " role='button'><span><i class="fas fa-shopping-bag pr-2"></i></span>Checkout</a>
