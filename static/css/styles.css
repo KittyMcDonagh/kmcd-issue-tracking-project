@@ -384,6 +384,11 @@ li {
     font-size: 14px!important;
 }
 
+.iss-back-btn {
+    color: #6666ff!important;
+}
+
+
 /* base.html / js pagination  */
 
 /* Give the pagination section a height of 70px, so that if 

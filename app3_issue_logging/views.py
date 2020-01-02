@@ -141,7 +141,9 @@ Create a view that returns a single Post object based on the Post ID(pk)
 and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
-def issue_details(request, pk, view_comments=None):
+def issue_details(request, pk, view_comments=None, back_to_page=None, list_filters=None):
+    
+    print("in issue_details~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     # Retrieve the issue
     
@@ -190,8 +192,9 @@ def issue_details(request, pk, view_comments=None):
         
         IssueClientDetails = get_issue_client_details(request, issue)
        
+    print("loading issuesdetails.html")
     
-    return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails})
+    return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "back_to_page": back_to_page, "list_filters": list_filters })
     
 
 

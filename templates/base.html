@@ -239,7 +239,7 @@
 
             {% if list_type == "issues" %}
 
-            <li class="page-item"><span class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
+            <li class="page-item"><span id="current-page" class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
             </li>
 
             {% else %}
@@ -392,9 +392,9 @@
                 // value in the search box
 
                 let searchValue = ""
-
+                
                 // Initialise the page number
-
+                
                 let page = 1;
 
                 getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
@@ -864,11 +864,16 @@
                             else {
                                 var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
                             }
+                            
+                            // Get the list page number - if the user views the details of an issue on this page
+                            // they will be able to click the '<<Back' button to get back to this page
+                            
+                            var current_page = data.pagination_props.current_page
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -1118,8 +1123,8 @@
                     traditional: true
                 }).done();
             });
-
-
+            
+            
             /*
                 ==================================
                 Issues Report

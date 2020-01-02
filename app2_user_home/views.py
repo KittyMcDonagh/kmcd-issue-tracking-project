@@ -23,25 +23,40 @@ User Home Page - Initial load
 Issues assigned to the logged in user are shown.
 """
 
-def user_home(request):
+def user_home(request, back_to_page=None, list_filters=None):
     
-    # Initialise the issue filters
+    print("in user_home~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
-    SelectedIssuesFilter = "ASSIGNED TO ME"
-    
-    # Set Client Filter to ALL
+    if not list_filters:
         
-    SelectedClientFilter = "ALL"
-    
-    
-    # set Status Filter to ALL
-    
-    SelectedStatusFilter = "ALL"
-    
-    # set Priority Filter to ALL
-    
-    SelectedPriorityFilter = "ALL"
-    
+        # Initialise the issue filters
+        
+        SelectedIssuesFilter = "ASSIGNED TO ME"
+        
+        # set Status Filter to ALL
+        
+        SelectedStatusFilter = "ALL"
+        
+        # set Priority Filter to ALL
+        
+        SelectedPriorityFilter = "ALL"
+        
+        # Set Client Filter to ALL
+            
+        SelectedClientFilter = "ALL"
+        
+    else:
+        
+        # If the user has clicked "<<Back to list " on the Issue Details page,
+        # get the filter values that were on the page when the user selected
+        # '...' to see the Issue Details
+        
+        filter_array = list_filters.split("-")
+        SelectedIssuesFilter = "ALL"
+        SelectedStatusFilter = filter_array[1]
+        SelectedPriorityFilter = filter_array[2]
+        SelectedClientFilter = filter_array[1]
+        
     # Initialise these details in case user is not set up on Issue Tracker app
     
     AllClients = ""
@@ -128,7 +143,16 @@ def user_home(request):
     
     # For Pagination
     
-    page = request.GET.get('page', 1)
+    # If the user has clicked "<<Back to list" on the Issue Details page, go back
+    # to the list page number the user was previously on, otherwise get the 
+    # page number provided via the pagination parameters
+    
+    if back_to_page:
+        page = back_to_page
+    else:
+        page = request.GET.get('page', 1)
+        back_to_page = page
+        
     paginator = Paginator(Issues, 5)
     try:
         issues = paginator.page(page)
@@ -137,14 +161,18 @@ def user_home(request):
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
     
-    # Pass issues back as 'listing'. It will be used t pick up the pagination
+    # Pass issues back in 'listing'. It will be used to pick up the pagination
     # variables in base.html. The same will be done with the features list.
     
     listing = issues
     list_type = "issues"
     searching = 'n'
-  
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list })
+    
+    list_filters = SelectedIssuesFilter + SelectedStatusFilter + SelectedPriorityFilter + SelectedClientFilter
+    
+    print("list_filters: "+str(list_filters))
+    
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list, "back_to_page":back_to_page, "list_filters": list_filters })
 
 
 

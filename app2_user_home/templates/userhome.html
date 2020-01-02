@@ -2,8 +2,8 @@
 
 <main>
 
-    <div class="row no-gutters mt-2 mb-2">
-        <div class="col-12 col-md-6 filter-name pb-2">
+    <div class="row no-gutters mt-1 mb-1">
+        <div class="col-12 filter-name pb-1 text-center">
             <input id="iss-search-val" type='text' value="" name='q_issues'>
             <button id="iss-search-btn" class="btn iss-btn-color iss-enabled-link">Search</button>
         </div>
@@ -12,7 +12,7 @@
 
     <!-- Show Issues Filter -->
 
-    <div class="row no-gutters mt-2 mb-2">
+    <div class="row no-gutters mt-1 mb-1">
         <div class="col-12 col-md-3 filter-name pb-2">
 
             <div class="dropdown iss-dropdown"><strong class="pr-2"><i class="fas fa-filter iss-filter-icon-color"></i>Issues: </strong>
@@ -271,7 +271,7 @@
 
                         <td id="thumbs_up_count_{{issue.id}}" class="text-center td-thumbs-up">{{ issue.thumbs_up_count }}</td>
 
-                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' %}'><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
+                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' back_to_page list_filters %}'><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
                         </td>
                         
                     </tr>
