@@ -16,11 +16,11 @@
         <div class="col-12 col-md-3 filter-name pb-2">
 
             <div class="dropdown iss-dropdown"><strong class="pr-2"><i class="fas fa-filter iss-filter-icon-color"></i>Issues: </strong>
-                <a class="btn btn-secondary dropdown-toggle iss-filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_issues_filter }}</a>
+                <a class="btn btn-secondary dropdown-toggle iss-filter-dd" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_issues_filter_text }}</a>
 
-                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item issue-filter" data-value="ALL ISSUES">ALL ISSUES</a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item issue-filter" data-value="ALL">ALL ISSUES</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item issue-filter" data-value="ASSIGNED TO ME">ASSIGNED TO ME</a>
+                    <a class="dropdown-item issue-filter" data-value="ME">ASSIGNED TO ME</a>
 
                     <!-- If the user is on the Vendor side, they will be able to filter issues by 'ALL ISSUES', and 'ISSUES ASSIGNED TO ME',
                                      but they will also have a Client Code dropdown box from which to select clients -->
@@ -32,9 +32,9 @@
                     {% if userdetails.user_type == "C" %}
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item issue-filter" data-value="OUR ISSUES ONLY">OUR ISSUES ONLY</a>
+                    <a class="dropdown-item issue-filter" data-value="OUR">OUR ISSUES ONLY</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item issue-filter" data-value="OTHER CLIENTS' ISSUES ONLY">OTHER CLIENTS' ISSUES ONLY</a> {% endif %}
+                    <a class="dropdown-item issue-filter" data-value="OTHER">OTHER CLIENTS' ISSUES ONLY</a> {% endif %}
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
 
         <div class="col-12 col-md-3 filter-name pb-2">
             <div class="dropdown iss-dropdown"><strong class="pr-1"><i class="fas fa-filter iss-filter-icon-color"></i>Priority: </strong>
-                <a class="btn btn-secondary dropdown-toggle iss-filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_priority_filter }}</a>
+                <a class="btn btn-secondary dropdown-toggle iss-filter-dd" href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selected_priority_filter_text }}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-3">
                     <a class="dropdown-item priority-filter" href="#" data-value="ALL">ALL</a>
                     <div class="dropdown-divider"></div>

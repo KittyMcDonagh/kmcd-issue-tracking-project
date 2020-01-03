@@ -118,8 +118,6 @@ def update_issue(request, pk=None):
         
         form = UpdateIssueForm(request.POST, request.FILES, instance=issue)
         
-        print("updateissuesform======================: "+str(form))
-        
         if form.is_valid():
             issue = form.save()
            
@@ -142,8 +140,6 @@ and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
 def issue_details(request, pk, view_comments=None, back_to_page=None, list_filters=None):
-    
-    print("in issue_details~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     # Retrieve the issue
     
@@ -192,8 +188,6 @@ def issue_details(request, pk, view_comments=None, back_to_page=None, list_filte
         
         IssueClientDetails = get_issue_client_details(request, issue)
        
-    print("loading issuesdetails.html")
-    
     return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "back_to_page": back_to_page, "list_filters": list_filters })
     
 
@@ -222,9 +216,6 @@ Get all client-side users - needed for the 'assigned user dropdown' when editing
     
 def get_all_client_users(request, user_client_code):
     
-    print("in get_all_client_users~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("user_client_code: "+str(user_client_code))
-    
     AllClientUsers = ""
 
     try:
@@ -232,8 +223,6 @@ def get_all_client_users(request, user_client_code):
     except:
         messages.error(request, "Problem retrieving the all client users from Issue Tracker!")
         
-    print("AllClientUsers: "+str(AllClientUsers))
-    
     return AllClientUsers
 
 """
@@ -515,13 +504,13 @@ def issues_report(request):
         
             if not issues:
                 issues = issue
-                print("FIRST ISSUE.......: "+str(issues))
+                
             else:
                 issues = issues | issue
-                print("SUBSEQUENT ISSUE.......: "+str(issues))
+                
                 
             nr_flagged_issues += 1
-            print("NUMER FLAGGED. . . : "+str(nr_flagged_issues))
+        
             
         # Order this client's issues and flaggeissues by priority - 1 being the most urgent 
         
@@ -558,13 +547,8 @@ def issues_report(request):
             })
             
     
-    print("FINAL SET OF ISSUES ==============================:"+str(data["issues"]))
-    print("FINAL CLIENT TOTALS ==============================:"+str(clienttotals))
-
     # Return the user message also - set above if no issues found
-    	
-   
-        
+    
     return  render(request, 'issuereport.html', {"clienttotals": clienttotals, "issues": data["issues"], 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
 
 """

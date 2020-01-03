@@ -25,13 +25,13 @@ Issues assigned to the logged in user are shown.
 
 def user_home(request, back_to_page=None, list_filters=None):
     
-    print("in user_home~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
     if not list_filters:
+        
+        # Initialise all the list filters
         
         # Initialise the issue filters
         
-        SelectedIssuesFilter = "ASSIGNED TO ME"
+        SelectedIssuesFilter = "ME"
         
         # set Status Filter to ALL
         
@@ -44,6 +44,7 @@ def user_home(request, back_to_page=None, list_filters=None):
         # Set Client Filter to ALL
             
         SelectedClientFilter = "ALL"
+        SelectedClientFilterName= ""
         
     else:
         
@@ -51,11 +52,10 @@ def user_home(request, back_to_page=None, list_filters=None):
         # get the filter values that were on the page when the user selected
         # '...' to see the Issue Details
         
-        filter_array = list_filters.split("-")
-        SelectedIssuesFilter = "ALL"
-        SelectedStatusFilter = filter_array[1]
-        SelectedPriorityFilter = filter_array[2]
-        SelectedClientFilter = filter_array[1]
+        SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter = get_selected_filters(list_filters)
+        
+        SelectedClientFilterName = get_selected_client_name(request, SelectedClientFilter)
+        
         
     # Initialise these details in case user is not set up on Issue Tracker app
     
@@ -94,28 +94,61 @@ def user_home(request, back_to_page=None, list_filters=None):
     
     Issues = ""
     
-    # Get the issues assigned to the logged only. 
-    # An issue can be assigned both to a client-side user and a vendor-side user, 
-    # so we need to verify which one it is
+    # Get all the issues from the issues database
+        
+    Issues = Issue.objects.all()
+            
+    # User has requested all issues assigned to them?
     
-    if UserDetails.user_type == "C":
-            
-        # User is on the Client side
-                
-        try:
-            Issues = Issue.objects.filter(assigned_client_user=UserDetails.user_id)
-        except:
-            messages.error(request, "PROBLEM RETRIEVING ISSUES!")
-            
+    if SelectedIssuesFilter == 'ME':
+                    
+        # Is this a Client-side user?
+                    
+        if UserDetails.user_type == "C":
+        
+            Issues = Issues.filter(assigned_client_user = UserDetails.user_id)
+        			
+        else:
+                    
+            # This is a Vendor-side user
+                    
+            Issues = Issues.filter(assigned_vendor_user = UserDetails.user_id)
+                    
     else:
+                    
+        # Has user requested 'Our Issues Only'?
+        # This option is relevant to Client-side users only'
+                    
+        if SelectedIssuesFilter == 'OUR':
+                        
+            Issues = Issues.filter(client_code = UserDetails.vend_client_code)
+                                
+        else:
+                        
+            # Has user requested 'Other Clients' issues Only?
+                    
+            if SelectedIssuesFilter == "OTHER":
                 
-        # User is on the Vendor side
+                Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
             
-        try:
-            Issues = Issue.objects.filter(assigned_vendor_user=UserDetails.user_id)
-        except:
-            messages.error(request, "PROBLEM RETRIEVING ISSUES!")
-                
+    # Filter issues further if status filter is set . . .
+            
+    if SelectedStatusFilter != "ALL":
+            Issues = Issues.filter(status=SelectedStatusFilter)
+            
+    # . . . or if Client filter is set (client filter is availabe to vendor
+    # -side users only)
+            
+    if SelectedClientFilter != "ALL":
+            
+        Issues = Issues.filter(client_code=SelectedClientFilter)
+            
+    # . . . or if Priority filter is set 
+        
+    if SelectedPriorityFilter != "ALL":
+        Issues = Issues.filter(priority=SelectedPriorityFilter)
+            
+    
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
     
@@ -147,12 +180,19 @@ def user_home(request, back_to_page=None, list_filters=None):
     # to the list page number the user was previously on, otherwise get the 
     # page number provided via the pagination parameters
     
-    if back_to_page:
-        page = back_to_page
-    else:
-        page = request.GET.get('page', 1)
-        back_to_page = page
-        
+    # Is the user using the page numbers to paginate from page to page, if so 
+    # use the page nr the user has requested
+    # If not, check if user is returning from Issue Details page, to list page
+    # If so, use the back_to_page nr as the page, otherwise start at page 1
+    
+    page = request.GET.get('page')
+    
+    if not page:
+        if back_to_page:
+            page = back_to_page
+        else:
+            page = 1
+    
     paginator = Paginator(Issues, 5)
     try:
         issues = paginator.page(page)
@@ -168,11 +208,21 @@ def user_home(request, back_to_page=None, list_filters=None):
     list_type = "issues"
     searching = 'n'
     
-    list_filters = SelectedIssuesFilter + SelectedStatusFilter + SelectedPriorityFilter + SelectedClientFilter
+    # Pass back the page number the user needs to come back to from Issue Details
     
-    print("list_filters: "+str(list_filters))
+    back_to_page = page
     
-    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter':SelectedIssuesFilter, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter': SelectedPriorityFilter, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list, "back_to_page":back_to_page, "list_filters": list_filters })
+    # Create the list filters to be used when coming back to this page from Issue Details
+    
+    list_filters = create_filters_list(SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter)
+    
+    # Pass the full text value for the Issues Filter and the Priority filter, to be displayed in the dropdown boxes
+    
+    SelectedIssuesFilterText, SelectedPriorityFilterText = get_list_filters_text(SelectedIssuesFilter, SelectedPriorityFilter)
+    
+    SelectedClient = SelectedClientFilter + " " + SelectedClientFilterName
+    
+    return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter_text':SelectedIssuesFilterText, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter_text': SelectedPriorityFilterText, 'selected_client_filter': SelectedClient, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list, "back_to_page":back_to_page, "list_filters": list_filters })
 
 
 
@@ -209,8 +259,8 @@ def get_issues(request):
         Issues = Issue.objects.all()
             
         # User has requested all issues assigned to them?
-                
-        if issues_filter == 'ASSIGNED TO ME':
+        
+        if issues_filter == 'ME':
                     
             # Is this a Client-side user?
                     
@@ -229,7 +279,7 @@ def get_issues(request):
             # Has user requested 'Our Issues Only'?
             # This option is relevant to Client-side users only'
                     
-            if issues_filter == 'OUR ISSUES ONLY':
+            if issues_filter == 'OUR':
                         
                 Issues = Issues.filter(client_code = UserDetails.vend_client_code)
                                 
@@ -237,7 +287,7 @@ def get_issues(request):
                         
                 # Has user requested 'Other Clients' issues Only?
                     
-                if issues_filter == "OTHER CLIENTS' ISSUES ONLY":
+                if issues_filter == "OTHER":
                 
                     Issues = Issues.exclude(client_code = UserDetails.vend_client_code)
             
@@ -299,6 +349,10 @@ def get_issues(request):
     if not Issues:
         user_message = "No issues found for the selected criteria!"
     
+    # Pass back the list filters
+    
+    
+    list_filters = create_filters_list(issues_filter, status_filter, priority_filter, client_filter)
     
     # For Pagination
     
@@ -348,6 +402,14 @@ def get_issues(request):
 		"page_range": list(page_range)
 	}
 	
+	
+	# Return the List filters
+	
+    data["filters"] = {
+        "list_filters": list_filters,
+	}
+	
+	
 	# Return the user message also - set above if no issues found
 	
     data["user_mesg"] = {
@@ -362,8 +424,6 @@ def get_issues(request):
         
         "thumb_down_list": list(thumb_down_list)
 	}
-	
-	
 	
 	# Return the issues to be output to  the html table
 	
@@ -397,9 +457,12 @@ def get_issues(request):
         	"status": issue.status,
         	"thumbs_up_count": issue.thumbs_up_count,
         	"user_type": UserDetails.user_type,
-        	"user_client_code": UserDetails.vend_client_code
+        	"user_client_code": UserDetails.vend_client_code,
+        	
         	
     })
+    
+    
     
     return JsonResponse(data, safe=False)
     
@@ -475,6 +538,32 @@ def get_client(request, UserDetails):
         messages.error(request, "Client details not found!")
    
     return  ClientDetails
+
+
+"""
+Get the name of the client selected in the filter
+"""
+
+def get_selected_client_name(request, SelectedClientFilter):
+    
+    SelectedClientFilterName = ""
+    
+    # If the selected client filter is not = ALL and not blank get the client name
+    # to be displayed in the dropdown box when the issues list is reloaded when
+    # the user clicks "<<Back to list" on Issues Details page
+    
+    if SelectedClientFilter:
+        if SelectedClientFilter != "ALL":
+    
+            try:
+                SelectedClient = Client.objects.get(client_code=SelectedClientFilter)
+                SelectedClientFilterName = SelectedClient.client_name
+            except:
+                messages.error(request, "Client details not found!")
+                
+            
+   
+    return  SelectedClientFilterName
     
 
 
@@ -607,5 +696,64 @@ def iss_thumbs_up_down(request):
     return JsonResponse(data, safe=False)
 
     
-
+# The Issues Filter and the Priority Filter have a different value to the text
+# in the dropdown box. Pick up the correct text to be displayed in the dropdown
+# box on the Issues List
     
+def get_list_filters_text(SelectedIssuesFilter, SelectedPriorityFilter):
+    
+    issues_filter_value = ["ALL","ME","OUR","OTHER" ]
+    issues_filter_text = ["ALL ISSUES","ASSIGNED TO ME","OUR ISSUES ONLY","OTHER CLIENTS' ISSUES ONLY" ]
+    
+    i = 0
+    for value in issues_filter_value:
+        
+        if SelectedIssuesFilter == value:
+            SelectedIssuesFilterText = issues_filter_text[i]
+        i += 1
+        
+    
+    priority_filter_value = ["ALL","1","2","3","4","5" ]
+    priority_filter_text = ["ALL","1 - URGENT","2 - HIGH PRIORITY","3 - MEDIUM PRIORITY","4 - LOW PRIORITY", "5 - COSMETIC" ]
+    
+    i = 0
+    for value in priority_filter_value:
+        if SelectedPriorityFilter == value:
+            SelectedPriorityFilterText = priority_filter_text[i]
+        i += 1
+    
+    
+    return SelectedIssuesFilterText, SelectedPriorityFilterText
+    
+    
+    
+# Create the filters list to pass between views. It will be used
+# when the user clicks "<<Back to list" on the Issue Details page to bring 
+# them back to the page they were on when the clicked '...' to see an issue's
+# details
+
+def create_filters_list(SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter):
+    
+    priority_filter_value = ["ALL","1","2","3","4","5" ]
+    priority_filter_text = ["ALL","URGENT","HIGH","MEDIUM","LOW", "COSMETIC" ]
+    
+    list_filters = ""
+    
+    list_filters = SelectedIssuesFilter + "x" + SelectedStatusFilter + "x" + SelectedPriorityFilter + "x" + SelectedClientFilter
+    
+    return list_filters
+    
+    
+# A filters list has been passed into the view - populate the selected filter fields
+# with the values
+
+def get_selected_filters(list_filters):
+    
+    filters_array = list_filters.split("x")
+    
+    SelectedIssuesFilter = filters_array[0]
+    SelectedStatusFilter = filters_array[1]
+    SelectedPriorityFilter = filters_array[2]
+    SelectedClientFilter = filters_array[3]
+    
+    return SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter

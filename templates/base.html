@@ -309,7 +309,7 @@
 
             <div class="col-12 col-md-6">
                 <ul class="p-0">
-                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}" ><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
+                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
                 </ul>
             </div>
         </div>
@@ -347,7 +347,12 @@
             $('.issue-filter').on('click', function() {
 
                 event.preventDefault();
+
+                // The Issues Filter data value and the text in the dropdown
+                // box are not the same. Get the value and the text
+
                 let issuesFilter = $(this).data('value');
+                let issuesFilterText = this.innerText;
 
                 // Clear the contents of the search box, to avoid confusing the user
 
@@ -356,7 +361,7 @@
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-1').text(issuesFilter);
+                $('#dropdownMenuLink-1').text(issuesFilterText);
 
                 // When the user selects a value from the Issues Filter, all the
                 // other filters are reset to "ALL"
@@ -392,9 +397,9 @@
                 // value in the search box
 
                 let searchValue = ""
-                
+
                 // Initialise the page number
-                
+
                 let page = 1;
 
                 getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
@@ -402,9 +407,9 @@
             });
 
 
-            // ===========================
+            // =================================
             // Filtering Issues by Status Filter
-            // ===========================
+            // =================================
 
             // A value has been selected from the Status filter dropdown by the user
 
@@ -433,7 +438,7 @@
                 let issuesFilter = getIssuesFilterValue();
 
                 if (issuesFilter == "") {
-                    issuesFilter = 'ALL ISSUES'
+                    issuesFilter = 'ALL'
                     $('#dropdownMenuLink-1').text(issuesFilter);
                 }
 
@@ -489,7 +494,6 @@
 
                 document.getElementById('iss-search-val').value = ""
 
-
                 // A value has been selected from the Priority Filter dropdown 
                 // by the user
 
@@ -533,7 +537,7 @@
                 let clientFilter = getClientFilterValue();
 
                 if (clientFilter == "") {
-                    clientFilter = "ALL"
+                    clientFilter = "ALL";
                     $('#dropdownMenuLink-4').text(clientFilter);
                 }
 
@@ -569,6 +573,7 @@
 
                 var clientDetails = $(this).data('value').split(" ");
                 let clientFilter = clientDetails[0];
+        
 
                 // Clear the contents of the text search box, to avoid confusing the user
 
@@ -706,12 +711,26 @@
             // Get the current value of the issues filter
 
             function getIssuesFilterValue() {
-
+                
                 // Get the current value of the Issues Filter
 
                 let el = document.getElementById("dropdownMenuLink-1");
-                let issuesFilter = el.innerText;
+                let issuesFilterText = el.innerText;
 
+                let issuesDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
+                let issuesDropdownText = ["ALL ISSUES", "ASSIGNED TO ME", "OUR ISSUES ONLY", "OTHER CLIENTS' ISSUES ONLY"];
+                
+                var issuesFilter = "";
+                let i = 0;
+                for (i in issuesDropdownText) {
+
+                    if (issuesFilterText == issuesDropdownText[i]) {
+                        issuesFilter = issuesDropdownValue[i]
+                    }
+                    i += 1
+                }
+                
+                
                 return issuesFilter;
 
             }
@@ -735,15 +754,17 @@
             // be extracted from the text.
 
             function getPriorityFilterValue() {
-
+                
                 let el = document.getElementById("dropdownMenuLink-3");
                 let priorityFilter = el.innerText
-
+                
+               
                 if (el.innerText != "ALL" & el.innerText != "") {
 
-                    let priorityArray = el.innerText.split("");
-
-                    priorityFilter = priorityArray[0, 0];
+                   let priorityArray = el.innerText.split("");
+                   
+                    priorityFilter = priorityArray[0];
+                    
                 }
 
                 return priorityFilter;
@@ -755,14 +776,18 @@
             // option on the screen, otherwise set it to "ALL"
 
             function getClientFilterValue() {
-
-                let clientFilter = "ALL";
-
+                
+                var clientFilter = "ALL";
+                
                 if ($("#dropdownMenuLink-4").length > 0) {
 
                     let el = document.getElementById("dropdownMenuLink-4");
-
-                    clientFilter = el.innerText;
+                    
+                    let clientCodeName = el.innerText;
+                    
+                    let clientDetails = clientCodeName.split(" ");
+                    clientFilter = clientDetails[0];
+                    
                 }
 
                 return clientFilter;
@@ -796,8 +821,8 @@
 
                         var thumbDownList = data.thumb.thumb_down_list
                         var userMessage = data.user_mesg.user_message;
-
-
+                        var listFilters = data.filters.list_filters
+                        
                         // Display user message if one is returned
                         // If the message is blank, keep the line, but make
                         // it invisible on the screen
@@ -824,7 +849,7 @@
                             var user = value.user;
                             var clientCode = value.client_code;
                             var userClientCode = value.user_client_code
-                            
+
                             var softwareComponent = value.software_component;
                             var priority = value.priority;
                             var summary = value.summary;
@@ -844,7 +869,7 @@
                                 // If this issue belongs to the client the user is associated with,
                                 // or if the status is DEPLOYED or CLOSED disable the 'thumbs up'
 
-                                if (userClientCode == clientCode || status == "DEPLOYED" || status == "CLOSED" ) {
+                                if (userClientCode == clientCode || status == "DEPLOYED" || status == "CLOSED") {
                                     tuEnabledDisabled = " disabled-link"
                                 }
                             }
@@ -864,16 +889,16 @@
                             else {
                                 var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
                             }
-                            
+
                             // Get the list page number - if the user views the details of an issue on this page
                             // they will be able to click the '<<Back' button to get back to this page
-                            
+
                             var current_page = data.pagination_props.current_page
 
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -1123,8 +1148,8 @@
                     traditional: true
                 }).done();
             });
-            
-            
+
+
             /*
                 ==================================
                 Issues Report
@@ -1307,7 +1332,7 @@
                 // values, starting with page 1
 
                 let page = 1;
-                
+
                 getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
 
             });
@@ -2159,7 +2184,7 @@
                 $('#ftr-comments-open').removeClass('disabled-link');
 
             });
-            
+
 
             /*
                 ==================================
