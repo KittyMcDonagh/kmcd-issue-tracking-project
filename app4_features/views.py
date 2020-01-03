@@ -20,23 +20,37 @@ from .forms import LogNewFeatureForm, UpdateFeatureForm, FeatureCommentForm
 Features home page
 """
 
-def features_home(request):
+def features_home(request, back_to_page=None, list_filters=None):
     
-    # Initialise the feature filters
+    if not list_filters:
     
-    SelectedFeaturesFilter = "ASSIGNED TO ME"
-    
-    # Set Client Filter to ALL
+        # Initialise the feature filters
         
-    SelectedClientFilter = "ALL"
-    
-    # set Status Filter to ALL
-    
-    SelectedStatusFilter = "ALL"
-    
-    # set Paid Order to ALL
-    
-    SelectedPaidOrder = "SORT BY"
+        SelectedFeaturesFilter = "ME"
+        
+        # Set Client Filter to ALL
+            
+        SelectedClientFilter = "ALL"
+        SelectedClientFilterName= ""
+        
+        # set Status Filter to ALL
+        
+        SelectedStatusFilter = "ALL"
+        
+        # set Paid Order to SORT BY, i.e. dont sort
+        
+        SelectedPaidOrder = "SORTBY"
+        
+    else:
+        
+        # If the user has clicked "<<Back to list " on the Feature Details page,
+        # get the filter values that were on the page when the user selected
+        # '...' to see the Feature Details
+        
+        SelectedFeaturesFilter, SelectedStatusFilter, SelectedPaidOrder, SelectedClientFilter = get_selected_filters(list_filters)
+        
+        SelectedClientFilterName = get_selected_client_name(request, SelectedClientFilter)
+        
     
     # Initialise these details in case user is not set up on the Issue Tracker app
     
@@ -75,26 +89,58 @@ def features_home(request):
     
     Features = ""
     
-    # Get the features assigned to the logged in user only. 
-    # A feature can be assigned both to a client-side user and a vendor-side user, 
-    # so we need to verify which one it is
-    
-    if UserDetails.user_type == "C":
-            
-        # User is on the Client side
+    # Get all the features from the features database
         
-        try:
-            Features = Feature.objects.filter(assigned_client_user=UserDetails.user_id)
-        except:
-            messages.error(request, "PROBLEM RETRIEVING FEATURES!")
-    
+    Features = Feature.objects.all()
+        
+    print("features_filter: "+SelectedFeaturesFilter)
+        
+    # User has requested all features assigned to them?
+                
+    if SelectedFeaturesFilter == 'ME':
+                    
+        # Is this a Client-side user?
+                    
+        if UserDetails.user_type == "C":
+        
+            Features = Features.filter(assigned_client_user = UserDetails.user_id)
+        			
+        else:
+                    
+            # This is a Vendor-side user
+                    
+            Features = Features.filter(assigned_vendor_user = UserDetails.user_id)
+                    
     else:
-        # User is on the Vendor side
-        
-        try:
-            Features = Feature.objects.filter(assigned_vendor_user=UserDetails.user_id)
-        except:
-            messages.error(request, "PROBLEM RETRIEVING FEATURES!")
+                    
+        # Has user requested 'Our Features Only'?
+        # This option is relevant to Client-side users only'
+                    
+        if SelectedFeaturesFilter == 'OUR':
+                        
+            Features = Features.filter(client_code = UserDetails.vend_client_code)
+                                
+        else:
+                        
+            # Has user requested 'Other Clients' features Only?
+                    
+            if SelectedFeaturesFilter == "OTHER":
+                
+                Features = Features.exclude(client_code = UserDetails.vend_client_code)
+            
+        # Filter features further if status filter is set . . .
+            
+        if SelectedStatusFilter != "ALL":
+            Features = Features.filter(status=SelectedStatusFilter)
+            
+        # . . . or if Client filter is set (client filter is availabe to vendor
+        # -side users only)
+            
+        if SelectedClientFilter != "ALL":
+            
+            Features = Features.filter(client_code=SelectedClientFilter)
+
+
     
     # Final filtering is done here to make sure users only see what they're
     # allowed to see, and they're sorted by date, descending
@@ -104,7 +150,19 @@ def features_home(request):
     
     # For Pagination
     
-    page = request.GET.get('page', 1)
+    # Is the user using the page numbers to paginate from page to page, if so 
+    # use the page nr the user has requested
+    # If not, check if user is returning from Feature Details page, to list page
+    # If so, use the back_to_page nr as the page, otherwise start at page 1
+    
+    page = request.GET.get('page')
+    
+    if not page:
+        if back_to_page:
+            page = back_to_page
+        else:
+            page = 1
+    
     paginator = Paginator(Features, 5)
     try:
         features = paginator.page(page)
@@ -119,8 +177,26 @@ def features_home(request):
     listing = features
     list_type = "features"
     searching = 'n'
+    
+    # Pass back the page number the user needs to come back to from Issue Details
+    
+    back_to_page = page
+    
+    # Create the list filters to be used when coming back to this page from Feature Details
+    
+    list_filters = create_filters_list(SelectedFeaturesFilter, SelectedStatusFilter, SelectedPaidOrder, SelectedClientFilter)
+    
+    # Pass the full text value for the Features Filter and the Paid Order, to be displayed in the dropdown boxes
+    
+    print("feature_home: about to call get_list_filters_text=================================")
+    
+    SelectedFeaturesFilterText, SelectedPaidOrderText = get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder)
+    
+    print("after calling get_list_filters_text=================================")
+    
+    SelectedClient = SelectedClientFilter + " " + SelectedClientFilterName
   
-    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "all_clients": AllClients,'features': features, 'selected_features_filter':SelectedFeaturesFilter, 'selected_status_filter': SelectedStatusFilter, "selected_paid_order": SelectedPaidOrder, 'selected_client_filter': SelectedClientFilter, "listing":listing, "list_type": list_type, "searching": searching })
+    return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "all_clients": AllClients,'features': features, 'selected_features_filter':SelectedFeaturesFilterText, 'selected_status_filter': SelectedStatusFilter, "selected_paid_order": SelectedPaidOrderText, 'selected_client_filter': SelectedClient, "listing":listing, "list_type": list_type, "searching": searching, "back_to_page":back_to_page, "list_filters": list_filters })
 
 
 
@@ -129,6 +205,8 @@ This function is called via the javascript in base.html
 Get the features, filtered by the features Filter options selected
 """
 def get_features(request):
+    
+    print("IN GET FEATURES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     data = []
     
@@ -146,6 +224,11 @@ def get_features(request):
     client_filter = request.POST.get('clientFilter')
     search_value = request.POST.get('searchValue')
     
+    print("features_filter: "+features_filter)
+    print("status_filter: "+status_filter)
+    print("paid_order: "+paid_order)
+    print("client_filter: "+client_filter)
+    
     # If the user is not using the search box, filter according to the filter
     # values
     
@@ -155,9 +238,11 @@ def get_features(request):
         
         Features = Feature.objects.all()
         
+       
+        
         # User has requested all features assigned to them?
                 
-        if features_filter == 'ASSIGNED TO ME':
+        if features_filter == 'ME':
                     
             # Is this a Client-side user?
                     
@@ -176,7 +261,7 @@ def get_features(request):
             # Has user requested 'Our Features Only'?
             # This option is relevant to Client-side users only'
                     
-            if features_filter == 'OUR FEATURES ONLY':
+            if features_filter == 'OUR':
                         
                 Features = Features.filter(client_code = UserDetails.vend_client_code)
                                 
@@ -184,7 +269,7 @@ def get_features(request):
                         
                 # Has user requested 'Other Clients' features Only?
                     
-                if features_filter == "OTHER CLIENTS' FEATURES ONLY":
+                if features_filter == "OTHER":
                 
                     Features = Features.exclude(client_code = UserDetails.vend_client_code)
             
@@ -217,6 +302,10 @@ def get_features(request):
     
     if not Features:
         user_message = "No features found for the selected criteria!"
+    
+    # Pass back the list filters
+    
+    list_filters = create_filters_list(features_filter, status_filter, paid_order, client_filter)
     
     # For Pagination
     
@@ -264,6 +353,13 @@ def get_features(request):
 		"next_page_nr": next_page_nr,
 		"page_range": list(page_range)
 	}
+	
+	# Return the List filters
+	
+    data["filters"] = {
+        "list_filters": list_filters,
+	}
+	
 	
     # Return the user message also - set above if no features found
     
@@ -317,7 +413,9 @@ Create a view that returns a single Post object based on the Post ID(pk)
 and render it to the 'postdetail.html' template or return a 404 error if
 the Post is not found.
 """
-def feature_details(request, pk, view_comments=None):
+def feature_details(request, pk, view_comments=None, back_to_page=None, list_filters=None):
+    
+    print("IN FEATURE DETAILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
     # Retrieve the feature
     
@@ -367,7 +465,7 @@ def feature_details(request, pk, view_comments=None):
         
         FeatureClientDetails = get_feature_client_details(request, feature)
     
-    return  render(request, 'featuredetails.html', {'feature': feature, 'featurecomments': featurecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails})
+    return  render(request, 'featuredetails.html', {'feature': feature, 'featurecomments': featurecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails, "back_to_page": back_to_page, "list_filters": list_filters})
     
 
 
@@ -524,12 +622,12 @@ def FinalFilterFeatures(request, Features, UserDetails, paid_order):
     
     # Sorting features by date, descending order, or by paid amount if selected
     
-    if paid_order != "SORT BY":
+    if paid_order != "SORTBY":
         
-        if paid_order == "LOWEST TO HIGHEST":
-            Features = Features.order_by('paid')
+        if paid_order == "LOWESTTOHIGHEST":
+            Features = Features.order_by('paid', '-id')
         else:
-            Features = Features.order_by('-paid')
+            Features = Features.order_by('-paid', '-id')
             
     else:
         
@@ -921,3 +1019,91 @@ so as to create a client report in order of amount paid by client - highest to l
 def sortTotal(val): 
     return val[1]  
   
+
+# A filters list has been passed into the view - populate the selected filter fields
+# with the values
+
+def get_selected_filters(list_filters):
+    
+    print("in get_selected_filters=============================")
+    print("list_filters = "+list_filters)
+    
+    filters_array = list_filters.split("x")
+    
+    SelectedFeaturesFilter = filters_array[0]
+    SelectedStatusFilter = filters_array[1]
+    SelectedPaidOrder = filters_array[2]
+    SelectedClientFilter = filters_array[3]
+    
+    return SelectedFeaturesFilter, SelectedStatusFilter, SelectedPaidOrder, SelectedClientFilter
+
+"""
+Get the name of the client selected in the filter
+"""
+
+def get_selected_client_name(request, SelectedClientFilter):
+    
+    SelectedClientFilterName = ""
+    
+    # If the selected client filter is not = ALL and not blank get the client name
+    # to be displayed in the dropdown box when the issues list is reloaded when
+    # the user clicks "<<Back to list" on Issues Details page
+    
+    if SelectedClientFilter:
+        if SelectedClientFilter != "ALL":
+    
+            try:
+                SelectedClient = Client.objects.get(client_code=SelectedClientFilter)
+                SelectedClientFilterName = SelectedClient.client_name
+            except:
+                messages.error(request, "Client details not found!")
+   
+    return  SelectedClientFilterName
+    
+# Create the filters list to pass between views. It will be used
+# when the user clicks "<<Back to list" on the Feature Details page to bring 
+# them back to the page they were on when the clicked '...' to see a feature's
+# details
+
+def create_filters_list(SelectedFeaturesFilter, SelectedStatusFilter, SelectedPaidOrder, SelectedClientFilter):
+    
+    list_filters = ""
+    
+    list_filters = SelectedFeaturesFilter + "x" + SelectedStatusFilter + "x" + SelectedPaidOrder + "x" + SelectedClientFilter
+    
+    return list_filters
+    
+    
+# The Features Filter and the Paid Order Filter have a different value to the text
+# in the dropdown box. Pick up the correct text to be displayed in the dropdown
+# box on the Features List
+    
+def get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder):
+    
+    print("in get_list_filters_text=======================================")
+    print("SelectedPaidOrder: "+SelectedPaidOrder)
+    
+    features_filter_value = ["ALL","ME","OUR","OTHER" ]
+    features_filter_text = ["ALL FEATURES","ASSIGNED TO ME","OUR FEATURES ONLY","OTHER CLIENTS' FEATURES ONLY" ]
+    
+    print("")
+    
+    i = 0
+    for value in features_filter_value:
+        
+        if SelectedFeaturesFilter == value:
+            SelectedFeaturesFilterText = features_filter_text[i]
+        i += 1
+    
+    paid_order_value = ["SORTBY","LOWESTTOHIGHEST","HIGHESTTOLOWEST" ]
+    paid_order_text = ["SORT BY","LOWEST TO HIGHEST","HIGHEST TO LOWEST" ]
+    
+    i = 0
+    for value in paid_order_value:
+        if SelectedPaidOrder == value:
+            SelectedPaidOrderText = paid_order_text[i]
+        i += 1
+    
+    return SelectedFeaturesFilterText, SelectedPaidOrderText
+    
+    

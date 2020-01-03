@@ -344,7 +344,7 @@
             // A value has been selected by the user from the Issues Filter 
             // dropdown 
 
-            $('.issue-filter').on('click', function() {
+            $('.issues-filter').on('click', function() {
 
                 event.preventDefault();
 
@@ -573,7 +573,7 @@
 
                 var clientDetails = $(this).data('value').split(" ");
                 let clientFilter = clientDetails[0];
-        
+
 
                 // Clear the contents of the text search box, to avoid confusing the user
 
@@ -711,7 +711,7 @@
             // Get the current value of the issues filter
 
             function getIssuesFilterValue() {
-                
+
                 // Get the current value of the Issues Filter
 
                 let el = document.getElementById("dropdownMenuLink-1");
@@ -719,7 +719,7 @@
 
                 let issuesDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
                 let issuesDropdownText = ["ALL ISSUES", "ASSIGNED TO ME", "OUR ISSUES ONLY", "OTHER CLIENTS' ISSUES ONLY"];
-                
+
                 var issuesFilter = "";
                 let i = 0;
                 for (i in issuesDropdownText) {
@@ -729,8 +729,8 @@
                     }
                     i += 1
                 }
-                
-                
+
+
                 return issuesFilter;
 
             }
@@ -754,17 +754,17 @@
             // be extracted from the text.
 
             function getPriorityFilterValue() {
-                
+
                 let el = document.getElementById("dropdownMenuLink-3");
                 let priorityFilter = el.innerText
-                
-               
+
+
                 if (el.innerText != "ALL" & el.innerText != "") {
 
-                   let priorityArray = el.innerText.split("");
-                   
+                    let priorityArray = el.innerText.split("");
+
                     priorityFilter = priorityArray[0];
-                    
+
                 }
 
                 return priorityFilter;
@@ -776,18 +776,18 @@
             // option on the screen, otherwise set it to "ALL"
 
             function getClientFilterValue() {
-                
+
                 var clientFilter = "ALL";
-                
+
                 if ($("#dropdownMenuLink-4").length > 0) {
 
                     let el = document.getElementById("dropdownMenuLink-4");
-                    
+
                     let clientCodeName = el.innerText;
-                    
+
                     let clientDetails = clientCodeName.split(" ");
                     clientFilter = clientDetails[0];
-                    
+
                 }
 
                 return clientFilter;
@@ -821,8 +821,13 @@
 
                         var thumbDownList = data.thumb.thumb_down_list
                         var userMessage = data.user_mesg.user_message;
+
+                        // Get the list filters - they will be use to paginate
+                        // to the correct page when the user clicks "<<Back" on 
+                        // the Feature Details page
+
                         var listFilters = data.filters.list_filters
-                        
+
                         // Display user message if one is returned
                         // If the message is blank, keep the line, but make
                         // it invisible on the screen
@@ -890,7 +895,7 @@
                                 var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
                             }
 
-                            // Get the list page number - if the user views the details of an issue on this page
+                            // Get the list page number - if the user views the details of an issue from this page
                             // they will be able to click the '<<Back' button to get back to this page
 
                             var current_page = data.pagination_props.current_page
@@ -1284,6 +1289,8 @@
 
                 event.preventDefault();
                 let featuresFilter = $(this).data('value');
+                let featuresFilterText = this.innerText;
+
 
                 // Clear the contents of the search box, to avoid confusing the user
 
@@ -1294,7 +1301,7 @@
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-1').text(featuresFilter);
+                $('#dropdownMenuLink-1').text(featuresFilterText);
 
                 // When the user selects a value from the Features Filter, all the
                 // other filters are reset to "ALL"
@@ -1308,8 +1315,8 @@
                 // Reset Paid Order to "SORT BY" and display it in the filter
                 // dropdown box
 
-                let paidOrder = "SORT BY"
-                $('#dropdownMenuLink-3').text(paidOrder);
+                let paidOrder = "SORTBY"
+                $('#dropdownMenuLink-3').text("SORT BY");
 
                 // Reset Client Filter to "ALL". If this is a client-side 
                 // user, the Client Code dropdown option wont be displayed on
@@ -1337,11 +1344,9 @@
 
             });
 
-
-
             // Filtering by Status Filter
 
-            $('.feat-status-filter').on('click', function() {
+            $('.ftr-status-filter').on('click', function() {
 
                 // Status filter has been selected by the user
 
@@ -1376,11 +1381,11 @@
                 // It may be blank if the user was previously using the search
                 // box - if so, set it to 'ALL'
 
-                let paidOrder = getpaidOrderValue();
+                var paidOrder = getpaidOrderValue();
 
                 if (paidOrder == "") {
-                    paidOrder = 'SORT BY'
-                    $('#dropdownMenuLink-3').text(paidOrder);
+                    paidOrder = 'SORTBY'
+                    $('#dropdownMenuLink-3').text("SORT BY");
                 }
 
                 // Get the current value of the Client Filter, if it's an
@@ -1419,6 +1424,8 @@
                 event.preventDefault();
 
                 let paidOrder = $(this).data('value');
+                let paidOrderText = this.innerText;
+
 
                 // Clear the contents of the search box, to avoid confusing the user
 
@@ -1429,7 +1436,7 @@
                 // Change the value showing in the dropdown box to the new 
                 // value selected by the user
 
-                $('#dropdownMenuLink-3').text(paidOrder);
+                $('#dropdownMenuLink-3').text(paidOrderText);
 
                 // When the Paid Order is selected, it will be used in
                 // conjunction with the current values of the other 2 filters
@@ -1441,8 +1448,8 @@
                 let featuresFilter = getFeaturesFilterValue();
 
                 if (featuresFilter == "") {
-                    featuresFilter = 'ALL FEATURES'
-                    $('#dropdownMenuLink-1').text(featuresFilter);
+                    featuresFilter = 'ALL'
+                    $('#dropdownMenuLink-1').text("ALL FEATURES");
                 }
 
                 // Get the current value of the Status Filter
@@ -1455,7 +1462,6 @@
                     statusFilter = 'ALL'
                     $('#dropdownMenuLink-2').text(statusFilter);
                 }
-
 
                 // Get the current value of the Client Filter, if it's an
                 // option on the screen, otherwise set it to "ALL"
@@ -1485,7 +1491,7 @@
 
             // Filtering by Client Filter 
 
-            $('.feat-client-filter').on('click', function() {
+            $('.ftr-client-filter').on('click', function() {
 
                 // Client Filter has been selected by the user. The Client Filter
                 // will only be available when the user is a vendor-side user
@@ -1522,8 +1528,8 @@
                 let featuresFilter = getFeaturesFilterValue();
 
                 if (featuresFilter == "") {
-                    featuresFilter = 'ALL FEATURES';
-                    $('#dropdownMenuLink-1').text(featuresFilter);
+                    featuresFilter = 'ALL';
+                    $('#dropdownMenuLink-1').text("ALL FEATURES");
                 }
 
                 // Get the current value of the Status Filter
@@ -1543,11 +1549,11 @@
                 // It may be blank if the user was previously using the search
                 // box - if so, set it to 'SORT BY'
 
-                let paidOrder = getpaidOrderValue();
+                var paidOrder = getpaidOrderValue();
 
                 if (paidOrder == "") {
-                    paidOrder = 'SORT BY';
-                    $('#dropdownMenuLink-3').text(paidOrder);
+                    paidOrder = 'SORTBY';
+                    $('#dropdownMenuLink-3').text("SORT BY");
                 }
 
 
@@ -1601,10 +1607,12 @@
 
             // Features Pagination
 
-            $(document).on('click', ".feat-page-click", function() {
+            $(document).on('click', ".ftr-page-click", function() {
+                
+                console.log("IN PAGE CLICK~~~~~~~~~~~~~~~~~~~~~~~")
 
                     // The user has clicked on a page number
-                    // Using "$(document).on . . ." here because the 'feat-page-click' 
+                    // Using "$(document).on . . ." here because the 'ftr-page-click' 
                     // class is not part of the html when it is first loaded, they are
                     // added by js when it displays the filtered data, and therefore the
                     // js wont respond to "$('.iss-page-click').on('click', function()"
@@ -1618,9 +1626,11 @@
 
                     let featuresFilter = getFeaturesFilterValue();
                     let statusFilter = getStatusFilterValue();
-                    let paidOrder = getpaidOrderValue();
+                    var paidOrder = getpaidOrderValue();
                     let clientFilter = getClientFilterValue();
                     let searchValue = document.getElementById('ftr-search-val').value
+                    
+                    console.log("paidOrder: "+paidOrder)
 
 
                     // Get the features as per the filter values and page number
@@ -1706,7 +1716,20 @@
                 // Get the current value of the Features Filter
 
                 let el = document.getElementById("dropdownMenuLink-1");
-                let featuresFilter = el.innerText;
+                let featuresFilterText = el.innerText;
+
+                let featuresDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
+                let featuresDropdownText = ["ALL FEATURES", "ASSIGNED TO ME", "OUR FEATURES ONLY", "OTHER CLIENTS' FEATURES ONLY"];
+
+                var featuresFilter = "";
+                let i = 0;
+                for (i in featuresDropdownText) {
+
+                    if (featuresFilterText == featuresDropdownText[i]) {
+                        featuresFilter = featuresDropdownValue[i];
+                    }
+                    i += 1;
+                }
 
                 return featuresFilter;
 
@@ -1716,13 +1739,37 @@
             // Get the current value of the Paid Filter
 
             function getpaidOrderValue() {
+                
+                console.log("IN GETPAIDORDERVALUE~~~~~~~~~~~~~~~~~~~")
 
                 let el = document.getElementById("dropdownMenuLink-3");
-                let paidOrder = el.innerText
+                var paidOrder = el.innerText
+                
+                console.log("el paidOrder: "+paidOrder)
+                
+                if (el.innerText != "") {
 
+                    // Remove the spaces from 'SORT BY', 'HIGHEST TO LOWEST',
+                    // and 'LOWEST TO HIGHEST'
+
+                    paidOrderArray = el.innerText.split(" ");
+
+                    paidOrder = "";
+
+                    i = 0
+                    for (i in paidOrderArray) {
+                        console.log("paidOrderArray[i]: "+paidOrderArray[i] )
+                        paidOrder = paidOrder + paidOrderArray[i]
+                        console.log("paidOrder: "+paidOrderArray)
+                        
+                    }
+                    console.log("paidOrder: " + paidOrder)
+                }
                 return paidOrder;
-
             }
+
+
+
 
 
             // ====================
@@ -1758,7 +1805,7 @@
 
                         if (listType == "issues") {
 
-                            // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                            // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
                             // list being paginated is for Issues or Features, so that the correct js functions will be 
                             // triggered for each list
                             // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
@@ -1768,7 +1815,7 @@
                             var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                         else {
-                            prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                     }
 
@@ -1818,7 +1865,7 @@
 
                             if (pageLinks == "") {
 
-                                // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                                // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
                                 // list being paginated is for Issues or Features, so that the correct js functions will be 
                                 // triggered for each list
                                 // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
@@ -1829,13 +1876,13 @@
                                     pageLinks = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
                                 else {
-                                    pageLinks = "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
 
                                 }
                             }
                             else {
 
-                                // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                                // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
                                 // list being paginated is for Issues or Features, so that the correct js functions will be 
                                 // triggered for each list
                                 // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
@@ -1847,7 +1894,7 @@
                                 }
                                 else {
 
-                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
                                 }
 
                             }
@@ -1857,7 +1904,7 @@
 
                     if (has_next_page) {
 
-                        // Output the class 'iss-page-click' or 'feat-page-click', depending on whether the
+                        // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
                         // list being paginated is for Issues or Features
 
                         if (listType == "issues") {
@@ -1866,7 +1913,7 @@
                         }
                         else {
 
-                            var nextPageLink = "<li class='page-item'><a class='page-link ftr-page-live-link feat-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
+                            var nextPageLink = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                         }
 
                     }
@@ -1910,6 +1957,14 @@
 
                     success: function(data) {
 
+                        // Get the list filters - they will be use to paginate
+                        // to the correct page when the user clicks "<<Back" on 
+                        // the Feature Details page
+
+                        var listFilters = data.filters.list_filters
+                        
+                        console.log("listFilters"+listFilters)
+
                         // Display user message if one is returned
                         // If the message is blank, keep the line space, but make
                         // it invisible on the screen
@@ -1926,6 +1981,11 @@
                             $('.user-message').addClass('blank-line');
                         }
 
+
+                        // Get the list page number - if the user views the details of a feature from this page
+                        // they will be able to click the '<<Back' button to get back to this page
+
+                        var current_page = data.pagination_props.current_page
 
                         // Clear the current contents of the table
                         // Output the details of each feature to the table 
@@ -1983,7 +2043,7 @@
 
                             $("tbody").append(
                                 "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/issue_tracker/features/" + featureId + "-n" + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/feature_tracker/" + featureId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });

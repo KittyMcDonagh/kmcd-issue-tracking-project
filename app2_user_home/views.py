@@ -176,10 +176,6 @@ def user_home(request, back_to_page=None, list_filters=None):
     
     # For Pagination
     
-    # If the user has clicked "<<Back to list" on the Issue Details page, go back
-    # to the list page number the user was previously on, otherwise get the 
-    # page number provided via the pagination parameters
-    
     # Is the user using the page numbers to paginate from page to page, if so 
     # use the page nr the user has requested
     # If not, check if user is returning from Issue Details page, to list page
@@ -308,11 +304,7 @@ def get_issues(request):
         
         if priority_filter != "ALL":
             Issues = Issues.filter(priority=priority_filter)
-            
         
-        # Final filtering is done here to make sure users only see what they're
-        # allowed to see, and they're sorted by date, descending
-    
     else:
         
         # User is using the search box to find issues. Select issues based on the 
@@ -320,7 +312,10 @@ def get_issues(request):
         # extract the issue
         
         Issues = Issue.objects.filter(summary__icontains=search_value)
-        
+    
+    # Final filtering is done here to make sure users only see what they're
+    # allowed to see, and they're sorted by date, descending
+    
     Issues = FinalFilterIssues(request, Issues, UserDetails)
     
     # Initialise list of issues that have already been 'thumbed up' by this client
@@ -351,11 +346,10 @@ def get_issues(request):
     
     # Pass back the list filters
     
-    
     list_filters = create_filters_list(issues_filter, status_filter, priority_filter, client_filter)
     
-    # For Pagination
     
+    # For Pagination
     
     page = request.POST.get('page', 1)
     
@@ -461,8 +455,6 @@ def get_issues(request):
         	
         	
     })
-    
-    
     
     return JsonResponse(data, safe=False)
     
@@ -733,9 +725,6 @@ def get_list_filters_text(SelectedIssuesFilter, SelectedPriorityFilter):
 # details
 
 def create_filters_list(SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter):
-    
-    priority_filter_value = ["ALL","1","2","3","4","5" ]
-    priority_filter_text = ["ALL","URGENT","HIGH","MEDIUM","LOW", "COSMETIC" ]
     
     list_filters = ""
     

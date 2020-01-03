@@ -10,18 +10,17 @@
 
 
 <div class="row no-gutters">
-    <div class="col-12">
+    <div class="col-5">
         <a id="iss-back-to-prev-page" class="iss-back-btn iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
-</div>
 
-
-<div class="row no-gutters">
-    <div class="col-12 text-center">
+    <div class="col-7 form-font">
         {% if userdetails.user_type == "V" %}
-        <p><strong>Client:</strong>
-            <span><strong>{{issueclientdetails.client_name}}</strong></span>
-        </p>
+        <span>
+            <strong>Client:</strong>
+            <strong>{{issueclientdetails.client_name}}</strong>
+        </span>
+        
         {% endif %}
     </div>
 </div>

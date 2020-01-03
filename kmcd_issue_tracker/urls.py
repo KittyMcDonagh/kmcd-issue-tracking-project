@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^issue_tracker/', include(urls_apphome)),
     url(r'^issue_tracker/', include(urls_user_home)),
     url(r'^issue_tracker/', include(urls_issue_logging)),
-    url(r'^issue_tracker/', include(urls_features)),
+    url(r'^feature_tracker/', include(urls_features)),
     url(r'^cart/', include(urls_cart)),
     url(r'^checkout/', include(urls_checkout)),
    
