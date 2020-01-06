@@ -365,12 +365,6 @@ li {
 }
 
 
-.footer-copyright {
-    font-size: 12px;
-    color: #C080FF;
-}
-
-
 /* Styling that affects the Issues processing -------------------------------*/
 
 .iss-btn-color {
@@ -397,7 +391,7 @@ li {
 
 .pag-nav-section {
     background-color: #f3f2f2;
-    height: 70px;
+    height: 40px;
 }
 
 
@@ -842,6 +836,10 @@ li {
 
 /* Styling for comments table  ----------------------------------------------*/
 
+.table-height {
+    min-height: 348px;
+}
+
 .td-comments {
     width: 700px;
 
@@ -859,16 +857,23 @@ li {
 
 
 
-footer {
-
+.footer-style {
     background-color: #3b3b3b;
     color: #b3b3b3;
-
     margin-bottom: 0px;
-    padding: 30px 30px 10px 30px;
+    padding: 15px;
+    min-height: 106px;
 
 }
 
+.footer-copyright {
+    background-color: #595959;
+    font-size: 12px;
+    color: #C080FF;
+    margin-bottom: 0px;
+    
+
+}
 
 
 

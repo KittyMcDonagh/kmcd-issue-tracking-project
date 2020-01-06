@@ -360,7 +360,7 @@ def get_issues(request):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
-        
+    
     # Save the pagination parameters for use in the js function in base.html
     # that called 'get_issues'
         

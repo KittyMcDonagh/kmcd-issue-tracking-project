@@ -68,9 +68,7 @@
         <!-- No user logged in yet - leave a blank row where vendor / client 
              name and user name will be shown-->
 
-        <div class="row no-gutters vend-client-user">
-
-        </div>
+        <div class="row no-gutters vend-client-user"></div>
 
         {% endif %}
 
@@ -197,10 +195,11 @@
          prefixed with 'ftr-' are added for features. This is because the 
          highlighter color is different for each  -->
 
+    {% if user.is_authenticated %}
     <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
         {% if listing.has_other_pages %}
 
-        <ul class="pagination justify-content-center mt-3">
+        <ul class="pagination justify-content-center">
 
             {% if listing.has_previous %}
 
@@ -296,33 +295,33 @@
         </ul>
         {% endif %}
     </nav>
+    {% endif %}
 
 
     <footer>
-        {% if user.is_authenticated %}
-        <div class="row no-gutters">
-            <div class="col-12 col-md-6">
-                <ul class="p-0">
+        <div class="row no-gutters footer-style">
+            {% if user.is_authenticated %}
+            <div class="col-12 offset-md-3 col-md-5 text-center">
+                <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
                 </ul>
             </div>
 
-            <div class="col-12 col-md-6">
-                <ul class="p-0">
+            <div class="col-12 col-md-4">
+                <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
                 </ul>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
 
-        <div class="row no-gutters">
-            <div class="col-12">
-                <p class="courgette-font footer-copyright text-right">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
+
+        <div class="row no-gutters footer-copyright">
+            <div class="col-12 p-2 text-center">
+                <p class="courgette-font m-0">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
             </div>
         </div>
     </footer>
-
-
 
     <!-- Custom Javascript -->
 
@@ -903,7 +902,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + user + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -1608,8 +1607,8 @@
             // Features Pagination
 
             $(document).on('click', ".ftr-page-click", function() {
-                
-                console.log("IN PAGE CLICK~~~~~~~~~~~~~~~~~~~~~~~")
+
+                    console.log("IN PAGE CLICK~~~~~~~~~~~~~~~~~~~~~~~")
 
                     // The user has clicked on a page number
                     // Using "$(document).on . . ." here because the 'ftr-page-click' 
@@ -1629,8 +1628,8 @@
                     var paidOrder = getpaidOrderValue();
                     let clientFilter = getClientFilterValue();
                     let searchValue = document.getElementById('ftr-search-val').value
-                    
-                    console.log("paidOrder: "+paidOrder)
+
+                    console.log("paidOrder: " + paidOrder)
 
 
                     // Get the features as per the filter values and page number
@@ -1739,14 +1738,14 @@
             // Get the current value of the Paid Filter
 
             function getpaidOrderValue() {
-                
+
                 console.log("IN GETPAIDORDERVALUE~~~~~~~~~~~~~~~~~~~")
 
                 let el = document.getElementById("dropdownMenuLink-3");
                 var paidOrder = el.innerText
-                
-                console.log("el paidOrder: "+paidOrder)
-                
+
+                console.log("el paidOrder: " + paidOrder)
+
                 if (el.innerText != "") {
 
                     // Remove the spaces from 'SORT BY', 'HIGHEST TO LOWEST',
@@ -1758,10 +1757,10 @@
 
                     i = 0
                     for (i in paidOrderArray) {
-                        console.log("paidOrderArray[i]: "+paidOrderArray[i] )
+                        console.log("paidOrderArray[i]: " + paidOrderArray[i])
                         paidOrder = paidOrder + paidOrderArray[i]
-                        console.log("paidOrder: "+paidOrderArray)
-                        
+                        console.log("paidOrder: " + paidOrderArray)
+
                     }
                     console.log("paidOrder: " + paidOrder)
                 }
@@ -1812,15 +1811,15 @@
                             // list being paginated is for Issues or Features, so that they will be highlighted with the correct
                             // color or hover
 
-                            var prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            var prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                         else {
-                            prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
                         }
                     }
 
                     else {
-                        prevPageLink = "<ul class='pagination justify-content-center mt-3'><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
+                        prevPageLink = "<ul class='pagination justify-content-center '><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
 
                     }
 
@@ -1962,8 +1961,8 @@
                         // the Feature Details page
 
                         var listFilters = data.filters.list_filters
-                        
-                        console.log("listFilters"+listFilters)
+
+                        console.log("listFilters" + listFilters)
 
                         // Display user message if one is returned
                         // If the message is blank, keep the line space, but make
