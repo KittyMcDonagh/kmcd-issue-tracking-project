@@ -200,11 +200,11 @@
 
     {% if comments_input == 'y'%}
 
-    <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style">
+    <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id back_to_page list_filters %}" class="iss-comments-form-style">
 
         {% else %}
 
-        <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id %}" class="iss-comments-form-style d-none">
+        <form method="POST" id="iss-comments-form" enctype="multipart/form-data" action="{% url 'new_issue_comment' issue.id back_to_page list_filters %}" class="iss-comments-form-style d-none">
 
             {% endif %}
 
@@ -361,16 +361,16 @@
 
                     {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
-                    <a href="{% url 'edit_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> {% else %}
+                    <a href="{% url 'edit_issue' issue.id back_to_page list_filters %}" class="btn iss-edit-update-btn-color iss-enabled-link">Edit</a> {% else %}
 
                     <!-- Allow the user to update the assigned client user only -->
 
-                    <a href="{% url 'update_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %} {% endif %} {% else %}
+                    <a href="{% url 'update_issue' issue.id back_to_page list_filters %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %} {% endif %} {% else %}
 
                     <!-- User is a vendor-side user.
                          Allow the user to update the issue status, the priority and the assigned vendor user -->
 
-                    <a href="{% url 'update_issue' issue.id %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %}
+                    <a href="{% url 'update_issue' issue.id back_to_page list_filters %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %}
 
                 </div>
             </div>

@@ -221,7 +221,6 @@ def user_home(request, back_to_page=None, list_filters=None):
     return render(request, 'userhome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, 'issues': issues, 'all_clients': AllClients, 'selected_issues_filter_text':SelectedIssuesFilterText, 'selected_status_filter': SelectedStatusFilter, 'selected_priority_filter_text': SelectedPriorityFilterText, 'selected_client_filter': SelectedClient, "listing":listing, "list_type": list_type, "searching": searching, "thumb_down_list": thumb_down_list, "back_to_page":back_to_page, "list_filters": list_filters })
 
 
-
 """
 This function is called via the javascript in base.html
 Get the issues, filtered by the issues Filter options selected

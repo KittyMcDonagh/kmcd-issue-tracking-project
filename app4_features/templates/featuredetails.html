@@ -194,11 +194,11 @@
 
     {% if comments_input == 'y'%}
 
-    <form method="POST" id="ftr-comments-form" enctype="multipart/form-data" action="{% url 'new_feature_comment' feature.id %}" class="ftr-comments-form-style">
+    <form method="POST" id="ftr-comments-form" enctype="multipart/form-data" action="{% url 'new_feature_comment' feature.id back_to_page list_filters %}" class="ftr-comments-form-style">
 
         {% else %}
 
-        <form method="POST" id="ftr-comments-form" enctype="multipart/form-data" action="{% url 'new_feature_comment' feature.id %}" class="ftr-comments-form-style d-none">
+        <form method="POST" id="ftr-comments-form" enctype="multipart/form-data" action="{% url 'new_feature_comment' feature.id back_to_page list_filters %}" class="ftr-comments-form-style d-none">
 
         {% endif %}
 
@@ -362,12 +362,12 @@
 
                     {% if feature.status == "DRAFT" or feature.status == "LOGGED" %}
         
-                    <a href="{% url 'edit_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Edit</a> 
+                    <a href="{% url 'edit_feature' feature.id back_to_page list_filters %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Edit</a> 
                     {% else %}
                     
                      <!-- Allow the user to update the assigned client user only -->
                      
-                    <a href="{% url 'update_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a> 
+                    <a href="{% url 'update_feature' feature.id back_to_page list_filters %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a> 
                     {% endif %} 
                 {% endif %}
             
@@ -376,7 +376,7 @@
                 <!-- User is a vendor-side user. 
                      Allow the user to update the feature status, price and assigned vendor user -->
     
-                <a href="{% url 'update_feature' feature.id %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a>
+                <a href="{% url 'update_feature' feature.id back_to_page list_filters %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a>
     
             {% endif %}
             

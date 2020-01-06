@@ -640,7 +640,14 @@ def FinalFilterFeatures(request, Features, UserDetails, paid_order):
 Create a view that allows us to log a new feature or edit an existing one 
 depending on whether the pk is null or not. 
 """
-def new_edit_feature(request, pk=None):
+def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
+    
+    # If inputting a new feature, initialise the page to go back to and the 
+    # page filters
+    
+    if not pk:
+        back_to_page = 1
+        list_filters="MExALLxALLxALL"
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -677,7 +684,7 @@ def new_edit_feature(request, pk=None):
             feature = form.save()
             
             view_comments = 'n'
-            return redirect(feature_details, feature.pk, view_comments)
+            return redirect(feature_details, feature.pk, view_comments, back_to_page, list_filters)
         else:
             messages.error(request, "UNABLE TO LOG FEATURE!")
             
@@ -685,13 +692,13 @@ def new_edit_feature(request, pk=None):
         
         form = LogNewFeatureForm(instance=feature)
     
-    return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers })
+    return  render(request, 'featurelogging.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers, "back_to_page": back_to_page, "list_filters": list_filters })
 
 
 """
 Create a view that allows a vendor-side user to change the status of a featur. 
 """
-def update_feature(request, pk=None):
+def update_feature(request, pk=None, back_to_page=None, list_filters=None):
     
     # This view is for vendor-side users only
     
@@ -738,7 +745,7 @@ def update_feature(request, pk=None):
             feature = form.save()
             
             view_comments = 'n'
-            return redirect(feature_details, feature.pk, view_comments)
+            return redirect(feature_details, feature.pk, view_comments, back_to_page, list_filters)
         else:
             messages.error(request, "UNABLE TO LOG FEATURE!")
             
@@ -746,7 +753,7 @@ def update_feature(request, pk=None):
         
         form = UpdateFeatureForm(instance=feature)
     
-    return  render(request, 'featureupdate.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails, "assigned_users": AssignedUsers})
+    return  render(request, 'featureupdate.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails, "assigned_users": AssignedUsers, "back_to_page": back_to_page, "list_filters": list_filters})
 
 
 
@@ -754,7 +761,7 @@ def update_feature(request, pk=None):
 New Feature comment - get the feature comments form. This view is called when
 the user clicks '+' to add a comment. The id of the featue is passed to the view
 """
-def new_feature_comment(request, pk=None):
+def new_feature_comment(request, pk=None, back_to_page=None, list_filters=None):
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -810,7 +817,7 @@ def new_feature_comment(request, pk=None):
             
             view_comments = 'y'
             
-            return redirect(feature_details, featurecomment.feature_id, view_comments)
+            return redirect(feature_details, featurecomment.feature_id, view_comments, back_to_page, list_filters)
         else:
         
             messages.error(request, "UNABLE TO LOG FEATURE COMMENT!")
@@ -828,7 +835,7 @@ def new_feature_comment(request, pk=None):
         
         view_comments = 'n'
     
-    return  render(request, 'featuredetails.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
+    return  render(request, 'featuredetails.html', {'form': form, "feature": feature, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments, "back_to_page": back_to_page, "list_filters": list_filters })
 
 
 """

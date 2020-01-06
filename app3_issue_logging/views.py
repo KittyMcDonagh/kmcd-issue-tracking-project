@@ -22,8 +22,14 @@ from .forms import LogNewIssueForm, IssueCommentForm
 Create a view that allows a client-side user to log a new issue or edit an existing one 
 depending on whether the pk is null or not. 
 """
-def new_edit_issue(request, pk=None):
+def new_edit_issue(request, pk=None, back_to_page=None, list_filters=None):
     
+    # If inputting a new issue, initialise the page to go back to and the 
+    # page filters
+    
+    if not pk:
+        back_to_page = 1
+        list_filters="MExALLxALLxALL"
     
     ClientDetails = ""
     VendorDetails = ""
@@ -60,7 +66,7 @@ def new_edit_issue(request, pk=None):
             issue_thumbs_up, _ = IssueThumbsUp.objects.get_or_create(issue_id=issue.id, client_code=UserDetails.vend_client_code, defaults={"author":issue.client_code, "user_id":UserDetails.user_id, "thumbs_up": 0})
             
             view_comments = 'n'
-            return redirect(issue_details, issue.pk, view_comments)
+            return redirect(issue_details, issue.pk, view_comments, back_to_page, list_filters)
         else:
             
             messages.error(request, "UNABLE TO LOG ISSUE!")
@@ -69,15 +75,16 @@ def new_edit_issue(request, pk=None):
         
         form = LogNewIssueForm(instance=issue)
         
-    return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers})
-
+    return  render(request, 'issuelogging.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "assigned_users": AssignedUsers, "back_to_page": back_to_page, "list_filters": list_filters})
+    
+    
 
 """
 Create a view that allows:
     A Vendor-side user to change the Status, Price and Assigned Vendor User of an Issue
     A Client-side user to change the Assigne Client User of an Issue
 """
-def update_issue(request, pk=None):
+def update_issue(request, pk=None, back_to_page=None, list_filters=None):
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -122,7 +129,7 @@ def update_issue(request, pk=None):
             issue = form.save()
            
             view_comments ='n'
-            return redirect(issue_details, issue.pk, view_comments)
+            return redirect(issue_details, issue.pk, view_comments, back_to_page, list_filters)
         else:
             messages.error(request, "UNABLE TO LOG ISSUE!")
             
@@ -130,7 +137,7 @@ def update_issue(request, pk=None):
         
         form = UpdateIssueForm(instance=issue)
     
-    return  render(request, 'issueupdate.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "assigned_users": AssignedUsers})
+    return  render(request, 'issueupdate.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "assigned_users": AssignedUsers, "back_to_page": back_to_page, "list_filters": list_filters})
 
     
 
@@ -292,7 +299,7 @@ def get_issue_client_details(request, issue):
 New Issue comment - get the issue comments form. This view is called when the user
 clicks '+' to add a comment. The id of the issue is passed to the view
 """
-def new_issue_comment(request, pk=None):
+def new_issue_comment(request, pk=None, back_to_page=None, list_filters=None ):
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details
@@ -345,7 +352,7 @@ def new_issue_comment(request, pk=None):
             
             view_comments = 'y'
             
-            return redirect(issue_details, issuecomment.issue_id, view_comments)
+            return redirect(issue_details, issuecomment.issue_id, view_comments, back_to_page, list_filters )
         else:
             messages.error(request, "UNABLE TO LOG ISSUE COMMENT!")
             
@@ -361,7 +368,7 @@ def new_issue_comment(request, pk=None):
         
         view_comments = 'n'
         
-    return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments })
+    return  render(request, 'issuedetails.html', {'form': form, "issue": issue, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "comments_input": comments_input, "view_comments": view_comments, "back_to_page":back_to_page, "list_filters": list_filters })
 
 
 """
