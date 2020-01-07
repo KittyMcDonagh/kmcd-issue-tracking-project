@@ -605,7 +605,7 @@ li {
     width: 100%;
     height: 250px;
     margin: 0 auto;
-    background-size: cover; 
+    background-size: cover;
     background-position: center
 }
 
@@ -684,6 +684,19 @@ li {
 
 }
 
+.iss-image-link {
+    text-decoration: none;
+    color: #3b3b3b;
+}
+
+.iss-image-link:hover {
+    color: #6666ff!important;
+    text-decoration: none;
+}
+
+.thumbs-up-icon {
+    font-size: 12px;
+}
 
 
 /* Styling for Features list ------------------------------------------------*/
@@ -882,7 +895,7 @@ li {
     font-size: 12px;
     color: #C080FF;
     margin-bottom: 0px;
-    
+
 
 }
 
@@ -1291,8 +1304,15 @@ li {
 
 
 
-.thumbs-up-icon {
-    font-size: 12px;
+.image-link {
+    font-size: 12px!important;
+}
+
+@media(min-width: 768px) {
+    .image-link {
+        font-size: 15px!important;
+    }
+
 }
 
 
@@ -1391,7 +1411,7 @@ li {
 @media(min-width: 768px) {
     .card {
         margin-right: 20px;
-        
+
     }
 }
 
@@ -1501,7 +1521,7 @@ li {
 
 .pay-details-legend {
     background-color: #80C0FF;
-    color:#fafaff;
+    color: #fafaff;
 }
 
 
@@ -1516,7 +1536,3 @@ li {
     background-color: fff!important;
     width: 150px;
 }
-
-
-
-

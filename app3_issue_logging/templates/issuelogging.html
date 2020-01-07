@@ -238,16 +238,17 @@
 
     <div class="row no-gutters mt-3">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
-            <label for="iss-image"><strong><em>Image:</em></strong></label>
-        </div>
-    </div>
-
-    <div class="row no-gutters ">
-        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
             {% if issue.image %}
-            <div><p>Currently: {{issue.image}}</p></div>
-            {% endif %}
+            <label for="iss-image"><strong><em>Current Image:</em></strong></label>
+            <div>
+                <a Class="iss-image-link image-link pr-1 " target="blank" href="/media/{{issue.image}}">{{issue.image}}</a>
+                <input type="checkbox" name="image-clear" id="image-clear_id">
+                <label for="image-clear_id"><strong>Clear</strong></label>
+            </div>
             
+            <label for="iss-image"><strong>Change: </strong></label> 
+            {% endif %}
+
             <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
         </div>
     </div>
