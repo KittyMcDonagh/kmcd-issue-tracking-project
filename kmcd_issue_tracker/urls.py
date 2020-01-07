@@ -29,6 +29,17 @@ from app4_features import urls as urls_features
 from app6_cart import urls as urls_cart
 from app7_checkout import urls as urls_checkout
 
+# Import serve
+
+from django.views.static import serve
+
+from django.views import static
+
+# Import MEDIA_ROOT - this is how we're going to serve out our media URL
+
+from .settings import MEDIA_ROOT
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name="index"),
@@ -39,5 +50,6 @@ urlpatterns = [
     url(r'^feature_tracker/', include(urls_features)),
     url(r'^cart/', include(urls_cart)),
     url(r'^checkout/', include(urls_checkout)),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
    
 ]

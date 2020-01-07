@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        
+
         {% if userdetails.user_type == "C" %}
 
         <!-- If this is a client-side user, they are in this form because the
@@ -116,9 +116,7 @@
                     
                 </select>
         </div>
-        {% endif %} 
-        
-        {% if userdetails.user_type == "C" %}
+        {% endif %} {% if userdetails.user_type == "C" %}
 
         <!--  Client-side users cannot change the Priority -->
 
@@ -234,6 +232,21 @@
     <div class="row no-gutters">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50" disabled>{{ issue.title }}</textarea>
+        </div>
+    </div>
+
+    <!-- Show the Issue Image     -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+            {% if not issue.image %}
+            <div>
+                <p><strong>No Image Chosen</strong></p>
+            </div>
+            {% else %}
+            <div style="background-image: url('{{ MEDIA_URL }}{{ issue.image }}');  width: 100%; height: 300px; alt=recipe.alt_txt; background-size: cover; background-position: center"></div>
+
+            {% endif %}
         </div>
     </div>
 

@@ -24,6 +24,8 @@ depending on whether the pk is null or not.
 """
 def new_edit_issue(request, pk=None, back_to_page=None, list_filters=None):
     
+    print("in new_edit_issue~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
     # If inputting a new issue, initialise the page to go back to and the 
     # page filters
     
@@ -51,10 +53,14 @@ def new_edit_issue(request, pk=None, back_to_page=None, list_filters=None):
     AssignedUsers = get_all_client_users(request, UserDetails.vend_client_code)
     
     issue = get_object_or_404(Issue, pk=pk) if pk else None
+    print("issue = "+str(issue))
     
     if request.method == "POST":
         
         form = LogNewIssueForm(request.POST, request.FILES, instance=issue)
+        
+        
+        print("form = "+str(form))
         
         if form.is_valid():
             issue = form.save()

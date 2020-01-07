@@ -40,6 +40,8 @@ ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
 
 # Lines added for kmcd-issue-tracking-project:
 # 'django_forms_bootstrap', 'accounts'
+# Notice that 'django_forms_bootstrap' has underscores, whereas you install it 
+# with hyphens
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -87,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'app6_cart.contexts.cart_contents'
             ],
         },
@@ -162,6 +165,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+
+# MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+# (The following is what the video has, but it doesnt work. The above MEDIA_URL I found on slack, and it works!!)
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
 
 STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE')
 STRIPE_SECRET = os.getenv('STRIPE_SECRET')

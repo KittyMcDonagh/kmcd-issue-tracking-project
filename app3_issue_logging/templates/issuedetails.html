@@ -5,23 +5,25 @@
      2. Allow the user to view & enter comments on the issue
      3. Allow user to Edit / Update the issue  -->
 
-<!-- If the user is a vendor-side user, show the name of the client the issue 
-     belongs to -->
 
+
+<!-- Back button to allow the user to go back to the page on the list from 
+     which they selected the issue -->
 
 <div class="row no-gutters">
     <div class="col-5">
         <a id="iss-back-to-prev-page" class="iss-back-btn iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
 
+    <!-- If the user is a vendor-side user, show the name of the client the issue 
+     belongs to -->
+
     <div class="col-7 form-font">
         {% if userdetails.user_type == "V" %}
         <span>
             <strong>Client:</strong>
             <strong>{{issueclientdetails.client_name}}</strong>
-        </span>
-        
-        {% endif %}
+        </span> {% endif %}
     </div>
 </div>
 
@@ -123,6 +125,8 @@
     <hr>
 
     <!-- START OF ISSUE COMMENTS SECTIONS ---------------------------------->
+    <!-- Comments are hidden unless the 'comments_input' or 'view_comments
+         is set to 'y' -->
 
     {% if comments_input == 'y' or view_comments == 'y' %}
 
@@ -294,6 +298,7 @@
 
             <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->
 
+            
 
             <!-- Issue Title -->
 
@@ -309,7 +314,19 @@
                     <p class="m-0">{{ issue.title }}</p>
                 </div>
             </div>
+            
+            <!-- Show the Issue Image     -->
 
+            <div class="row no-gutters mt-3">
+                <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+                    {% if not issue.image %}
+                    <div><p><strong>No Image Chosen</strong></p></div>
+                    {% else %}
+                    <div style="background-image: url('{{ MEDIA_URL }}{{ issue.image }}');  width: 100%; height: 300px; alt=recipe.alt_txt; background-size: cover; background-position: center"></div>
+                    
+                    {% endif %}
+                </div>
+            </div>
 
 
             <!-- Summary -->

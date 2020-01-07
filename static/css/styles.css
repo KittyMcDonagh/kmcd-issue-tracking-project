@@ -598,6 +598,17 @@ li {
     }
 }
 
+.iss-image {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 250px;
+    margin: 0 auto;
+    background-size: cover; 
+    background-position: center
+}
+
 /* The following are used on Issue links that are enabled to enable hovering 
    effects with the Issues color */
 
