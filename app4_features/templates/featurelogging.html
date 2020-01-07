@@ -215,6 +215,41 @@
             <textarea name="title" id="title" class="form-control form-font" rows="1" maxlength="50">{{ feature.title }}</textarea>
         </div>
     </div>
+    
+    
+    <!-- Feature Image -->
+
+    <!-- Adding and clearing image adapted from blog project -->
+
+    <div class="row no-gutters mt-3">
+        <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+
+            {% if feature.image %}
+
+            <label for="iss-ftr-image"><strong><em>Current Image:</em></strong></label>
+            <div>
+                <a Class="ftr-image-link image-link pr-1 " target="blank" href="/media/{{feature.image}}">{{feature.image}}</a>
+                <input type="checkbox" name="image-clear" id="image-clear_id">
+                <label for="image-clear_id"><strong>Clear</strong></label>
+            </div>
+            <div>
+                <label for="ftr-image"><strong>Change: </strong></label>
+                <input type="file" name="image" id="ftr-image" value="url('{{ MEDIA_URL }}{{ feature.image }}')">
+            </div>
+
+            {% else %}
+
+            <div>
+                <label for="ftr-image"><strong><em>Image:</em></strong></label>
+            </div>
+            <div>
+                <input type="file" name="image" id="ftr-image" value="url('{{ MEDIA_URL }}{{ feature.image }}')">
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+
 
 
     <!-- Feature Summary -->

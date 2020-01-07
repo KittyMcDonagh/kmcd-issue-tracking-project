@@ -10,7 +10,7 @@ class LogNewFeatureForm(forms.ModelForm):
    
     class Meta:
         model = Feature
-        fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "paid", "status", "price")
+        fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "paid", "status", "price", "image")
 
 class UpdateFeatureForm(forms.ModelForm):
    

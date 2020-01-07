@@ -377,6 +377,10 @@ def get_features(request):
         
         user_id = feature.user_id
         assigned_client_user = feature.assigned_client_user
+        
+        print("in get_issues~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("feature.client_code: "+str(feature.client_code))
+        print("UserDetails.vend_client_code: "+str(UserDetails.vend_client_code))
         	
         if UserDetails.user_type == "C":
             if feature.client_code != UserDetails.vend_client_code:

@@ -236,27 +236,42 @@
 
     <!-- Issue Image -->
 
+    <!-- Adding and clearing image adapted from blog project -->
+
     <div class="row no-gutters mt-3">
         <div class="col-12 offset-md-2 offset-xl-3 col-md-8 col-xl-6 form-font">
+
             {% if issue.image %}
-            <label for="iss-image"><strong><em>Current Image:</em></strong></label>
+
+            <label for="iss-ftr-image"><strong><em>Current Image:</em></strong></label>
             <div>
                 <a Class="iss-image-link image-link pr-1 " target="blank" href="/media/{{issue.image}}">{{issue.image}}</a>
                 <input type="checkbox" name="image-clear" id="image-clear_id">
                 <label for="image-clear_id"><strong>Clear</strong></label>
             </div>
-            
-            <label for="iss-image"><strong>Change: </strong></label> 
-            {% endif %}
+            <div>
+                <label for="iss-image"><strong>Change: </strong></label>
+                <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
+            </div>
 
-            <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
+            {% else %}
+
+            <div>
+                <label for="iss-image"><strong><em>Image:</em></strong></label>
+            </div>
+            <div>
+                <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
+            </div>
+
+            {% endif %}
         </div>
     </div>
 
 
+
     <!-- Summary -->
 
-    <div class="row no-gutters mt-2">
+    <div class="row no-gutters mt-3">
         <div class="col-12 form-font offset-md-2 offset-xl-3 col-md-8 col-xl-6">
             <label for=" summary "><strong><em>Summary: </em></strong></label>
         </div>
