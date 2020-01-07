@@ -134,13 +134,14 @@
                         <th scope="col" class="text-center td-date">Date</th>
                         <th scope="col" class="text-center td-username">Assigned to</th>
                         <th scope="col" class="text-center td-sw-comp">Software Component</th>
-                        <th scope="col" class="text-center td-summary">Feature Summary</th>
+                        <th scope="col" class="text-center td-ftr-summary">Feature Summary</th>
                         <th scope="col" class="text-center td-status">Status</th>
                         <th scope="col" class="text-center td-price"><i class="fas fa-euro-sign"></i> Price</th>
                         <th scope="col" class="text-center td-paid"><i class="fas fa-euro-sign"></i> Paid</th>
                         <th scope="col" class="text-center td-add pl-0 ml-0"><i class="fas fa-cart-plus "></i></th>
                         <th scope="col" class="text-center td-cart-plus pl-0 ml-0"><i class="fas fa-flag"></i></th>
                         <th scope="col" class="text-center td-more"><i class="fas fa-ellipsis-h ftr-more-icon-th"></th>
+                        <th scope="col" class="text-center td-comments-icon"><i class="fas fa-comments ftr-comments-icon-th"></i></th>
                     </tr>
                 </thead>
                
@@ -172,7 +173,7 @@
                         {% endif %}
                         
                         <td class="td-sw-comp">{{ feature.software_component }}</td>
-                        <td class="td-summary">{{ feature.summary }}</td>
+                        <td class="td-ftr-summary">{{ feature.summary }}</td>
                         <td class="text-center td-status">{{ feature.status }}</td>
                         
                         <td class="text-center td-price">{{ feature.price }}</td>
@@ -214,6 +215,8 @@
                             <td class="text-center td-cart-plus">{{ feature.client_count }}</td>
                         
                         <td class="text-center td-more"><a class="ftr-more-icon-style" href='{% url 'feature_details' feature.id 'n' back_to_page list_filters %}' ><i class="fas fa-ellipsis-h ftr-more-icon-style"></i></a>
+                            </td>
+                        <td class="text-center td-comments-icon"><a class="ftr-more-icon-style" href='{% url 'feature_details' feature.id 'y' back_to_page list_filters %}' ><i class="fas fa-comments ftr-comments-icon-style"></i></a>
                             </td>
                     </tr>
                     {% endfor %}
