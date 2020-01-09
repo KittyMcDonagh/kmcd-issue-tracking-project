@@ -4,7 +4,7 @@
     <div class="row no-gutters">
 
         {% for item in cart_items %}
-        
+
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
                 <div class="row no-gutters">
@@ -19,15 +19,34 @@
                         <p class="text-center mb-0"><strong>{{ item.feature.title }}</strong></p>
                     </div>
                 </div>
+
                 <hr>
 
-                <div class="row no-gutters">
+
+                <!-- Show the Feature Image     -->
+
+                <div class="row no-gutters mt-1">
+                    <div class="col-12 cart-image">
+                        {% if not item.feature.image %}
+                        <div>
+                            <p class="text-center"><strong>No Image</strong></p>
+                        </div>
+                        {% else %}
+                        <div class="text-center " style="background-image: url('{{ MEDIA_URL }}{{ item.feature.image }}');  width: 100%; height: 200px; alt=recipe.alt_txt; background-size: cover; background-position: center"></div>
+
+                        {% endif %}
+                    </div>
+                </div>
+
+
+
+                <div class="row no-gutters mt-2 ">
                     <div class="col-12">
                         <p class="feature-description">{{ item.feature.summary }}</p>
                     </div>
                 </div>
                 <hr>
-                
+
                 <div class="row no-gutters pl-3">
                     <div class="offset-1 col-4">
                         <span><strong>Price: </strong>{{ item.feature.price }}</span>

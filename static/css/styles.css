@@ -1378,7 +1378,7 @@ li {
 
 
 
-/* css for the Cart and Checkout ---------------------------------------------*/
+
 
 /* Styling for the cart -----------------------------------------------------*/
 
@@ -1546,6 +1546,11 @@ li {
     min-height: 40px;
 }
 
+.cart-image {
+    min-height: 200px;
+}
+
+/* css for the Cart and Checkout ---------------------------------------------*/
 
 .checkout-btn {
     background-color: #C080FF!important;
