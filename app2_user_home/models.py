@@ -25,8 +25,8 @@ class Client(models.Model):
     client_address = models.CharField(max_length=100, blank=False)
     client_city = models.CharField(max_length=30, blank=False)
     client_country = models.CharField(max_length=30, blank=False)
-    user_email_addr = models.CharField(max_length=64, blank=False)
-    user_contact_nr = models.CharField(max_length=20, blank=False)
+    client_email_addr = models.CharField(max_length=64, blank=False)
+    client_contact_nr = models.CharField(max_length=20, blank=False)
     
     def __str__(self):
         return  "{0}: {1}".format(self.client_code, self.client_name )

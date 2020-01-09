@@ -536,6 +536,8 @@ Get the Client details
 """
 
 def get_client(request, get_client_code):
+    
+    ClientDetails = ""
 
     try:
         ClientDetails = Client.objects.get(client_code=get_client_code)
@@ -1111,6 +1113,8 @@ def get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder):
     
     i = 0
     for value in paid_order_value:
+        print("paid_order_value value = "+str(value))
+        print("SelectedPaidOrder = "+str(SelectedPaidOrder))
         if SelectedPaidOrder == value:
             SelectedPaidOrderText = paid_order_text[i]
         i += 1
