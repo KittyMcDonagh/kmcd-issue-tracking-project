@@ -41,6 +41,21 @@
                     </div>
                 </div>
                 <hr>
+                
+                <!-- Show the Feature Image     -->
+
+                <div class="row no-gutters mt-1">
+                    <div class="col-12 cart-image">
+                        {% if not item.feature.image %}
+                        <div>
+                            <p class="text-center"><strong>No Image</strong></p>
+                        </div>
+                        {% else %}
+                        <div class="text-center " style="background-image: url('{{ MEDIA_URL }}{{ item.feature.image }}');  width: 100%; height: 200px; alt=recipe.alt_txt; background-size: cover; background-position: center"></div>
+
+                        {% endif %}
+                    </div>
+                </div>
 
                 <div class="row no-gutters">
                     <div class="col-12">
