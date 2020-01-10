@@ -1,17 +1,11 @@
-from django.test import TestCase
+# Test UserDetails.
 
-# Import Feature model
-
-from .models import Feature
-
-# Test Feature.
-
-class FeatureTests(TestCase):
+class UserDetailsTests(TestCase):
     
     """
-    Define the tests that will be run against the Feature model
+    Here we'll define the tests that we'll run against our UserDetails model
     """
     
     def test_str(self):
-        test_name=Feature(user_id='kitty')
-        self.assertEqual(str(test_name), 'kitty')
+        test_first_name=UserDetail(user_first_name='Kitty')
+        self.assertEqual(str(test_first_name), 'Kitty')
