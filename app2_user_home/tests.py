@@ -10,5 +10,5 @@ class UserDetailsTests(TestCase):
     """
     
     def test_str(self):
-        test_name=UserDetail(user_name='Kitty')
-        self.assertEqual(str(test_name), 'Kitty')
+        test_first_name=UserDetail(user_first_name='Kitty')
+        self.assertEqual(str(test_first_name), 'Kitty')
