@@ -1,3 +1,6 @@
+from django.test import TestCase
+from .models import UserDetail
+
 # Test UserDetails.
 
 class UserDetailsTests(TestCase):
