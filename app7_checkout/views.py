@@ -33,7 +33,6 @@ def checkout(request):
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
         
-        
         if order_form.is_valid() and payment_form.is_valid():
             order = order_form.save()
             order.date = timezone.now()
@@ -52,11 +51,12 @@ def checkout(request):
                     )
                 order_line_item.save()
                 
-            # Multiplying by 100 below to add decimals (Dont put comments into the middle of ())
-            # We will see user email in the stripe dashboard. It will
-            # tell us who the payment came from
-            # Stripe does all the security, but we have to inform our customer
-            # if there's a problem
+            # Multiplying by 100 below to add decimals.
+            # User email will appear in the stripe dashboard. It will
+            # indicate who the payment came from.
+            # Stripe does all the security and returns an error status.
+            # If stripe returns an error, a message will be sent to the 
+            # an user
             
             try:
                 customer = stripe.Charge.create(
@@ -71,12 +71,12 @@ def checkout(request):
             
             if customer.paid:
                 
-                # Total amount paid
-                
-                ftr_amount_paid = quantity * feature.price
-                
                 for id, quantity, in cart.items():
                     feature = get_object_or_404(Feature, pk=id)
+                    
+                    # Total amount paid for feature = quantity * feature price
+                
+                    ftr_amount_paid = quantity * feature.price
                     
                     # If this a record doesnt exist for this feature, for this client, create it
                     # (I got help with this code from @mormoran on Slack :-) )
@@ -102,10 +102,11 @@ def checkout(request):
                     feature.paid += ftr_amount_paid
                     
                     # If a new feature paid record was created for a client,
-                    # increment the client count
+                    # increment the client count. This is the number of
+                    # individual clients who have flagged this feature
                     
                     if created:
-                        feature.client_count += quantity
+                        feature.client_count += 1
                         
                     feature.save()
                     

@@ -251,7 +251,7 @@
             </div>
             <div>
                 <label for="iss-image"><strong>Change: </strong></label>
-                <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
+                <input class="iss-file" type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
             </div>
 
             {% else %}
@@ -260,7 +260,7 @@
                 <label for="iss-image"><strong><em>Image:</em></strong></label>
             </div>
             <div>
-                <input type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
+                <input class="iss-file" type="file" name="image" id="iss-image" value="url('{{ MEDIA_URL }}{{ issue.image }}')">
             </div>
 
             {% endif %}

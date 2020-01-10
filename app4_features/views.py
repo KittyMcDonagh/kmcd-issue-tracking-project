@@ -378,7 +378,6 @@ def get_features(request):
         user_id = feature.user_id
         assigned_client_user = feature.assigned_client_user
         
-        print("in get_issues~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print("feature.client_code: "+str(feature.client_code))
         print("UserDetails.vend_client_code: "+str(UserDetails.vend_client_code))
         	
@@ -653,7 +652,7 @@ def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
     
     if not pk:
         back_to_page = 1
-        list_filters="MExALLxALLxALL"
+        list_filters="MExALLxSORTBYxALL"
     
     # If the user is on the Client side we need the Client details, otherwise
     # we need the Vendor details

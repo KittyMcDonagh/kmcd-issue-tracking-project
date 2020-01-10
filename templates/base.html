@@ -300,11 +300,11 @@
 
     <footer>
         <div class="row no-gutters footer-style">
-            
+
             <!-- If user is logged in show the report buttons -->
-            
+
             {% if user.is_authenticated %}
-            
+
             <div class="col-12 offset-md-3 col-md-5 text-center">
                 <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
@@ -1285,6 +1285,7 @@
             // Filtering by Features Filter
 
             $('.features-filter').on('click', function() {
+                console.log("features-filter~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
                 // A value has been selected from the  Features Filter dropdown 
                 // by the user
@@ -1292,6 +1293,9 @@
                 event.preventDefault();
                 let featuresFilter = $(this).data('value');
                 let featuresFilterText = this.innerText;
+
+                console.log("featuresFilter: " + featuresFilter)
+                console.log("featuresFilterText: " + featuresFilterText)
 
 
                 // Clear the contents of the search box, to avoid confusing the user
@@ -1341,6 +1345,12 @@
                 // values, starting with page 1
 
                 let page = 1;
+
+                console.log("before getFeatures: --------------------")
+                console.log("featuresFilter: " + featuresFilter)
+                console.log("statusFilter: " + statusFilter)
+                console.log("paidOrder: " + paidOrder)
+                console.log("clientFilter: " + clientFilter)
 
                 getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
 

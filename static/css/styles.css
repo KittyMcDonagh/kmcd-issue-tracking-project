@@ -380,6 +380,7 @@ li {
 
 .iss-back-btn {
     color: #6666ff!important;
+
 }
 
 
@@ -623,6 +624,7 @@ li {
     border-radius: 5px;
     color: #6666ff!important;
     background-color: fff!important;
+    text-decoration: none
 }
 
 .iss-page-live-link {
@@ -701,6 +703,10 @@ li {
 
 .thumbs-up-icon {
     font-size: 12px;
+}
+
+.iss-file {
+    color: #6666ff;
 }
 
 
@@ -873,6 +879,10 @@ li {
     color: #80C0FF!important;
 }
 
+
+.ftr-file {
+    color: #80C0FF;
+}
 
 /* Styling for comments table  ----------------------------------------------*/
 
@@ -1376,8 +1386,12 @@ li {
     font-size: 12px!important;
 }
 
-
-
+/* Set height of row that has 'Back to list' as the background of the link
+   will be highlighted on hover, so leave enough room around the link  */
+   
+.back-row-height {
+    height: 38px;
+}
 
 
 /* Styling for the cart -----------------------------------------------------*/
