@@ -1,1 +1,1 @@
-web: gunicorn kmcd-issue-tracker.wsgi:application
+web: gunicorn kmcd_issue_tracker.wsgi:application
