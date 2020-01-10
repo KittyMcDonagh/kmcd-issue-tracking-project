@@ -42,7 +42,7 @@ DEBUG = True
 # in .bashrc and am using it in settings.py so that I have an environment variable
 # rather than a hardcoded url
 
-ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
+ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST', 'kmcd-issue-tracker.herokuapp.com')]
 
 
 # Lines added for kmcd-issue-tracking-project:
