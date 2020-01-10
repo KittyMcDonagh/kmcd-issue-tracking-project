@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-# import environment variables
+# import environment variables, if the file exists
 
-import env
+if os.path.exists('env.py'):
+    import env
 
 # Import dj_database_url which was installed with "pip3 install dj-database-url"
 
@@ -109,19 +110,23 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # Database - sqlite3
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-# }
 
-# Database - postgres
-# dj_database_url was installed with "pip3 install dj-database-url" and is
-# imported above
+# Database - postgres dj_database_url was installed with 
+# "pip3 install dj-database-url" and is imported above
+# Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
-DATABASES = {
+if "DATABASE_URL" in os.environ:
+    DATABASES = {
     'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) 
+}
+else:
+    print("Database URL not found. Using SQLite instead.")
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
