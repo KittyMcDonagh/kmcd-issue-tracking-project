@@ -195,7 +195,7 @@
          prefixed with 'ftr-' are added for features. This is because the 
          highlighter color is different for each  -->
 
-    {% if user.is_authenticated %}
+
     <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
         {% if listing.has_other_pages %}
 
@@ -295,7 +295,7 @@
         </ul>
         {% endif %}
     </nav>
-    {% endif %}
+    
 
 
     <footer>
@@ -305,25 +305,25 @@
 
             {% if user.is_authenticated %}
 
-            <div class="col-12 offset-md-3 col-md-5 text-center">
+            <div class="col-12 col-md-4 pb-1">
                 <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
                 </ul>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4 pb-1">
                 <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
                 </ul>
             </div>
             {% endif %}
-        </div>
 
-        <div class="row no-gutters p-2 footer-copyright">
-            <div class="col-12 ">
+
+            <div class="col-12 col-md-4 footer-copyright text-center pt-4">
                 <p class="courgette-font m-0">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
             </div>
         </div>
+        
     </footer>
 
     <!-- Custom Javascript -->

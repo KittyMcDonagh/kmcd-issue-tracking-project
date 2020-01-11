@@ -238,8 +238,6 @@ def get_features(request):
         
         Features = Feature.objects.all()
         
-       
-        
         # User has requested all features assigned to them?
                 
         if features_filter == 'ME':

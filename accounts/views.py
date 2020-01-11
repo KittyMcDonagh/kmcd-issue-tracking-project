@@ -64,6 +64,7 @@ def login(request):
                 # System. If not, log out System
     
                 UserDetails = ""
+                
                 try:
                     UserDetails = UserDetail.objects.get(user_id=user.username)
                     return redirect(reverse('user_home'))
@@ -99,15 +100,18 @@ def registration(request):
     
     """ If user has sent login details, validate them """
     if request.method == "POST":
+        
         registration_form = UserRegistrationForm(request.POST)
         
         if registration_form.is_valid():
+            
             registration_form.save()
             
             user = auth.authenticate(username=request.POST['username'],
                                      password=request.POST['password1'])
             
             if user:
+                
                 auth.login(user=user, request=request)
                 messages.success(request, "You have registered successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**")
                 
@@ -160,13 +164,3 @@ def user_profile(request):
     
     
     return render(request, 'profile.html', {'profile': user, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
-
-    
-
-    
-        
-        
-    
-    
-    
-
