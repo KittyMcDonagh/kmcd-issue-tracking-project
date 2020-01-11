@@ -20,13 +20,13 @@ body {
     Set height of Section so that the footer sticks to the bottom on larger 
    devices or on pages where the screen is not otherwise filled. 
    369 = height of the top line (19) + height of the navbar (80) 
-   + height of pagination section (38) + height of the footer (232)     */
+   + height of pagination section (38) + height of the footer (270)     */
 
 section {
 
     padding: 0 10px;
 
-    min-height: calc(100vh - 371px);
+    min-height: calc(100vh - 270px);
 
 }
 
@@ -943,9 +943,14 @@ li {
     color: #C080FF;
     margin-bottom: 0px;
 
-
 }
 
+/* Set the min height for each of the columns in the footer so that whether 
+   logged in or out its always the same height on mobile devices - there
+   will be nothing in the reports column when the user is not logged in. */
+.min-height {
+    min-height: 80px;
+}
 
 
 /* Set filter font-sizes for larger devices----------------------------------*/
