@@ -4,23 +4,17 @@
 
 ## **1.1 PURPOSE**
 
-The purpose of [my issue tracking app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to provide a central 
-place where issues pertaining the the KMcD Online Accounting System can be logged by clients. They can then be viewed by all
-clients and reported on.
-
+The purpose of [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to:
+- Provide a central point for clients to log issues and required features pertaining the the (_fictional_)_KMcD Online Accounting System_
+- Allow both the vendor and clients to monitor issues and features 
+- Provide reports per client
 
 
 # **2. UX**
 
 ## **2.1 BACKGROUND**
 
-In conjunction with the release of the KMcD Online Accounting System, an Online Issue Tracker app has been made available to clients to allow them to log issues they are having with the Accounting System, and to input features they would like to see added. Clients can flag issues to indicate they have this too, and for a price, they can also flag features. This means there doesn't have to be a doubling up of issues and features, but it can still be seen how many clients have the issue, or how many clients want a particular
-feature.
-
-The app has 2 perspectives - a client perspective and a vendor perspective:
-- Clients can input and edit their issues/features, view other clients issues/features and add comments, but they cannot see other clients' codes, names,    user ids, or reports
-- Vendors cannot input issues/features, but they can update the status, priority, price, vendor assigned user,   and they can see all clients' reports
-
+In conjunction with the release of the _KMcD Online Accounting System_, an Online Issue Tracker app has been made available to clients to allow them to log issues they are having with the Accounting System, and to input features they would like to see added. Clients can flag issues to indicate they have this too, and for a price, they can also flag features. 
 
 
 
@@ -28,9 +22,9 @@ The app has 2 perspectives - a client perspective and a vendor perspective:
 
 ### **2.2.1 High Level Requirements**
 
-These are the high level requirements for this app.
+These are the high level requirements for [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
 
-1. The app is required to be a central point where clients can log all issues that they are experiencing with the *KMcD Online Accounting System*, and        where they can log new features that they require
+1. The [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is required to be a central point where clients can log all    issues that they are experiencing with the _KMcD Online Accounting System_, and where they can log new features that they require
 2. So that clients don't have to input the same issue/feature that another client has, the app should allow clients to search for issues/features and to 
    flag another clients' issue, to indicate they have this also, and to pay a price to flag a feature (their own or another client's) that they require
 3. Clients must be able to add comments on their own and on other clients' issues and features
@@ -38,7 +32,7 @@ These are the high level requirements for this app.
 5. Clients must be able to run an issues and a features report that shows a list of the issues/features they have input and the issues that they have         flagged
 6. The app requires two perspectives, a client perspective and a vendor perspective
 7. Since the business contract is between the client and the vendor, not between one client and another, there are certain things a client should not be      able to do in relation to another clients' details - in the interests of data protection :
-   - While clients should be able to see other clients' issues and features, but they should _not_ be able to see another client's client code or name, nor   the user id of a user who is associated with another client (this includes user ids shown on issues/features and on comments)
+   - While clients should be able to see other clients' issues and features, but they should _not_ be able to see another client's client code or name, nor   the user id of a user who is associated with another client (this includes user ids shown on issues, features, and on comments)
    - Clients should not be able to edit / update another client's issues / features
    - A client should not have access to another client's reports
    - Clients **should** be able to see the user id of comments input by a user that is associated with the vendor
@@ -46,14 +40,18 @@ These are the high level requirements for this app.
 9. Once the issue / feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to    update the client assigned user of the issue / feature
 10. Since there is a contract between the vendor and the client there is no restriction required as to what client details the vendor can see:
     - The vendor shoud be able to see the client code and name
-    - The vendor they should be able to see the user ids of isssues/features and of comments
+    - The vendor they should be able to see the user ids of isssues, features, and of comments
     - The vendor should be able to see reports for all clients
 11. A vendor-side user should not be able to input new issues / features
 12. A vendor-side user should not be able to edit the details of an issue/feature
 13. A vendor-side user should be able to update the vendor assigned user, the status, and the priority on issues
 14. A vendor-side user should be able to update the vendor assigned user, the status, and the price on features
+15. It should be possible to filter issues by various options, status, priority, and for vendor-side users, by client
+16. It should be possible to filter features by various options, status, sort them by amount paid, and for vendor-side users, filter by client
+17. It should be possible for both vendor and clients to input comments on issues and features
+18. It should be possible for both vendor and clients to view comments input on issues and features
+19. It should be possible to differentiate comments input by vendor-side user from comments input by client-side users
  
-
 
 
 ## **2.2.2 USER STORIES** ##
