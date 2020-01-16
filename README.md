@@ -45,9 +45,9 @@ These are the high level requirements for this app.
 8. A client should not be able to see another client's issues or features until that client is satisfied with the details input and has set the               issue/feature to an appropriate status to allow other clients to view it
 9. Once the issue / feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to    update the client assigned user of the issue / feature
 10. Since there is a contract between the vendor and the client there is no restriction required as to what client details the vendor can see:
-   - The vendor shoud be able to see the client code and name
-   - The vendor they should be able to see the user ids of isssues/features and of comments
-   - The vendor should be able to see reports for all clients
+    - The vendor shoud be able to see the client code and name
+    - The vendor they should be able to see the user ids of isssues/features and of comments
+    - The vendor should be able to see reports for all clients
 11. A vendor-side user should not be able to input new issues / features
 12. A vendor-side user should not be able to edit the details of an issue/feature
 13. A vendor-side user should be able to update the vendor assigned user, the status, and the priority on issues
