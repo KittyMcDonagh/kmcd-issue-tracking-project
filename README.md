@@ -14,17 +14,12 @@ clients and reported on.
 
 ## **2.1 BACKGROUND**
 
-In conjunction with the release of the KMcD Online Accounting System, an Online Issue Tracker app has been made available to clients
-to allow them to log issues they are having with the Accounting System, and to input features they would like to see added. Clients
-can flag issues to indicate they have this too, and for a price, they can also flag features. This means there doesn't have to be
-a doubling up of issues and features, but it can still be seen how many clients have the issue, or how many clients want a particular
+In conjunction with the release of the KMcD Online Accounting System, an Online Issue Tracker app has been made available to clients to allow them to log issues they are having with the Accounting System, and to input features they would like to see added. Clients can flag issues to indicate they have this too, and for a price, they can also flag features. This means there doesn't have to be a doubling up of issues and features, but it can still be seen how many clients have the issue, or how many clients want a particular
 feature.
 
 The app has 2 perspectives - a client perspective and a vendor perspective:
-- Clients can input and edit their issues/features, view other clients issues/features and add comments,
-  but they cannot see other clients' codes, names, user ids, or reports
-- Vendors cannot input issues/features, but they can update the status, priority, price, vendor assigned user,
-  and they can see all clients' reports
+- Clients can input and edit their issues/features, view other clients issues/features and add comments, but they cannot see other clients' codes, names,    user ids, or reports
+- Vendors cannot input issues/features, but they can update the status, priority, price, vendor assigned user,   and they can see all clients' reports
 
 
 
@@ -33,12 +28,12 @@ The app has 2 perspectives - a client perspective and a vendor perspective:
 
 ### **2.2.1 High Level Requirements**
 
-These are the high level features of the Issue Tracker:
-1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the 
-    KMcD Online Accounting System
-2. Once logged in the user will be presented with a list of issues that are assigned to them
-3. From the **Navigation Bar** the user can select **Home,** **Profile,** **Logout,** the **Issues List,** **New Issue,** **Features List,** 
-   **New Feature,** **Cart,**
+These are the high level requirements for this app.
+
+1. The app is required to be a central point where clients can log all issues that they are experiencing with the *KMcD Online Accounting System*, and        where the can log new features that they require
+2. So that clients don't have to input the same issue/feature that another client has, the app should allow clients to search for issues/features and to 
+   flag another clients' issue, to indicate they have this also, and to pay a price to flag a feature that they require
+3. Clients must be able to input comments on their own and on other clients' issues
 4. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
 5. From the **Issues List** page the user can:
    - See summary details of up to five issues per page, and paginate to other pages 
@@ -70,46 +65,34 @@ These are the high level features of the Issue Tracker:
 
 ## **3.1 MY SOUTH AFRICAN TRIP WEBSITE**
 
-1. The website consists of one page only, the [**Home Page**](https://milestone-project-2-kittyjo.c9users.io/index.html)
-2. It opens with:
-3.  - A map of South Africa with clustered markers for all the places we'll be visiting (No information has been added to the 
-      markers at this point, as there would be too many together. It is just to give an overview of the places we'll be.)
-    - A user message explaining how to use the website
-    - A navigation bar across the top of the page allowing the user to filter the information by Lodgings, Safari, 
-      and Sight Seeing, and to quickly access the Gallery
-4.  The next section of the page is the Gallery:
-    - The photos are categorized into the main headings - Lodgings, Safari, and 
-      Sight Seeing
-    - They are also categorized into the subcategories under the main headings. 
-    - The footer is kept simple. It has one link only ("My South African Trip") which will reload the Home page when the user
-      clicks on it
-10. When the user makes a selection from one of the main headings, a Filter Piechart will appear, allowing the user to select
-    one or more 'slices' to filter the information they see
-11. The website will filter the map markers and photos, depending on the selections the user makes from the Navigation Bar
-    and the Filter Piecharts
-12. When the user clicks on a marker on the map, the location name will show in an infoWindow (*please see notes below*)
-13. I have used the default fonts on my website
-14. I have used the Google Maps Logo colors as my colors, as well as different shades of these
+These are the high level features of the Issue Tracker:
+1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the 
+    KMcD Online Accounting System
+2. Once logged in the user will be presented with a list of issues that are assigned to them
+3. From the **Navigation Bar** the user can select **Home,** **Profile,** **Logout,** the **Issues List,** **New Issue,** **Features List,** 
+   **New Feature,** **Cart,**
+4. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
+5. From the **Issues List** page the user can:
+   - See summary details of up to five issues per page, and paginate to other pages 
+   - Filter the issues list by Issues Filter, Status Filter, Priority Filter and, if the user is a vendor-side user, by Client 
+   - Select to see the details of a particular issue
+   - Select to see the comments on a particular issue
+   - Flag an issue belonging to another client using the 'thumbs up' icon, to indicate they also have this
+6. From the **Features List** page the user can:
+   - See summary details of up to five features per page, and paginate to other pages 
+   - Filter the features list by Features Filter, Status Filter, Sort by Amount paid per feauture and, if the user is a vendor-side user, filter by Client 
+   - Select to see the details of a particular feature
+   - Select to see the comments on a particular feature
+   - Pay for a feature (their own or another client's) using the 'cart+' icon, to indicate they also want this 
 
 
 **NOTES**
-1. **The Infowindows:** I couldn't work out how to get the location names from the Google API, so after spending a lot of time trying to work it out, 
-   and many trials and errors, I decided to create a solution myself. So the names coming up in the infoWindows are not from 
-   the Google API. 
 
-2.  **The Piecharts:** If a piechart is showing on the screen and you then change to a another device view via Chrome Developer
-    Tools (e.g. from desktop to mobile or ipad, or vice versa), the piechart will be off-center. This is because the piechart is generated by
-    javascript. You will need to reload the page on the second device, and regenerate the piechart for it to be centered.
 
 
 ## **3.6 NAVIGATION AND RESPONSIVENESS**
 
-1.  The top navigation bar is fixed, giving the user access to it at all times on all devices
-2.  The bottom navigation bar has one link only and allows the user to reload the webpage 
-3.  The photos for the 3 main sections are shown across one column on extra large screens and larger; on smaller screens, the 
-    photos for one main heading takes up the width of the screen to enhance user viewing
-4.  The filter and the map are shown across one column on medium screens and larger; on smaller screens, each takes up the 
-    width of the screen. This will make it easier for the user to interact with the filters and the map
+
 
 
 
