@@ -5,9 +5,10 @@
 ## **1.1 PURPOSE**
 
 The purpose of [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to:
-- Provide a central point for clients to log issues and required features pertaining the the (_fictional_)_KMcD Online Accounting System_
+- Provide a central point for clients to log issues and required features pertaining the the (_fictional_) _KMcD Online Accounting System_
 - Allow both the vendor and clients to monitor issues and features 
 - Provide reports per client
+
 
 
 # **2. UX**
@@ -56,13 +57,17 @@ These are the high level requirements for [the issue tracker app](https://kmcd-i
 
 ## **2.2.2 USER STORIES** ##
 
-|No. |Who I am                 |What I want to do                                                           | Why I want to do it
-|----|-------------------------|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-|1.  |A friend / family member |I want to see what my friends / family member will be doing in South Africa |I am excited for them and I would like to see what they're going to experience. I might go myself one day.              |
-|2.  |A friend / family member |I want to see what kind of places they'll be staying                        |I want to see what levels of comfort they're going to have.                                                             |
-|3.  |A friend / family member |I want to see what kind of things they'll be doing                          |I want to get a feel for what they're going to experience in South Africa                                               |
-|4.  |A friend / family member |I want to see photos of where they're staying and what they're doing        |It will help me visualize where they are and what the're doing while on holiday                                         |
-|5.  |A friend / family member |I want to see where the locations they will be in on a map                  |It will me an idea of the distances they're travelling                                                                  |
+|No. |Who I am                 |What I want to do                                                                                    | Why I want to do it
+|----|-------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+|1.  |The Vendor               |I want to see all the issues/features clients are raising against the KMcD Online Accounting System. |I want to monitor them and keep track of them.                                                                       |
+|2.  |The Vendor               |I want to be able to see all the details of issues / features.                                       |I want have a good understanding of the problems encountered, and the features required.                              |
+|3.  |The Vendor               |I want to be able to assign issues/features to different users.                                      |So that certain users have a number of issues / features that they monitor for certain clients.                          |
+|4.  |The Vendor               |I want to be able to change the priority and status of an issue.                                     |So that clients can see the priority given to their issues, and how they are progressing as their status changes.      |
+|5   |The Vendor               |I want to be able to change the price and status of a feature, as the issue progresses.              |So that clients can see the priority given to their issues, and how they are progressing as their status changes.      |
+|6.  |The Vendor               |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by the client. |
+|7.  |Vendor                   |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues as required.                                                            |
+|7.  |Vendor                   |I want to be able filter issues by those assigned to me or all, and by priority, status, and client. |It will help me focus on certain types or categories of issues as required.                                              |             
+
 
 
 # **3. FEATURES**
