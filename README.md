@@ -30,23 +30,29 @@ The app has 2 perspectives - a client perspective and a vendor perspective:
 
 These are the high level requirements for this app.
 
-1. The app is required to be a central point where clients can log all issues that they are experiencing with the *KMcD Online Accounting System*, and        where the can log new features that they require
+1. The app is required to be a central point where clients can log all issues that they are experiencing with the *KMcD Online Accounting System*, and        where they can log new features that they require
 2. So that clients don't have to input the same issue/feature that another client has, the app should allow clients to search for issues/features and to 
-   flag another clients' issue, to indicate they have this also, and to pay a price to flag a feature that they require
-3. Clients must be able to input comments on their own and on other clients' issues
-4. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
-5. From the **Issues List** page the user can:
-   - See summary details of up to five issues per page, and paginate to other pages 
-   - Filter the issues list by Issues Filter, Status Filter, Priority Filter and, if the user is a vendor-side user, by Client 
-   - Select to see the details of a particular issue
-   - Select to see the comments on a particular issue
-   - Flag an issue belonging to another client using the 'thumbs up' icon, to indicate they also have this
-6. From the **Features List** page the user can:
-   - See summary details of up to five features per page, and paginate to other pages 
-   - Filter the features list by Features Filter, Status Filter, Sort by Amount paid per feauture and, if the user is a vendor-side user, filter by Client 
-   - Select to see the details of a particular feature
-   - Select to see the comments on a particular feature
-   - Pay for a feature (their own or another client's) using the 'cart+' icon, to indicate they also want this 
+   flag another clients' issue, to indicate they have this also, and to pay a price to flag a feature (their own or another client's) that they require
+3. Clients must be able to add comments on their own and on other clients' issues and features
+4. Clients should be able to see all the comments input against a particular issue/feature
+5. Clients must be able to run an issues and a features report that shows a list of the issues/features they have input and the issues that they have         flagged
+6. The app requires two perspectives, a client perspective and a vendor perspective
+7. Since the business contract is between the client and the vendor, not between one client and another, there are certain things a client should not be      able to do in relation to another clients' details - in the interests of data protection :
+   - While clients should be able to see other clients' issues and features, but they should _not_ be able to see another client's client code or name, nor   the user id of a user who is associated with another client (this includes user ids shown on issues/features and on comments)
+   - Clients should not be able to edit / update another client's issues / features
+   - A client should not have access to another client's reports
+   - Clients **should** be able to see the user id of comments input by a user that is associated with the vendor
+8. A client should not be able to see another client's issues or features until that client is satisfied with the details input and has set the               issue/feature to an appropriate status to allow other clients to view it
+9. Once the issue / feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to    update the client assigned user of the issue / feature
+10. Since there is a contract between the vendor and the client there is no restriction required as to what client details the vendor can see:
+   - The vendor shoud be able to see the client code and name
+   - The vendor they should be able to see the user ids of isssues/features and of comments
+   - The vendor should be able to see reports for all clients
+11. A vendor-side user should not be able to input new issues / features
+12. A vendor-side user should not be able to edit the details of an issue/feature
+13. A vendor-side user should be able to update the vendor assigned user, the status, and the priority on issues
+14. A vendor-side user should be able to update the vendor assigned user, the status, and the price on features
+ 
 
 
 
