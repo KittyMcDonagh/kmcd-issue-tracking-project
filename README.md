@@ -4,10 +4,7 @@
 
 ## **1.1 PURPOSE**
 
-The purpose of [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to:
-- Provide a central point for clients to log issues and required features pertaining the the (_fictional_) _KMcD Online Accounting System_
-- Allow both the vendor and clients to monitor issues and features 
-- Provide reports per client
+_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and delivering new features in a timely manner. This will help us to respond quickly to their needs and improve client satisfaction. Hence the decision was made to create an online [issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
 
 
 
@@ -15,7 +12,18 @@ The purpose of [the issue tracker app](https://kmcd-issue-tracker.herokuapp.com/
 
 ## **2.1 BACKGROUND**
 
-In conjunction with the release of the _KMcD Online Accounting System_, an Online Issue Tracker app has been made available to clients to allow them to log issues they are having with the Accounting System, and to input features they would like to see added. Clients can flag issues to indicate they have this too, and for a price, they can also flag features. 
+An Issue Tracking System is required where clients can log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features that they would like added to the software. 
+
+The Issue Tracking System will allow clients to see each other’s issues, and feature requests, comment on them, and upvote them.
+
+While bug fixes will be free, inputting, commenting on, and upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided on by the Vendor).
+
+The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor the progress of issues / features.
+
+### **2.1.1 Issue Tracking Overview**
+
+![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracking Overview")
+
 
 
 
@@ -35,7 +43,7 @@ These are the high level requirements for [the issue tracker app](https://kmcd-i
 7. Since the business contract is between the client and the vendor, not between one client and another, there are certain things a client should not be      able to do in relation to another clients' details - in the interests of data protection :
    - While clients should be able to see other clients' issues and features, but they should _not_ be able to see another client's client code or name, nor   the user id of a user who is associated with another client (this includes user ids shown on issues, features, and on comments)
    - Clients should not be able to edit / update another client's issues / features
-   - A client should not have access to another client's reports
+   - A client should **not** have access to another client's reports
    - Clients **should** be able to see the user id of comments input by a user that is associated with the vendor
 8. A client should not be able to see another client's issues or features until that client is satisfied with the details input and has set the               issue/feature to an appropriate status to allow other clients to view it
 9. Once the issue / feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to    update the client assigned user of the issue / feature
@@ -66,17 +74,30 @@ These are the high level requirements for [the issue tracker app](https://kmcd-i
 |5   |The Vendor               |I want to be able to change the price and status of a feature, as the issue progresses.              |So that clients can see the priority given to their issues, and how they are progressing as their status changes.      |
 |6.  |The Vendor               |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by the client. |
 |7.  |Vendor                   |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues as required.                                                            |
-|7.  |Vendor                   |I want to be able filter issues by those assigned to me or all, and by priority, status, and client. |It will help me focus on certain types or categories of issues as required.                                              |             
+|8.  |The Vendor               |I want to be able filter features by those assigned to me or all, by status, and client.             |It will help me focus on certain types or categories of features as required.                                            |         
+|9.  |The Vendor               |I want to be able order features by amount paid per feature.                                         |It will help me see which features are of most concern to my clients.                                                  |
+|10. |The Vendor               |I want to have an issues report by client, showing me the issues they have input and flagged.        |I will be able to see which issues are of most concern to my clients.                                                    |
+|11. |The Vendor               |I want to have a features report by client, showing me the features they have input and paid for.    |I will be able to see which features are of most concern to my clients, and which clients are paying the most.           |
+|12. |A Client                 |I want to be able to input and edit the details of issues and features.                              |I want to log issues / features once in one place, where I monitor them and where the vendor has sight of them.         |
+|13. |A Client                 |I want to see all the issues/features raised by us and by other clients.                             |I want to monitor our own issues and see if other clients are having the same issues.                                    |
+|14. |A Client                 |I want to be able to see all the details of issues / features.                                       |I want to see the details of our own issues / features and see how they compare with those of other clients.         |
+|15. |A Client                 |I want to be able to assign issues/features to different users.                                      |So that certain users have a number of issues / features that they monitor.                                              |
+|16. |A Client                 |I want to be able to change the status of an issue.                                                  |I want to be able to change the status from its initial value so that the vendor can view it.                           |
+|17. |A Client                 |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by others.     |
+|18. |A Client                 |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues as required.                                                            |
+|19. |A Client                 |I want to be able filter features by those assigned to me or all, by status, and client.             |It will help me focus on certain types or categories of features as required.                                            |         
+|20. |A Client                 |I want to be able order features by amount paid per feature.                                         |It will help me see which features the vendor should be giving priority to.                                            |
+|21. |A Client                 |I want to have an issues report, showing me the issues we have input and flagged.                    |I will be able to see the issues that are of concern to us.                                                              |
+|22. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
 
 
 
 # **3. FEATURES**
 
-## **3.1 MY SOUTH AFRICAN TRIP WEBSITE**
+## **3.1 KMCD ISSUE TRACKER APP**
 
 These are the high level features of the Issue Tracker:
-1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the 
-    KMcD Online Accounting System
+1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the _KMcD Online Accounting System_
 2. Once logged in the user will be presented with a list of issues that are assigned to them
 3. From the **Navigation Bar** the user can select **Home,** **Profile,** **Logout,** the **Issues List,** **New Issue,** **Features List,** 
    **New Feature,** **Cart,**
@@ -92,8 +113,19 @@ These are the high level features of the Issue Tracker:
    - Filter the features list by Features Filter, Status Filter, Sort by Amount paid per feauture and, if the user is a vendor-side user, filter by Client 
    - Select to see the details of a particular feature
    - Select to see the comments on a particular feature
-   - Pay for a feature (their own or another client's) using the 'cart+' icon, to indicate they also want this 
-
+   - Pay for a feature (their own or another client's) using the add to cart ('cart+') icon for that feature, to indicate they also want this 
+   - Select the cart from the navigation bar, once features have been added to it, increase/reduce the quantity or remove an item, and proceed to checkout   to pay for the item(s)
+7. Issue / Feature **Details Page**:
+   - If the user selects the 'more' icon from the issues/features list:
+     + The details screen will open showing the issue/feature details 
+     + The user can click the comments icon to open the comments dashboard, where they can click on the '+' icon to add a comment or on the 'eye' icon to      view a list of existing comments
+     + The user will be able to go back to the list page on which they clicked the 'more' icon by clicking on the 'Back to list' link
+   
+   - If the user selects the 'comments' icon from the issues/feature list:
+     + The details screen will open with the comments dashboad and the list of comments for that issue/feature already showing
+     + The user may use the 'comments' icon, and the comments dashboard to clear the comments or add a new comment
+     + The user will be able to go back to the list page on which they clicked the 'comments' icon by clicking on the 'Back to list' link
+   
 
 **NOTES**
 
