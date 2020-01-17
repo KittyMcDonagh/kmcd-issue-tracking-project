@@ -22,7 +22,7 @@ The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) 
 
 ### **2.1.1 Issue Tracking Overview**
 
-![alt text](/static/images/issue_tracker_overall_view.png "Issue Tracking Overview")
+![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracking Overview")
 
 
 
@@ -283,32 +283,18 @@ These are the high level features of the Issue Tracker:
 
 ## **7.1 CONTENT**
 
-### **7.2 PHOTOGRAPHS**
+### **7.2 IMAGES AND ICONS USED ON ISSUE TRACKER **
 
-1. The photos on [my website](https://milestone-project-2-kittyjo.c9users.io/index.html) were copied from:
-    - [Hotel Verde website](https://www.verdehotels.com/capetown/)
-    - [Quayside Hotel website](https://www.aha.co.za/quayside/)
-    - [Milkwood Manor website](http://www.milkwoodmanor.co.za/)
-    - [Protea Hotel website](https://www.marriott.com/hotels/travel/jnbro-protea-hotel-roodepoort)
-    - [Knysna Elephant Park website](https://knysnaelephantpark.co.za/)
-    - [Glen Afric website](https://www.glenafric.co.za/gallery.html)
-    - [Addo Elephant Park website](https://www.sanparks.org/gallery/parks/addo-elephant-national-park)
-    - [Lower Sabie Rest Camp website](http://www.krugerpark.co.za/Kruger_National_Park_Lodging_&_Camping_Guide-travel/lower-sabie-camp_accommodation.html)
-    - [Google Image - 1](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwjLzI6TkPjiAhVIZcAKHUQUBx4QjRx6BAgBEAU&url=https%3A%2F%2Ftraveltriangle.com%2Fblog%2Fkruger-national-park-south-africa%2F&psig=AOvVaw1ejAYpZxCnH7tcrV2cXzeA&ust=1561122358506228)
-    - [Lion and Safari website](http://www.lionandsafaripark.com/)
-    - [de Wildt Cheetah Sanctuary website](http://dewildt.co.za/)
-    - [Zulu Nyala website](http://zulunyalagroup.com/)
-    - [Google Maps Image](https://www.google.ie/maps/uv?hl=en&pb=!1s0x1ebe391bbc301847%3A0xb04e56d51d86baed!2m22!2m2!1i80!2i80!3m1!2i20!16m16!1b1!2m2!1m1!1e1!2m2!1m1!1e3!2m2!1m1!1e5!2m2!1m1!1e4!2m2!1m1!1e6!3m1!7e115!4shttps%3A%2F%2Fostrovok.ru%2Frooms%2Fukutula_lion_lodge%2F!5sukutula%20lodge%20and%20lion%20centre%20-%20Google%20Search!15sCAQ&imagekey=!1e1!2shttps%3A%2F%2Fbstatic.com%2Fxdata%2Fw%2Fhotel%2Fmax1500_watermarked_standard_bluecom%2FUl2O-ydSLLJd7DjiOt_wTTw5PQalexfVd5tMHgGKcyB1HUy2S0Oc0hSIf7IYn-Ul0VGqpLMkJifSViUKLIdB6Xv56US0Au4koTYMNzaDDE9nSApsIkFJNA4OZ5ERWWE.jpg&sa=X&ved=2ahUKEwj0q56xlPjiAhV0nVwKHcL1BnoQoiowFXoECA0QBg#)
-    - [Google Image - 2](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwjM3fjclfjiAhU0Q0EAHcVuDo8QjRx6BAgBEAU&url=https%3A%2F%2Fwww.thesouthafrican.com%2Ftravel%2Fexploring-the-wonder-of-chapmans-peak-video%2F&psig=AOvVaw24AxQ72SgSHTbs-KCxhKn0&ust=1561123760736862)
-    - [Google Image - 3](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwjulvHtlvjiAhXMfMAKHSmOCg8QjRx6BAgBEAU&url=https%3A%2F%2Fwww.privatetransportcapetown.com%2Ftour%2Fcape-of-good-hope-and-cape-point-sightseeing-private-cape-peninsula-day-tour%2F&psig=AOvVaw3-tM30-c1DkaN7q9Kai38B&ust=1561124099375976)
-    - [Stellenbosch website](https://www.stellenbosch.travel/attractions/heritage-architecture)
-    - [Stellenbosch website](https://www.stellenbosch.travel/)
-    - [Marianne Wine Estates website](http://www.mariannewines.com/our-winery/tasting-room)
-    - [Ocean Safari website](http://oceansafaris.co.za/gallery/)
-    - [Google Image - 4](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwiKo-TzmvjiAhVyQUEAHduwCj0QjRx6BAgBEAU&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FNature%2527s_Valley&psig=AOvVaw0DkfC7Z1orAzHaluMjTDRD&ust=1561125251107402)
-    - [Google Image - 5](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwiA_pWqm_jiAhWLT8AKHWwmDSAQjRx6BAgBEAU&url=https%3A%2F%2Fwww.thenational.ae%2Flifestyle%2Ftravel%2Fmy-kind-of-place-port-elizabeth-south-africa-1.165596&psig=AOvVaw0CtESsVnHBKH7nxDpZ7wdt&ust=1561125353100379)
-    - [Google Image - 6](https://www.google.ie/url?sa=i&source=images&cd=&ved=2ahUKEwi6r7Lcm_jiAhXMa8AKHcAsAYAQjRx6BAgBEAU&url=https%3A%2F%2Fwww.lonelyplanet.com%2Fsouth-africa%2Fgauteng%2Fjohannesburg&psig=AOvVaw1dc6BmwwX0X4PTSd1NZdlO&ust=1561125454470675)
-2. The map is from [Google Maps API](https://maps.googleapis.com/maps/api/)
+The following icons/images were used to create the overview diagram of the Issue Tracking System:
+
+|IMAGE / ICON                           |COPIED FROM
+|---------------------------------------|----------------------------------------------------------------------------------------------|
+|Questions Comments Concerns icon       |http://clipart-library.com/clipart/ziXoGpb7T.htm                                              |
+|Client group icon                      |http://clipart-library.com/clipart/1745500.htm                                                |
+|Group sitting around globe of world    |http://clipart-library.com/img1/1474499.jpg                                                   |
+|Online Server image                    |http://clipart-library.com/clipart/99610.htm                                                  |
+|Online computer image                  |http://clipart-library.com/image_gallery2/Hosting-Free-Download-PNG.png                       |
+
 
 
 ## **CODE SNIPPETS**
