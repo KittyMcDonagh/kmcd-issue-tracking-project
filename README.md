@@ -22,7 +22,7 @@ The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) 
 
 ### **2.1.1 Issue Tracking Overview**
 
-![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracking Overview")
+![alt text](/static/images/issue_tracker_overall_view.png "Issue Tracking Overview")
 
 
 
