@@ -45,7 +45,7 @@ class IssueComment(models.Model):
 Issue Thumbs Up Model - This model records the Issues that a client has 
 'thumbed up'. They can only have one 'thumbs up' per issue. 
 Once thumbed up, The icon for the issue will change to 'thumb down', and once 
-clicked, this will change the count back to zero.
+clicked, this will remove the thumbs up record.
 """
 
 class IssueThumbsUp(models.Model):

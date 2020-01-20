@@ -52,7 +52,7 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 
 ### **2.1.6 User Setup**
 
-![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker Vendor-side Workflow")
+![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker User Setup")
 
 
 ## **2.2 WEBSITE REQUIREMENTS**
@@ -171,8 +171,125 @@ These are the high level features of the Issue Tracker:
 3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
 
 
+# **4. DATABASES**
 
-# **4. TECHNOLOGIES USED**
+## 4.1	VENDOR DATABASE
+
+   This is a Django Database. 
+   The Vendor is _KMcD Accounting Solutions_. The Vendor details will be input via Django Admin. 
+   There will only be **one** record in this database.
+   
+
+|Field Name        |Description                                   |Validation                                             |
+|------------------|----------------------------------------------|-------------------------------------------------------|
+|vend_code	       |Uniquely identifies the Vendor                | 6 alpha-numeric characters.                           |
+|vend_name	       |Vendor Name                                   | Up to 50 characters                                   |
+|vend_address      |Vendor Address                                | Up to 100 characters                                  |
+|vend_city         |Vendor City                                   | Up to 30 characters                                   |
+|vend_country      |Vendor Country                                | Up to 30 characters                                   |
+|vend_email_addr   |Vendor Email Address                          | Up to 64 characters                                   |
+|vend_contact_nr   |Vendor Contact Number                         | Up to 20 characters                                   |
+
+
+## 4.2	CLIENT DATABASE
+
+   This is a Django Database. 
+   This database will contain the details of all the Clients using _KMcD Accounting System_. 
+   The details will be input via Django Admin.
+
+|Field Name        |Description                            |Validation                                                  |
+|------------------|---------------------------------------|------------------------------------------------------------|
+|client_code	    |Uniquely identifies the Client         | 6 alpha-numeric characters. Uniquely identifies the Client |
+|client_name       |Client Name                            | Up to 50 characters                                        |
+|client_address    |Client Address                         | Up to 100 characters                                       |
+|client_city       |Client City                            | Up to 30 characters                                        |
+|client_country    |Client Country                         | Up to 30 characters                                        |
+|client_email_addr |Client Email Address                   | Up to 64 characters                                        |
+|client_contact_nr |Client Contact Number                  | Up to 20 characters                                        |
+
+
+## 4.3	USER DETAILS DATABASE
+
+   This is a Django Database. 
+   Details of Users associated with the Vendor, _KMcD Accounting Solutions_, will be input via Django Admin.
+   Details of Users, associated with the Clients who use _KMcD Accounting System_, will be input via Django Admin.
+   
+   When a user registers via the Issue Tracker, they will be registered as a Django Admin user. However, in order to
+   get access to the Issue Tracker, they must be set up in the User Details database.
+   
+   This Database tells us about the user's relationship with the Issue Tracker. 
+   The user may be working for either the Vendor or for a Client of the Vendor.
+   The User Type indicates which - 'V'=Vendor; 'C'=Client.
+
+
+|Field Name        |Description                       |Validation                                                                                    |
+|------------------|----------------------------------|----------------------------------------------------------------------------------------------|
+|user_id     	    |Uniquely identifies the User      | 10 alpha-numeric characters. This must be same as the user's Django Admin Username           |
+|user_first_name   |User's First Name                 | Up to 20 characters                                                                          |
+|user_second_name  |User's Last Name                  | Up to 20 characters                                                                          |
+|user_type         |Vendor-side, or Client-side user  | 1 character. = "V" for Vendor side user; = "C" for Client side user                          |
+|vend_client_code  |Vendor Code or Client Code        | The Vendor Code, if 'user_type' = "V"; Otherwise, Client Code of the user's client           |
+|user_email_addr   |User's Email Address              | Up to 64 characters                                                                          |
+|user_contact_nr   |Client Contact Number             | Up to 20 characters                                                                          |
+
+
+## 4.4	ISSUES 
+
+### 4.4.1	ISSUES DATABASE
+
+This is a Django Database. 
+Issue details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|issue_id     	       |Uniquely identifies the Issue                                 | Generated automatically by Django                                |
+|client_code  	       |The client who input the Issue                                | Copied from the UserDetails of the User who input the Issue      |
+|software_component   |The part of the Accounting System the issue has arisen on.    | Selected from a dropdown list by the user                        |
+|user_id              |ID of user who input the Issue.                               | Copied from the UserDetails of the user who input the issue      |
+|assigned_client_user |The id of the user the issue is assigned to on the Client side| Initially set to the id of the input user                        |
+|assigned_vendor_user |The id of the user the issue is assigned to on the Vendor side| Initially set to the 'admin'                                     |
+|title                |Brief title for the Issue                                     | Max 50 chars. Entered by the user when logging the Issue         |
+|summary              |Brief summary for the Issue                                   | Max 100 chars. Entered by the user when logging the Issue        |
+|details              |Detailed description of the Issue                             | Max 700 chars. Entered by the user when logging the Issue        |
+|priority             |Priority of the issue.                                        | 1 char, value 1 - 5. Selected from a dropdown list by the user   |
+|status               |Status of the Issue                                           | Initially set to "DRAFT"                                         |
+|thumbs_up_count      |The number of individual Clients who have flagged the Issue   | Incremented each time a different Client 'thumbs up' the Issue   | 
+|image                |Users may upload an image for the Issue                       | Image upload is optional                                         |
+
+
+### 4.4.2	ISSUES COMMENTS DATABASE
+
+This is a Django Database. 
+Issue details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|issue_id     	       |Identifies the Issue the comment relates to                   | Copied from the Issues Database                                  |
+|input_date  	       |The date the comment was input                                | Updated automatically with today's date                          |
+|vend_client_ind      |Indicates whether the user is on the Vendor or Client side    | Copied from the UserDetails of the input user                    |
+|vend_client_code     |Either the Vendor Code or the Client Code                     | Copied from the UserDetails of the user who input the comment    |
+|user_id              |ID of the user who input the Comment                          | Copied from the UserDetails of the user who input the comment    |
+|comments             |The comment input by the user                                 | Max 300 characters.                                              |
+
+
+### 4.4.3	ISSUES THUMBS UP DATABASE
+
+This is a Django Database. 
+Each time a client inputs an Issue, a record will be created in the DB for that Issue, with the 'thumbs_up' field = '0'. This field is used for the 
+'thumbs_up' processing in 'app2_user_home/views.py'.
+Clients will not be able to 'thumb_up' their own Issues. Each time they 'thumb up' another clients' Issue, a record will be added to this database, with 'thumbs_up' field = '1'.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|issue_id     	       |Identifies the Issue the comment relates to                   | Copied from the Issues Database                                  |
+|client_code          |The Client Code of the user                                   | Copied from the UserDetails of the user                          |
+|author               |The Client Code of the Issue being thumber up                 | Copied from the Issue record                                     |
+|user_id              |ID of the user who 'thumbed up' the Issue                     | Copied from the UserDetails of the user who input the comment    |
+|thumbs_up            |Thumbs up value                                               | = '0' where the client is also the author. Otherwise set to '1'  |
+
+
+
+# **5. TECHNOLOGIES USED**
 
 |Technologies                 |Website                                                                   |
 |-----------------------------|--------------------------------------------------------------------------|
@@ -198,37 +315,33 @@ These are the high level features of the Issue Tracker:
 |Django Pagination|https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html                    |I used django pagination to create the paginate functionality on the Issues and Features Lists   
 
 
-# **5. TESTING**
+# **6. TESTING**
 
-## **5.1 Manual Testing**
+## **6.1 Manual Testing**
 
-### **5.1.1. Account Testing**
+### **6.1.1. Account Testing**
 
-#### 5.1.1.1 Registering
-
-
-#### 5.1.1.2 Logging In
+#### 6.1.1.1 Registering
 
 
-#### 5.1.1.3 Logging Out
+#### 6.1.1.2 Logging In
 
 
-#### 5.1.1.4 Forgotten Password
+#### 6.1.1.3 Logging Out
 
 
+#### 6.1.1.4 Forgotten Password
 
 
-
-
-## **5.2 Automated Testing**
+## **6.2 Automated Testing**
 
 Due to time constraints I didn't get around to creating automated tests.
 
 
     
-# 6. DEPLOYMENT
+# 7. DEPLOYMENT
 
-## 6.1 DEPLOYING FROM GITHUB 
+## 7.1 DEPLOYING FROM GITHUB 
 
 1. Log onto Github
 2. Select the respository you want to deploy
@@ -241,7 +354,7 @@ Due to time constraints I didn't get around to creating automated tests.
 8. Once your website launches you will need to retest it (see Testing section) to ensure that it can still 
    find all the resources (css file, images, etc)
 
-## 6.2 CLONING FROM GITHUB 
+## 7.2 CLONING FROM GITHUB 
 
 1. Follow this link to my [Project Repository on Github](https://github.com/KittyMcDonagh/Second-Milestone-Project)
 2. On the repository page click "Clone or Download"
@@ -254,11 +367,11 @@ Due to time constraints I didn't get around to creating automated tests.
 
 
 
-# **7. CREDITS**
+# **8. CREDITS**
 
-## **7.1 CONTENT**
+## **8.1 CONTENT**
 
-### **7.2 IMAGES AND ICONS USED ON ISSUE TRACKER **
+### **8.2 IMAGES AND ICONS USED ON ISSUE TRACKER **
 
 The following icons/images were used to create the overview diagram of the Issue Tracking System:
 
@@ -285,7 +398,7 @@ The following icons/images were used to create the overview diagram of the Issue
 5. With assistance from Slack I copied code from Stack Overflow to close the burger menu
 
 
-## **7.3 ACKNOWLEDGEMENTS**
+## **8.3 ACKNOWLEDGEMENTS**
 
 |NAME                          |COMMENTS
 |------------------------------|----------------------------------------------------------------------------------------------|

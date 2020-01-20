@@ -67,7 +67,8 @@ def new_edit_issue(request, pk=None, back_to_page=None, list_filters=None):
             
             # Create a 'thumbs up' record for this client / issue, but make the 'thumbs_up' field = '0'
             # A client will not be able to 'thumbs up' their own issues, and we want to distinguish issues a
-            # client input, from ones they 'thumbed up' (i.e. saying 'I have this too.')
+            # client input, from ones they 'thumbed up' (i.e. saying 'I have this too.') - this is used
+            # in 'iss_thumbs_up_down' in 'app2_user_home/views.py', when doing the 'thumbs up' processing.
             
             issue_thumbs_up, _ = IssueThumbsUp.objects.get_or_create(issue_id=issue.id, client_code=UserDetails.vend_client_code, defaults={"author":issue.client_code, "user_id":UserDetails.user_id, "thumbs_up": 0})
             
