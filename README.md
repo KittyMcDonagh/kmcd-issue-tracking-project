@@ -4,7 +4,22 @@
 
 ## **1.1 PURPOSE**
 
-_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and delivering new features in a timely manner. This will help us to respond quickly to their needs and improve client satisfaction. Hence the decision was made to create an online [issue tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
+The purpose of the [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to allow clients to log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features. The issue tracker will provide a common area where all Clients can log their issues & features. They will be able to see each others' issues and features, comment on and upvote them, if they have the same issue, or want the same feature.
+
+While bugs will be fixed for free, upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided on by the Vendor).
+
+The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor the progress of issues & features.
+
+The app employs data protection policies in not allowing clients to see each others client codes, client details, or user ids.
+
+
+## **1.2 DESIGN**
+
+I used figma.com ([link to my designs](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=0%3A1)) to design the look and feel of the website. These screen layouts laid the foundation for the site. The original design focused on the Issues, but I based the Features list and details on the same design,so I didn't create any new design for these. 
+
+As regards adding the comments, thumbs up, and add to cart, I didn't want to deviate too much from the original design, so I added these items in such a way that they blended in with the original design.
+
+I have added screen shots of the original design in the 'Design' folder of the root directory. 
 
 
 
@@ -12,17 +27,24 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 
 ## **2.1 BACKGROUND**
 
-An Issue Tracking System is required where clients can log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features that they would like added to the software. 
+_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and deliver new features in a timely manner. This will help us to respond quickly to their needs and improve client satisfaction. Hence the decision was made to create an online [issue tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
 
-The Issue Tracking System will allow clients to see each other’s issues, and feature requests, comment on them, and upvote them.
 
-While bug fixes will be free, inputting, commenting on, and upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided on by the Vendor).
+### **2.1.1 Issue Tracker High Level Overview**
 
-The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor the progress of issues / features.
+![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracker Overview")
 
-### **2.1.1 Issue Tracking Overview**
+### **2.1.2 Issue / Feature - Client-side Workflow**
 
-![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracking Overview")
+![alt text](/static/images/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
+
+### **2.1.3 Issue / Feature - Vendor-side Workflow**
+
+![alt text](/static/images/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
+
+### **2.1.4 Vendor & Client Views**
+
+![alt text](/static/images/issue-feature-v-workflow.png "Issue Tracker Vendor & Client Views")
 
 
 
@@ -94,7 +116,7 @@ These are the high level requirements for [the issue tracker app](https://kmcd-i
 
 # **3. FEATURES**
 
-## **3.1 KMCD ISSUE TRACKER APP**
+## **3.1 ISSUE TRACKER**
 
 These are the high level features of the Issue Tracker:
 1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the _KMcD Online Accounting System_
@@ -127,130 +149,77 @@ These are the high level features of the Issue Tracker:
      + The user will be able to go back to the list page on which they clicked the 'comments' icon by clicking on the 'Back to list' link
    
 
-**NOTES**
+## **3.2 NAVIGATION**
+
+1. Before logging in, the top navigation bar gives easy access to Home, Login, Register.
+2. After logging in, the top navigation bar gives easy access from all screens to Home, Profile, Logout, Issues List, Add an Issue (client users only),       Ffeatures List, Add a feature (client users only), and the Cart
+3. After logging in, the footer links give easy access from all screens to the Issues Report and the Features Report
 
 
+## **3.2 RESPONSIVENESS**
 
-## **3.6 NAVIGATION AND RESPONSIVENESS**
+1. This app was built with 'mobile first' design in view. 
 
+2. Various sizes of Bootstrap columns are used to allow the screens to be drawn to fit the size of the viewport.
 
+3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
 
 
 
 # **4. TECHNOLOGIES USED**
 
-|Technologies                 |Website                                                                 |
-|-----------------------------|------------------------------------------------------------------------|
-|HTML                         |[w3schools](https://www.w3schools.com/)                                 |
-|CSS                          |[w3schools](https://www.w3schools.com/)                                 |
-|Javascript                   |                                                                        |
-|Jquery                       |[jQuery website](https://code.jquery.com/)                              |
-|Bootstrap                    |[Bootstrap website](https://getbootstrap.com/)                          |
-|Font Awesome                 |[Font Awesome website](https://fontawesome.com/)                        |
-|AutoPrefixer                 |[Autoprefixer website](https://autoprefixer.github.io/)                 |
-|dc                           |[dc website](https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.12/)         |
-|d3                           |[d3 website](https://d3js.org/)                                         |
-|google maps api              |[Google Maps API website](https://maps.googleapis.com/maps/api/)        |
-|                             |[Google Maps API Developer website[(https://developers.google.com)      |
-|Jasmine Testing              |[jasmine website](https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.4.0) |      
+|Technologies                 |Website                                                                   |
+|-----------------------------|--------------------------------------------------------------------------|
+|HTML                         |[w3schools](https://www.w3schools.com/)                                   |
+|CSS                          |[w3schools](https://www.w3schools.com/)                                   |
+|Javascript                   |[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)        |
+|Jquery                       |[jQuery website](https://code.jquery.com/)                                |
+|Bootstrap                    |[Bootstrap website](https://getbootstrap.com/)                            |
+|Font Awesome                 |[Font Awesome website](https://fontawesome.com/)                          |
+|AutoPrefixer                 |[Autoprefixer website](https://autoprefixer.github.io/)                   |
+|Django                       |[django documentation](https://docs.djangoproject.com/en/3.0/)            |
+
+      
 
 
 |Features         |Website                                                                                       |COMMENTS                                                                                  |
 |-----------------|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| Color Scheme    |[google maps logo colors](https://www.schemecolor.com/google-maps-colors.php)                 |I used this website when choosing the base colors for my website.                         |                                                                    |  
-| Colors          |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                               |I used this website for choosing different shades of the base colors for my website.      |
-| Grids           |[bootstrap](https://getbootstrap.com/)                                                        |I used bootstraps container, row and column classes to create my page grids               |         
+| Color Scheme    |[Color Wheel](https://www.canva.com/colors/color-wheel/)                                      |I used this website when choosing the base colors for my website.                         |                                                                    |  
+| Colors          |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                               |I used this website for choosing different shades of the base colors for my website. |
+| Web page layouts|[bootstrap](https://getbootstrap.com/)                                                        |I used bootstraps container, row and column classes to create my page layouts and to make them responsive               |         
 | Navigation bar  |[bootstrap](https://getbootstrap.com/)                                                        |I used bootstraps nav bar classes to create my navigation bars, and burger menu.          |         
-| Wireframes      |[Figma](https://www.figma.com/file/Q9lO2ZVjv6ovP9RsVDKji9ZY/MySouthAfricanTrip?node-id=0%3A1) |I used figma  when designing my website. See screen shots in figma directory on github    |
-
+| Wireframes      |[Figma](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=71%3A1)           |I used figma when designing my website. See screen shots in Design folder on github    |
+|Django Pagination|https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html                    |I used django pagination to create the paginate functionality on the Issues and Features Lists   
 
 
 # **5. TESTING**
 
 ## **5.1 Manual Testing**
 
-### **5.1.1. Navigation Test**
+### **5.1.1. Account Testing**
 
-1. Load the [**South African Trip** web page](https://milestone-project-2-kittyjo.c9users.io/index.html)
-2. Verify that the logo, home icon, all links, slidedown user message, and google map are appearing correctly on the page
-3. In the top navigation bar, hover over each link and verify that the hover affects are working 
-   (i.e. the link is highlighted in a shade of yellow: #ffe047)
-5. In the bottom navigation link, hover over the link  and verify that the hover affects are working
-   (i.e. the link is highlighted in a shade of yellow: #ffe047)
-8. Do the following tests on the top navigation bar:
-    - Click on "Home" and on the logo image and verify that they reload the page
-    - Click on "Lodgings" and verify that the user message disappears, the Lodging Filter appears as a piechart, 
-      and 8 markers appear on the map. Click on Home again
-    - Click on "Safari" and verify that the user message disappears, the Safari Filter appears as a piechart,
-      and 8 markers appear on the map. Click on Home again
-    - Click on "Sight Seeing" and verify that the user message disappears the Sight Seeing Filter appears as a piechart,
-      and 8 markers appear on the map. Click on Home again
-    - Click on "Gallery" and verify that it jumps to the Gallery section of the page. 
-
-### 5.1.2 Features Test
-
-#### 5.1.2.1 LODGINGS
-
-1. Click on "Lodgings" and verify that the Filter Piechart showing different types of dwellings appears
-2. Check that there are 8 markers on the map and 8 photos in the Gallery
-3. Check that the letters on the map match the letter on the photo names
-4. Click on each marker and verify that the name is correct for that marker
-5. Hover on each slice of the Filter Piechart and verify how many lodgings of that type the slice covers
-6. Click on a slice of the Filter Piechart and verify that the same number of markers appear on the map
-7. Click on Gallery (or scroll down to Gallery) and verify that only the photos relevant to that slice of the piechart 
-   are showing
-8. Click on more pieces of the Filter Piechart to include or exclude the types for those slices. Verify that only those
-   markers and photos are shown,  that are relevant to the piece(s) of the piechart that is/are selected
-
-#### 5.1.2.2 SAFARI
-
-1. Click on "Safari" and verify that the Filter Piechart showing different types of Safari animals appears
-2. Check that there are 8 markers on the map and 8 photos in the Gallery
-3. Check that the letters on the map match the letter on the photo names
-4. Click on each marker and verify that the name is correct for that marker
-5. Hover on each slice of the Filter Piechart and verify how many animal of that type the slice covers
-6. Click on a slice of the Filter Piechart and verify that the same number of markers appear on the map
-7. Click on Gallery (or scroll down to Gallery) and verify that only the photos relevant to that slice of the piechart 
-   are showing
-8. Click on more pieces of the Filter Piechart to include or exclude the types for those slices. Verify that only those
-   markers and photos are shown,  that are relevant to the piece(s) of the piechart that is/are selected
-
-#### 5.1.2.3 SIGHT SEEING
-
-1. Click on "Sight Seeing" and verify that the Filter Piechart showing different types of sightseeing appears
-2. Check that there are 8 markers on the map and 8 photos in the Gallery
-3. Check that the letters on the map match the letter on the photo names
-4. Click on each marker and verify that the name is correct for that marker
-5. Hover on each slice of the Filter Piechart and verify how many sight seeing of that type the slice covers
-6. Click on a slice of the Filter Piechart and verify that the same number of markers appear on the map
-7. Click on Gallery (or scroll down to Gallery) and verify that only the photos relevant to that slice of the piechart 
-   are showing
-8. Click on more pieces of the Filter Piechart to include or exclude the types for those slices. Verify that only those
-   markers and photos are shown,  that are relevant to the piece(s) of the piechart that is/are selected
+#### 5.1.1.1 Registering
 
 
-#### 5.1.2.4 THE GALLERY
+#### 5.1.1.2 Logging In
 
-1. Click on each link under each photo and verify that the website for that link opens in a new tab
 
-## **5.2 JASMINE Testing**
+#### 5.1.1.3 Logging Out
 
-**NOTE**
-1. I am not sure if I have taken the right approach to Jasmine testing, but here's what I have done:
-   - I have taken the functions that deal with user interactions and created some jasmine tests
-   - I have removed any code that takes values from the DOM or adds information to the DOM
-   - The values being tested are passed in from calcSpec
-   - I have based the test around being able to return the correct Marker Labels and Location names only 
-   - I am testing only my own javascript code - I'm not testing dc/d3 or maps (I don't know how to do that)
+
+#### 5.1.1.4 Forgotten Password
+
+
+
+
+
+
+## **5.2 Automated Testing**
+
+Due to time constraints I didn't get around to creating automated tests.
 
 
     
-### 5.2.1 Navigation Test
-
-1. I tested that the Main Headings (Lodgings, Safari, and Sight Seeing) returned the correct marker labels and location names
-2. I tested that the Filter Piecharts returned the correct marker labels and location names depending on which 'slice' was selected
-
-
 # 6. DEPLOYMENT
 
 ## 6.1 DEPLOYING FROM GITHUB 

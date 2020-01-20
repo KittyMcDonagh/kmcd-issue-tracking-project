@@ -6,13 +6,8 @@
 
 /* css used generally in most .html files-------------------------------------*/
 
-/* The following css was copied from materializecss.com to create a sticky 
-   footer */
-
 body {
-    display: flex;
 
-    flex-direction: column;
     font-family: "Nunito", sans-serif!important;
 }
 
@@ -46,6 +41,10 @@ section {
 
 main {
     flex: 1 0 auto;
+    
+    /* Added after running Autoprefixer   */
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
 
 }
 
@@ -57,15 +56,14 @@ li {
 /* Background image for body */
 
 .body-image {
-    background: url("../images/IMAG1959.jpg");
+    background: url("../images/customer_experience_strategy.png");
     height: 100%;
     width: 100%;
     border: solid 1px #fafaff;
-
     border-radius: 10px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
 
     -moz-transition: all .5s ease-in-out;
     -webkit-transition: all .5s ease-in-out;
@@ -948,6 +946,7 @@ li {
 /* Set the min height for each of the columns in the footer so that whether 
    logged in or out its always the same height on mobile devices - there
    will be nothing in the reports column when the user is not logged in. */
+
 .min-height {
     min-height: 80px;
 }
@@ -1286,7 +1285,8 @@ li {
 }
 
 
-/* Shadow for rolled up client totals */
+/* Shadow for rolled up client totals 
+   based on https://www.w3schools.com/css/tryit.asp?filename=trycss3_box-shadow6 */
 
 .rep-shadow {
     position: relative;
