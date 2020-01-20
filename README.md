@@ -32,21 +32,24 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 
 ### **2.1.1 Issue Tracker High Level Overview**
 
-![alt text](/static/images/issue_tracking_overall_view.png "Issue Tracker Overview")
+![alt text](/design/system-diagrams/issue_tracking_overall_view.png "Issue Tracker Overview")
 
-### **2.1.2 Issue / Feature - Client-side Workflow**
+### **2.1.2 Vendor side - System Logic Flow**
 
-![alt text](/static/images/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
+![alt text](/design/system-diagrams/vendor-system-logic.png "Vendor System Logic")
 
-### **2.1.3 Issue / Feature - Vendor-side Workflow**
+### **2.1.3 Client side - System Logic Flow**
+
+![alt text](/design/system-diagrams/client-system-logic.png "Client System Logic")
+
+
+### **2.1.4 Issue / Feature - Client-side Workflow**
+
+![alt text](/design/system-diagrams/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
+
+### **2.1.5 Issue / Feature - Vendor-side Workflow**
 
 ![alt text](/static/images/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
-
-### **2.1.4 Vendor & Client Views**
-
-![alt text](/static/images/issue-feature-v-workflow.png "Issue Tracker Vendor & Client Views")
-
-
 
 
 ## **2.2 WEBSITE REQUIREMENTS**
