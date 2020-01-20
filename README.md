@@ -42,7 +42,6 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 
 ![alt text](/Design/system-diagrams/client-system-logic.png "Client System Logic")
 
-
 ### **2.1.4 Issue / Feature - Client-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
@@ -50,6 +49,10 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 ### **2.1.5 Issue / Feature - Vendor-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
+
+### **2.1.6 User Setup**
+
+![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker Vendor-side Workflow")
 
 
 ## **2.2 WEBSITE REQUIREMENTS**
@@ -266,6 +269,9 @@ The following icons/images were used to create the overview diagram of the Issue
 |Group sitting around globe of world    |http://clipart-library.com/img1/1474499.jpg                                                   |
 |Online Server image                    |http://clipart-library.com/clipart/99610.htm                                                  |
 |Online computer image                  |http://clipart-library.com/image_gallery2/Hosting-Free-Download-PNG.png                       |
+|Blue user image                        |http://clipart-library.com/clipart/2038276.htm                                                |
+|Orange user image                      |http://clipart-library.com/clipart/rcLnpabKi.htm                                              |
+|Grey user image                        |http://clipart-library.com/clipart/773211.htm                                                 |
 
 
 
