@@ -171,11 +171,10 @@ These are the high level features of the Issue Tracker:
 3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
 
 
-# **4. DATABASES**
+# **4. DJANGO DATABASES**
 
 ## 4.1	VENDOR DATABASE
 
-   This is a Django Database. 
    The Vendor is _KMcD Accounting Solutions_. The Vendor details will be input via Django Admin. 
    There will only be **one** record in this database.
    
@@ -193,7 +192,6 @@ These are the high level features of the Issue Tracker:
 
 ## 4.2	CLIENT DATABASE
 
-   This is a Django Database. 
    This database will contain the details of all the Clients using _KMcD Accounting System_. 
    The details will be input via Django Admin.
 
@@ -210,7 +208,6 @@ These are the high level features of the Issue Tracker:
 
 ## 4.3	USER DETAILS DATABASE
 
-   This is a Django Database. 
    Details of Users associated with the Vendor, _KMcD Accounting Solutions_, will be input via Django Admin.
    Details of Users, associated with the Clients who use _KMcD Accounting System_, will be input via Django Admin.
    
@@ -237,12 +234,12 @@ These are the high level features of the Issue Tracker:
 
 ### 4.4.1	ISSUES DATABASE
 
-This is a Django Database. 
 Issue details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
 
 |Field Name           |Description                                                   |Validation                                                        |
 |---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
 |issue_id     	       |Uniquely identifies the Issue                                 | Generated automatically by Django                                |
+|input_date  	       |The date the Issue was input                                  | Updated automatically with today's date                          |
 |client_code  	       |The client who input the Issue                                | Copied from the UserDetails of the User who input the Issue      |
 |software_component   |The part of the Accounting System the issue has arisen on.    | Selected from a dropdown list by the user                        |
 |user_id              |ID of user who input the Issue.                               | Copied from the UserDetails of the user who input the issue      |
@@ -257,14 +254,13 @@ Issue details will be input by users who are associated with the Clients who use
 |image                |Users may upload an image for the Issue                       | Image upload is optional                                         |
 
 
-### 4.4.2	ISSUES COMMENTS DATABASE
+### 4.4.2	ISSUE COMMENTS DATABASE
 
-This is a Django Database. 
-Issue details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
+Issue comments will be input by vendor-side and client-side users.
 
 |Field Name           |Description                                                   |Validation                                                        |
 |---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
-|issue_id     	       |Identifies the Issue the comment relates to                   | Copied from the Issues Database                                  |
+|issue_id     	       |Identifies the Issue the comment relates to                   | Copied from the Issues Database id field                         |
 |input_date  	       |The date the comment was input                                | Updated automatically with today's date                          |
 |vend_client_ind      |Indicates whether the user is on the Vendor or Client side    | Copied from the UserDetails of the input user                    |
 |vend_client_code     |Either the Vendor Code or the Client Code                     | Copied from the UserDetails of the user who input the comment    |
@@ -272,20 +268,113 @@ Issue details will be input by users who are associated with the Clients who use
 |comments             |The comment input by the user                                 | Max 300 characters.                                              |
 
 
-### 4.4.3	ISSUES THUMBS UP DATABASE
+### 4.4.3	ISSUE 'THUMBS UP' DATABASE
 
-This is a Django Database. 
 Each time a client inputs an Issue, a record will be created in the DB for that Issue, with the 'thumbs_up' field = '0'. This field is used for the 
-'thumbs_up' processing in 'app2_user_home/views.py'.
-Clients will not be able to 'thumb_up' their own Issues. Each time they 'thumb up' another clients' Issue, a record will be added to this database, with 'thumbs_up' field = '1'.
+'thumbs up' processing in 'app2_user_home/views.py'.
+Clients will not be able to 'thumb up' their own Issues. Each time they 'thumb up' another clients' Issue, a record will be added to this database, with 'thumbs_up' field = '1'.
 
 |Field Name           |Description                                                   |Validation                                                        |
 |---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
-|issue_id     	       |Identifies the Issue the comment relates to                   | Copied from the Issues Database                                  |
+|issue_id     	       |Identifies the Issue that is being 'thumbed up'               | Copied from the Issues Database id field                         |
 |client_code          |The Client Code of the user                                   | Copied from the UserDetails of the user                          |
-|author               |The Client Code of the Issue being thumber up                 | Copied from the Issue record                                     |
-|user_id              |ID of the user who 'thumbed up' the Issue                     | Copied from the UserDetails of the user who input the comment    |
+|author               |The Client Code of the Issue being thumbed up                 | Copied from the Issue record                                     |
+|user_id              |ID of the user who 'thumbed up' the Issue                     | Copied from the UserDetails of the user                          |
 |thumbs_up            |Thumbs up value                                               | = '0' where the client is also the author. Otherwise set to '1'  |
+
+
+## 4.5	FEATURES 
+
+### 4.5.1	FEATURES DATABASE
+
+Feature details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
+
+|Field Name           |Description                                                      |Validation                                                       |
+|---------------------|-----------------------------------------------------------------|-----------------------------------------------------------------|
+|id                   |Uniquely identifies the Feature                                  | Generated automatically by Django                               |
+|input_date  	       |The date the Feature was input                                   | Updated automatically with today's date                         |
+|client_code  	       |The client who input the Feature                                 | Copied from the UserDetails of the User who input the Feature   |
+|software_component   |The part of the Accounting System the Feature is requested for   | Selected from a dropdown list by the user                       |
+|user_id              |ID of user who input the Feature                                 | Copied from the UserDetails of the user who input the Feature   |
+|title                |Brief title for the Feature                                      | Max 50 chars. Entered by the user when logging the Feature      |
+|summary              |Brief summary for the Feature                                    | Max 100 chars. Entered by the user when logging the Feature     |
+|details              |Detailed description of the Feature                              | Max 700 chars. Entered by the user when logging the Feature     |
+|paid                 |Total amount paid for this Feature                               | Amounts paid by Clients for this Feature are added to this field|
+|status               |Status of the Feature                                            | Initially set to "DRAFT"                                        |
+|assigned_vendor_user |The id of the user the Feature is assigned to on the Vendor side | Initially set to the 'admin'                                    |
+|assigned_client_user |The id of the user the Feature is assigned to on the Client side | Initially set to the id of the input user                       |
+|price                |The unit price for the Feature                                   | The price will be set by the Vendor                             |
+|client_count         |The number of individual clients that have paid for this feature | Incremented each time a different Client pays for the Feature   |
+|image                |Users may upload an image for the Feature                        | Image upload is optional. It will be shown on the Details screen|
+
+
+
+### 4.5.2	FEATURE COMMENTS DATABASE
+
+Feature comments will be input by vendor-side and client-side users.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|feature_id           |Identifies the Feature the comment relates to                 | Copied from the Features Database id field                       |
+|input_date  	       |The date the comment was input                                | Updated automatically with today's date                          |
+|vend_client_ind      |Indicates whether the user is on the Vendor or Client side    | Copied from the UserDetails of the input user                    |
+|vend_client_code     |Either the Vendor Code or the Client Code                     | Copied from the UserDetails of the user who input the comment    |
+|user_id              |ID of the user who input the Comment                          | Copied from the UserDetails of the user who input the comment    |
+|comments             |The comment input by the user                                 | Max 300 characters.                                              |
+
+
+### 4.5.3	FEATURE PAID DATABASE
+
+Each time a client pays for a different Feature, a record will be created in the DB for that Client and Feature. If a Client pays more money for a Feature
+they have already paid for, the amount will be added to this record.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|feature_id     	    |Identifies the Feature the being paid for                     | Copied from the Fearures Database id field                       |
+|client_code          |The Client Code of the user                                   | Copied from the UserDetails of the user                          |
+|author               |The Client Code of the Feature being paid for                 | Copied from the Feature record                                   |
+|user_id              |ID of the user who paid for the Feature                       | Copied from the UserDetails of the user                          |
+|quantity             |The number of units paid for by the user                      | Numerical value                                                  |
+|amount_paid          |The total amount paid for this feature by the client          | Decimal value                                                    |
+
+
+### **4.5.4	FEATURE ORDER**
+
+#### 4.5.4.1. Ordering Client Details
+
+The Ordering Client details are added to the Order Database at Checkout.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|full_name     	    |Ordering Client's Name                                        | Max chars = 50. Input by the user                                |
+|phone_number         |Ordering Client's phone number                                | Max chars = 20. Input by the user                                |
+|country              |Ordering Client's country                                     | Max chars = 40. Input by the user                                |
+|postcode             |ordering Client's post code                                   | Max chars = 20. Input by the user                                |
+|town_or_city         |Ordering Client's town/city                                   | Max chars = 40. Input by the user                                |
+|street_address1      |Ordering Client's address line 1                              | Max chars = 40. Input by the user                                |
+|street_address2      |Ordering Client's address line 2                              | Max chars = 40. Input by the user                                |
+|county               |Ordering Client's address line 2                              | Max chars = 40. Input by the user                                |
+|date                 |The date the order is made                                    | Updated automatically with today's date                          |
+
+
+#### 4.5.4.2. Order Line - One per Feature
+
+The Features being paid for are added to the Order Database lines at Checkout.
+
+|Field Name           |Description                                                   |Validation                                                        |
+|---------------------|--------------------------------------------------------------|------------------------------------------------------------------|
+|order         	    |Foreign Key to above Feature Order record                     | Taken from id field of above Feature Order                       |
+|feature         	    |Foreign Key to the Feature being paid for                     | Taken from id field of the Feature record                        |
+|quantity      	    |The number of units being paid for                            | Taken from id field of the Feature record                        |
+
+
+
+
+
+
+
+
+
 
 
 
