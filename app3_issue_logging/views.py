@@ -461,7 +461,7 @@ def issues_report(request):
             prev_client = item.client_code
             
     
-    # Calculate the total number of issues input and / or flagge by each client, 
+    # Calculate the total number of issues input and / or flagged by each client, 
     # so as to create a report by client in order of number of issues - highest to lowest
     
     client_total = []
@@ -526,7 +526,7 @@ def issues_report(request):
             nr_flagged_issues += 1
         
             
-        # Order this client's issues and flaggeissues by priority - 1 being the most urgent 
+        # Order this client's issues and flagged issues by priority - 1 being the most urgent 
         
         issues = issues.order_by('priority', '-id')
         
