@@ -1,6 +1,8 @@
-# KMcD Issue Tracker
+:# KMcD ISSUE TRACKER:
 
 ![alt text](/static/images/headfordsunset.jpg "Headford Sunset")
+
+# **INTRODUCTION**
 
 ## **1.1 PURPOSE**
 
@@ -12,8 +14,16 @@ The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) 
 
 The app employs data protection policies in not allowing clients to see each others client codes, client details, or user ids.
 
+## **1.2 BACKGROUND**
 
-## **1.2 DESIGN**
+_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and deliver new features in a timely manner. This will help us to respond quickly to their needs and improve client satisfaction. Hence the decision was made to create an online [issue tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
+
+
+# **2. UX**
+
+## **2.1 DESIGN APPROACH**
+
+### **2.1.1 LOOK & FEEL**
 
 I used figma.com ([link to my designs](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=0%3A1)) to design the look and feel of the website. These screen layouts laid the foundation for the site. The original design focused on the Issues, but I based the Features list and details on the same design,so I didn't create any new design for these. 
 
@@ -22,37 +32,37 @@ As regards adding the comments, thumbs up, and add to cart, I didn't want to dev
 I have added screen shots of the original design in the 'Design' folder of the root directory. 
 
 
+### **2.1.2 Logic Flow**
 
-# **2. UX**
-
-## **2.1 BACKGROUND**
-
-_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and deliver new features in a timely manner. This will help us to respond quickly to their needs and improve client satisfaction. Hence the decision was made to create an online [issue tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/).
+I used Microsoft Publisher to create a high level logic flow of the Issue Tracker, user setup, and vendor-side and client-side workflows for the Issues & Features.
 
 
-### **2.1.1 Issue Tracker High Level Overview**
+#### **2.1.2.1 Issue Tracker High Level Overview**
 
 ![alt text](/Design/system-diagrams/issue_tracking_overall_view.png "Issue Tracker Overview")
 
-### **2.1.2 Vendor side - System Logic Flow**
+### **2.1.2.2 User Setup**
+
+![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker User Setup")
+
+
+### **2.1.2.3 Vendor side - System Logic Flow**
 
 ![alt text](/Design/system-diagrams/vendor-system-logic.png "Vendor System Logic")
 
-### **2.1.3 Client side - System Logic Flow**
+### **2.1.2.4 Client side - System Logic Flow**
 
 ![alt text](/Design/system-diagrams/client-system-logic.png "Client System Logic")
 
-### **2.1.4 Issue / Feature - Client-side Workflow**
+### **2.1.2.5 Issue / Feature - Client-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
 
-### **2.1.5 Issue / Feature - Vendor-side Workflow**
+### **2.1.2.6 Issue / Feature - Vendor-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
 
-### **2.1.6 User Setup**
 
-![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker User Setup")
 
 
 ## **2.2 WEBSITE REQUIREMENTS**
@@ -426,7 +436,7 @@ The Features being paid for are added to the Order lines at Checkout.
 |-----------------------------|--------------------------------------------------------------------------|
 |HTML                         |[w3schools](https://www.w3schools.com/)                                   |
 |CSS                          |[w3schools](https://www.w3schools.com/)                                   |
-|Javascript                   |[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)        |
+|Javascript                   |[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)   |
 |Jquery                       |[jQuery website](https://code.jquery.com/)                                |
 |Bootstrap                    |[Bootstrap website](https://getbootstrap.com/)                            |
 |Font Awesome                 |[Font Awesome website](https://fontawesome.com/)                          |
@@ -436,14 +446,14 @@ The Features being paid for are added to the Order lines at Checkout.
       
 
 
-|Features         |Website                                                                                       |COMMENTS                                                                                  |
-|-----------------|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| Color Scheme    |[Color Wheel](https://www.canva.com/colors/color-wheel/)                                      |I used this website when choosing the base colors for my website.                         |                                                                    |  
-| Colors          |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                               |I used this website for choosing different shades of the base colors for my website. |
-| Web page layouts|[bootstrap](https://getbootstrap.com/)                                                        |I used bootstraps container, row and column classes to create my page layouts and to make them responsive               |         
-| Navigation bar  |[bootstrap](https://getbootstrap.com/)                                                        |I used bootstraps nav bar classes to create my navigation bars, and burger menu.          |         
-| Wireframes      |[Figma](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=71%3A1)           |I used figma when designing my website. See screen shots in Design folder on github    |
-|Django Pagination|https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html                    |I used django pagination to create the paginate functionality on the Issues and Features Lists   
+|Features         |Website                                                                            |COMMENTS                                                                                                  |
+|-----------------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| Color Scheme    |[Color Wheel](https://www.canva.com/colors/color-wheel/)                           |I used this websiteto choose the base colors for my website.                                              |                                                                    
+| Colors          |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                    |I used this website to get different shades of the base colors.                                          |
+| Web page layouts|[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps container, row and column classes to create my page layouts and to make them responsive |         
+| Navigation bar  |[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps nav bar classes to create my navigation bars, and burger menu.                     |         
+| Wireframes      |[Figma](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=71%3A1)|I used figma when designing my website. See screen shots in Design folder on github                      |
+|Django Pagination|https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html         |I used django pagination to create the paginate functionality on the Issues and Features Lists   
 
 
 # **6. TESTING**
