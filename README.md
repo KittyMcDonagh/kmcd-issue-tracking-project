@@ -623,12 +623,4 @@ The following icons/images were used to create the overview diagram of the Issue
 
 
 
-
-
-
-
-
-
-
-
-
+[![Build Status](https://travis-ci.org/KittyMcDonagh/kmcd-issue-tracking-project.svg?branch=master)](https://travis-ci.org/KittyMcDonagh/kmcd-issue-tracking-project)
