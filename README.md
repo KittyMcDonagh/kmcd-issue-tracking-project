@@ -83,89 +83,95 @@ These are the high level requirements for the [Issue Tracker app](https://kmcd-i
 5. Clients must be able to flag another clients' Issue, to indicate they have this also
 6. Clients must be able to flag and pay for a Feature (their own or another client's) that they require
 7. Clients must be able to add comments on their own and on other clients' Issues and Features
-8. Clients must be able to see all the comments input against a particular Issue/Feature
-9. Clients must be able to run an Issues report that shows a list of the Issues they have input and the Issues that they have flagged, in Priority order
-10. Clients must be able to run a Features report that shows a list of the Features they have input and Features they have paid for, in Amount Paid order
-11. Once an Issue / Feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to     update the user to whom the Issue/Feature is assigned on the client side
+8. Clients must be able to see all the comments input against a particular Issue/Feature and differentiate between those input by clients and those input     by the Vendor
 
-12. Clients must be able to see a list of Issues
-13. Clients must be able to filter the Issues list by an Issues Filter which allows the user to select:
+9. Once an Issue / Feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to     update the user to whom the Issue/Feature is assigned on the client side
+
+10. Clients must be able to see a list of Issues
+11. Clients must be able to filter the Issues list by an Issues Filter which allows the user to select:
     - Issues Assigned to the Logged in user only
     - Issues that belong to the client the user is associated with only
     - Issues that belong to other clients only
     - All Issues
-14. Clients must be able to filter the Issues list by Status, and Priority  
+12. Clients must be able to filter the Issues list by Status, and Priority
+13. Clients must be able to flag another client's Issue by clicking a 'thumbs up' icon for that Issue, to indicate that they have it too
+14. Clients must be able to unflag an Issue that they previously flagged
+15. Clients must **not* be able to flag their own Issues
 
-15. Clients must be able to see a list of Features
-16. Clients must be able to filter the Features list by a Features Filter which allows the user to select:
+16. Clients must be able to see a list of Features
+17. Clients must be able to filter the Features list by a Features Filter which allows the user to select:
     - Features Assigned to the Logged in user only
     - Features that belong to the client the user is associated with only
     - Features that belong to other clients only
     - All Features
-17. Clients must be able to filter the Features list by Status
-18. Clients must be able to sort the Features list by Total Amount Paid for the Feature
+18. Clients must be able to filter the Features list by Status
+19. Clients must be able to sort the Features list by Total Amount Paid for the Feature
 
-19. Since the business contract is between the client and the Vendor, not between one client and another, there are certain things a client should not be      able to do - in the interests of data protection:
+20. Clients must be able to flag their own or another client's Feature, and add it to cart and pay for it, indicating they want this Feature too
+21. Clients must **not** be able to unflag a Feature that they previously flagged and paid for
+
+23. Clients must be able to run an Issues report that:
+    - (a) Shows a rolled up total line for the Client, showing the number of Issues input and/or flagged by the Client, 
+    - (b) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
+    - (d) Lists the Issues in Priority order, from most urgent to least urgent
+
+24. Clients must be able to run a Features report that:
+    - (a) Shows a rolled up total line for the Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client        has paid for Features
+    - (b) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
+    - (c) Lists the Features in order of amounts paid by the Client per Feature, from highest to lowest
+
+25. Since the business contract is between the client and the Vendor, not between one client and another, there are certain things a client should not be      able to do - in the interests of data protection:
    - While clients should be able to see other clients' Issues and Features, but they should **not** be able to see another client's client code or name,    nor the user id of a user who is associated with another client (this includes user ids shown on Issues, Features, and on Comments)
    - Clients should **not** be able to edit / update another client's Issues / Features
    - A client should **not** have access to another client's Reports
 
-20. A vendor-side user should **not** be able to input Issues/Features
-21. A Vendor-side user **should** be able to input comments on Issues/Features
-22. A vendor-side user should **not** be able to edit the details of an Issue/Feature
+26. A vendor-side user should **not** be able to input Issues/Features
+27. A vendor-side user should **not** be able to edit the details of an Issue/Feature
+28. A Vendor-side user **should** be able to input comments on Issues/Features
+29. A Vendor-side user should be able to view all comments and differentiate between those input by clients and those input by the Vendor
 
-23. A vendor-side user should be able to update the following fields on an Issue:
+30. A vendor-side user **should** be able to update the following fields on an Issue:
     - The user to whom the Issue is assigned on the Vendor side
     - The Status of the Issue
     - The Priority of the Issue
 
-24. A vendor-side user should be able to update the following fields on a Feature:
+31. A vendor-side user **should** be able to update the following fields on a Feature:
     - The user to whom the Feature is assigned on the Vendor side
     - The Status of the Feature
     - The Price of the Feature
 
-25. Vendor-side users must be able to see a list of Issues
-26. Vendor-side users must be able to filter the Issues list by an Issues Filter which allows the user to select:
+32. Vendor-side users must be able to see a list of Issues
+33. Vendor-side users must be able to filter the Issues list by an Issues Filter which allows the user to select:
     - Issues Assigned to the Logged in user only
     - All Issues
-27. Vendor-side must be able to filter the Issues list by Status, Priority, and Client  
+34. Vendor-side must be able to filter the Issues list by Status, Priority, and Client  
 
-28. Vendor-side users must be able to see a list of Features
-29. Vendor-side users must be able to filter the Features list by a Features Filter which allows the user to select:
+36. Vendor-side users must be able to see a list of Features
+37. Vendor-side users must be able to filter the Features list by a Features Filter which allows the user to select:
     - Features Assigned to the Logged in user only
     - All Features
-30. Vendor-side users must be able to filter the Features list by Status, and Client
-31. Vendor-side users must be able to sort the Features list by Total Amount Paid for the Feature
+38. Vendor-side users must be able to filter the Features list by Status, and Client
+39. Vendor-side users must be able to sort the Features list by Total Amount Paid for the Feature
 
-32. Vendor-side users must be able to run an Issues report that:
-    (a) Shows a rolled up total line for each Client, showing the number of Issues per Client, 
-    (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
-    (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
-    (d) Lists the Issues in Priority order, from most urgent to least urgent
+40. Vendor-side users must be able to run an Issues report that:
+    - (a) Shows a rolled up total line for each Client, showing the number of Issues input and/or flagged by the Client, 
+    - (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
+    - (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
+    - (d) Lists the Issues in Priority order, from most urgent to least urgent
 
-33. Vendor-side users must be able to run an Features report that:
-    (a) Shows a rolled up total line for each Client, showing the number of Issues per Client, 
-    (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
-    (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
-    (d) Lists the Issues in Priority order, from most urgent to least urgent
+41. Vendor-side users must be able to run a Features report that:
+    - (a) Shows a rolled up total line for each Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client       has paid for Features
+    - (b) Orders the rolled up total lines by the total amount paid, from highest to lowest
+    - (c) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
+    - (d) Lists the Features in order of amounts paid by the Client per Feature, from most highest to lowest
 
-
-
-
-32. Since there is a contract between the Vendor and the Client:
-    - Clients **should** be able to see the user id of Comments input by a user that is associated with the Vendor
+42. Since there is a contract between the Vendor and the Client:
     - The vendor should be able to see the client code and name
     - The vendor they should be able to see the user ids of Isssues, Features, and of Comments
     - The vendor should be able to see reports for all clients
+    - Clients **should** be able to see the user id of Comments input by a user that is associated with the Vendor
 
-
-
-
-
-15. It should be possible to filter issues by various options, status, priority, and for vendor-side users, by client
-16. It should be possible to filter features by various options, status, sort them by amount paid, and for vendor-side users, filter by client
-18. It should be possible for both vendor and clients to view comments input on issues and features
-19. It should be possible to differentiate comments input by vendor-side user from comments input by client-side users
+43. It should be possible to differentiate comments input by vendor-side user from comments input by client-side users
  
 
 
