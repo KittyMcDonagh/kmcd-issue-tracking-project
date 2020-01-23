@@ -1,4 +1,4 @@
-<h1 style="text-align: center; font-weight: bold">KMcD ISSUE TRACKER </h1>
+# KMcD ISSUE TRACKER {style=text-align:center}
 
 ![alt text](/static/images/headfordsunset.jpg "Headford Sunset")
 
