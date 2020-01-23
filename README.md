@@ -1,4 +1,4 @@
-**KMcD ISSUE TRACKER**  
+**_KMcD Software Solutions_ - ISSUE TRACKER**  
 ======================
 
 ![alt text](/static/images/headfordsunset.jpg "Headford Sunset")
