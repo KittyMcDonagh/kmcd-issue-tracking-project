@@ -25,21 +25,22 @@ _KMcD Accounting Solutions_, provides an Online Accounting System for small to m
 
 ### **2.1.1 LOOK & FEEL**
 
-I used figma.com ([link to my designs](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=0%3A1)) to design the look and feel of the website. These screen layouts laid the foundation for the site. The original design focused on the Issues, but I based the Features list and details on the same design,so I didn't create any new design for these. 
+I used figma.com ([link to my screen layouts on figma.com](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=0%3A1), [link to my designs on github](https://github.com/KittyMcDonagh/kmcd-issue-tracking-project/tree/master/Design/figma-wireframes)) to design the look and feel of the website. These screen layouts laid the foundation for the site. The original design focused on the Issues, but I based the Features list and details on the same design,so I didn't create any new design for these. 
 
 As regards adding the comments, thumbs up, and add to cart, I didn't want to deviate too much from the original design, so I added these items in such a way that they blended in with the original design.
 
 I have added screen shots of the original design in the 'Design' folder of the root directory. 
 
 
-### **2.1.2 Logic Flow**
+### **2.1.2 Logic Flows**
 
-I used Microsoft Publisher to create a high level logic flow of the Issue Tracker, user setup, and vendor-side and client-side workflows for the Issues & Features.
+I used Microsoft Publisher to create logic flows for the Issue Tracker and user setup, for Vendor-side processing, and Client-side processing, and workflows for the Issues & Features - [link to my system diagrams on github](https://github.com/KittyMcDonagh/kmcd-issue-tracking-project/tree/master/Design/system-diagrams)
 
 
 #### **2.1.2.1 Issue Tracker High Level Overview**
 
 ![alt text](/Design/system-diagrams/issue_tracking_overall_view.png "Issue Tracker Overview")
+
 
 ### **2.1.2.2 User Setup**
 
@@ -50,18 +51,20 @@ I used Microsoft Publisher to create a high level logic flow of the Issue Tracke
 
 ![alt text](/Design/system-diagrams/vendor-system-logic.png "Vendor System Logic")
 
+
 ### **2.1.2.4 Client side - System Logic Flow**
 
 ![alt text](/Design/system-diagrams/client-system-logic.png "Client System Logic")
+
 
 ### **2.1.2.5 Issue / Feature - Client-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
 
+
 ### **2.1.2.6 Issue / Feature - Vendor-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
-
 
 
 
