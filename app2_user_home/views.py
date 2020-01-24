@@ -582,6 +582,11 @@ def get_all_clients(request):
 The logged in user is on the Vendor side - get the Vendor details
 """
 def get_vendor(request, UserDetails):
+    
+        # Initialise the field first, this will allow the program to continue
+        # if the record isnt found, and display a message on the screen
+    
+        VendorDetails = ""
         
         try:
             VendorDetails = Vendor.objects.get(vend_code=UserDetails.vend_client_code)

@@ -166,6 +166,24 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 
 ## **3.1 EXISTING FEATURES**
 
+### **3.1.1 NAVIGATION**
+
+1. Before logging in, the top navigation bar gives easy access to Home, Login, Register.
+2. After logging in, the top navigation bar gives easy access from all screens to Home, Profile, Logout, Issues List, Add an Issue (client users only),       Ffeatures List, Add a feature (client users only), and the Cart
+3. After logging in, the footer links give easy access from all screens to the Issues Report and the Features Report
+
+
+### **3.1.2 RESPONSIVENESS**
+
+1. This app was built with 'mobile first' design in view. 
+
+2. Various sizes of Bootstrap columns are used to allow the screens to be drawn to fit the size of the viewport.
+
+3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
+
+
+### **3.1.3 General Functionality**
+
 1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the _KMcD Online Accounting System_
 2. Registering to use the Issue Tracker is a 2-step process:
    - A user may register as a new user on the Issue Tracker
@@ -289,30 +307,10 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
  40. Since there is a contract between the Vendor and the Client the above data protection restrictions are not applied to Vendor-side users.
     
 
-## **3.2 NAVIGATION**
 
-1. Before logging in, the top navigation bar gives easy access to Home, Login, Register.
-2. After logging in, the top navigation bar gives easy access from all screens to Home, Profile, Logout, Issues List, Add an Issue (client users only),       Ffeatures List, Add a feature (client users only), and the Cart
-3. After logging in, the footer links give easy access from all screens to the Issues Report and the Features Report
+### **3.1.4 DJANGO DATABASES**
 
-
-## **3.2 RESPONSIVENESS**
-
-1. This app was built with 'mobile first' design in view. 
-
-2. Various sizes of Bootstrap columns are used to allow the screens to be drawn to fit the size of the viewport.
-
-3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
-
-
-## **3.2 FEATURES LEFT TO IMPLEMENT**
-
-
-
-
-# **4. DJANGO DATABASES**
-
-## 4.1	VENDOR DATABASE
+#### 3.1.4.1	VENDOR DATABASE
 
    The Vendor is _KMcD Accounting Solutions_. The Vendor details will be input via Django Admin. 
    There will only be **one** record in this database.
@@ -329,7 +327,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 |vend_contact_nr   |Vendor Contact Number                         | Up to 20 characters           |                   
 
 
-## 4.2	CLIENT DATABASE
+#### 3.1.4.2	CLIENT DATABASE
 
    This database will contain the details of all the Clients using _KMcD Accounting System_. 
    The details will be input via Django Admin.
@@ -346,7 +344,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 |client_contact_nr |Client Contact Number                  | Up to 20 characters            |                   
 
 
-## 4.3	USER DETAILS DATABASE
+### 3.1.4.3	USER DETAILS DATABASE
 
    Details of Users associated with the Vendor, _KMcD Accounting Solutions_, will be input via Django Admin.
    Details of Users, associated with the Clients who use _KMcD Accounting System_, will be input via Django Admin.
@@ -375,9 +373,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 |user_contact_nr   |Client Contact Number             | Up to 20 characters                         |           |
 
 
-## 4.4	ISSUES 
-
-### 4.4.1	ISSUES DATABASE
+#### 3.1.4.4	ISSUES DATABASE
 
 Issue details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
 
@@ -410,7 +406,7 @@ Issue details will be input by users who are associated with the Clients who use
 |                     |the Issue                         |
 
 
-### 4.4.2	ISSUE COMMENTS DATABASE
+#### 3.1.4.5	ISSUE COMMENTS DATABASE
 
 Issue comments will be input by vendor-side and client-side users.
 
@@ -428,7 +424,7 @@ Issue comments will be input by vendor-side and client-side users.
 |comments             |The comment input by the user    | Max 300 characters.                       |                |
 
 
-### 4.4.3	ISSUE 'THUMBS UP' DATABASE
+#### 3.1.4.6	ISSUE 'THUMBS UP' DATABASE
 
 Each time a client inputs an Issue, a record will be created in the DB for that Issue, with the 'thumbs_up' field = '0'. This field is used for the 
 'thumbs up' processing in 'app2_user_home/views.py'.
@@ -448,9 +444,7 @@ Clients will not be able to 'thumb up' their own Issues. Each time they 'thumb u
 |                     |                            | the author. Otherwise set to '1'|                |
 
 
-## 4.5	FEATURES 
-
-### 4.5.1	FEATURES DATABASE
+#### 3.1.4.7	FEATURES DATABASE
 
 Feature details will be input by users who are associated with the Clients who use _KMcD Accounting System_.
 
@@ -484,7 +478,7 @@ Feature details will be input by users who are associated with the Clients who u
 |                     |the Feature                       |
 
 
-### 4.5.2	FEATURE COMMENTS DATABASE
+#### 3.1.4.8	FEATURE COMMENTS DATABASE
 
 Feature comments will be input by vendor-side and client-side users.
 
@@ -503,7 +497,7 @@ Feature comments will be input by vendor-side and client-side users.
 
 
 
-### 4.5.3	FEATURE PAID DATABASE
+#### 3.1.4.9	FEATURE PAID DATABASE
 
 Each time a client pays for a different Feature, a record will be created in the DB for that Client and Feature. If a Client pays more money for a Feature
 they have already paid for, the amount will be added to this record.
@@ -526,9 +520,7 @@ they have already paid for, the amount will be added to this record.
 
 
 
-### **4.5.4	FEATURE ORDER**
-
-#### 4.5.4.1. Ordering Client Details
+#### 3.1.4.10 FEATURE ORDER - CLIENT DETAILS
 
 The Ordering Client details are added to the Order at Checkout.
 
@@ -545,7 +537,7 @@ The Ordering Client details are added to the Order at Checkout.
 |date                 |The date the order is made          | Updated automatically with today's date    |
 
 
-#### 4.5.4.2. Order Line - One per Feature
+#### 3.1.4.11 FEATURE ORDER - ORDER LINE
 
 The Features being paid for are added to the Order lines at Checkout.
 
@@ -556,6 +548,8 @@ The Features being paid for are added to the Order lines at Checkout.
 |quantity      	    |The number of units being paid for          | 
 
 
+
+## **3.4 FEATURES LEFT TO IMPLEMENT**
 
 
 
@@ -601,6 +595,18 @@ The Features being paid for are added to the Order lines at Checkout.
 
 
 #### 6.1.1.4 Forgotten Password
+
+### **6.1.2. Issues & Features Lists Testing**
+
+
+### **6.1.3. Issues & Features Logging / Editing / Updating Testing**
+
+### **6.1.3. Issues & Features Reports Testing**
+
+### **6.1.3. Issues & Features Responsiveness Testing**
+
+
+
 
 
 ## **6.2 Automated Testing**
@@ -655,6 +661,12 @@ The following icons/images were used to create the overview diagram of the Issue
 |Blue user image                        |http://clipart-library.com/clipart/2038276.htm                                                |
 |Orange user image                      |http://clipart-library.com/clipart/rcLnpabKi.htm                                              |
 |Grey user image                        |http://clipart-library.com/clipart/773211.htm                                                 |
+
+
+## **8.2 TEXT USED FOR ISSUES / FEATURES DETAILS**
+|DESCRIPTION                                    |COPIED FROM
+|-----------------------------------------------|-----------------------------------------------|
+|Lorem ipsum text for Issues/Features details   |https://loremipsum.io/generator/               |
 
 
 
