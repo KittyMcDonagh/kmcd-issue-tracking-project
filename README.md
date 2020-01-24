@@ -4,25 +4,25 @@
 ![alt text](/static/images/headfordsunset.jpg "Headford Sunset")
 ======================
 
-# **INTRODUCTION**
+# **1 INTRODUCTION**
 
 ## **1.1 PURPOSE**
 
-The purpose of the [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to allow clients to log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features. The issue tracker will provide a common area where all Clients can log their issues and request features. They will be able to see each others' issues and features, comment on them, and upvote them if they have the same issue, or want the same feature.
+The purpose of the [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to allow clients to log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features. The Issue Tracker will provide a common area where all Clients can log their issues and request features. They will be able to see each others' issues and features, comment on them, and upvote them if they have the same issue, or want the same feature.
 
 While bugs will be fixed for free, upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided on per feature by the Vendor).
 
-The issue tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor the progress of issues & features.
+The Issue Tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor and manage the progress of issues & features.
 
 The app employs data protection policies in not allowing clients to see each others client codes, client details, or user ids.
 
 
 ## **1.2 BACKGROUND**
 
-_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and deliver new features in a timely manner. Hence the decision was made to create an online [issue tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) that will help us to respond quickly to our clients' needs, thereby improving client satisfaction.
+_KMcD Accounting Solutions_, provides an Online Accounting System for small to medium-sized businesses. While the accounting system has been well-received, clients are experiencing issues with it and many have requested additional features. A means of logging these issues and features is required that will allow us to focus on fixing the issues that are of highest priority to our clients, and deliver new features in a timely manner. Hence the decision was made to create an online [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) that will help us to respond quickly to our clients' needs, thereby improving client satisfaction.
 
 
-# **2 DESIGN APPROACH**
+# **2 UX**
 
 ## **2.1 LOOK & FEEL**
 
@@ -68,114 +68,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 ![alt text](/Design/system-diagrams/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
 
 
-# **3. UX**
-
-## **3.1 WEBSITE REQUIREMENTS**
-
-### **3.1.1 High Level Requirements**
-
-These are the high level requirements for the [Issue Tracker app](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/):
-
-1. The online [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is required to be a central point where clients can log the    issues that they are experiencing with the _KMcD Online Accounting System_, and where they can request new features
-2. The app requires two perspectives, a Client perspective and a Vendor perspective
-3. Clients must be able to restrict the Vendor and other clients from seeing the Issue/Feature they input until they are satisfied with the details, and       have set it to an appropriate status to allow the Vendor and other Clients to view it
-4. Clients must be able to search for Issues/Features based on the details in the Summary field
-5. Clients must be able to flag another clients' Issue, to indicate they have this also
-6. Clients must be able to flag and pay for a Feature (their own or another client's) that they require
-7. Clients must be able to add comments on their own and on other clients' Issues and Features
-8. Clients must be able to see all the comments input against a particular Issue/Feature and differentiate between those input by clients and those input     by the Vendor
-
-9. Once an Issue / Feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to     update the user to whom the Issue/Feature is assigned on the client side
-
-10. Clients must be able to see a list of Issues
-11. Clients must be able to filter the Issues list by an Issues Filter which allows the user to select:
-    - Issues Assigned to the Logged in user only
-    - Issues that belong to the client the user is associated with only
-    - Issues that belong to other clients only
-    - All Issues
-12. Clients must be able to filter the Issues list by Status, and Priority
-13. Clients must be able to flag another client's Issue by clicking a 'thumbs up' icon for that Issue, to indicate that they have it too
-14. Clients must be able to unflag an Issue that they previously flagged
-15. Clients must **not* be able to flag their own Issues
-
-16. Clients must be able to see a list of Features
-17. Clients must be able to filter the Features list by a Features Filter which allows the user to select:
-    - Features Assigned to the Logged in user only
-    - Features that belong to the client the user is associated with only
-    - Features that belong to other clients only
-    - All Features
-18. Clients must be able to filter the Features list by Status
-19. Clients must be able to sort the Features list by Total Amount Paid for the Feature
-
-20. Clients must be able to flag their own or another client's Feature, and add it to cart and pay for it, indicating they want this Feature too
-21. Clients must **not** be able to unflag a Feature that they previously flagged and paid for
-
-23. Clients must be able to run an Issues report that:
-    - (a) Shows a rolled up total line for the Client, showing the number of Issues input and/or flagged by the Client, 
-    - (b) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
-    - (d) Lists the Issues in Priority order, from most urgent to least urgent
-
-24. Clients must be able to run a Features report that:
-    - (a) Shows a rolled up total line for the Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client        has paid for Features
-    - (b) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
-    - (c) Lists the Features in order of amounts paid by the Client per Feature, from highest to lowest
-
-25. Since the business contract is between the client and the Vendor, not between one client and another, there are certain things a client should not be      able to do - in the interests of data protection:
-   - While clients should be able to see other clients' Issues and Features, but they should **not** be able to see another client's client code or name,    nor the user id of a user who is associated with another client (this includes user ids shown on Issues, Features, and on Comments)
-   - Clients should **not** be able to edit / update another client's Issues / Features
-   - A client should **not** have access to another client's Reports
-
-26. A vendor-side user should **not** be able to input Issues/Features
-27. A vendor-side user should **not** be able to edit the details of an Issue/Feature
-28. A Vendor-side user **should** be able to input comments on Issues/Features
-29. A Vendor-side user should be able to view all comments and differentiate between those input by clients and those input by the Vendor
-
-30. A vendor-side user **should** be able to update the following fields on an Issue:
-    - The user to whom the Issue is assigned on the Vendor side
-    - The Status of the Issue
-    - The Priority of the Issue
-
-31. A vendor-side user **should** be able to update the following fields on a Feature:
-    - The user to whom the Feature is assigned on the Vendor side
-    - The Status of the Feature
-    - The Price of the Feature
-
-32. Vendor-side users must be able to see a list of Issues
-33. Vendor-side users must be able to filter the Issues list by an Issues Filter which allows the user to select:
-    - Issues Assigned to the Logged in user only
-    - All Issues
-34. Vendor-side must be able to filter the Issues list by Status, Priority, and Client  
-
-36. Vendor-side users must be able to see a list of Features
-37. Vendor-side users must be able to filter the Features list by a Features Filter which allows the user to select:
-    - Features Assigned to the Logged in user only
-    - All Features
-38. Vendor-side users must be able to filter the Features list by Status, and Client
-39. Vendor-side users must be able to sort the Features list by Total Amount Paid for the Feature
-
-40. Vendor-side users must be able to run an Issues report that:
-    - (a) Shows a rolled up total line for each Client, showing the number of Issues input and/or flagged by the Client, 
-    - (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
-    - (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
-    - (d) Lists the Issues in Priority order, from most urgent to least urgent
-
-41. Vendor-side users must be able to run a Features report that:
-    - (a) Shows a rolled up total line for each Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client       has paid for Features
-    - (b) Orders the rolled up total lines by the total amount paid, from highest to lowest
-    - (c) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
-    - (d) Lists the Features in order of amounts paid by the Client per Feature, from most highest to lowest
-
-42. Since there is a contract between the Vendor and the Client:
-    - The vendor should be able to see the client code and name
-    - The vendor they should be able to see the user ids of Isssues, Features, and of Comments
-    - The vendor should be able to see reports for all clients
-    - Clients **should** be able to see the user id of Comments input by a user that is associated with the Vendor
-
-43. It should be possible to differentiate comments input by vendor-side user from comments input by client-side users
- 
-
-
-## **2.2.2 USER STORIES** ##
+## **2.3 USER STORIES** ##
 
 |No. |Who I am                 |What I want to do                                                                                    | Why I want to do it
 |----|-------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
@@ -203,41 +96,198 @@ These are the high level requirements for the [Issue Tracker app](https://kmcd-i
 |22. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
 
 
+## **2.4 WEBSITE REQUIREMENTS**
+
+### **2.4.1 High Level Requirements**
+
+1. The online [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is required to be a central point where clients can log the    issues that they are experiencing with the _KMcD Online Accounting System_, and where they can log requests for new features
+2. The app requires two perspectives, a Client perspective and a Vendor perspective
+3. Clients must be able to restrict the Vendor and other clients from seeing the Issue/Feature they input until they are satisfied with the details, and       have set it to an appropriate status to allow the Vendor and other Clients to view it
+4. Clients must be able to search for Issues/Features based on the details in the Summary field
+5. Clients must be able to flag another clients' Issue, to indicate they have this also
+6. Clients must be able to flag and pay for a Feature (their own or another client's) that they require
+7. Clients must be able to add comments on their own and on other clients' Issues and Features
+8. Clients must be able to see all the comments and differentiate between those input by clients and those input by the Vendor
+
+9. Once an Issue / Feature is at a status where other clients can view it, the client should not be able to edit its details - they should only be able to     update the user to whom the Issue/Feature is assigned on the client side
+
+10. Clients must be able to see a list of Issues
+11. Clients must be able to filter the Issues list by various options - e.g. Status, Priority, Ours, Other Clients
+12. Clients must be able to flag another client's Issue to indicate that they have it too
+13. Clients must **not* be able to flag their own Issues
+
+16. Clients must be able to see a list of Features
+17. Clients must be able to filter the Features list by various options - e.g. Status, Ours, Other Clients
+19. Clients must be able to sort the Features list by the amount paid for a Feature
+20. Clients must be able flag a Feature and pay for it
+
+22. Clients must be able to run an Issues report that shows a list of Issues that they have input and/or flagged
+23. Clients must be able to run a Features report that they have input and/or paid for:
+
+25. A vendor-side user should **not** be able to input or edit Issues/Features
+27. A Vendor-side user **should** be able to input comments on Issues/Features
+28. A Vendor-side user should be able to view all comments and differentiate between those input by clients and those input by the Vendor
+
+29. A vendor-side user **should** be able to update the certain fields on an Issue pertaining to its progress, priority, or change of user assignment on       the Vendor side
+
+30. A vendor-side user **should** be able to update certain fields on a Feature pertaining to its progress, price, or change of user assignment on             the Vendor side
+
+31. Vendor-side users must be able to see a list of Issues
+32. Vendor-side users must be able to filter the Issues list  by various options - e.g. Status, Priority, Client
+
+34. Vendor-side users must be able to see a list of Features
+35. Vendor-side users must be able to filter the Features list  by various options - e.g. Status, Client
+    - Features Assigned to the Logged in user only
+    - All Features
+36. Vendor-side users must be able to filter the Features list by Status, and Client
+37. Vendor-side users must be able to sort the Features list by Total Amount Paid for the Feature
+
+38. Vendor-side users must be able to run an Issues report that:
+    - (a) Shows a rolled up total line for each Client, showing the number of Issues input and/or flagged by the Client, 
+    - (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
+    - (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
+    - (d) Lists the Issues in Priority order, from most urgent to least urgent
+
+39. Vendor-side users must be able to run a Features report that show the Features they have input and/or paid for
+
+24. Since the business contract is between the client and the Vendor, not between one client and another, data protection restrictions need to be applied      in relation to the client details that other clients are allowed to see
+
+40. Since there is a contract between the Vendor and the Client no data protection restrictions need apply in relation to client details.
+    - The vendor should be able to see the client code and name
+    - The vendor they should be able to see the user ids of Isssues, Features, and of Comments
+    - The vendor should be able to see reports for all clients
+    - Clients **should** be able to see the user id of Comments input by a user that is associated with the Vendor
+
+41. It must be possible to differentiate comments input by vendor-side user from comments input by client-side users
+ 
+
 
 # **3. FEATURES**
 
-## **3.1 ISSUE TRACKER**
+## **3.1 EXISTING FEATURES**
 
-These are the high level features of the Issue Tracker:
 1. The app will initially request a login to the Issue Tracker, as it is available only to clients who are using the _KMcD Online Accounting System_
-2. Once logged in the user will be presented with a list of issues that are assigned to them
-3. From the **Navigation Bar** the user can select **Home,** **Profile,** **Logout,** the **Issues List,** **New Issue,** **Features List,** 
+2. Registering to use the Issue Tracker is a 2-step process:
+   - A user may register as a new user on the Issue Tracker
+   - The user's details must be set up, via Django Admin, on the UserDetails database
+   - Once these 2 steps are completed the user will have access to the Issue Tracker
+
+3. Once logged in the user will be presented with a list of the Issues that are assigned to them
+
+4. From the **Navigation Bar** the user has access to **Home,** **Profile,** **Logout,** the **Issues List,** **New Issue,** **Features List,** 
    **New Feature,** **Cart,**
-4. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
-5. From the **Issues List** page the user can:
+
+5. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
+
+6. From the **Issues List** page all users can:
    - See summary details of up to five issues per page, and paginate to other pages 
-   - Filter the issues list by Issues Filter, Status Filter, Priority Filter and, if the user is a vendor-side user, by Client 
-   - Select to see the details of a particular issue
-   - Select to see the comments on a particular issue
-   - Flag an issue belonging to another client using the 'thumbs up' icon, to indicate they also have this
-6. From the **Features List** page the user can:
+   - Select to see the details of a particular Issue
+   - Select to see the comments on a particular Issue
+
+7. Client-side users may filter the Issues List by an Issues Filter which allows the user to select:
+    - Issues Assigned to the Logged in user only
+    - Issues that belong to the client the user is associated with only
+    - Issues that belong to other clients only
+    - All Issues
+    
+12. Client-side users are able to filter the Issues list by Status, and Priority
+13. Client-side userd are able to flag another client's Issue by clicking a 'thumbs up' icon for that Issue, to indicate that they have it too
+14. Client-side users are able to unflag an Issue that they previously flagged
+15. Clients are **not* be able to flag their own Issues
+
+32. Vendor-side users are able to filter the Issues list by an Issues Filter which allows the user to select:
+    - Issues Assigned to the Logged in user only
+    - All Issues
+33. Vendor-side are able to filter the Issues list by Status, Priority, and Client  
+
+7. From the **Features List** page all users can:
    - See summary details of up to five features per page, and paginate to other pages 
-   - Filter the features list by Features Filter, Status Filter, Sort by Amount paid per feauture and, if the user is a vendor-side user, filter by Client 
-   - Select to see the details of a particular feature
-   - Select to see the comments on a particular feature
-   - Pay for a feature (their own or another client's) using the add to cart ('cart+') icon for that feature, to indicate they also want this 
-   - Select the cart from the navigation bar, once features have been added to it, increase/reduce the quantity or remove an item, and proceed to checkout   to pay for the item(s)
-7. Issue / Feature **Details Page**:
-   - If the user selects the 'more' icon from the issues/features list:
-     + The details screen will open showing the issue/feature details 
-     + The user can click the comments icon to open the comments dashboard, where they can click on the '+' icon to add a comment or on the 'eye' icon to      view a list of existing comments
+   - Select to see the details of a particular Feature
+   - Select to see the comments on a particular Feature
+   
+17. Client-side users are able to filter the Features list by a Features Filter which allows the user to select:
+    - Features Assigned to the Logged in user only
+    - Features that belong to the client the user is associated with only
+    - Features that belong to other clients only
+    - All Features
+18. Client-side users are able to filter the Features list by Status
+19. Client-side users are able to sort the Features list by Total Amount Paid for the Feature
+20. Client-side users are able to flag their own or another client's Feature, and add it to cart and pay for it, indicating they want this Feature too
+21. Clients are **not** be able to unflag a Feature that they previously flagged and paid for
+
+35. Vendor-side users are able to filter the Features list by a Features Filter which allows the user to select:
+    - Features Assigned to the Logged in user only
+    - All Features
+36. Vendor-side users are able to filter the Features list by Status, and Client
+37. Vendor-side users are able to sort the Features list by Total Amount Paid for the Feature
+
+
+8. Issue / Feature **Issue/Feature Logging Page**:
+   - Client-side users only may input new Issues/Features
+   - When the user selects to add a new Issue/Feature, the Issue/Feature Logging page will open
+   - The user may select the Software Component from a dropdown box
+   - The user may select the user the Issue/Feature is assigned to from a dropdown box
+   - The user may select the Priority (for Issues only) from a dropdown box
+   - The user may input the Title, Summary, and Details
+   - The user may choose to upload an image
+   - The user may not change the Status from 'DRAFT' when logging a new Issue/Feature
+   - The user may not input a price when inputting a new Feature
+
+9. Issue / Feature **Details Page**:
+   - If the user inputs a new Issue/Feature or selects the 'more' icon from the Issues/Features List:
+     + The details screen will open showing the Issue/Feature details 
+     + The user can click the comments icon to open the comments dashboard, where they can click on the '+' icon to add a comment or on the 'eye' icon to      show/hide a list of existing comments
      + The user will be able to go back to the list page on which they clicked the 'more' icon by clicking on the 'Back to list' link
    
-   - If the user selects the 'comments' icon from the issues/feature list:
-     + The details screen will open with the comments dashboad and the list of comments for that issue/feature already showing
+   - If the user selects the 'comments' icon from the Issues/Feature List:
+     + The details screen will open with the comments dashboad and the list of comments for that Issue/Feature already showing
      + The user may use the 'comments' icon, and the comments dashboard to clear the comments or add a new comment
      + The user will be able to go back to the list page on which they clicked the 'comments' icon by clicking on the 'Back to list' link
-   
+
+10. Issue / Feature **Issue/Feature Editing**:
+    - Client-side users only may edit Issues/Features
+    - The 'Edit' option will appear on the Issue/Feature details page, if the Issue/Feature is still at a status of 'DRAFT' or 'LOGGED'
+    - The user may change all the details that are input when an Issue/Featur is logged
+    - In addition they can change the Status from 'DRAFT' to 'LOGGED'
+
+11. Issue / Feature **Issue/Feature Updating**:
+    - Client-side users and Vendor-side users may update Issues/Features
+    - For Client-side users, the 'Update' option will appear on the Issue/Feature details page, if the Issue/Feature is no longer at a status of 'DRAFT' or   'LOGGED'
+    - For vendor-side users the 'Update' option will appear on the Issues/Details page for all the Issues/Feature that they can view
+    - The Client-side user may update the User the Issue/Feature is assigned to on the Client side only
+    - For Issues and Features, the Vendor-side user may update the Software Component, Status, and the User the Issue/Feature is assigned to on the Vendor     side
+    - For Features, the Vendor-side user may update the Price
+
+22. Client-side users are able to run an Issues report that:
+    - (a) Shows a rolled up total line for the Client, showing the number of Issues input and/or flagged by the Client, 
+    - (b) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
+    - (d) Lists the Issues in Priority order, from most urgent to least urgent
+
+23. Client-side users are able to run a Features report that:
+    - (a) Shows a rolled up total line for the Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client        has paid for Features
+    - (b) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
+    - (c) Lists the Features in order of amounts paid by the Client per Feature, from highest to lowest
+
+38. Vendor-side users are able to run an Issues report that:
+    - (a) Shows a rolled up total line for each Client, showing the number of Issues input and/or flagged by the Client, 
+    - (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
+    - (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
+    - (d) Lists the Issues in Priority order, from most urgent to least urgent
+
+39. Vendor-side users are able to run a Features report that:
+    - (a) Shows a rolled up total line for each Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client       has paid for Features
+    - (b) Orders the rolled up total lines by the total amount paid, from highest to lowest
+    - (c) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
+    - (d) Lists the Features in order of amounts paid by the Client per Feature, from most highest to lowest
+     
+    
+24. In the interests of data protection:
+    - Clients are **not** be able to see another client's client code or name, nor the user id of a user who is associated with another client (this         includes user ids shown on Issues, Features, and on Comments)
+    - Clients are **not** be able to edit / update another client's Issues / Features
+    - A client does **not** have access to another client's Reports
+ 
+ 40. Since there is a contract between the Vendor and the Client the above data protection restrictions are not applied to Vendor-side users.
+    
 
 ## **3.2 NAVIGATION**
 
@@ -253,6 +303,11 @@ These are the high level features of the Issue Tracker:
 2. Various sizes of Bootstrap columns are used to allow the screens to be drawn to fit the size of the viewport.
 
 3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
+
+
+## **3.2 FEATURES LEFT TO IMPLEMENT**
+
+
 
 
 # **4. DJANGO DATABASES**
