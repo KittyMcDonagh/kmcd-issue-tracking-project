@@ -600,6 +600,7 @@ The following table shows:
  - Vendor-side users already registered and set up on the UserDetails database. Testers may log in with these usernames and passwords 
  - Vendor-side users set up on the UserDetails database only. Registering as new users on the Issue Tracker with these codes will give immediate access to      the Issue Tracker
 
+
 |Vendor Code   |Usernames Registered | Passwords    | Usernames on UserDetails |
 |--------------|---------------------|--------------|--------------------------|
 | KMCD01       | venduser01          | venduser01   | venduser01               |
@@ -609,7 +610,7 @@ The following table shows:
 |              |                     |              | venduser04               |
 |              |                     |              | venduser05               |
 |              |                     |              | venduser06               |
-|--------------|---------------------|--------------|--------------------------|
+|              |                     |              |                          |
 
 #### 6.1.1.2 Client-side Users
 
@@ -626,18 +627,18 @@ The following table shows:
 |              |                     |              | c1_user004               |
 |              |                     |              | c1_user005               |
 |              |                     |              |                          |
-|--------------|---------------------|--------------|--------------------------|
+|              |                     |              |                          |
 | C00002       | c2_user001          | clt2usr1     | c2_user001               |
 |              |                     |              |                          |
 |              |                     |              | c2_user002               |
 |              |                     |              | c2_user003               |
 |              |                     |              |                          |
-|--------------|---------------------|--------------|--------------------------|
+|              |                     |              |                          |
 | C00003       | c3_user001          | c3_user001   | c3_user001               |
 |              |                     |              |                          |
 |              |                     |              | c3_user002               |
 |              |                     |              | c3_user003               |
-|--------------|---------------------|--------------|--------------------------|
+|              |                     |              |                          |
 
 ### **6.1.2 Details of Vendor, Clients, Users**
 
@@ -674,21 +675,25 @@ These are the details of the users that are set up in the **UserDetails** databa
 | venduser04   | Vendor_user_4             |     V                |           N               |  
 | venduser05   | Vendor_user_5             |     V                |           N               |  
 | venduser06   | Vendor_user_6             |     V                |           N               |  
-|--------------|---------------------------|----------------------|---------------------------|
+|              |                           |                      |                           |
+|              |                           |                      |                           |
 | c1_user001   | Client1_user_001          |     C                |           Y               |  
 | c1_user002   | Client1_user_002          |     C                |           Y               |
 | c1_user003   | Client1_user_003          |     C                |           Y               | 
 | c1_user004   | Client1_user_004          |     C                |           N               |  
 | c1_user005   | Client1_user_005          |     C                |           N               |
-|--------------|---------------------------|----------------------|---------------------------|
+|              |                           |                      |                           |
+|              |                           |                      |                           |
 | c2_user001   | Client2_user_001          |     C                |           Y               |  
 | c2_user002   | Client2_user_002          |     C                |           N               |
 | c2_user003   | Client2_user_003          |     C                |           N               | 
-|--------------|---------------------------|----------------------|---------------------------|
+|              |                           |                      |                           |
+|              |                           |                      |                           |
 | c3_user001   | Client3_user_001          |     C                |           Y               |  
 | c3_user002   | Client3_user_002          |     C                |           N               |
 | c3_user003   | Client3_user_003          |     C                |           N               | 
-|--------------|---------------------------|----------------------|---------------------------|
+|              |                           |                      |                           |
+
 
 
 ### 6.1.3 Testing Registration / Login Page
@@ -776,17 +781,55 @@ Then I decided to send the reset email to a hotmail account. It received the ema
 _I'm noting this here in case testers run into any issues._
 
 
-### **6.1.2. Issues & Features Lists Testing**
+### **6.1.2. Issues List Testing**
+
+The client-side users c1_user001, c1_user002, and c1_user003 are all associated with the same client
+
+1. First login as c1_user001
+
+2. Confirm that the Issues in the list are all 'Assigned to' the logged in user 
+3. Select 'All Issues' from the Issues Filter - selecting a value from the Issues Filter will cause the Status and Priority Filters to be reset to 'ALL'
+4. Confirm that all the 'Assigned to' user codes that are displayed are all associated with the same client as the logged in user - see above tables (users      should not be able to see the user codes of users that are associated with other clients)
+5. Confirm that all the Issues at a Status of 'DRAFT' or 'LOGGED' are assigned to a user that is associated with the same client as the logged in user (users    should not be able to see the Issues of other clients that are still at a status of 'DRAFT' or 'LOGGED')
+6. Confirm that the 'thumbs up' icon is disabled for Issues that belong to the client the logged in user is associated with
+7. Confirm that Issues that belong to other clients are showing "******" in the 'Assigned to' column
+8. Confirm that the 'thumbs up/down' icon on Issues that belong to other clients, and that don't have a Status of 'DEPLOYED' or 'CLOSED', is enabled
+9. Confirm that the 'thumbs up/down' icon on Issues that belong to other clients, and that do have a Status of 'DEPLOYED' or 'CLOSED', is disabled
+10. Confirm that when you hover on a 'thumbs up/down' icon the color and background color are reversed
+11. Confirm that when you click on an enabled 'thumbs up' icon it changes to a 'thumbs down' icon and the number in the Flag column is incremented
+12. Confirm that when you click on an enabled 'thumbs down' it changes to a 'thumbs up' and the number in the Flag column is decremented
+13. Confirm that a 'thumbs down' is shown on Issues that have already been 'thumbed up' by the client associated with this user (i.e. it may have been            'thumbed-up' by a different user, but for the same client)
+13. Enter text in the Search box - it will search for the text in the Issue Summary field of **all** Issues - and confirm that Issues with that text are          displayed and that the Issues, Status and Priority Filters are showing no values - this is to avoid confusing the user, since the Search searches all         Issues for the text input
+14. Select "Our Issues Only" from the Issues Filter and confirm that the Issues displayed belong to the client the logged in user is associated with - the        'Assigned to' user code will be displayed for all of these and the 'thumbs up' icon will be disabled
+15. Select "Other Clients' Issues Only" from the Issues Filter and confirm that the Issues displayed do not belong to the client the logged in user is            associated with - the 'Assigned to' column will show "******" for all of these, and the 'thumbs up' icon will be enabled for Issues that don't have a         status of 'DEPLOYED' or 'CLOSED'
+16. Select "Assigned to Me" from the Issues Filter and confirm that only those Issues assigned to the logged in user are shown 
+17. Select each Status value in turn from the Status Filter and confirm that only those Issues in the current list (as determined by the Issues Filter) with      that Status value are shown
+18. When a Status value is selected for which there are no Issues with that value in the current list, confirm that an empty list is shown and that the           message "No issues found for the selected criteria!" is displayed
+19. Select each Priority value in turn from the Priority Filter and confirm that only those Issues in the current list (as determined by the Issues Filter)       with that Priority value are shown
+20. When a Priority value is selected for which there are no Issues with that value in the current list, confirm that an empty list is shown and that the         message "No issues found for the selected criteria!" is displayed
+21. Login as users c1_user002 and c1_user003, who are be associated with the same client as the above user, and run through the above tests again 
+22. Log in as c2_user001, who is associated with a different client to the above users, and run through the above tests again
+23. Finally, log in as c3_user001, who is associated with a different client to the above users, and run through the above tests again
 
 
-### **6.1.3. Issues & Features Logging / Editing / Updating Testing**
-
-### **6.1.3. Issues & Features Reports Testing**
-
-### **6.1.3. Issues & Features Responsiveness Testing**
 
 
 
+
+### **6.1.3. Issues Logging / Editing / Updating Testing**
+
+### **6.1.3. Issues Reports Testing**
+
+### **6.1.3. Issues Responsiveness Testing**
+
+### **6.1.2. Features Lists Testing**
+
+### **6.1.3. Features Logging / Editing / Updating Testing**
+
+
+### **6.1.3. Features Reports Testing**
+
+### **6.1.3. Features Responsiveness Testing**
 
 
 ## **6.2 Automated Testing**
@@ -832,21 +875,24 @@ Due to time constraints I didn't get around to creating automated tests.
 The following icons/images were used to create the overview diagram of the Issue Tracking System:
 
 |IMAGE / ICON                           |COPIED FROM
-|---------------------------------------|----------------------------------------------------------------------------------------------|
-|Questions Comments Concerns icon       |http://clipart-library.com/clipart/ziXoGpb7T.htm                                              |
-|Client group icon                      |http://clipart-library.com/clipart/1745500.htm                                                |
-|Group sitting around globe of world    |http://clipart-library.com/img1/1474499.jpg                                                   |
-|Online Server image                    |http://clipart-library.com/clipart/99610.htm                                                  |
-|Online computer image                  |http://clipart-library.com/image_gallery2/Hosting-Free-Download-PNG.png                       |
-|Blue user image                        |http://clipart-library.com/clipart/2038276.htm                                                |
-|Orange user image                      |http://clipart-library.com/clipart/rcLnpabKi.htm                                              |
-|Grey user image                        |http://clipart-library.com/clipart/773211.htm                                                 |
+|---------------------------------------|-------------------------------------------------------------------------|
+|Questions Comments Concerns icon       |http://clipart-library.com/clipart/ziXoGpb7T.htm                         |
+|Client group icon                      |http://clipart-library.com/clipart/1745500.htm                           |
+|Group sitting around globe of world    |http://clipart-library.com/img1/1474499.jpg                              |
+|Online Server image                    |http://clipart-library.com/clipart/99610.htm                             |
+|Online computer image                  |http://clipart-library.com/image_gallery2/Hosting-Free-Download-PNG.png  |
+|Blue user image                        |http://clipart-library.com/clipart/2038276.htm                           |
+|Orange user image                      |http://clipart-library.com/clipart/rcLnpabKi.htm                         |
+|Grey user image                        |http://clipart-library.com/clipart/773211.htm                            |
+|                                       |                                                                         |
 
 
 ## **8.2 TEXT USED FOR ISSUES / FEATURES DETAILS**
+
 |DESCRIPTION                                    |COPIED FROM
 |-----------------------------------------------|-----------------------------------------------|
 |Lorem ipsum text for Issues/Features details   |https://loremipsum.io/generator/               |
+|                                               |                                               |
 
 
 
@@ -871,3 +917,6 @@ The following icons/images were used to create the overview diagram of the Issue
 
 
 [![Build Status](https://travis-ci.org/KittyMcDonagh/kmcd-issue-tracking-project.svg?branch=master)](https://travis-ci.org/KittyMcDonagh/kmcd-issue-tracking-project)
+
+
+
