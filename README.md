@@ -43,27 +43,22 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 ![alt text](/Design/system-diagrams/issue_tracking_overall_view.png "Issue Tracker Overview")
 
 
-### **2.2.2 User Setup**
-
-![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker User Setup")
-
-
-### **2.2.3 Vendor side - System Logic Flow**
+### **2.2.2 Vendor side - System Logic Flow**
 
 ![alt text](/Design/system-diagrams/vendor-system-logic.png "Vendor System Logic")
 
 
-### **2.2.4 Client side - System Logic Flow**
+### **2.2.3 Client side - System Logic Flow**
 
 ![alt text](/Design/system-diagrams/client-system-logic.png "Client System Logic")
 
 
-### **2.2.5 Issue / Feature - Client-side Workflow**
+### **2.2.4 Issue / Feature - Client-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-c-workflow.png "Issue Tracker Client-side Workflow")
 
 
-### **2.2.6 Issue / Feature - Vendor-side Workflow**
+### **2.2.5 Issue / Feature - Vendor-side Workflow**
 
 ![alt text](/Design/system-diagrams/issue-feature-v-workflow.png "Issue Tracker Vendor-side Workflow")
 
@@ -587,20 +582,77 @@ The Features being paid for are added to the Order lines at Checkout.
 
 You may get access to Django Admin with user id/psw = admin/isstrk.123. However I have also preset some details, as explained below, to save testers setting up details via Django Admin.
 
-In order for users to have access to the app, they must be registered on Django Admin and have a corresponding record in the UserDetails database. Users may register on the Issue Tracker app, but the UserDetails need to be set up via Django Admin. 
+In order for users to have access to the app, they must be registered on Django Admin and have a corresponding record in the UserDetails database. Users may register on the Issue Tracker app, but the UserDetails record needs to be set up via Django Admin:
+
+
+![alt text](/Design/system-diagrams/user-setup.png "Issue Tracker User Setup")
+
 
 I have set up a number of user codes on the UserDetails database, which don't have corresponding Django Admin users registered. This is to allow testers to register via the app with these user codes and have immediate access to the Issue Tracker.
 
-In the tables below, the user codes that appear under 'User Codes on UserDetails' only, can be used for registering on the app to get immediate access to the Issue Tracker.
+The app has a Vendor perspective and a Client perspective, therefore it is necessary to be able to distinguish the different types of users. 
 
-These are the Vendor details that are set up on the system:
+There are two types of users: Vendor-side users (users who work for the Vendor), and Client-side users (users who work for a Client of the Vendor)
+
+#### 6.1.1.1 Vendor-side Users
+
+The following table shows:
+ - Vendor-side users already registered and set up on the UserDetails database. Testers may log in with these usernames and passwords 
+ - Vendor-side users set up on the UserDetails database only. Registering as new users on the Issue Tracker with these codes will give immediate access to      the Issue Tracker
+
+|Vendor Code   |Usernames Registered | Passwords    | Usernames on UserDetails |
+|--------------|---------------------|--------------|--------------------------|
+| KMCD01       | venduser01          | venduser01   | venduser01               |
+|              | venduser02          | venduser02   | venduser02               |
+|              | venduser03          | venduser03   | venduser03               |
+|              |                     |              |                          |
+|              |                     |              | venduser04               |
+|              |                     |              | venduser05               |
+|              |                     |              | venduser06               |
+|--------------|---------------------|--------------|--------------------------|
+
+#### 6.1.1.2 Client-side Users
+
+The following table shows:
+ - Client-side users already registered and set up on the UserDetails database. Testers may log in with these usernames and passwords 
+ - Client-side users set up on the UserDetails database only. Registering as new users on the Issue Tracker with these codes will give immediate access to      the Issue Tracker
+
+|Client Code   |Usernames Registered | Passwords    | Usernames on UserDetails |
+|--------------|---------------------|--------------|--------------------------|
+| C00001       | c1_user001          | c1_user001   | c1_user001               |
+|              | c1_user002          | c1_user002   | c1_user002               |
+|              | c1_user003          | c1_user003   | c1_user003               |
+|              |                     |              |                          |
+|              |                     |              | c1_user004               |
+|              |                     |              | c1_user005               |
+|              |                     |              |                          |
+|--------------|---------------------|--------------|--------------------------|
+| C00002       | c2_user001          | clt2usr1     | c2_user001               |
+|              |                     |              |                          |
+|              |                     |              | c2_user002               |
+|              |                     |              | c2_user003               |
+|              |                     |              |                          |
+|--------------|---------------------|--------------|--------------------------|
+| C00003       | c3_user001          | c3_user001   | c3_user001               |
+|              |                     |              |                          |
+|              |                     |              | c3_user002               |
+|              |                     |              | c3_user003               |
+|--------------|---------------------|--------------|--------------------------|
+
+### **6.1.2 Details of Vendor, Clients, Users**
+
+##### 6.1.2.1 The Vendor
+
+These are the details of the Vendor that are set up in the **Vendor** database:
 
 |Vendor Code   |Name                       | 
 |--------------|---------------------------|
 | KMCD01       | KMcD Accounting Solutions | 
 
 
-These are the Client details that are set up on the system:
+#### 6.1.2.2 The Clients
+
+These are the details of the Clients that are set up in the **Client** database:
 
 |Client Code   |Name                       | 
 |--------------|---------------------------|
@@ -608,132 +660,121 @@ These are the Client details that are set up on the system:
 | COOO2        | Medium Business Ltd       | 
 | COOO3        | Breaking Ground Ltd       | 
 
-These are the User details that are set up in the UserDetails database:
 
-|Use Code      |Name                       | Vendor / Client User |
-|--------------|---------------------------|----------------------|
-| admin        | Superuser                 |     V                |
-| venduser01   | Vendor_user_1             |     V                |     
-| venduser02   | Vendor_user_2             |     V                |  
-| venduser03   | Vendor_user_3             |     V                | 
-| venduser04   | Vendor_user_4             |     V                |  
-| venduser05   | Vendor_user_5             |     V                |  
-| venduser06   | Vendor_user_6             |     V                |  
-| c1_user001   | Client1_user_001          |     C                |  
-| c1_user002   | Client1_user_002          |     C                |
-| c1_user003   | Client1_user_003          |     C                | 
-| c1_user004   | Client1_user_004          |     C                |  
-| c1_user005   | Client1_user_005          |     C                |
-| c2_user001   | Client2_user_001          |     C                |  
-| c2_user002   | Client2_user_002          |     C                |
-| c2_user003   | Client2_user_003          |     C                | 
-| c3_user001   | Client3_user_001          |     C                |  
-| c3_user002   | Client3_user_002          |     C                |
-| c3_user003   | Client3_user_003          |     C                | 
+#### 6.1.2.3 The Users
 
+These are the details of the users that are set up in the **UserDetails** database:
 
-The app has a Vendor perspective and a Client perspective, therefore it is necessary to be able to distinguish the different types of users. See the UserDetails Database information above.
-
-
-#### 6.1.1.1 Vendor-side Users
-
-The following table shows:
- - Vendor-side users already registered and set up on the UserDetails database 
- - Vendor-side users set up on the UserDetails database only. Registering as new users on the Issue Tracker with these codes will give immediate access to   the Issue Tracker
-
-|Vendor Code   |Users Codes Registered     | Passwords    | User Codes on UserDetails |
-|--------------|---------------------------|--------------|---------------------------|
-| KMCD01       | venduser01                | venduser01   | venduser01                |
-|              | venduser02                | venduser02   | venduser02                |
-|              | venduser03                | venduser03   | venduser03                |
-|              |                           |              |                           |
-|              |                           |              | venduser04                |
-|              |                           |              | venduser05                |
-|              |                           |              | venduser06                |
+|Use Code      |Name                       | Vendor / Client User |Registered on Django Admin?|
+|--------------|---------------------------|----------------------|---------------------------|
+| admin        | Superuser                 |     V                |           Y               |
+| venduser01   | Vendor_user_1             |     V                |           Y               |     
+| venduser02   | Vendor_user_2             |     V                |           Y               |  
+| venduser03   | Vendor_user_3             |     V                |           Y               | 
+| venduser04   | Vendor_user_4             |     V                |           N               |  
+| venduser05   | Vendor_user_5             |     V                |           N               |  
+| venduser06   | Vendor_user_6             |     V                |           N               |  
+|--------------|---------------------------|----------------------|---------------------------|
+| c1_user001   | Client1_user_001          |     C                |           Y               |  
+| c1_user002   | Client1_user_002          |     C                |           Y               |
+| c1_user003   | Client1_user_003          |     C                |           Y               | 
+| c1_user004   | Client1_user_004          |     C                |           N               |  
+| c1_user005   | Client1_user_005          |     C                |           N               |
+|--------------|---------------------------|----------------------|---------------------------|
+| c2_user001   | Client2_user_001          |     C                |           Y               |  
+| c2_user002   | Client2_user_002          |     C                |           N               |
+| c2_user003   | Client2_user_003          |     C                |           N               | 
+|--------------|---------------------------|----------------------|---------------------------|
+| c3_user001   | Client3_user_001          |     C                |           Y               |  
+| c3_user002   | Client3_user_002          |     C                |           N               |
+| c3_user003   | Client3_user_003          |     C                |           N               | 
+|--------------|---------------------------|----------------------|---------------------------|
 
 
-#### 6.1.1.2 Client-side Users
-
-The following table shows:
- - Client-side users already registered and set up on the UserDetails database 
- - Client-side users set up on the UserDetails database only. Registering as new users on the Issue Tracker with these codes will give immediate access to   the Issue Tracker
-
-|Client Code   |Users Codes Registered     | Passwords    | User Codes on UserDetails |
-|--------------|---------------------------|--------------|---------------------------|
-| C00001       | c1_user001                | c1_user001   | c1_user001                |
-|              | c1_user002                | c1_user002   | c1_user002                |
-|              | c1_user003                | c1_user003   | c1_user003                |
-|              |                           |              |                           |
-|              |                           |              | c1_user004                |
-|              |                           |              | c1_user005                |
-|              |                           |              |                           |
-| C00002       | c2_user001                | c2_user001   | c2_user001                |
-|              |                           |              |                           |
-|              |                           |              | c2_user002                |
-|              |                           |              | c2_user003                |
-|              |                           |              |                           |
-| C00003       | c3_user001                | c3_user001   | c3_user001                |
-|              |                           |              |                           |
-|              |                           |              | c3_user002                |
-|              |                           |              | c3_user003                |
-|              |                           |              |                           |
-
-
-
-#### 6.1.2 Registration / Login Page
+### 6.1.3 Testing Registration / Login Page
 
 When the Issue Tracker app loads initially it will be on the Registration / Login page.
 
-**(a) PRE-LOGIN NAVIGATION**
+#### 6.1.3.1 Pre-Login Navigation
 
 1. Confirm that the app remains on this page when you clicking on the logo and the home icon
 2. Confirm that clicking on both 'Register' in the navigation bar, and 'Register' on the page message brings you to the Registration page
 3. Confirm that clicking on both 'Login' in the navigation bar, and 'Please Login' on the page message brings you to the Login page
 
 
-**(b) REGISTER & LOGIN**
+#### 6.1.3.2 Register
 
 1. Click 'Register' 
+
 2. Input the details of a brand new user with email address = "kittymcdonagh@gmail.com" and confirm the error "email address must be unique" is returned
+ 
 3. Test password input to ensure it doesn't allow the input in the 2 password fields to be different
 
-4. Enter valid details for a brand new user and confirm you are returned to the Registration / Login page and that the message "You have registered           successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**" is displayed just above the welcome message.
+4. Enter valid details for a brand new user and confirm you are returned to the Registration / Login page and that the message "You have registered              successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**" is displayed just above the welcome message.
 
-5. Attempt to log in as the new user and confirm that you get the message "User not set up on the Issue Tracking System".
+5. Register as one of the unregistered Vendor User codes in the above table, and confirm the same message is received as above
 
-6. Click 'Register'
-7. Register as one of the unregistered Vendor User codes in the above table
-
-8. Login with this User code and confirm that the Issue Tracker page loads with 'KMcD Accounting Solutions' showing on the left of the top line of the      screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle of the top line of the screen
-
-8. Register as one of the unregistered Client User codes in the above table
-9. Login with this User code and confirm that the Issue Tracker page loads with the relevant Client Name (see Client table above for correct name) showing    on the left of the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle of the top line of the    screen
-
-10. If you wish, add the new user you created above to the UserDetails database via Django Admin, as Vendor-side user. Then log in as that user and confirm     that the Vendor name and the user name showing on the screen are correct
-11. If you wish, register as a new user, and set yourself up via Django Admin, as a Client-side user. Then log in as that user and confirm that the Company     name and the user name showing on the screen are correct
-
-**(c) POST-LOGIN NAVIGATION**
-
-While still logged in as a Vendor-side or Client-side user click on the logo and on the home icon and confirm that they display the same page showing the messages "You are already logged in!", and "Please go to Issue Tracking System or Logout"
-
-**(d) PROFILE**
-
-While logged in as a Vendor-side user, click on 'Profile' and confirm you are brought to a page showing the Vendor Name, Username and Email Address.
-
-While logged in as a Client-side user, click on 'Profile' and confirm you are brought to a page showing the Company Name, Username and Email Address.
+6. Register as one of the unregistered Client User codes in the above table, and confirm the same message is received as above
 
 
-**(e) LOGOUT**
+#### 6.1.3.3 Login
+
+1. Attempt to log in as the brand new user and confirm that you get the message "User not set up on the Issue Tracking System".
+
+2. Login with the Vendor user code you registered above and confirm that the Issue Tracker page loads with 'KMcD Accounting Solutions' showing on the left of    the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle of the top line of the screen
+
+4. Login with the Client User code you registered above and confirm that the Issue Tracker page loads with the relevant Client Name (see Client table above      for correct name) showing on the left of the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle    of the top line of the screen
+
+5. If you wish, add the brand new user you created above to the UserDetails database via Django Admin, as a Vendor-side user. Then log in as that user and         confirm that the Vendor name and the user name showing on the screen are correct
+
+6. If you wish, register as a new user, and set yourself up via Django Admin, as a Client-side user. Then log in as that user and confirm that the Company       name and the user name showing on the screen are correct
+
+
+#### 6.1.3.4 Post-Login Navigation
+
+1. While still logged in as a Vendor-side or Client-side user click on the logo and on the home icon and confirm that they display the same page showing the     messages "You are already logged in!", and "Please go to Issue Tracking System or Logout"
+
+2. Clck on 'Issue Tracking System' in the page message and confirm it takes you to the Issues List
+
+
+#### 6.1.3.5 Profile
+
+1. While logged in as a Vendor-side user, click on 'Profile' and confirm you are brought to a page showing the Vendor Name, Username and Email Address.
+
+2. While logged in as a Client-side user, click on 'Profile' and confirm you are brought to a page showing the Company Name, Username and Email Address.
+
+
+#### 6.1.3.6 Logout
 
 While still logged in as a Vendor-side or Client-side user click on the 'Logout' and confirm that you are brought to the Registration & Login page.
 
 
+#### 6.1.3.7 Forgot Password
 
+In order to test this, you need to set yourself up as a user on the Issue Tracker and add a valid email account to your Django Admin User profile.
 
-#### 6.1.1.3 Logging Out
+1. Click 'Forgot Password' and confirm you are requested for an email address
 
+2. Enter the email address of the Django User you set up above. Click 'Reset Password'
 
-#### 6.1.1.4 Forgotten Password
+3. Confirm you receive a Django Admin message confirming a password has been sent to the email account
+
+4. Retrieve the email and reset the password
+
+5. Log into the Issue Tracker with the username and new password, and confirm the password was changed
+
+#### Please Note
+
+The email address from which the email is being sent is a gmail account which allows access to less secure apps, and 2-step authentication is not set. This was all working fine when I set it up a few months back
+
+However, when I was ran this functionality again, while writing this section of the readme file, I started getting a 'SMTPAuthenticationError'. The reset email was also a gmail account.
+
+After checking the error message online, and not getting any answers I tried tutor support. They suggested running "https://accounts.google.com/DisplayUnlockCaptcha", after which the emails were sent to the gmail account, and I could reset the password. I ran the reset password a few more times using the gmail account, and it worked fine each time.
+
+Then I decided to send the reset email to a hotmail account. It received the email ok. However when I try to send another reset email, either to the gmail or the hotmail account, I get a 'SMTPAuthenticationError' again. To clear this I run "https://accounts.google.com/DisplayUnlockCaptcha" again. However, it will consistently give me an error after sending to a hotmail account.
+
+_I'm noting this here in case testers run into any issues._
+
 
 ### **6.1.2. Issues & Features Lists Testing**
 
