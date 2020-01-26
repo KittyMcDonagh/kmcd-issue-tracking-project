@@ -41,7 +41,7 @@ section {
 
 main {
     flex: 1 0 auto;
-
+    
     /* Added after running Autoprefixer   */
     -webkit-box-flex: 1;
     -ms-flex: 1 0 auto;
@@ -623,7 +623,7 @@ li {
     border-radius: 10px;
     background-color: #b3b3ff;
     padding: 10px;
-
+   
 
 }
 
@@ -1143,7 +1143,7 @@ li {
     border-radius: 15px;
     background-color: #fff;
     padding: 15px;
-    margin-bottom: 0px;
+     margin-bottom: 0px;
 }
 
 .form-font {

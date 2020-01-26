@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="body-image">
+<body>
 
     <header>
 
@@ -2020,6 +2020,7 @@
                             var paid = value.paid;
                             var price = value.price;
                             var featureClientCount = value.client_count;
+                            var ftrClientCode = value.ftr_client_code
 
                             // Initialise 'inputDisabled'. To be added to input field
                             // for amount, to enable / disabled input
@@ -2061,7 +2062,7 @@
                             // Output the Feature Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-ftr-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
+                                "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "<td class='td-client text-center'>" + ftrClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-ftr-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
                                 "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/feature_tracker/" + featureId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='ftr-comments-icon-style' href=/feature_tracker/" + featureId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments ftr-comments-icon-style'></i></a></td></tr>"
                             );
 

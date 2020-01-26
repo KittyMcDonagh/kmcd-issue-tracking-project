@@ -378,11 +378,13 @@ def get_features(request):
         
         print("feature.client_code: "+str(feature.client_code))
         print("UserDetails.vend_client_code: "+str(UserDetails.vend_client_code))
+        ftr_client_code = feature.client_code
         	
         if UserDetails.user_type == "C":
             if feature.client_code != UserDetails.vend_client_code:
     	        user_id = "*********"
     	        assigned_client_user = "*********"
+    	        ftr_client_code = "******"
     	    
         data["features"].append({
             
@@ -400,7 +402,8 @@ def get_features(request):
         	"summary": feature.summary,
         	"status": feature.status,
         	"client_count": feature.client_count,
-        	"user_type": UserDetails.user_type
+        	"user_type": UserDetails.user_type,
+        	"ftr_client_code": ftr_client_code,
         	
     })
         
@@ -446,11 +449,13 @@ def feature_details(request, pk, view_comments=None, back_to_page=None, list_fil
     
     UserDetails = get_user_iss_trk_details(request)
     
+    # Get the details of the client the feature belongs to
+    
+    FeatureClientDetails = get_feature_client_details(request, feature)
+    
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
     
-    FeatureClientDetails = ""
-        
     if UserDetails.user_type == 'C':
             
         # User is on the Client side. Get the Client Details, The features Filter
@@ -464,7 +469,7 @@ def feature_details(request, pk, view_comments=None, back_to_page=None, list_fil
         
         VendorDetails = get_vendor(request, UserDetails)
         
-        FeatureClientDetails = get_feature_client_details(request, feature)
+        
     
     return  render(request, 'featuredetails.html', {'feature': feature, 'featurecomments': featurecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "featureclientdetails": FeatureClientDetails, "back_to_page": back_to_page, "list_filters": list_filters})
     
@@ -686,6 +691,13 @@ def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
         
             feature = form.save()
             
+            # Create a 'feature paid' record for this client / feature, but make the the quantity and
+            # amount fields = '0'
+            # Featue paid records are used in the Features Report, so it will need to have a record for
+            # every feature the user inputs as well as ones they've paid for
+            
+            feature_paid_rec, _ = FeaturePaid.objects.get_or_create(feature_id=feature.id, client_code=UserDetails.vend_client_code, defaults={"author":feature.client_code, "user_id":UserDetails.user_id, "amount_paid": 0, })
+            
             view_comments = 'n'
             return redirect(feature_details, feature.pk, view_comments, back_to_page, list_filters)
         else:
@@ -714,6 +726,13 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
     
     UserDetails = get_user_iss_trk_details(request)
     
+    feature = get_object_or_404(Feature, pk=pk)
+    
+    # Get the details of the client the feature belongs to - the name will
+    # be displayed on the feature details screen
+    
+    FeatureClientDetails = get_feature_client_details(request, feature)
+    
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
         
@@ -732,9 +751,7 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
         VendorDetails = get_vendor(request, UserDetails)
         AssignedUsers = get_all_vendor_users(request)
         
-    feature = get_object_or_404(Feature, pk=pk)
     
-    FeatureClientDetails = get_feature_client_details(request, feature)
     
     
     if request.method == "POST":

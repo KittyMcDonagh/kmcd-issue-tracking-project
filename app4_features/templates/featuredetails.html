@@ -8,12 +8,16 @@
         <a id="ftr-back-to-prev-page" class="ftr-back-btn ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
 
-    <div class="col-7 form-font">
-        {% if userdetails.user_type == "V" %}
-        <p><strong>Client:</strong>
-            <span><strong>{{featureclientdetails.client_name}}</strong></span>
-        </p>
-        {% endif %}
+   <div class="col-7 form-font">
+        
+        <span>
+            <strong>Client:</strong>
+            {% if userdetails.user_type == "V" or userdetails.vend_client_code == feature.client_code %}
+            <strong>{{featureclientdetails.client_name}}</strong>
+            {% else %}
+            <strong>*************************</strong>
+            {% endif %}
+        </span> 
     </div>
 </div>
 
