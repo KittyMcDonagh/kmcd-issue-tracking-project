@@ -15,15 +15,19 @@
         <a id="iss-back-to-prev-page" class="iss-back-btn iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
 
-    <!-- If the user is a vendor-side user, show the name of the client the issue 
-     belongs to -->
+    <!-- If the user is a vendor-side user, or the issue belongs to the client 
+         the user is associated with, show the name of the client the issue belongs to -->
 
     <div class="col-7 form-font">
-        {% if userdetails.user_type == "V" %}
+        
         <span>
             <strong>Client:</strong>
+            {% if userdetails.user_type == "V" or userdetails.vend_client_code == issue.client_code %}
             <strong>{{issueclientdetails.client_name}}</strong>
-        </span> {% endif %}
+            {% else %}
+            <strong>*************************</strong>
+            {% endif %}
+        </span> 
     </div>
 </div>
 

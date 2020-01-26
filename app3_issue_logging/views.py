@@ -105,6 +105,12 @@ def update_issue(request, pk=None, back_to_page=None, list_filters=None):
     
     UserDetails = get_user_iss_trk_details(request)
     
+    # Get the details of the client of the issue
+    
+    issue = get_object_or_404(Issue, pk=pk)
+    
+    IssueClientDetails = get_issue_client_details(request, issue)
+    
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
         
@@ -124,9 +130,7 @@ def update_issue(request, pk=None, back_to_page=None, list_filters=None):
         AssignedUsers = get_all_vendor_users(request)
     
     
-    issue = get_object_or_404(Issue, pk=pk)
     
-    IssueClientDetails = get_issue_client_details(request, issue)
     
     if request.method == "POST":
         
@@ -183,6 +187,10 @@ def issue_details(request, pk, view_comments=None, back_to_page=None, list_filte
     
     UserDetails = get_user_iss_trk_details(request)
     
+    # Get the details of the client of the issue
+    
+    IssueClientDetails = get_issue_client_details(request, issue)
+    
     # Get the Vendor or Client Details depending on which the user is 
     # associated with
         
@@ -200,8 +208,6 @@ def issue_details(request, pk, view_comments=None, back_to_page=None, list_filte
         
         VendorDetails = get_vendor(request, UserDetails)
         
-        IssueClientDetails = get_issue_client_details(request, issue)
-       
     return  render(request, 'issuedetails.html', {'issue': issue, 'issuecomments': issuecomments, 'view_comments': view_comments, 'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "issueclientdetails": IssueClientDetails, "back_to_page": back_to_page, "list_filters": list_filters })
     
 

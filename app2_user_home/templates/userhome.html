@@ -2,7 +2,7 @@
 
 <main>
 
-<!-- Issues Search Box - the search is handled via js, triggered by "iss-search-btn  -->
+    <!-- Issues Search Box - the search is handled via js, triggered by "iss-search-btn  -->
 
     <div class="row no-gutters mt-1 mb-1">
         <div class="col-12 filter-name pb-1 text-center">
@@ -138,6 +138,7 @@
                     <tr>
                         <th scope="col" class="text-center td-id">#</th>
                         <th scope="col" class="text-center td-date">Date</th>
+                        <th scope="col" class="text-center td-client">Client</th>
                         <th scope="col" class="text-center td-username">Assigned to</th>
                         <th scope="col" class="text-center td-sw-comp">Software Component</th>
                         <th scope="col" class="text-center td-priority">Priority</th>
@@ -149,115 +150,111 @@
                         <th scope="col" class="text-center td-comments-icon"><i class="fas fa-comments iss-comments-icon-th"></i></th>
                     </tr>
                 </thead>
-               
-               <!-- On initial load, the table details will be retrieved via 
+
+                <!-- On initial load, the table details will be retrieved via 
                     the 'user_home' view and displayed via userhome.html. 
                     When the user filters the issues, it will trigger the 
                     javascript 'on click' functions in base.html which will 
                     call the 'get_issues' view, return the details to the js
                     function, which will clear the table and output the new
                     details to it. -->
-                    
+
                 <tbody>
-                     {% for issue in issues %}
+                    {% for issue in issues %}
                     <tr>
                         <td class="td-id">{{ issue.id }}</td>
                         <td class="td-date">{{ issue.input_date|date:"d M y" }}</td>
-                        
-                        
-                        <!-- The issue can be assigned to a user on the client side, and a user on the vendor side. 
+
+
+                        <!-- For client-side users - Only show the client code, if it's the client the user is associated with. 
+                             The issue can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
-                             or the vendor side -->
-                        
+                             or the vendor side  -->
+
                         {% if userdetails.user_type == "C"%}
-                        
-                            <!-- Only show user issue is assigned to if issue belongs to the client the
-                                 user is associated with  -->
-                        
-                            {% if userdetails.vend_client_code == issue.client_code  %}
-                        
-                            <td class="td-username">{{ issue.assigned_client_user }}</td>
-                            
-                            {% else %}
-                            
-                            <td class="td-username">**********</td>
-                            
-                            {% endif %}
-                        
+
+                        <!-- Only show the client code and the user issue is 
+                             assigned to if issue belongs to the client the user 
+                             is associated with  -->
+
+                        {% if userdetails.vend_client_code == issue.client_code %}
+
+                        <td class="td-client text-center">{{ issue.client_code }}</td>
+                        <td class="td-username text-center">{{ issue.assigned_client_user }}</td>
+
                         {% else %}
-                        
+
+                        <td class="td-client text-center">******</td>
+                        <td class="td-username text-center">**********</td>
+
+                        {% endif %} {% else %}
+
                         <!-- Vendor-side user -->
-                        <td class="td-username">{{ issue.assigned_vendor_user }}</td>
                         
+                        <td class="td-client text-center">{{ issue.client_code }}</td>
+                        <td class="td-username text-center">{{ issue.assigned_vendor_user }}</td>
+
                         {% endif %}
-                        
+
                         <td class="td-sw-comp">{{ issue.software_component }}</td>
                         <td class="text-center td-priority">{{ issue.priority }}</td>
                         <td class="td-iss-summary">{{ issue.summary }}</td>
                         <td class="text-center td-status">{{ issue.status }}</td>
-                        
+
                         {% if userdetails.user_type == "C" %}
-                                    
+
                         <!-- if client-side user enable the thumbs up / down button -->
-                    
+
                         <!-- Thumbs up field -->
-                                
-                            <td class="pl-0 ml-0 td-thumbs-up">
-                            
+
+                        <td class="pl-0 ml-0 td-thumbs-up">
+
                             <!-- If the user has already 'thumbed up' this issue, show a 'thumb down'
                                  to allow them to change it. 
                                  A user cant 'thumb up/down' issues that belong to the client they're associated
                                  so those issues wont be in this list -->
-                                 
-                                {% if issue.id in thumb_down_list %}
 
-                                    <!-- Thumb Down - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+                            {% if issue.id in thumb_down_list %}
 
-                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}"  class="fas fa-thumbs-down thumbs-up-icon"></i></a>
-                                
-                                {% else %}
-                                    
-                                    <!-- Thumb Up - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
-                                    
-                                    <!-- If this issue belongs to the client the user is associated with, disable the
+                            <!-- Thumb Down - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+
+                            <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}"  class="fas fa-thumbs-down thumbs-up-icon"></i></a> {% else %}
+
+                            <!-- Thumb Up - Include the issue id in  the classes, so that js can find it on '.thumb-click' -->
+
+                            <!-- If this issue belongs to the client the user is associated with, disable the
                                          'thumbs up' - they cant 'thumbs up/down' their own issues  -->
-                                    
-                                    
-                                    {% if userdetails.vend_client_code == issue.client_code or issue.status == "DEPLOYED" or issue.status == "CLOSED" %}
-                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font disabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
-                                    
-                                    {% else %}
-                                    
-                                    <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a>
-                                    
-                                    {% endif%}
-                            
-                                {% endif %}
-                                
-                            </td>
+
+
+                            {% if userdetails.vend_client_code == issue.client_code or issue.status == "DEPLOYED" or issue.status == "CLOSED" %}
+                            <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font disabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a> {% else %}
+
+                            <a class="{{issue.id}} btn iss-td-thumbs-up-style td-form-font iss-enabled-link thumb-click" href="#"><i id="thumb_{{issue.id}}" class="fas fa-thumbs-up thumbs-up-icon"></i></a> {% endif%} {% endif %}
+
+                        </td>
 
 
                         {% else %}
 
-                            <!-- Vendor-side user, disable thumbs up button -->
+                        <!-- Vendor-side user, disable thumbs up button -->
 
-                            <td class="pl-0 ml-0 td-thumbs-up">
-                                <button class="btn iss-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
-                            </td>
-                            
+                        <td class="pl-0 ml-0 td-thumbs-up">
+                            <button class="btn iss-td-thumbs-up-style td-form-font td-thumbs-up disabled-link " type="submit" disabled><i class="fas fa-thumbs-up thumbs-up-icon"></i></button>
+                        </td>
+
                         {% endif %}
 
                         <td id="thumbs_up_count_{{issue.id}}" class="text-center td-thumbs-up">{{ issue.thumbs_up_count }}</td>
 
-                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url 'issue_details' issue.id 'n' back_to_page list_filters %}'><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
+                        <td class="text-center td-more  "><a class="iss-more-icon-style" href='{% url "issue_details" issue.id 'n' back_to_page list_filters %}'><i class="fas fa-ellipsis-h iss-more-icon-style"></i></a>
                         </td>
-                        <td class="text-center td-comments-icon "><a class="iss-comments-icon-style" href='{% url 'issue_details' issue.id 'y' back_to_page list_filters %}'><i class="fas fa-comments iss-comments-icon-style "></i></a>
+                        <td class="text-center td-comments-icon "><a class="iss-comments-icon-style" href='{% url "issue_details" issue.id "y" back_to_page list_filters %}'><i class="fas fa-comments iss-comments-icon-style "></i></a>
                         </td>
-                        
+
                     </tr>
-                    
+
                     {% endfor %}
-                    
+
                 </tbody>
             </table>
         </div>

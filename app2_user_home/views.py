@@ -429,11 +429,15 @@ def get_issues(request):
         	
         user_id = issue.user_id
         assigned_client_user = issue.assigned_client_user
+        iss_client_code = issue.client_code
+        
         	
         if UserDetails.user_type == "C":
             if issue.client_code != UserDetails.vend_client_code:
         	    user_id = "*********"
         	    assigned_client_user = "*********"
+        	    iss_client_code = "******"
+        	    
     
         data["issues"].append({
             "id": issue.id,
@@ -451,7 +455,7 @@ def get_issues(request):
         	"thumbs_up_count": issue.thumbs_up_count,
         	"user_type": UserDetails.user_type,
         	"user_client_code": UserDetails.vend_client_code,
-        	
+        	"iss_client_code": iss_client_code,
         	
     })
     

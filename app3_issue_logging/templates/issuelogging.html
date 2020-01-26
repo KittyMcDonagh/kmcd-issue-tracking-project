@@ -8,11 +8,13 @@
 <form method="POST" enctype="multipart/form-data" class="form-style">
 
     {% csrf_token %} {% if issue.id != null %}
+    
     <div class="row no-gutters">
         <div class="col-12 iss-id-style ">
             <span><em><strong>#: </strong>{{ issue.id}}</em></span>
         </div>
     </div>
+    
     {% endif%}
 
 

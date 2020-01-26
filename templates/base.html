@@ -53,11 +53,11 @@
         {% else %}
 
         <!-- User is logged in and is associated with the client.
-             Show client Name and User Name at the top of the screen -->
+             Show clientcode and Name and User Name at the top of the screen -->
 
         <div class="row no-gutters vend-client-user ">
             <div class="col-6">
-                <p class="nav-c-v-name m-0">{{ clientdetails.client_name }}
+                <p class="nav-c-v-name m-0"><span>{{ clientdetails.client_code}}:  </span>{{ clientdetails.client_name }}
             </div>
             <div class="col-6">
                 <p class="nav-c-v-user m-0">Welcome, {{ userdetails.user_first_name }}!</p>
@@ -308,6 +308,8 @@
                 <ul class="p-0 m-0">
                     <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
                 </ul>
+                {% else %}
+                <p class="courgette-font m-0 footer-copyright">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
                 {% endif %}
             </div>
 
@@ -320,7 +322,9 @@
             </div>
             
             <div class="col-12 col-md-4 footer-copyright text-center pt-4 min-height">
+                {% if user.is_authenticated %}
                 <p class="courgette-font m-0">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
+                {% endif %}
             </div>
         </div>
         
@@ -862,6 +866,8 @@
                             var summary = value.summary;
                             var status = value.status;
                             var issuethumbsUpCount = value.thumbs_up_count
+                            var issClientCode = value.iss_client_code
+                            
 
 
                             // Initialise 'tuEnabledDisabled'. Class To be 
@@ -905,7 +911,7 @@
                             // Output the Issue Details to the table, including the 'more' icon in the last cell
 
                             $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-username'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-iss-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='iss-comments-icon-style' href=/issue_tracker/" + issueId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments iss-comments-icon-style'></i></a></td></tr>"
+                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-client text-center'>" + issClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-iss-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='iss-comments-icon-style' href=/issue_tracker/" + issueId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments iss-comments-icon-style'></i></a></td></tr>"
                             );
 
                         });
@@ -2026,6 +2032,7 @@
                             var linkEnabledDisabled = "";
 
                             if (value.user_type == "C") {
+                                
                                 var assignedUser = value.assigned_client_user;
 
                                 // Only enable add to cart for client if price 

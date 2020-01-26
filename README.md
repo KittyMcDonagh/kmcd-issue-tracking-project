@@ -809,7 +809,8 @@ The client-side users c1_user001, c1_user002, and c1_user003 are all associated 
 20. When a Priority value is selected for which there are no Issues with that value in the current list, confirm that an empty list is shown and that the         message "No issues found for the selected criteria!" is displayed
 21. Login as users c1_user002 and c1_user003, who are be associated with the same client as the above user, and run through the above tests again 
 22. Log in as c2_user001, who is associated with a different client to the above users, and run through the above tests again
-23. Finally, log in as c3_user001, who is associated with a different client to the above users, and run through the above tests again
+23. Log in as c3_user001, who is associated with a different client to the above users, and run through the above tests again
+24. Log in as a Vendor-side user and 
 
 
 
