@@ -32,6 +32,8 @@ As regards adding the comments, thumbs up, and add to cart, I didn't want to dev
 
 I have added the screen shots of the original design in the 'Design' folder of the root directory, and they can be seen [here on github](https://github.com/KittyMcDonagh/kmcd-issue-tracking-project/tree/master/Design/figma-wireframes). 
 
+I designed the screens so that they wouldn't vary too much from one device to another, and so that the user can see the same information regardless of what device they're using. Therefore I made the Issue and Features List tables responsive so that they would slide from left to right, rather than removing columns on smaller devices. 
+
 
 ## **2.2 Logic Flows**
 
@@ -109,7 +111,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 10. Clients must be able to see a list of Issues
 11. Clients must be able to filter the Issues list by various options - e.g. Status, Priority, Ours, Other Clients
 12. Clients must be able to flag another client's Issue to indicate that they have it too
-13. Clients must **not* be able to flag their own Issues
+13. Clients must **not** be able to flag their own Issues
 
 16. Clients must be able to see a list of Features
 17. Clients must be able to filter the Features list by various options - e.g. Status, Ours, Other Clients
@@ -726,9 +728,9 @@ When the Issue Tracker app loads initially it will be on the Registration / Logi
 
 1. Attempt to log in as the brand new user and confirm that you get the message "User not set up on the Issue Tracking System".
 
-2. Login with the Vendor user code you registered above and confirm that the Issue Tracker page loads with 'KMcD Accounting Solutions' showing on the left of    the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle of the top line of the screen
+2. Login with a Vendor user code you registered above and confirm that the Issue Tracker page loads with 'KMcD Accounting Solutions' showing on the left of    the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle of the top line of the screen
 
-4. Login with the Client User code you registered above and confirm that the Issue Tracker page loads with the relevant Client Name (see Client table above      for correct name) showing on the left of the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user name) in the middle    of the top line of the screen
+4. Login with the Client User code you registered above and confirm that the Issue Tracker page loads with the relevant Client Code and Client Name (see         Client table above for correct name) showing on the left of the top line of the screen and 'Welcome, _user name_!' (see above user table for correct user     name) in the middle    of the top line of the screen
 
 5. If you wish, add the brand new user you created above to the UserDetails database via Django Admin, as a Vendor-side user. Then log in as that user and         confirm that the Vendor name and the user name showing on the screen are correct
 
@@ -737,9 +739,12 @@ When the Issue Tracker app loads initially it will be on the Registration / Logi
 
 #### 6.1.3.4 Post-Login Navigation
 
-1. While still logged in as a Vendor-side or Client-side user click on the logo and on the home icon and confirm that they display the same page showing the     messages "You are already logged in!", and "Please go to Issue Tracking System or Logout"
-
-2. Clck on 'Issue Tracking System' in the page message and confirm it takes you to the Issues List
+1. Log in as a **Client-side** user 
+2. Click on the logo and on the home icon and confirm that they display the same page showing the messages "You are already logged in!", and "Please go to       Issue Tracking System or Logout"
+3. Clck on 'Issue Tracking System' in the page message and confirm it takes you to the Issues List
+4. Confirm that the top navigation bar contains the following options 'Issues List'(enabled), 'Add Issue'(enabled), 'Features List'(enabled), 'Add               Feature'(enabled), and cart(disabled)
+5. Confirm the following options appear in the Footer - Issues List, Features List
+6. Log in as a **Vendor-side** user and confirm that the top navigation bar contains the following options 'Issues List'(enabled), 'Add Issue'(**disabled**),        'Features List'(enabled), 'Add Feature'(**disabled**), and cart(disabled)
 
 
 #### 6.1.3.5 Profile
@@ -781,56 +786,151 @@ Then I decided to send the reset email to a hotmail account. It received the ema
 _I'm noting this here in case testers run into any issues._
 
 
-### **6.1.2. Issues List Testing**
+### **6.1.4. Log/Edit/Update Issues & Features Testing**
 
-The client-side users c1_user001, c1_user002, and c1_user003 are all associated with the same client
+1. Log in as the different **Client-side** users and select 'Add Issue' / 'Add Feature' from the navigation bar
+2. Input the Title, upload an image, input Summary and Details, and Submit
+3. Confirm Status cannot be changed from 'DRAFT' - only Clients who own the Issue / Feature can see it while at a Status of 'DRAFT'
+4. Confirm the Issue / Feature Details are redisplayed
+5. New Issues / Features are automatically assigned to the user who input them on the Client side, and to 'admin' on the Vendor side
+6. Confirm that the 'Back to list' link on the Issue / Feature Details screen, takes you back to the Issues / Features List
+7. Confirm that the Issue / Feature you just input is in the list
+8. Select the Issue by clicking the 'more ('...') icon and click 'Edit' at the bottom of the Issue / Feature Details screen
+9. Confirm that all details can still be changed
+10. Confirm that the Status can only be changed to 'DRAFT' and 'LOGGED'
+11. Change the Status to 'LOGGED' - only Clients who own it and Vendor-side users, can see Issue / Feature while at a Status of 'LOGGED'
+12. Select the Issue / Feature again and confirm you can still edit the details as above, while it is at a status of 'LOGGED'
+13. Log in as a **Vendor-side** user and select an Issue / Feature that is at a status of 'LOGGED'
+14. Confirm that 'Update' I(instead of 'Edit') appears at the bottom of the Issue / Feature Details screen, and select it
+15. Confirm you can only change the 'Assigned to' user, Status and Priority on Issues, and the 'Assigned to' user, Status and Price on Features
+16. Change the Status to a value other than 'DRAFT' or 'LOGGED' - all Clients will now be able to see this Issue / Feature
+17. Select the Issue / Feature for Update again, and confirm you can still change the same fields
+18. Log in as a **Client-side** user again and select an Issue / Feature that belongs to the Client you're associated with 
+19. Confirm that 'Update' (instead of 'Edit') appears at the bottom of the Issue / Feature Details screen
+20. Select 'Update' and confirm you can only change the 'Assigned to' user
+21. Select an Issue / Feature from the List and confirm that there is no option to Edit or Update it at the bottom of the Issue / Feature Details screen
+22. Comments Input / Viewing:
+    - (a) Select an Issue / Feature that belongs to the user's Client from the Issues List
+    - (b) Click on the 'comments' icon and confirmit shows/hides a dashboard with options to Add or View comments
+    - (c) Click on '+' / '-' in the dashboard to show/hide a comments input form
+    - (d) Input a few comments
+    - (e) From the Issues / Features List select an Issue / Feature that belongs to another Client
+    - (f) Enter a comment as described above
+    - (g) Go back to the Issues / Features List and click on the 'comments' icon for the Issues / Features you input the comments on
+    - (h) Confirm the Issue / Features Details are shown with the comments list open
+    - (i) When on the Issue / Features Details page, use the 'comments' icon and the 'view' icon in the dashboard to show/hide the comments on that Issue /        Feature
 
-1. First login as c1_user001
 
+### **6.1.5. Issues List Testing**
+
+**Notes**
+
+- The client-side users c1_user001, c1_user002, and c1_user003 are all associated with the same Client - C00001. c2_user001 is associated with Client c000002,   and c3_user001 is associated with Client C00003
+- The **Issues Filter** is the main filter - when you select a value from it, it resets all the other filters to 'ALL'. Whereas the Status, Priority and        Client filters, will take the value of the other 3 filters into account.
+- Each time the Issues List reloads (except when you click 'Back to list' on Issue Details screen) it shows all Issues assigned to the logged in user, or an    empty list if nothing is assigned to them
+
+1. First login as **Client** side use - c1_user001
 2. Confirm that the Issues in the list are all 'Assigned to' the logged in user 
 3. Select 'All Issues' from the Issues Filter - selecting a value from the Issues Filter will cause the Status and Priority Filters to be reset to 'ALL'
 4. Confirm that all the 'Assigned to' user codes that are displayed are all associated with the same client as the logged in user - see above tables (users      should not be able to see the user codes of users that are associated with other clients)
-5. Confirm that all the Issues at a Status of 'DRAFT' or 'LOGGED' are assigned to a user that is associated with the same client as the logged in user (users    should not be able to see the Issues of other clients that are still at a status of 'DRAFT' or 'LOGGED')
+5. Confirm that all the Issues at a Status of 'DRAFT' or 'LOGGED' belong to the same client as the logged in user - i.e. their Client Code is the same as the    one showing on the top left corner of the screen (users should not be able to see the Issues of other clients that are still at a status of 'DRAFT' or        'LOGGED')
 6. Confirm that the 'thumbs up' icon is disabled for Issues that belong to the client the logged in user is associated with
 7. Confirm that Issues that belong to other clients are showing "******" in the 'Assigned to' column
 8. Confirm that the 'thumbs up/down' icon on Issues that belong to other clients, and that don't have a Status of 'DEPLOYED' or 'CLOSED', is enabled
 9. Confirm that the 'thumbs up/down' icon on Issues that belong to other clients, and that do have a Status of 'DEPLOYED' or 'CLOSED', is disabled
-10. Confirm that when you hover on a 'thumbs up/down' icon the color and background color are reversed
-11. Confirm that when you click on an enabled 'thumbs up' icon it changes to a 'thumbs down' icon and the number in the Flag column is incremented
-12. Confirm that when you click on an enabled 'thumbs down' it changes to a 'thumbs up' and the number in the Flag column is decremented
-13. Confirm that a 'thumbs down' is shown on Issues that have already been 'thumbed up' by the client associated with this user (i.e. it may have been            'thumbed-up' by a different user, but for the same client)
+10. Confirm that when you click on an enabled 'thumbs up' icon it changes to a 'thumbs down' icon and the number in the Flag column is incremented
+11. Confirm that when you click on an enabled 'thumbs down' it changes to a 'thumbs up' and the number in the Flag column is decremented
+12. Confirm that a 'thumbs down' is shown on Issues that have already been 'thumbed up' by the client associated with this user (i.e. it may have been            'thumbed-up' by a different user, but for the same client)
 13. Enter text in the Search box - it will search for the text in the Issue Summary field of **all** Issues - and confirm that Issues with that text are          displayed and that the Issues, Status and Priority Filters are showing no values - this is to avoid confusing the user, since the Search searches all         Issues for the text input
 14. Select "Our Issues Only" from the Issues Filter and confirm that the Issues displayed belong to the client the logged in user is associated with - the        'Assigned to' user code will be displayed for all of these and the 'thumbs up' icon will be disabled
 15. Select "Other Clients' Issues Only" from the Issues Filter and confirm that the Issues displayed do not belong to the client the logged in user is            associated with - the 'Assigned to' column will show "******" for all of these, and the 'thumbs up' icon will be enabled for Issues that don't have a         status of 'DEPLOYED' or 'CLOSED'
 16. Select "Assigned to Me" from the Issues Filter and confirm that only those Issues assigned to the logged in user are shown 
-17. Select each Status value in turn from the Status Filter and confirm that only those Issues in the current list (as determined by the Issues Filter) with      that Status value are shown
+17. Select each Status value in turn from the Status Filter and confirm that only those Issues in the current list (as determined by the other Filters) with      that Status value are shown
 18. When a Status value is selected for which there are no Issues with that value in the current list, confirm that an empty list is shown and that the           message "No issues found for the selected criteria!" is displayed
-19. Select each Priority value in turn from the Priority Filter and confirm that only those Issues in the current list (as determined by the Issues Filter)       with that Priority value are shown
+19. Select each Priority value in turn from the Priority Filter and confirm that only those Issues in the current list (as determined by the other Filters)       with that Priority value are shown
 20. When a Priority value is selected for which there are no Issues with that value in the current list, confirm that an empty list is shown and that the         message "No issues found for the selected criteria!" is displayed
-21. Login as users c1_user002 and c1_user003, who are be associated with the same client as the above user, and run through the above tests again 
-22. Log in as c2_user001, who is associated with a different client to the above users, and run through the above tests again
-23. Log in as c3_user001, who is associated with a different client to the above users, and run through the above tests again
-24. Log in as a Vendor-side user and 
+
+21. Login as users c1_user002 and/or c1_user003, who are be associated with the same client as the above user, and run through the above tests again 
+22. Log in as c2_user001 and/or c3_user001, who are associated with a **different client** to the above users, and run through the above tests again 
+
+23. Log in as **Vendor-side** user (eg. admin, venduser01). The Issues List will function as above, with the following exceptions:
+    - (a) A Client Filter will appear on the screen, allowing the user to see Issues for the selected Client only
+    - (b) The Issues Filter will have 2 options only - 'ASSIGNED TO ME' and 'ALL ISSUES'
+    - (c) Issues with a Status of 'LOGGED' will show (Issues with a Status of 'DRAFT' will not show)
+    - (d) The 'thumbs up' icon will be disabled on all Issues (the Vendor cannot flag an Issue)
+    - (e) The Client Code will show on all Issues
+    - (f) The 'Assigned to' user, will be the user the Issue is assigned to on the Vendor side
 
 
+### **6.1.6. Features List Testing**
+
+The Features List functions the same way as the Issues List, except for the following exceptions:
+- The Priority Filter is replaced by Paid order - use can choose to order the current list (as determined by the other filters) by the amount paid per          Feature - 'LOWEST TO HIGHEST', or 'HIGHEST TO LOWEST'
+- The 'thumbs up' icon is replaced by a '+cart' icon
+- Only a Vendor-side user can set the price on a Feature, and only after the Feature reaches a status of 'LOGGED'
+
+1. Select 'LOWEST TO HIGHEST' from the Paid Order dropdown and confirm the Features are listed starting with the lowest amount paid, to the highest amount       paid
+2. Select 'HIGHEST TO LOWEST' from the Paid Order dropdown and confirm the Features are listed starting with the highest amount paid, to the lowest amount       paid
+3. While logged in as a **Vendor-side** user:
+   - Confirm that the '+cart' icon is disabled on all Features (Vendor-side users cannot pay for Features)
+   - Select a Feature by clicking the 'more' ('...') icon and update the Feature's price, if it is still at zero
+4. Log in as **Client-side** user 'c1_user001':
+   - (a) Confirm that the '+cart' icon is disabled when the price is zero, and enabled when the price is greater than zero
+   - (b) Confirm that the '+cart' icon is enabled (where the price is greater than zero) on all Features, regardless of who they belong to - i.e. a                 Client can pay for Features that they input, and Features that were input by other Clients
+   - (c) Confirm that each time you click the '+cart' icon '1' is added to the cart in the navigation bar, and it becomes enabled (a user may click on the          same feature more than once, this will increment the quantity)
+   - (d) Click on the 'cart' icon in the navigation bar and confirm that the items and quantities per item are correct
+   - (e) Remove items from the cart by amending the 'quantity' to '0', and confirm the price is adjusted
+   - (f) Remove all items from the cart and confirm the Features List is re-displayed and the 'cart' icon in the navigation bar is disabled
+   - (g) Add items to the cart, select the cart and click 'checkout'
+   - (h) Enter the payment details (card no. = 4242424242424242, cvv = '111', month/year in the future), and click 'Submit Payment'
+   - (i) Confirm the message "You have successfully paid" is received, and the Feature List is redisplayed, and that the number in the flagged column for the       Features paid for has been incremented by '1' (this is the number of individual Clients who have paid for this Feature)
+   - (j) Pay for another Feature, and confirm that the number in the flagged column has not been incremented
+   - (j) Log in as user 'c2_user001' and pay for a Feature you paid for as user 'c1_user001'. Confirm that the number in the flagged column for this Feature        has been incremented by '1'
+
+   
+### **6.1.7 Issues Report Testing**
+
+1. Log in as a **Client-side** user
+2. Click on **Issues Report** in the Footer and confirm that one total line appears showing the total number of Issues input or flagged by the Client the       user is associated with
+3. Click on the total line 'chevron' icon and confirm that it shows / hides the same number of Issues as is showing in the total line
+4. Confirm that it is showing all the Issues input by the Client the user is associated with (the Client Code showing in the list will be the same as the        Client Code showing at the top left of the page) - all Issues will be included regardless of Status
+5. Confirm that it is showing all the Issues that have been flagged by the Client the user is associated with (the Client Code on these Issues will show as      '******', as users can only flag other clients' Issues)
+6. Confirm that the Issues are in order of Priority
+7. Confirm that when you click on the 'chevron' icon in the 'Details' column, it will show / hide the Issue Details
+8. Log in as a **Vendor-side** user
+9. Click on **Issues Report** in the Footer and confirm that a total line appears for each Client, showing the total number of Issues input or flagged by       each Client, ordered by the number of Issues input or flagged, from highest to lowest
+10. Click on a Client's total line 'chevron' icon and confirm that it shows / hides the same number of Issues as is showing in the total line
+11. Confirm that it is showing all the Issues for that Client - all Issues will be included regardless of Status
+12. Confirm that it is showing all the Issues that have been flagged by the Client 
+13. Confirm that the Issues are in order of Priority
+14. Confirm that when you click on the 'chevron' icon in the 'Details' column, it will show / hide the Issue Details
+15. More than one Client may have flagged the same Issue, so the same Issue can appear on more than one Client Report
 
 
+### **6.1.8 Feature Report Testing**
+
+1. Log in as a **Client-side** user
+2. Click on **Features Report** in the Footer and confirm that one total line appears showing the Total Paid, and the total number of Features input or         paid for by the Client the user is associated with
+3. Click on the total line 'chevron' icon and confirm that it shows / hides the same number of Features as is showing in the total line
+4. Confirm that it is showing all the Features input by the Client the user is associated with (the Client Code showing in the list will be the same as the        Client Code showing at the top left of the page) - all Features will be included regardless of Status
+5. Confirm that it is showing all the Features that have been paid for by the Client the user is associated with - Clients can pay for their own Features and    for other Clients' Features - so the user's Client Code will appear on their own Features and '******' on other Clients' Features
+6. Confirm that the Features are in order of Amount Paid - from highest to lowest
+7. Confirm that when you click on the 'chevron' icon in the 'Details' column, it will show / hide the Feature Details
+8. Log in as a **Vendor-side** user
+9. Click on **Features Report** in the Footer and confirm that a total line appears for each Client, showing the Total Paid, and the total number of Features    input or paid for by each Client, ordered by the **Total Paid** - from highest to lowest
+10. Click on a Client's total line 'chevron' icon and confirm that it shows / hides the same number of Features as is showing in the total line
+11. Confirm that it is showing all the Issues for that Client - all Issues will be included regardless of Status
+12. Confirm that it is showing all the Features that have been paid for by the Client 
+13. Confirm that the Issues are in order of Amount Paid - from highest to lowest
+14. Confirm that when you click on the 'chevron' icon in the 'Details' column, it will show / hide the Feature Details
+15. More than one Client may have paid for the same Feature, so the same Feature can appear on more than one Client Report
+
+### **6.1.9 Issues Responsiveness Testing**
+
+The Issue Tracker has been designed with mobile-first design in mind, therefore it should be 
+tested on devices will various size screens - Ipad, Table, Mobile Phones
 
 
-### **6.1.3. Issues Logging / Editing / Updating Testing**
-
-### **6.1.3. Issues Reports Testing**
-
-### **6.1.3. Issues Responsiveness Testing**
-
-### **6.1.2. Features Lists Testing**
-
-### **6.1.3. Features Logging / Editing / Updating Testing**
-
-
-### **6.1.3. Features Reports Testing**
-
-### **6.1.3. Features Responsiveness Testing**
 
 
 ## **6.2 Automated Testing**
