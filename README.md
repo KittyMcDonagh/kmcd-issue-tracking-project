@@ -97,7 +97,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 
 ### **2.4.1 High Level Requirements**
 
-1. The online [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is required to be a central point where clients can log the    issues that they are experiencing with the _KMcD Online Accounting System_, and where they can log requests for new features
+1. The online [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is required to be a central point where clients can log the      issues that they are experiencing with the _KMcD Online Accounting System_, and where they can log requests for new features
 2. The app requires two perspectives, a Client perspective and a Vendor perspective
 3. Clients must be able to restrict the Vendor and other clients from seeing the Issue/Feature they input until they are satisfied with the details, and       have set it to an appropriate status to allow the Vendor and other Clients to view it
 4. Clients must be able to search for Issues/Features based on the details in the Summary field
@@ -166,7 +166,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 ### **3.1.1 NAVIGATION**
 
 1. Before logging in, the top navigation bar gives easy access to Home, Login, Register.
-2. After logging in, the top navigation bar gives easy access from all screens to Home, Profile, Logout, Issues List, Add an Issue (client users only),       Ffeatures List, Add a feature (client users only), and the Cart
+2. After logging in, the top navigation bar gives easy access from all screens to Home, Profile, Logout, Issues List, Add an Issue (client users only),         Features List, Add a feature (client users only), and the Cart
 3. After logging in, the footer links give easy access from all screens to the Issues Report and the Features Report
 
 
@@ -176,7 +176,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 
 2. Various sizes of Bootstrap columns are used to allow the screens to be drawn to fit the size of the viewport.
 
-3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller           devices so that the user can see all the information available.
+3. It was decided to make all the same information available on all devices. Hence The Issues & Features tables scroll across the screen on smaller             devices so that the user can see all the information available.
 
 
 ### **3.1.3 General Functionality**
@@ -199,45 +199,46 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
    - Select to see the details of a particular Issue
    - Select to see the comments on a particular Issue
 
-7. Client-side users may filter the Issues List by an Issues Filter which allows the user to select:
+7. **Client-side** users may filter the Issues List by an Issues Filter which allows the user to select:
     - Issues Assigned to the Logged in user only
     - Issues that belong to the client the user is associated with only
     - Issues that belong to other clients only
     - All Issues
     
-12. Client-side users are able to filter the Issues list by Status, and Priority
-13. Client-side userd are able to flag another client's Issue by clicking a 'thumbs up' icon for that Issue, to indicate that they have it too
-14. Client-side users are able to unflag an Issue that they previously flagged
-15. Clients are **not* be able to flag their own Issues
+8. Client-side users are able to filter the Issues list by Status, and Priority
+9. Client-side userd are able to flag another client's Issue by clicking a 'thumbs up' icon for that Issue, to indicate that they have it too
+10. Client-side users are able to unflag an Issue that they previously flagged
+11. Clients are **not* be able to flag their own Issues
 
-32. Vendor-side users are able to filter the Issues list by an Issues Filter which allows the user to select:
+12. **Vendor-side** users are able to filter the Issues list by an Issues Filter which allows the user to select:
     - Issues Assigned to the Logged in user only
     - All Issues
-33. Vendor-side are able to filter the Issues list by Status, Priority, and Client  
+13. Vendor-side users are able to filter the Issues list by Status, Priority, and Client  
 
-7. From the **Features List** page all users can:
+14. From the **Features List** page all users can:
    - See summary details of up to five features per page, and paginate to other pages 
    - Select to see the details of a particular Feature
    - Select to see the comments on a particular Feature
    
-17. Client-side users are able to filter the Features list by a Features Filter which allows the user to select:
+15. Client-side users are able to filter the Features list by a Features Filter which allows the user to select:
     - Features Assigned to the Logged in user only
     - Features that belong to the client the user is associated with only
     - Features that belong to other clients only
     - All Features
-18. Client-side users are able to filter the Features list by Status
-19. Client-side users are able to sort the Features list by Total Amount Paid for the Feature
-20. Client-side users are able to flag their own or another client's Feature, and add it to cart and pay for it, indicating they want this Feature too
-21. Clients are **not** be able to unflag a Feature that they previously flagged and paid for
+    
+16. Client-side users are able to filter the Features list by Status
+17. Client-side users are able to sort the Features list by Total Amount Paid for the Feature
+18. Client-side users are able to flag their own or another client's Feature, and add it to cart and pay for it, indicating they want this Feature too
+19. Clients are **not** be able to unflag a Feature that they previously flagged and paid for
 
-35. Vendor-side users are able to filter the Features list by a Features Filter which allows the user to select:
+20. Vendor-side users are able to filter the Features list by a Features Filter which allows the user to select:
     - Features Assigned to the Logged in user only
     - All Features
-36. Vendor-side users are able to filter the Features list by Status, and Client
-37. Vendor-side users are able to sort the Features list by Total Amount Paid for the Feature
+21. Vendor-side users are able to filter the Features list by Status, and Client
+22. Vendor-side users are able to sort the Features list by Total Amount Paid for the Feature
 
 
-8. Issue / Feature **Issue/Feature Logging Page**:
+23. Issue / Feature **Issue/Feature Logging Page**:
    - Client-side users only may input new Issues/Features
    - When the user selects to add a new Issue/Feature, the Issue/Feature Logging page will open
    - The user may select the Software Component from a dropdown box
@@ -248,7 +249,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
    - The user may not change the Status from 'DRAFT' when logging a new Issue/Feature
    - The user may not input a price when inputting a new Feature
 
-9. Issue / Feature **Details Page**:
+24. Issue / Feature **Details Page**:
    - If the user inputs a new Issue/Feature or selects the 'more' icon from the Issues/Features List:
      + The details screen will open showing the Issue/Feature details 
      + The user can click the comments icon to open the comments dashboard, where they can click on the '+' icon to add a comment or on the 'eye' icon to      show/hide a list of existing comments
@@ -259,13 +260,13 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
      + The user may use the 'comments' icon, and the comments dashboard to clear the comments or add a new comment
      + The user will be able to go back to the list page on which they clicked the 'comments' icon by clicking on the 'Back to list' link
 
-10. Issue / Feature **Issue/Feature Editing**:
+25. Issue / Feature **Issue/Feature Editing**:
     - Client-side users only may edit Issues/Features
     - The 'Edit' option will appear on the Issue/Feature details page, if the Issue/Feature is still at a status of 'DRAFT' or 'LOGGED'
     - The user may change all the details that are input when an Issue/Featur is logged
     - In addition they can change the Status from 'DRAFT' to 'LOGGED'
 
-11. Issue / Feature **Issue/Feature Updating**:
+26. Issue / Feature **Issue/Feature Updating**:
     - Client-side users and Vendor-side users may update Issues/Features
     - For Client-side users, the 'Update' option will appear on the Issue/Feature details page, if the Issue/Feature is no longer at a status of 'DRAFT' or   'LOGGED'
     - For vendor-side users the 'Update' option will appear on the Issues/Details page for all the Issues/Feature that they can view
@@ -273,35 +274,35 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
     - For Issues and Features, the Vendor-side user may update the Software Component, Status, and the User the Issue/Feature is assigned to on the Vendor     side
     - For Features, the Vendor-side user may update the Price
 
-22. Client-side users are able to run an Issues report that:
+27. Client-side users are able to run an Issues report that:
     - (a) Shows a rolled up total line for the Client, showing the number of Issues input and/or flagged by the Client, 
     - (b) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
     - (d) Lists the Issues in Priority order, from most urgent to least urgent
 
-23. Client-side users are able to run a Features report that:
+28. Client-side users are able to run a Features report that:
     - (a) Shows a rolled up total line for the Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client        has paid for Features
     - (b) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
     - (c) Lists the Features in order of amounts paid by the Client per Feature, from highest to lowest
 
-38. Vendor-side users are able to run an Issues report that:
+29. Vendor-side users are able to run an Issues report that:
     - (a) Shows a rolled up total line for each Client, showing the number of Issues input and/or flagged by the Client, 
     - (b) Orders the rolled up total lines by the number of Issues per client, from highest to lowest
     - (c) Allows the user to click on a rolled up total line to show/hide the list of Issues underneath
     - (d) Lists the Issues in Priority order, from most urgent to least urgent
 
-39. Vendor-side users are able to run a Features report that:
+30. Vendor-side users are able to run a Features report that:
     - (a) Shows a rolled up total line for each Client, showing the number of Features input and/or flagged by the Client, and the total amount the Client       has paid for Features
     - (b) Orders the rolled up total lines by the total amount paid, from highest to lowest
     - (c) Allows the user to click on a rolled up total line to show/hide the list of Features underneath
     - (d) Lists the Features in order of amounts paid by the Client per Feature, from most highest to lowest
      
     
-24. In the interests of data protection:
+31. In the interests of data protection:
     - Clients are **not** be able to see another client's client code or name, nor the user id of a user who is associated with another client (this         includes user ids shown on Issues, Features, and on Comments)
     - Clients are **not** be able to edit / update another client's Issues / Features
     - A client does **not** have access to another client's Reports
  
- 40. Since there is a contract between the Vendor and the Client the above data protection restrictions are not applied to Vendor-side users.
+ 32. Since there is a contract between the Vendor and the Client the above data protection restrictions are not applied to Vendor-side users.
     
 
 
@@ -548,6 +549,7 @@ The Features being paid for are added to the Order lines at Checkout.
 
 ## **3.4 FEATURES LEFT TO IMPLEMENT**
 
+1. Allow archiving of Closed Issues & Features
 
 
 # **5. TECHNOLOGIES USED**
@@ -562,6 +564,7 @@ The Features being paid for are added to the Order lines at Checkout.
 |Font Awesome                 |[Font Awesome website](https://fontawesome.com/)                          |
 |AutoPrefixer                 |[Autoprefixer website](https://autoprefixer.github.io/)                   |
 |Django                       |[django documentation](https://docs.djangoproject.com/en/3.0/)            |
+|AWS s3 Buckets               |aws.amazon.com                                                            |
 
       
 
@@ -830,7 +833,7 @@ _I'm noting this here in case testers run into any issues._
 - Each time the Issues List reloads (except when you click 'Back to list' on Issue Details screen) it shows all Issues assigned to the logged in user, or an    empty list if nothing is assigned to them
 
 1. First login as **Client** side use - c1_user001
-2. Confirm that the Issues in the list are all 'Assigned to' the logged in user 
+2. Confirm that the Issues in the list are all 'Assigned to' the logged in user and are in order of id number - highest to lowest 
 3. Select 'All Issues' from the Issues Filter - selecting a value from the Issues Filter will cause the Status and Priority Filters to be reset to 'ALL'
 4. Confirm that all the 'Assigned to' user codes that are displayed are all associated with the same client as the logged in user - see above tables (users      should not be able to see the user codes of users that are associated with other clients)
 5. Confirm that all the Issues at a Status of 'DRAFT' or 'LOGGED' belong to the same client as the logged in user - i.e. their Client Code is the same as the    one showing on the top left corner of the screen (users should not be able to see the Issues of other clients that are still at a status of 'DRAFT' or        'LOGGED')
@@ -954,16 +957,129 @@ Due to time constraints I didn't get around to creating automated tests.
 8. Once your website launches you will need to retest it (see Testing section) to ensure that it can still 
    find all the resources (css file, images, etc)
 
+
 ## 7.2 CLONING FROM GITHUB 
 
-1. Follow this link to my [Project Repository on Github](https://github.com/KittyMcDonagh/Second-Milestone-Project)
+1. Follow this link to my [Project Repository on Github](https://github.com/KittyMcDonagh?tab=repositories)
 2. On the repository page click "Clone or Download"
 3. In the Clone with HTTPs section, copy the clone URL for the repository.
 4. In your local IDE open Git Bash.
 5. Change the current working directory to the location where you want the cloned directory to be made.
 6. Type git clone, and then paste the URL you copied in Step 3 - 
-    "git clone https://kittymcdonagh.github.io/Second-Milestone-Project/"
+    "git clone https://github.com/KittyMcDonagh/kmcd-issue-tracking-project"
 7. Press enter and your local clone will be created.
+
+
+## 7.3 Deploying to Heroku
+
+1. Log into heroku
+   - Select new/create new app
+   - New app = kmcd-issue-tracker / europe
+
+2. Click on Resources
+   - In add-ons type postgres - select Heroku Postgres
+   - Select plan name - "Hobby Dev - free" and click "Provision"
+
+3. Click on Settings. Click on Reveal Config Vars.
+   - You will see DATABASE_URL with value "postgres://etc "
+   - Copy the DATABASE_URL value
+
+4. Go back to cloud9
+   - In the terminal type "pip3 install dj-database-url"
+   - And in the terminal type "sudo pip3 install psycopg2~=2.7.3.1"
+   
+5. Create the 'requirements.txt' file:
+   - In the terminal type "pip3 freeze > requirements.txt"
+
+6. Open 'settings.py' and point 'DATABASES' to 'dj_database_url'
+
+7. Create env.py and hide the following as environment variables:
+   - STRIPE_PUBLISHABLE
+   - STRIPE_SECRET
+   - DATABASE_URL
+   - SECRET_KEY
+
+8. Change settings.py to get the value of the above from the environment variables
+
+9. In the terminal type "python3 manage.py makemigrations" (no changes)
+10. In the terminal type "python3 manage.py migrate" (all existing migrations are migrated to the new postgres database)
+
+11. As this is a brand new database, a new superuser must be created
+
+12. Sign into AWS Account and set up an S3 bucket for 'kmcd_issue_tracker'
+
+13. Add s3 to Django
+    - Install django-storages
+    - Install boto3
+    - Add 'storages' to INSTALLED_APPS in settings.py
+    - Add the environment variables AWS Access Key ID and Secret Access key to settings.py 
+    
+14. Add the AWS Access Key ID and Secret Access key to env.py
+
+15. Create custom_storages.py in the project root and create the classes for s3 to separate the images uploaded to the Issue Tracker from static files
+16. Update the Static File and Media File Storage in settings.py to point to the location set up in custom_storages
+17. From the terminal type 'python3 manage.py collectstatic'
+18. From the terminal run 'pip3 freeze > requirements.txt'
+
+19. Log into travis-ci.org 
+20. Click on the project name - 'kmcd-issue-tracking-project'
+    - The page will show 'build unknown' for this project
+    - Click on 'unknown', in the 'format' field of the box that comes up select 'markdown'
+    - Copy the text that is shown in the 'result' field, and paste it into the end of the readme file.:
+      [![Build Status](https://travis-ci.org/KittyMcDonagh/fsf-ecommerce-project.svg?branch=master)](https://travis-ci.org/KittyMcDonagh/fsf-ecommerce-project)
+
+21. Create ".travis.yml" at project root level:
+      language: python
+      python:
+          - "3.6"
+      install: "pip install -r requirements.txt"
+      script:
+          - SECRET_KEY="whatever" ./manage.py test
+
+22. Add the following changes to settings.py to stop travis generating errors:
+
+    - # Travis will generate an error trying to import env.py. This if statement will stop it trying to import it:
+        if os.path.exists('env.py'):
+            import env               
+
+    - # Travis will generate an error trying to find dj_database_url. This if statement will stop it looking for it:
+        if "DATABASE_URL" in os.environ:
+          DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) }   
+        else:                                                                                                                            
+          print("Database URL not found. Using SQLite instead.")
+          
+          DATABASES = {
+              'default': {
+                  'ENGINE': 'django.db.backends.sqlite3',
+                  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+          }
+      }
+
+23. From the c9 terminal do a git add, commit and push
+
+24. Check to see if travis build worked - it did eventually, after I removed a number of items from requirements.txt that it couldn't find!
+
+25. Back to Heroku and add the environment variables to 'config vars:
+    - STRIPE_PUBLISHABLE
+    - STRIPE_SECRET
+    - SECRET_KEY
+    - DATABASE_URL
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+
+26. Click on Deploy
+    - Click 'connect to github'
+    - Enter repo name - "kmcd-issue-tracking-project"
+    - Click 'connect
+
+27. Back to c9 terminal and type "sudo pip3 install gunicorn"
+28. Copy "gunicorn==20.0.4" into requirements.txt (don't re-generate it, otherwise it will add back in what was taken out to make travis build successfully)
+29. Create a Procfile with the line "web: gunicorn kmcd_issue_tracker.wsgi:application"
+30. From the c9 terminal do a git add, commit and push
+31. To stop heroku from collecting static add the config var 'DISABLE_COLLECTSTATIC' with value = 1  
+32. Click on 'Deploy' and 'Deploy Branch'
+33. Update ALLOWED_HOSTS in settings.py to allow 'kmcd-issue-tracker.herokuapp.com'
+34. Run the heroku app
 
 
 
@@ -975,7 +1091,12 @@ Due to time constraints I didn't get around to creating automated tests.
 
 The following icons/images were used to create the overview diagram of the Issue Tracking System:
 
-|IMAGE / ICON                           |COPIED FROM
+|IMAGEs USED ON ISSUES & FEATURES       |Owner
+|---------------------------------------|-----------------|
+|I took all these photos myself         | Kitty McDonagh  |
+
+
+|IMAGE / ICON in flow diagrams          |COPIED FROM
 |---------------------------------------|-------------------------------------------------------------------------|
 |Questions Comments Concerns icon       |http://clipart-library.com/clipart/ziXoGpb7T.htm                         |
 |Client group icon                      |http://clipart-library.com/clipart/1745500.htm                           |
@@ -999,12 +1120,6 @@ The following icons/images were used to create the overview diagram of the Issue
 
 ## **CODE SNIPPETS**
 
-1. I have used code from the mini project to add a map to Rosie's resume, to load my map.
-2. I used https://developers.google.com/maps/documentation/javascript/examples/place-details to add an infowindow for the location 
-   name to the markers.
-3. I have copied classes from my Milestone 1 project for the navigation bar, the links and hovering.
-4. Comments have been added in the files where copied code is used.
-5. With assistance from Slack I copied code from Stack Overflow to close the burger menu
 
 
 ## **8.3 ACKNOWLEDGEMENTS**
