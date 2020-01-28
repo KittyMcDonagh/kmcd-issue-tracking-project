@@ -163,12 +163,6 @@ li {
     padding-top: 20px;
 }
 
-@media(min-width:768px) {
-    .form-pt {
-        padding-top: 100px;
-    }
-}
-
 
 
 /* Override the color of the help block under username on smaller devices so that 
