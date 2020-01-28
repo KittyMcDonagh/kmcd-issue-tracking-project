@@ -436,7 +436,7 @@ li {
 .company-name-style {
     font-size: 16px;
     color: #ffffff;
-    background-color: #6666ff;
+    background-color: #c080ff;
     border-radius: 10px;
     padding: 5px;
 
@@ -461,7 +461,7 @@ li {
 
 .btn-login-reg {
     border-radius: 5px;
-    background-color: #6666ff!important;
+    background-color: #c080ff!important;
     font-size: 18px;
 }
 
@@ -486,8 +486,8 @@ li {
 }
 
 .welcome-links:hover {
-    background-color: #c080ff!important;
-    color: #6666ff;
+    background-color: #6666ff!important;
+    color: #c080ff;
     text-decoration: none;
     border-radius: 5px;
 }
