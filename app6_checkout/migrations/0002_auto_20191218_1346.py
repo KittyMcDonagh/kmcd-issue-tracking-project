@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app7_checkout', '0001_initial'),
+        ('app6_checkout', '0001_initial'),
     ]
 
     operations = [

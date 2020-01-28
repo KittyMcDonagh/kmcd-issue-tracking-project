@@ -26,8 +26,8 @@ from app2_user_home import urls as urls_user_home
 from app3_issue_logging import urls as urls_issue_logging
 from app4_features import urls as urls_features
 
-from app6_cart import urls as urls_cart
-from app7_checkout import urls as urls_checkout
+from app5_cart import urls as urls_cart
+from app6_checkout import urls as urls_checkout
 
 # Import serve
 

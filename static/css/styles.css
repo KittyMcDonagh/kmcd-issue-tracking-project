@@ -17,11 +17,11 @@ body {
    369 = height of the top line (19) + height of the navbar (80) 
    + height of pagination section (38) + height of the footer (270)     */
 
-section {
+kit-section {
 
     padding: 0 10px;
 
-    min-height: calc(100vh - 270px);
+    min-height: calc(100vh - 407px);
 
 }
 
@@ -32,16 +32,94 @@ section {
    + height of pagination section (38) + height of the footer (110)     */
 
 @media(min-width:768px) {
-    section {
-        min-height: calc(100vh - 249px);
+    kit-section {
+        min-height: calc(100vh - 211px);
 
     }
 }
 
 
+/* Pre login - size of section differs */
+
+/* Small Mobile devices -
+    Set height of Section so that the footer sticks to the bottom on larger 
+   devices or on pages where the screen is not otherwise filled. 
+    369 = height of the top line (19) + height of the navbar (80) 
+    + height of the footer (270)     */
+
+.section-pre-login {
+    padding: 0 10px;
+    min-height: calc(100vh - 369px);
+}
+
+/* Pre login - size of section differs */
+
+/* Devices from width 768px up - 
+    Set height of Section so that the footer sticks to the bottom on larger 
+   devices or on pages where the screen is not otherwise filled. 
+   209 = height of the top line (19) + height of the navbar (80) 
+   + height of the footer (110)     */
+
+@media(min-width:768px) {
+    .section-pre-login {
+        min-height: calc(100vh - 209px);
+
+    }
+}
+
+/* Pre-login an image will be shown in the <section part of the screen  */
+
+.section-bg-image {
+    background: url("../images/galwaybay.jpg");
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -moz-transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
+
+/* Post login - size of section differs */
+
+/* Small Mobile devices -
+    Set height of Section so that the footer sticks to the bottom on larger 
+   devices or on pages where the screen is not otherwise filled. 
+   407 = height of the top line (19) + height of the navbar (80) 
+   + height of pagination section (38) + height of the footer (270)     */
+
+.section-post-login {
+    padding: 0 10px;
+    min-height: calc(100vh - 407px);
+}
+
+/* Post login - size of section differs */
+
+/* Devices from width 768px up - 
+    Set height of Section so that the footer sticks to the bottom on larger 
+   devices or on pages where the screen is not otherwise filled. 
+   247 = height of the top line (19) + height of the navbar (80) 
+   + height of pagination section (38) + height of the footer (110)     */
+
+@media(min-width:768px) {
+    .section-post-login {
+        min-height: calc(100vh - 249px);
+
+    }
+}
+
+/* Post login the <section> part of the screen will have a bg color   */
+
+.section-bg-color {
+    background-color: #f3f2f2;
+}
+
+
+
 main {
     flex: 1 0 auto;
-    
+
     /* Added after running Autoprefixer   */
     -webkit-box-flex: 1;
     -ms-flex: 1 0 auto;
@@ -53,23 +131,7 @@ li {
 }
 
 
-/* Background image for body */
 
-.body-image {
-    background: url("../images/galwaybay.jpg");
-    height: 100%;
-    width: 100%;
-    border: solid 1px #fafaff;
-    border-radius: 10px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    -moz-transition: all .5s ease-in-out;
-    -webkit-transition: all .5s ease-in-out;
-    -o-transition: all .5s ease-in-out;
-    transition: all .5s ease-in-out;
-}
 
 
 .disabled-link {
@@ -91,6 +153,7 @@ li {
 
 .reg-mesg-style {
     font-size: 14px;
+    color: #ffffff;
 }
 
 @media(min-width:768px) {
@@ -119,13 +182,29 @@ li {
 .login-reg-form {
     padding-left: 10px;
     font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Override the color of the help block under username on smaller devices so that 
+   it can be seen more clearly against the sun in the photo */
+   
+.help-block {
+    color: #3b3b3b;
 }
 
 @media(min-width:768px) {
     .login-reg-form {
         font-size: 16px;
     }
+    
+}
 
+/* Make error message returned by bootstrap registration form red to make the
+   easier to see */
+   
+.error-msg {
+    color: red;
 }
 
 
@@ -133,13 +212,36 @@ li {
 
 .link-text-style {
     text-decoration: none;
-    color: #3b3b3b;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .link-text-style:hover {
-    color: #C080FF!important;
+    color: #6666ff!important;
     text-decoration: none;
 }
+
+.forgot-psw {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.forgot-psw:hover {
+    color: #c080ff!important;
+    text-decoration: none;
+}
+
+@media(min-width:768px) {
+    .forgot-psw {
+        font-size: 20px;
+    }
+}
+
+
+
+
 
 
 
@@ -222,12 +324,7 @@ li {
 }
 
 
-/* Main part of screen background color   */
 
-.pg-bg {
-    background-color: #f3f2f2;
-
-}
 
 
 .mesg-style {
@@ -345,25 +442,31 @@ li {
 }
 
 .welcome-mesg {
-    font-size: 32px;
+    font-size: 20px;
+    color: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 2px;
 
 }
 
-
 .company-name-style {
     font-size: 16px;
-    color: #C080FF;
+    color: #ffffff;
+    background-color: #c080ff;
+    border-radius: 5px;
+
 }
 
 @media(min-width:768px) {
     .welcome-mesg {
         font-size: 40px;
+        padding-top: 100px;
 
     }
 
     .company-name-style {
         font-size: 32px;
-        color: #C080FF;
+
     }
 }
 
@@ -371,17 +474,42 @@ li {
 
 /* Style all links, other than nav links, so that they behave the same */
 
+.btn-login-reg {
+    border-radius: 5px;
+    background-color: #6666ff!important;
+    font-size: 18px;
+}
+
+@media(min-width:768px) {
+    .btn-login-reg {
+        font-size: 28px;
+    }
+}
+
 .welcome-links {
     text-decoration: none;
-    padding: 10px;
-    color: #3b3b3b;
+    padding: 15px;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+@media(min-width:768px) {
+    .welcome-links {
+        padding: 20px;
+        margin-bottom: 0px;
+    }
 }
 
 .welcome-links:hover {
-    background-color: #C080FF;
-    color: #fff!important;
+    background-color: #c080ff!important;
+    color: #6666ff;
     text-decoration: none;
     border-radius: 5px;
+}
+
+.or-style {
+    color: #ffffff;
+    font-size: 28px;
 }
 
 
@@ -623,7 +751,7 @@ li {
     border-radius: 10px;
     background-color: #b3b3ff;
     padding: 10px;
-   
+
 
 }
 
@@ -1143,7 +1271,7 @@ li {
     border-radius: 15px;
     background-color: #fff;
     padding: 15px;
-     margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .form-font {

@@ -63,8 +63,8 @@ INSTALLED_APPS = [
     'app2_user_home',
     'app3_issue_logging',
     'app4_features',
-    'app6_cart',
-    'app7_checkout',
+    'app5_cart',
+    'app6_checkout',
      'storages',
 ]
 
@@ -98,7 +98,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                'app6_cart.contexts.cart_contents'
+                'app5_cart.contexts.cart_contents'
             ],
         },
     },

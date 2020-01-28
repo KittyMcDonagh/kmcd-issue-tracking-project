@@ -164,7 +164,10 @@
         </nav>
     </header>
 
-    <section class="pg-bg">
+    <!-- If the user is logged in don't show the section image, and leave a blank line for messages -->
+    
+    {% if user.is_authenticated %}
+        <section class="section-post-login section-bg-color">
 
         <!-- A line is kept just below the navbar to display messages -->
 
@@ -180,8 +183,15 @@
                 </ul>
             </div>
         </div>
+    
+    {% else %}
+    
+    <!-- If user is not logged in show a background image in the <section> element -->
+        <section class="section-pre-login section-bg-image">
+    {% endif %}
 
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
 
     </section>
 
@@ -195,7 +205,10 @@
          prefixed with 'ftr-' are added for features. This is because the 
          highlighter color is different for each  -->
 
-
+    <!-- Only include the pagination line if the user is logged in. The <section> 
+         will take up a full image before user logs in -->
+    {% if user.is_authenticated %}
+    
     <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
         {% if listing.has_other_pages %}
 
@@ -295,6 +308,7 @@
         </ul>
         {% endif %}
     </nav>
+    {% endif %}
     
 
 

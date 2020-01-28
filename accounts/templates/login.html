@@ -4,7 +4,7 @@
 
 {% load bootstrap_tags %} {% block page_title %}Login Page{% endblock %} {% block page_heading %}User Login{% endblock %} {% block content %}
 
-<div class="row no-gutters">
+<div class="row no-gutters pt-5">
     <div class="offset-2 col-8 offset-md-3 col-md-5">
         <form method="POST" class="login-reg-form">
 
@@ -19,7 +19,7 @@
 
 <div class="row no-gutters">
     <div class="offset-3 col-5">
-        <p><a class="link-text-style" href="{% url 'password_reset' %}">Forgot Password</a></p>
+        <p><a class="forgot-psw" href="{% url 'password_reset' %}">Forgot Password</a></p>
     </div>
 </div>
 

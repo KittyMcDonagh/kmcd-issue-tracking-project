@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantity', models.IntegerField()),
                 ('feature', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app4_features.Feature')),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app7_checkout.Order')),
+                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app6_checkout.Order')),
             ],
         ),
     ]
