@@ -11,32 +11,6 @@ body {
     font-family: "Nunito", sans-serif!important;
 }
 
-/* Small Mobile devices -
-    Set height of Section so that the footer sticks to the bottom on larger 
-   devices or on pages where the screen is not otherwise filled. 
-   369 = height of the top line (19) + height of the navbar (80) 
-   + height of pagination section (38) + height of the footer (270)     */
-
-kit-section {
-
-    padding: 0 10px;
-
-    min-height: calc(100vh - 407px);
-
-}
-
-/* Devices from width 768px up - 
-    Set height of Section so that the footer sticks to the bottom on larger 
-   devices or on pages where the screen is not otherwise filled. 
-   247 = height of the top line (19) + height of the navbar (80) 
-   + height of pagination section (38) + height of the footer (110)     */
-
-@media(min-width:768px) {
-    kit-section {
-        min-height: calc(100vh - 211px);
-
-    }
-}
 
 
 /* Pre login - size of section differs */
@@ -131,8 +105,7 @@ li {
 }
 
 
-
-
+/* This is added to anchors to disable them when necessary */
 
 .disabled-link {
     pointer-events: none;
@@ -267,11 +240,6 @@ li {
 }
 
 
-
-
-
-
-
 .prof-bg {
     background-color: #f2e6ff;
 }
@@ -326,14 +294,6 @@ li {
     transition: all .5s ease-in-out;
 }
 
-.home-page-img {
-    background-image: url("../images/kmcd_home_page.png");
-    width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-}
 
 /* Transform logo when hovered over 
    (taken from https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_transform) */
@@ -349,9 +309,6 @@ li {
 .home-icon {
     padding-top: 2px!important;
 }
-
-
-
 
 
 .mesg-style {
@@ -624,7 +581,6 @@ li {
     background-color: #6666ff;
 
 }
-
 
 
 
@@ -1138,9 +1094,6 @@ li {
 }
 
 
-
-
-
 /* Center the status in its col for a better look on larger screens.
    No centering on smaller screens as the cols will be one line across the 
    screen (col-12s) */
@@ -1150,8 +1103,6 @@ li {
         padding-left: 40px!important;
     }
 }
-
-
 
 
 /* css used Features processing ----------------------------------------------*/

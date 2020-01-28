@@ -2,6 +2,9 @@ from django.conf.urls import url
 from .views import user_home
 from .views import get_issues, iss_thumbs_up_down
 
+"""
+URLs for the Home Page, User Home Page, Get Issues from the DB, Process 'Thumbs Up' / 'Thumbs Down'
+"""
 
 urlpatterns = [
     url(r'^userhome/$', user_home, name="user_home"),

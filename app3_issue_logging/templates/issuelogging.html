@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
-<!-- This form will be used by client-side user to:
+<!-- This form will be used by client-side users to:
      1. Input New Issues 
      2. Edit existing issues    -->
 
@@ -39,8 +39,6 @@
 
     <input name="user_id" type="hidden" id="user_id" value="{{ issue.user_id }}">
     <input name="assigned_vendor_user" type="hidden" id="assigned_vendor_user" value="{{ issue.assigned_vendor_user }}"> {% endif %}
-
-
 
 
     <!-- Top of form: Software Component, Priority, and Status -->
@@ -106,7 +104,7 @@
                    at a status of DRAFT or LOGGED. 
                    They can only set the issue to a status of DRAFT (this
                    is the only option available on new issues), or a status of 
-                   LOGGED. The vendor sets the rest of the issue status' -->
+                   LOGGED.  -->
 
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
             <label class="form-font" for="status"><strong>Status: </strong></label>
@@ -122,7 +120,7 @@
                 {% else %}
                 
                 <!-- If client user is inputting a new issue, they can only have
-                     a status of 'DRAFT'. So if this is not a new issue, disable
+                     a status of 'DRAFT'. So if this is a new issue, disable
                      LOGGED -->
                      
                 {% if issue.status != null %}
@@ -190,7 +188,7 @@
         <div class="row no-gutters pt-1">
 
             <!-- The user is a client-side user (otherwise they wouldnt be inputting
-                  or editing an issue. If inputting a new Issue, select the users 
+                  or editing an issue). If inputting a new Issue, select the user's 
                   user id as the assigned user, otherwise select the issue assigned user -->
 
             <label class="form-font pr-1" for="assigned_client_user"><strong>Assigned to: </strong></label>

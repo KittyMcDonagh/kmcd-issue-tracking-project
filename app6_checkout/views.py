@@ -22,7 +22,7 @@ stripe.api_key = settings.STRIPE_SECRET
 @login_required()
 def checkout(request):
     
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -74,11 +74,11 @@ def checkout(request):
                 for id, quantity, in cart.items():
                     feature = get_object_or_404(Feature, pk=id)
                     
-                    # Total amount paid for feature = quantity * feature price
+                    # Total amount paid for Feature = quantity * Feature price
                 
                     ftr_amount_paid = quantity * feature.price
                     
-                    # If this a record doesnt exist for this feature, for this client, create it
+                    # If this a record doesnt exist for this Feature, for this client, create it
                     # (I got help with this code from @mormoran on Slack :-) )
         
                     feature_paid, created = FeaturePaid.objects.get_or_create(feature_id=id, client_code = UserDetails.vend_client_code, defaults={ "user_id":UserDetails.user_id, "author": feature.client_code, "quantity":quantity, "amount_paid":ftr_amount_paid})
@@ -87,7 +87,7 @@ def checkout(request):
                     
                     if not created:
                         
-                        # A feature paid record exists for this feature for this client
+                        # A Feature paid record exists for this Feature for this client
                         # Update the amount paid and quantity
                         
                         feature_paid.amount_paid = feature_paid.amount_paid + ftr_amount_paid
@@ -101,9 +101,9 @@ def checkout(request):
                     
                     feature.paid += ftr_amount_paid
                     
-                    # If a new feature paid record was created for a client,
+                    # If a new Feature paid record was created for a client,
                     # increment the client count. This is the number of
-                    # individual clients who have flagged this feature
+                    # individual clients who have flagged this Feature
                     
                     if created:
                         feature.client_count += 1
@@ -133,7 +133,7 @@ def checkout(request):
     
 
 """
-Get the logged in user's details re the Issue Tracker app. 
+Get the logged in user's details the user details db. 
 These details tells us whether the User is on the Vendor side or 
 the Client side.
 """
@@ -145,7 +145,7 @@ def get_user_iss_trk_details(request):
     try:
         UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
-        messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
+        messages.error(request, "Problem retrieving the user's details!")
     
     return UserDetails
     

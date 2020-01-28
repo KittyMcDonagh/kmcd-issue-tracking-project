@@ -1,9 +1,16 @@
+<!-- NOTE: This code was copied from the ecommerce project and adjusted -->
+
 {% extends 'base.html' %} {% load static from staticfiles %} {% load bootstrap_tags %} {% block content %}
+
+<!-- The cart icon in the top naviagation bar becomes enabled once a Feature is added to the cart 
+     The cart items are displayed here -->
 
 <div class="container-fluid">
     <div class="row no-gutters">
 
         {% for item in cart_items %}
+
+        <!-- Show the Feature Id     -->
 
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
@@ -14,6 +21,8 @@
                 </div>
                 <hr>
 
+                <!-- Show the Feature Title     -->
+
                 <div class="row no-gutters">
                     <div class="col-12">
                         <p class="text-center mb-0"><strong>{{ item.feature.title }}</strong></p>
@@ -21,7 +30,6 @@
                 </div>
 
                 <hr>
-
 
                 <!-- Show the Feature Image     -->
 
@@ -38,7 +46,7 @@
                     </div>
                 </div>
 
-
+                <!-- Show the Feature Summary     -->
 
                 <div class="row no-gutters mt-2 ">
                     <div class="col-12">
@@ -47,14 +55,22 @@
                 </div>
                 <hr>
 
+
+                <!-- Show the Feature Price      -->
+
                 <div class="row no-gutters pl-3">
                     <div class="offset-1 col-4">
                         <span><strong>Price: </strong>{{ item.feature.price }}</span>
                     </div>
+
+                    <!-- Show the Quantity of payments being made    -->
+
                     <div class="col-4">
                         <span class=""><strong>Quantity: </strong>{{ item.quantity}}</span>
                     </div>
                 </div>
+
+                <!-- Adjust the Quantity     -->
 
                 <form class="row no-gutters form-inline" method="post" action="{% url 'adjust_cart' item.id %}">
                     {% csrf_token %}
@@ -83,6 +99,9 @@
         </div>
         {% endfor %}
     </div>
+
+
+    <!-- Checkout -->
 
     <div class="row no-gutters">
         <div class="col-12 checkout-amount pl-1 text-center ">

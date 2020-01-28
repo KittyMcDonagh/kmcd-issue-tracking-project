@@ -36,7 +36,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Lines added for kmcd-issue-tracking-project
 # The C9_HOSTNAME wasn't working in settings.py as an ALLOWED_HOST. So, after a 
 # chat with a tutor I set up AWSC9_HOST as an environment variable 
 # in .bashrc and am using it in settings.py so that I have an environment variable
@@ -45,7 +44,6 @@ DEBUG = True
 ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST', 'kmcd-issue-tracker.herokuapp.com')]
 
 
-# Lines added for kmcd-issue-tracking-project:
 # 'django_forms_bootstrap', 'accounts'
 # Notice that 'django_forms_bootstrap' has underscores, whereas you install it 
 # with hyphens
@@ -80,7 +78,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'kmcd_issue_tracker.urls'
 
-# Line added to TEMPLATES for kmcd-issue-tracking-project:
+
 # 'DIRS': [os.path.join(BASE_DIR, 'templates')], This is because there is more 
 # than one 'templates' dir and this specifies that all of them could 
 # potentially contain templates. This allows us to keep templates separate
@@ -148,7 +146,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Lines added for kmcd-issue-tracking-project
+#  To allow users to login using their email address
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'accounts.backends.EmailAuth'
@@ -233,17 +232,17 @@ DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+
 # (The following is what the video has, but it doesnt work. The above MEDIA_URL I found on slack, and it works!!)
 # MEDIA_URL = '/media/' 
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 
 
 STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE')
 STRIPE_SECRET = os.getenv('STRIPE_SECRET')
 
-# Lines added for kmcd-issue-tracking-project
+# Add Message Storage
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 

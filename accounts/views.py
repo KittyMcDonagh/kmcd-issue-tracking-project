@@ -13,10 +13,10 @@ from app2_user_home.models import Client
 
 """
 The 'index' logic applies only when the browser initially loads the page. 
-The user may be logged into admin, but not exist on the issue tracking system. 
+The user may be logged into admin, but not exist on the user details db. 
 So the user will be logged out, if already logged in, and forced to log in 
 properly via the app, so that it can check whether the user exists on the 
-Issue Tracking System.
+user details db.
 """
 
 def index(request):
@@ -60,8 +60,8 @@ def login(request):
             if user:
                 auth.login(user=user, request=request)
                 
-                # Check that the user has been set up for the Issue Tracking 
-                # System. If not, log out System
+                # Check that the user has been set up on the user details db. 
+                # If not, log out System
     
                 UserDetails = ""
                 
@@ -69,7 +69,7 @@ def login(request):
                     UserDetails = UserDetail.objects.get(user_id=user.username)
                     return redirect(reverse('user_home'))
                 except:
-                    login_form.add_error(None, "User not set up on the Issue Tracking System")
+                    login_form.add_error(None, "User not set up on the user details db!")
                     
                     """ Log the user out """
                     auth.logout(request)
@@ -113,10 +113,10 @@ def registration(request):
             if user:
                 
                 auth.login(user=user, request=request)
-                messages.success(request, "You have registered successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**")
+                messages.success(request, "You have registered successfully! **Contact the System Administrator about setting you up on the User Details Database**")
                 
-                # Log the user out now, as they wont have access to Issue Tracking
-                #System until they are set up on User Details
+                # Log the user out now, as they wont have access to Issue Tracker
+                # until they are set up on User Details db
                 
                 auth.logout(request)
                 return redirect(reverse('home'))
@@ -138,7 +138,7 @@ def user_profile(request):
     user = User.objects.get(email=request.user.email)
    
     """
-    Retrieve the user details relating to the Issue Tracking System.
+    Retrieve the user details from the user details db.
     """
     
     UserDetails = UserDetail.objects.get(user_id=request.user.username)

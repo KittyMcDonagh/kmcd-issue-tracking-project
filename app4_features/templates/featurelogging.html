@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% load bootstrap_tags %} {% block content %}
 
 <!-- This form will be used for the Input of New Features and for Editing 
-     an existing feature. It will be used by Client-side users only -->
+     an existing Feature. It will be used by Client-side users only -->
 
 
 <form method="POST" enctype="multipart/form-data" class="form-style">
@@ -20,15 +20,15 @@
 
     <!-- Fields with default values -->
 
-    <!-- For new features the default client code, is the user's client code.
-         If we're editing an existing feature, the user is a client-side user, and
-         the feature client code and the user client code are the same, otherwise they
+    <!-- For new Features the default client code, is the user's client code.
+         If we're editing an existing Feature, the user is a client-side user, and
+         the Feature client code and the user client code are the same, otherwise they
           couldnt edit -->
 
     <input name="client_code" type="hidden" id="client_code" value="{{ userdetails.vend_client_code }}">
 
-    <!-- Set the following field to the default value, or to the feature value, depending on whether 
-         inputting a new feature, or editing an existing one -->
+    <!-- Set the following field to the default value, or to the Feature value, depending on whether 
+         inputting a new Feature, or editing an existing one -->
 
     {% if feature.user_id == null %}
 
@@ -43,8 +43,8 @@
 
     <input name="assigned_client_user" type="hidden" id="assigned_client_user" value="{{ userdetails.user_id }}">
 
-    <!-- Set the following field to the default value, or to the feature value, depending on whether 
-         inputting a new feature, or editing an existing one -->
+    <!-- Set the following field to the default value, or to the Feature value, depending on whether 
+         inputting a new Feature, or editing an existing one -->
 
     {% if feature.assigned_vendor_user == null %}
 
@@ -109,12 +109,12 @@
 
         <!-- Status -->
         <!-- NOTE: featurelogging.html is for client-side users only, when inputting
-                   new features or editing existing ones.
-                   A client-side user can only be in Edit mode if the feature is
-                   assigned to them, and the feature is at a status of DRAFT or
+                   new Features or editing existing ones.
+                   A client-side user can only be in Edit mode if the Feature is
+                   assigned to them, and the Feature is at a status of DRAFT or
                    LOGGED. 
-                   They can only set the feature to a status of DRAFT (this
-                   is the only option available on new features), or a status of 
+                   They can only set the Feature to a status of DRAFT (this
+                   is the only option available on new Features), or a status of 
                    LOGGED.-->
 
         <div class="col-12 col-md-3 form-font pt-1 pb-1">
@@ -130,8 +130,8 @@
                 <option value="LOGGED" selected>LOGGED</option>
                 {% else %}
                 
-                <!-- If client user is inputting a new feature, they can only have
-                     a status of 'DRAFT'. So if this is not a new feature, disable
+                <!-- If client user is inputting a new Feature, they can only have
+                     a status of 'DRAFT'. So if this is not a new Feature, disable
                      LOGGED -->
                      
                 {% if feature.status != null %}
@@ -151,7 +151,7 @@
         </div>
 
 
-        <!--  The Unit Price for this feature
+        <!--  The Unit Price for this Feature
               Show the price but disable it - only vendor-side users can
               change it -->
 

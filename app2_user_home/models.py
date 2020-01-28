@@ -1,6 +1,8 @@
 from django.db import models
 
-# Vendor Model - owner of Issue Tracking System.
+"""
+Vendor Model - owner of Issue Tracker
+""" 
 
 class Vendor(models.Model):
     vend_code = models.CharField(max_length=6, blank=False)
@@ -15,8 +17,8 @@ class Vendor(models.Model):
         return self.vend_name
         
 """
-Client Model - clients that use the Accounting System for which the 
-Issue Tracking System tracks issues
+Client Model - Clients of the Vendor - they use the online Accounting System 
+and add Issues / Features relating to it to the Issue Tracker
 """
 
 class Client(models.Model):

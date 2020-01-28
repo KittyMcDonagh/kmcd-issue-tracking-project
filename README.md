@@ -565,6 +565,7 @@ The Features being paid for are added to the Order lines at Checkout.
 |AutoPrefixer                 |[Autoprefixer website](https://autoprefixer.github.io/)                   |
 |Django                       |[django documentation](https://docs.djangoproject.com/en/3.0/)            |
 |AWS s3 Buckets               |aws.amazon.com                                                            |
+|Stripe Payments              |https://stripe.com/ie                                                     |
 
       
 
@@ -1120,15 +1121,34 @@ The following icons/images were used to create the overview diagram of the Issue
 
 ## **CODE SNIPPETS**
 
+|Description of problem                             |Solution found on
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| I had tuples of (client, total number of issues)  | https://www.geeksforgeeks.org/python-list-sort/)                                                      |
+| and I needed to  sort by the 2nd parameter        |                                                                                                       |
+|                                                   |                                                                                                       |
+| I needed to insert a new record into a Django db  | https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file |
+|                                                   |                                                                                                       |
+| Although not in the video,                        | Help received from Slack with this when creating OrderLineItem(models.Model)                          |
+| "on_delete=models.CASCADE," needs to be           |                                                                                                       |
+|  added to 'ForeignKey' otherwise you get a red x  |                                                                                                       |
+|                                                   |                                                                                                       |
+| # MEDIA_URL = '/media/' didn't work for me        | I found "MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)" on Slack  and    |
+| after I set up s3 Buckets                         | it worked!  There's no mention of this change in the lessons (perhaps because they were still on the  |
+|                                                   | old c9)                                                                                               |
+|                                                   |                                                                                                       |
+| Cart & Checkout functionality                     | The code was initially copied from the e-commerce project we did as part of  the course and adjusted  |
+| Strip payments                                    | js code copied from stripe.com as per e-commerce project                                              |
+
 
 
 ## **8.3 ACKNOWLEDGEMENTS**
 
 |NAME                          |COMMENTS
-|------------------------------|----------------------------------------------------------------------------------------------|
-|The Code Institute            |I learnt everything I needed to know to build this website from the Code Institute.           |
-|Fellow students on Slack      |I received a lot of assistance and feedback from students on Slack which improved my project. |
-|My mentor Seun Owonikoko      |I received assistance, feedback and encouragement from Seun.                                  |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+|The Code Institute            |I learnt everything I needed to know to build this website from the Code Institute.                                        |
+|Fellow students on Slack      |I received a lot of assistance and feedback from students on Slack which improved my project.                              |
+|My mentor Seun Owonikoko      |I received assistance, feedback and encouragement from Seun.                                                               |
+|@mormoran (Andy) on Slack     |Helped me to create functions that called python views for dislaying Issues/Features list based on various user selections |
 
 
 

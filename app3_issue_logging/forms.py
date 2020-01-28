@@ -15,7 +15,7 @@ class LogNewIssueForm(forms.ModelForm):
         fields = ("client_code", "user_id", "assigned_client_user", "assigned_vendor_user", "software_component", "title", "summary", "details", "priority", "status", "image")
 
 """
-Form that allows updating of the Issue Status
+Form that allows updating of the Issue Status, Priority, Assigned Vendor User, and Assigned Client User
 """
 class UpdateIssueForm(forms.ModelForm):
    

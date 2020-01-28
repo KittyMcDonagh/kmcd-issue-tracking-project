@@ -4,17 +4,20 @@
 
     {% if user.is_authenticated %}
 
+    <!-- If user is already logged in redirect them back to Issue Tracker or to Logout -->
     <div class="row no-gutters ">
 
         <div class="courgette-font col-12 offset-lg-2 col-lg-8 text-center">
             <h3 class="pt-5 pb-3">Please go to</h3>
-            <h3 class="pb-3 "><a class="loggedin-links" href="{% url 'user_home' %}">Issue Tracking System</a></h3>
+            <h3 class="pb-3 "><a class="loggedin-links" href="{% url 'user_home' %}">Issue Tracker</a></h3>
             <h3>or</h3>
             <h3 class="pt-3"><a class="loggedin-links" href="{% url 'logout' %}">Logout</a></h3>
         </div>
     </div>
 
     {% else %}
+
+    <!-- User not logged in . . .  -->
 
     <div class="row no-gutters ">
         <div class="courgette-font col-12 offset-lg-2 col-lg-8 text-center">
@@ -23,10 +26,14 @@
         </div>
     </div>
 
+    <!-- Allow user to Register . . .  -->
+
     <div class="row no-gutters mt-4">
         <div class="courgette-font col-12 offset-md-3 col-md-3 text-center">
             <button class="btn mb-4"><a class="btn-login-reg welcome-links" href="{% url 'registration' %}">Register</a></button>
         </div>
+
+        <!-- Allow user to Login / Reset Password  -->
 
         <div class="courgette-font col-12 col-md-3 text-center">
             <button class="btn "><a class="btn-login-reg welcome-links" href="{% url 'login' %}">Login</a></button>
@@ -38,10 +45,6 @@
 
 
 </main>
-
-
-
-
 
 
 {% endblock %}

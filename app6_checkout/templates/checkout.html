@@ -26,6 +26,8 @@
 
         {% for item in cart_items %}
 
+        <!-- Show the Feature Id     -->
+
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
                 <div class="row no-gutters">
@@ -35,13 +37,15 @@
                 </div>
                 <hr>
 
+                <!-- Show the Feature Title     -->
+
                 <div class="row no-gutters">
                     <div class="col-12">
                         <p class="text-center mb-0"><strong>{{ item.feature.title }}</strong></p>
                     </div>
                 </div>
                 <hr>
-                
+
                 <!-- Show the Feature Image     -->
 
                 <div class="row no-gutters mt-1">
@@ -57,12 +61,16 @@
                     </div>
                 </div>
 
+                <!-- Show the Feature Summary     -->
+
                 <div class="row no-gutters">
                     <div class="col-12">
                         <p class="feature-description">{{ item.feature.summary }}</p>
                     </div>
                 </div>
                 <hr>
+
+                <!-- Show the Feature Price & Quantity    -->
 
                 <div class="row no-gutters pl-3">
                     <div class="offset-1 col-4">
@@ -77,6 +85,8 @@
         {% endfor %}
     </div>
 
+    <!-- Show the Total Payment Amount    -->
+
     <div class="row no-gutters">
         <div class="col-12 checkout-amount pl-1 text-center checkout-bg">
             <span class="pr-2 "><strong>Checkout Total:</strong></span>
@@ -84,6 +94,7 @@
         </div>
     </div>
 
+    <!-- Enter Payment Details     -->
 
     <form role="form" method="POST" id="payment-form" action="{% url 'checkout'  %}">
 
@@ -118,6 +129,8 @@
 
         {% csrf_token %}
 
+        <!-- Submit the Payment     -->
+        
         <div class="row no-gutters">
             <div class="col-12 checkout-amount pl-1 text-center ">
 

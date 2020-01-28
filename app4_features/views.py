@@ -24,7 +24,7 @@ def features_home(request, back_to_page=None, list_filters=None):
     
     if not list_filters:
     
-        # Initialise the feature filters
+        # Initialise the Feature filters
         
         SelectedFeaturesFilter = "ME"
         
@@ -52,13 +52,13 @@ def features_home(request, back_to_page=None, list_filters=None):
         SelectedClientFilterName = get_selected_client_name(request, SelectedClientFilter)
         
     
-    # Initialise these details in case user is not set up on the Issue Tracker app
+    # Initialise these details in case user is not set up on the user details db
     
     AllClients = ""
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -85,17 +85,15 @@ def features_home(request, back_to_page=None, list_filters=None):
         AllClients = get_all_clients(request)
             
             
-    # Get all features
+    # Get all Features
     
     Features = ""
     
-    # Get all the features from the features database
+    # Get all the Features from the Features database
         
     Features = Feature.objects.all()
-        
-    print("features_filter: "+SelectedFeaturesFilter)
-        
-    # User has requested all features assigned to them?
+    
+    # User has requested all Features assigned to them?
                 
     if SelectedFeaturesFilter == 'ME':
                     
@@ -122,13 +120,13 @@ def features_home(request, back_to_page=None, list_filters=None):
                                 
         else:
                         
-            # Has user requested 'Other Clients' features Only?
+            # Has user requested 'Other Clients' Features Only?
                     
             if SelectedFeaturesFilter == "OTHER":
                 
                 Features = Features.exclude(client_code = UserDetails.vend_client_code)
             
-        # Filter features further if status filter is set . . .
+        # Filter Features further if status filter is set . . .
             
         if SelectedStatusFilter != "ALL":
             Features = Features.filter(status=SelectedStatusFilter)
@@ -171,7 +169,7 @@ def features_home(request, back_to_page=None, list_filters=None):
     except EmptyPage:
         features = paginator.page(paginator.num_pages)
     
-    # Pass features back as 'listing'. It will be used to pick up the pagination
+    # Pass Features back as 'listing'. It will be used to pick up the pagination
     # variables in base.html. The same will be done with the issues list.
     
     listing = features
@@ -188,11 +186,7 @@ def features_home(request, back_to_page=None, list_filters=None):
     
     # Pass the full text value for the Features Filter and the Paid Order, to be displayed in the dropdown boxes
     
-    print("feature_home: about to call get_list_filters_text=================================")
-    
     SelectedFeaturesFilterText, SelectedPaidOrderText = get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder)
-    
-    print("after calling get_list_filters_text=================================")
     
     SelectedClient = SelectedClientFilter + " " + SelectedClientFilterName
   
@@ -202,15 +196,13 @@ def features_home(request, back_to_page=None, list_filters=None):
 
 """
 This function is called via the javascript in base.html
-Get the features, filtered by the features Filter options selected
+Get the Features, filtered by the Features Filter options selected
 """
 def get_features(request):
-    
-    print("IN GET FEATURES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
+  
     data = []
     
-    # Get the user's details relating to the Issue Tracker app - it has
+    # Get the user's details from the user details db - it has
     # already been established that the user's details exist, otherwise they
     # wouldnt have got this far
             
@@ -224,21 +216,16 @@ def get_features(request):
     client_filter = request.POST.get('clientFilter')
     search_value = request.POST.get('searchValue')
     
-    print("features_filter: "+features_filter)
-    print("status_filter: "+status_filter)
-    print("paid_order: "+paid_order)
-    print("client_filter: "+client_filter)
-    
     # If the user is not using the search box, filter according to the filter
     # values
     
     if not search_value:
         
-        # Get all the features from the features database
+        # Get all the Features from the Features database
         
         Features = Feature.objects.all()
         
-        # User has requested all features assigned to them?
+        # User has requested all Features assigned to them?
                 
         if features_filter == 'ME':
                     
@@ -265,13 +252,13 @@ def get_features(request):
                                 
             else:
                         
-                # Has user requested 'Other Clients' features Only?
+                # Has user requested 'Other Clients' Features Only?
                     
                 if features_filter == "OTHER":
                 
                     Features = Features.exclude(client_code = UserDetails.vend_client_code)
             
-        # Filter features further if status filter is set . . .
+        # Filter Features further if status filter is set . . .
             
         if status_filter != "ALL":
             Features = Features.filter(status=status_filter)
@@ -285,9 +272,9 @@ def get_features(request):
             
     else:
         
-        # User is using the search box to find features. Select features based on the 
+        # User is using the search box to find Features. Select Features based on the 
         # value input by the user only - if the value is found in the 'summary' field
-        # extract the feature
+        # extract the Feature
         
         Features = Feature.objects.filter(summary__icontains=search_value)
         
@@ -359,14 +346,14 @@ def get_features(request):
 	}
 	
 	
-    # Return the user message also - set above if no features found
+    # Return the user message also - set above if no Features found
     
     data["user_mesg"] = {
         
         "user_message": user_message
 	  }
 	
-	# Return the features to be output to  the html table
+	# Return the Features to be output to  the html table
 	
     data["features"] = []
     
@@ -375,9 +362,7 @@ def get_features(request):
         
         user_id = feature.user_id
         assigned_client_user = feature.assigned_client_user
-        
-        print("feature.client_code: "+str(feature.client_code))
-        print("UserDetails.vend_client_code: "+str(UserDetails.vend_client_code))
+       
         ftr_client_code = feature.client_code
         	
         if UserDetails.user_type == "C":
@@ -419,20 +404,18 @@ the Post is not found.
 """
 def feature_details(request, pk, view_comments=None, back_to_page=None, list_filters=None):
     
-    print("IN FEATURE DETAILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    # Retrieve the feature
+    # Retrieve the Feature
     
     feature = get_object_or_404(Feature, pk=pk)
     
-     # Get this feature's comments 
+     # Get this Feature's comments 
     
     try:
         featurecomments = FeatureComment.objects.filter(feature_id=feature.id)
     except:
         messages.error(request, "No comments for this Feature yet")
     
-    # List the feature comments in reverse input order
+    # List the Feature comments in reverse input order
         
     featurecomments = featurecomments.order_by('-id')
     
@@ -443,13 +426,13 @@ def feature_details(request, pk, view_comments=None, back_to_page=None, list_fil
     VendorDetails = ""
     FeatureClientDetails = ""
     
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
     UserDetails = get_user_iss_trk_details(request)
     
-    # Get the details of the client the feature belongs to
+    # Get the details of the client the Feature belongs to
     
     FeatureClientDetails = get_feature_client_details(request, feature)
     
@@ -458,7 +441,7 @@ def feature_details(request, pk, view_comments=None, back_to_page=None, list_fil
     
     if UserDetails.user_type == 'C':
             
-        # User is on the Client side. Get the Client Details, The features Filter
+        # User is on the Client side. Get the Client Details, The Features Filter
         # values the client user can use, and the filtered Features
             
         ClientDetails = get_client(request, UserDetails.vend_client_code)
@@ -477,7 +460,7 @@ def feature_details(request, pk, view_comments=None, back_to_page=None, list_fil
 
 
 """
-Get the logged in user's details re the Issue Tracker app. 
+Get the logged in user's details the user details db. 
 These details tells us whether the User is on the Vendor side or 
 the Client side.
 """
@@ -489,35 +472,29 @@ def get_user_iss_trk_details(request):
     try:
         UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
-        messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
+        messages.error(request, "Problem retrieving the user's details!")
     
     return UserDetails
 
 
 """
-Get all client-side users - needed for the 'assigned user dropdown' when editing a feature.
+Get all client-side users - needed for the 'assigned user dropdown' when editing a Feature.
 """
     
 def get_all_client_users(request, user_client_code):
-    
-    print("in features get_all_client_users~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    print("user_client_code: "+str(user_client_code))
     
     AllClientUsers = ""
 
     try:
         AllClientUsers = UserDetail.objects.filter(vend_client_code = user_client_code, user_type = "C")
     except:
-        messages.error(request, "Problem retrieving the all client users from Issue Tracker!")
-        
-    print("AllClientUsers: "+str(AllClientUsers))
-    
+        messages.error(request, "Problem retrieving Client users details!")
+   
     return AllClientUsers
     
 
 """
-Get all vendor-side users - needed for the 'assigned user dropdown' when updating a feature.
+Get all vendor-side users - needed for the 'assigned user dropdown' when updating a Feature.
 """
     
 def get_all_vendor_users(request):
@@ -527,7 +504,7 @@ def get_all_vendor_users(request):
     try:
         AllVendorUsers = UserDetail.objects.filter(user_type = "V")
     except:
-        messages.error(request, "Problem retrieving the all vendor users from Issue Tracker!")
+        messages.error(request, "Problem retrieving Vendor users details!")
     
     return AllVendorUsers
     
@@ -579,8 +556,8 @@ def get_vendor(request, UserDetails):
         
         
 """
-Get the details of the Client the feature belongs to. This is required for a Vendor
-user only. Although Client-side users see other clients' features, they dont see
+Get the details of the Client the Feature belongs to. This is required for a Vendor
+user only. Although Client-side users see other clients' Features, they dont see
 the details of those clients.
 """
 def get_feature_client_details(request, feature):
@@ -597,9 +574,9 @@ def get_feature_client_details(request, feature):
 
 """
 Final filter to make sure users see only what they're allowed to see.
-Vendors can only see features when they reach status of 'LOGGED' (i.e. they cannot
+Vendors can only see Features when they reach status of 'LOGGED' (i.e. they cannot
 see 'DRAFT')
-Clients cannot see features of other clients that are of status 'DRAFT' or 'LOGGED'
+Clients cannot see Features of other clients that are of status 'DRAFT' or 'LOGGED'
 """
 
 def FinalFilterFeatures(request, Features, UserDetails, paid_order):
@@ -607,28 +584,28 @@ def FinalFilterFeatures(request, Features, UserDetails, paid_order):
     if UserDetails.user_type == "V":
         
         # This is a Vendor-side user
-        # Vendors cannot see features until they reach status 'LOGGED'
+        # Vendors cannot see Features until they reach status 'LOGGED'
                 
         Features = Features.exclude(status = "DRAFT")
     
     else:
         
-        # Client-side users cannot see features of other clients that are still
+        # Client-side users cannot see Features of other clients that are still
         # at status 'DRAFT' or 'LOGGED'
         
         # Separating our clients from other clients, so that I can filter other 
-        # clients features by status
+        # clients Features by status
         
         OurClientsFeatures = Features.filter(client_code = UserDetails.vend_client_code)
         
         OtherClientsFeatures = Features.exclude(client_code = UserDetails.vend_client_code)
         OtherClientsFeatures = OtherClientsFeatures.exclude(status = "DRAFT").exclude(status = "LOGGED")
         
-        # Putting the two lists together after filtering other clients features
+        # Putting the two lists together after filtering other clients Features
         
         Features = OurClientsFeatures | OtherClientsFeatures
     
-    # Sorting features by date, descending order, or by paid amount if selected
+    # Sorting Features by date, descending order, or by paid amount if selected
     
     if paid_order != "SORTBY":
         
@@ -645,12 +622,12 @@ def FinalFilterFeatures(request, Features, UserDetails, paid_order):
 
 
 """
-Create a view that allows us to log a new feature or edit an existing one 
+Create a view that allows us to log a new Feature or edit an existing one 
 depending on whether the pk is null or not. 
 """
 def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
     
-    # If inputting a new feature, initialise the page to go back to and the 
+    # If inputting a new Feature, initialise the page to go back to and the 
     # page filters
     
     if not pk:
@@ -663,7 +640,7 @@ def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -685,16 +662,14 @@ def new_edit_feature(request, pk=None, back_to_page=None, list_filters=None):
         
         form = LogNewFeatureForm(request.POST, request.FILES, instance=feature)
         
-        print("feature form: "+str(form))
-        
         if form.is_valid():
         
             feature = form.save()
             
-            # Create a 'feature paid' record for this client / feature, but make the the quantity and
+            # Create a 'Feature paid' record for this client / Feature, but make the the quantity and
             # amount fields = '0'
             # Featue paid records are used in the Features Report, so it will need to have a record for
-            # every feature the user inputs as well as ones they've paid for
+            # every Feature the user inputs as well as ones they've paid for
             
             feature_paid_rec, _ = FeaturePaid.objects.get_or_create(feature_id=feature.id, client_code=UserDetails.vend_client_code, defaults={"author":feature.client_code, "user_id":UserDetails.user_id, "amount_paid": 0, })
             
@@ -720,7 +695,7 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -728,8 +703,8 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
     
     feature = get_object_or_404(Feature, pk=pk)
     
-    # Get the details of the client the feature belongs to - the name will
-    # be displayed on the feature details screen
+    # Get the details of the client the Feature belongs to - the name will
+    # be displayed on the Feature details screen
     
     FeatureClientDetails = get_feature_client_details(request, feature)
     
@@ -757,9 +732,7 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
     if request.method == "POST":
         
         form = UpdateFeatureForm(request.POST, request.FILES, instance=feature)
-        
-        print("featureupdateform=============: "+str(form))
-        
+      
         if form.is_valid():
         
             feature = form.save()
@@ -778,7 +751,7 @@ def update_feature(request, pk=None, back_to_page=None, list_filters=None):
 
 
 """
-New Feature comment - get the feature comments form. This view is called when
+New Feature comment - get the Feature comments form. This view is called when
 the user clicks '+' to add a comment. The id of the featue is passed to the view
 """
 def new_feature_comment(request, pk=None, back_to_page=None, list_filters=None):
@@ -789,7 +762,7 @@ def new_feature_comment(request, pk=None, back_to_page=None, list_filters=None):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details re the issue tracker app. It has already
+    # Get the user's details the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -832,7 +805,7 @@ def new_feature_comment(request, pk=None, back_to_page=None, list_filters=None):
         
             featurecomment = form.save()
             
-            # Redirect to feature_details and pass 'y' to let featuredetails.html
+            # Redirect to Feature_details and pass 'y' to let featuredetails.html
             # know that the comments list is to be displayed
             
             view_comments = 'y'
@@ -860,13 +833,13 @@ def new_feature_comment(request, pk=None, back_to_page=None, list_filters=None):
 
 """
 FEATURES REPORT - 
-For Client-side users - This report will show a total line of the number of features the Client has requested - these will include those
+For Client-side users - This report will show a total line of the number of Features the Client has requested - these will include those
 logged by this Client, and those that they flagged as having via the 'thumbs up' and have paid for. They can click the down arrow to see a list of
-these features, and click on the chevron icon to see the details of a feature.
+these Features, and click on the chevron icon to see the details of a Feature.
 
-For Vendor-side users - This report will show a total line for each client, showing the number of features they have  requested. These will include those
+For Vendor-side users - This report will show a total line for each client, showing the number of Features they have  requested. These will include those
 logged by the Client, and those that they flagged as having via the 'thumbs up' and have paid for. They can click the down arrow to see a list of
-these issues, and click on the chevron icon to see the details of a feature.
+these issues, and click on the chevron icon to see the details of a Feature.
 
 This function is called via the javascript in base.html
 """
@@ -875,7 +848,7 @@ def features_report(request):
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the issue tracker. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -897,18 +870,18 @@ def features_report(request):
         VendorDetails = get_vendor(request, UserDetails)
     
     
-    # Get the feature paid records, depending on the user type
+    # Get the Feature paid records, depending on the user type
    
     if UserDetails.user_type == "C":
         
-        # For client-side user, get the input and paid features for 
+        # For client-side user, get the input and paid Features for 
         # the client the user is associated with only
         
         featurepaids = FeaturePaid.objects.filter(client_code = UserDetails.vend_client_code)
         
     else:
                     
-        # For vendor-side user, get all Clients paid features
+        # For vendor-side user, get all Clients paid Features
                     
         featurepaids = FeaturePaid.objects.all()
     
@@ -921,7 +894,7 @@ def features_report(request):
     clienttotals = []
     client_features = []
    
-    # Order feature paid records by client code and create the client list
+    # Order Feature paid records by client code and create the client list
     
     featurepaids = featurepaids.order_by('client_code')
     
@@ -943,9 +916,9 @@ def features_report(request):
         
         total_paid_by_client = 0
         
-        # Get the features this client has paid for
+        # Get the Features this client has paid for
         
-        featurepaids = FeaturePaid.objects.filter(client_code = client)
+        Featurepaids = FeaturePaid.objects.filter(client_code = client)
         
         # Accumulate the amounts paid per feature
         
@@ -966,8 +939,8 @@ def features_report(request):
     for item in client_total:
         client_list.append(item[0])
         
-    # Loop through the clients and loop through the features, either input or paid
-    # by them. Create a total line per client and a line per feature
+    # Loop through the clients and loop through the Features, either input or paid
+    # by them. Create a total line per client and a line per Feature
     
     for client in client_list:
         
@@ -978,32 +951,32 @@ def features_report(request):
         features = ""
         
         # Get all the paid records for this client - These will be
-        # features that were input by this client, and features that were 'paid for'
+        # Features that were input by this client, and Features that were 'paid for'
         # by this client
-        # Order the feature list by amount paid - highest to lowest, and feature id - highest to lowest
+        # Order the Feature list by amount paid - highest to lowest, and Feature id - highest to lowest
         
         featurepaids = FeaturePaid.objects.filter(client_code = client)
         featurepaids = featurepaids.order_by('-amount_paid', '-feature_id')
         
         for featurepaid in featurepaids:
             
-            # Accumulate the total paid per feature by this client
+            # Accumulate the total paid per Feature by this client
             
             total_paid += featurepaid.amount_paid
             
-            # Loop through the features for this client or paid by this client
+            # Loop through the Features for this client or paid by this client
             
             feature = Feature.objects.get(id=featurepaid.feature_id)
             
-            # Count the number of features input and / or flagged by this client
+            # Count the number of Features input and / or flagged by this client
             
             nr_flagged_features += 1
             
-            # Create a line per feature input and / or paid for by this client
+            # Create a line per Feature input and / or paid for by this client
             # Note that the 'client_code' field below is the client who input or 
             # paid for the issue, author is the client who originally input the issue.
             # Both codes are sometimes the same and sometimes not - as when a client
-            # pays for another client's feature
+            # pays for another client's Feature
             
             # Output the details as required for the report
             
@@ -1052,9 +1025,6 @@ def sortTotal(val):
 
 def get_selected_filters(list_filters):
     
-    print("in get_selected_filters=============================")
-    print("list_filters = "+list_filters)
-    
     filters_array = list_filters.split("x")
     
     SelectedFeaturesFilter = filters_array[0]
@@ -1089,7 +1059,7 @@ def get_selected_client_name(request, SelectedClientFilter):
     
 # Create the filters list to pass between views. It will be used
 # when the user clicks "<<Back to list" on the Feature Details page to bring 
-# them back to the page they were on when the clicked '...' to see a feature's
+# them back to the page they were on when the clicked '...' to see a Feature's
 # details
 
 def create_filters_list(SelectedFeaturesFilter, SelectedStatusFilter, SelectedPaidOrder, SelectedClientFilter):
@@ -1107,14 +1077,9 @@ def create_filters_list(SelectedFeaturesFilter, SelectedStatusFilter, SelectedPa
     
 def get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder):
     
-    print("in get_list_filters_text=======================================")
-    print("SelectedPaidOrder: "+SelectedPaidOrder)
-    
     features_filter_value = ["ALL","ME","OUR","OTHER" ]
     features_filter_text = ["ALL FEATURES","ASSIGNED TO ME","OUR FEATURES ONLY","OTHER CLIENTS' FEATURES ONLY" ]
-    
-    print("")
-    
+   
     i = 0
     for value in features_filter_value:
         
@@ -1127,8 +1092,7 @@ def get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder):
     
     i = 0
     for value in paid_order_value:
-        print("paid_order_value value = "+str(value))
-        print("SelectedPaidOrder = "+str(SelectedPaidOrder))
+        
         if SelectedPaidOrder == value:
             SelectedPaidOrderText = paid_order_text[i]
         i += 1

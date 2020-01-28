@@ -19,7 +19,7 @@ from accounts.forms import UserLoginForm
 
 
 """
-User Home Page - Initial load
+User Home Page - When the User Initially Logs In - 
 Issues assigned to the logged in user are shown.
 """
 
@@ -57,13 +57,13 @@ def user_home(request, back_to_page=None, list_filters=None):
         SelectedClientFilterName = get_selected_client_name(request, SelectedClientFilter)
         
         
-    # Initialise these details in case user is not set up on Issue Tracker app
+    # Initialise these details in case user is not set up in the user details db
     
     AllClients = ""
     ClientDetails = ""
     VendorDetails = ""
     
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -229,7 +229,7 @@ def get_issues(request):
     
     data = []
     
-    # Get the user's details relating to the Issue Tracker app - it has
+    # Get the user's details from the user details db - it has
     # already been established that the user's details exist, otherwise they
     # wouldnt have got this far
             
@@ -462,10 +462,10 @@ def get_issues(request):
     return JsonResponse(data, safe=False)
     
 """
-Final filter to make sure users see only what they're allowed to see.
-Vendors can only see issues when they reach status of 'LOGGED' (i.e. they cannot
-see 'DRAFT')
-Clients cannot see issues of other clients that are of status 'DRAFT' or 'LOGGED'
+Final filtering to make sure users see only what they're allowed to see in the list.
+Issues that are at a status of 'DRAFT' are excluded from the list for Vendor-side users
+Issues that belong to other clients and are at a status of 'DRAFT' or 'LOGGED' 
+are excluded from the list for Client-side users
 """
 
 def FinalFilterIssues(request, Issues, UserDetails):
@@ -473,16 +473,16 @@ def FinalFilterIssues(request, Issues, UserDetails):
     if UserDetails.user_type == "V":
         
         # This is a Vendor-side user
-        # Vendors cannot see issues until they reach status 'LOGGED'
+        # Exclude Issues with status = 'DRAFT'
                 
         Issues = Issues.exclude(status = "DRAFT")
     
     else:
         
-        # Client-side users cannot see issues of other clients that are still
-        # at status 'DRAFT' or 'LOGGED'
+        # This is a Client-side user
+        # Exclude other Clients' Issues where status = 'DRAFT' or 'LOGGED'
         
-        # Separating our clients from other clients, so that I can filter other 
+        # Separating our client from other clients, so as to filter other 
         # clients issues by status
         
         OurClientsIssues = Issues.filter(client_code = UserDetails.vend_client_code)
@@ -494,7 +494,7 @@ def FinalFilterIssues(request, Issues, UserDetails):
         
         Issues = OurClientsIssues | OtherClientsIssues
     
-    # Sorting issues by date, descending order
+    # Sorting issues by id, descending order
         
     Issues = Issues.order_by('-id')
         
@@ -503,7 +503,7 @@ def FinalFilterIssues(request, Issues, UserDetails):
 
 
 """
-Get the logged in user's details re the Issue Tracker app. 
+Get the logged in user's details from the user details db. 
 These details tells us whether the User is on the Vendor side or 
 the Client side.
 """
@@ -515,7 +515,7 @@ def get_user_iss_trk_details(request):
     try:
         UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
-        messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
+        messages.error(request, "Problem retrieving the user's details!")
     
     return UserDetails
 
@@ -555,8 +555,6 @@ def get_selected_client_name(request, SelectedClientFilter):
                 SelectedClientFilterName = SelectedClient.client_name
             except:
                 messages.error(request, "Client details not found!")
-                
-            
    
     return  SelectedClientFilterName
     
@@ -577,9 +575,6 @@ def get_all_clients(request):
    
     return  AllClients
 
-
-    
-    
     
     
 """
@@ -603,7 +598,6 @@ def get_vendor(request, UserDetails):
 
 
 """
-User has clicked on 'thumbs up' for this issue - called via js in base.html
 This function is called via ".thumb-click" in base.html
 I used js so as not to have to reload the page each time a user clicked a
 thumbs up/down
@@ -612,31 +606,32 @@ def iss_thumbs_up_down(request):
     
     pk = request.POST.get('issueId')
     
-    # Get the user details re the Issue Tracker
+    # Get the user details from the user details db
     
     UserDetails = get_user_iss_trk_details(request)
     
-    # Get the issue to which the thumbs up / down is being given
+    # Get the Issue to which the thumbs up / down is being given
     
     issue = get_object_or_404(Issue, pk=pk)
     
     # Has the client already 'thumbed up' this Issue - 
-    # 'thumbs_up' will be = 0 if the issue was input by the client - we dont want
+    # 'thumbs_up' will be = 0 if the Issue was input by the client - we dont want
     # to delete this record,
-    # 'thumbs_up' will be = 1 for issues that belong to another client, but have
+    # 'thumbs_up' will be = 1 for Issues that belong to another client, but have
     # been thumbed up by this client - we can delete this when the client does 
-    # a thumbs down on the same issue
+    # a thumbs down on the same Issue
         
     issue_thumbs_up = IssueThumbsUp.objects.filter(issue_id=issue.id)
     issue_thumbs_up = issue_thumbs_up.filter(client_code = UserDetails.vend_client_code).filter(thumbs_up = 1)
     
     # If no thumbs up record exists, then the user did a thumbs up and we need 
     # to create a thumbs up record, and increment the thumbs up count for this 
-    # issue
+    # Issue
     
     if not issue_thumbs_up:
         
         # Insert into django code based on solution on https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file
+        # The IssueThumbsUp db is also used for the Issues Report
         
         issue_thumbs_up = IssueThumbsUp.objects.create(issue_id=issue.id, client_code=UserDetails.vend_client_code, author=issue.client_code, user_id=UserDetails.user_id, thumbs_up = 1)
         
@@ -646,7 +641,7 @@ def iss_thumbs_up_down(request):
         thumbs_up_down_remove_class = "fa-thumbs-up"
         thumbs_up_down_add_class = "fa-thumbs-down"
         
-        # Increment this issue's 'thumbs up'
+        # Increment this Issue's 'thumbs up'
         
         issue.thumbs_up_count = issue.thumbs_up_count + 1
         
@@ -658,9 +653,9 @@ def iss_thumbs_up_down(request):
         
     else:
         
-        # A thumbs up record exists for this issue, so the user did a thumbs 
+        # A thumbs up record exists for this Issue, so the user did a thumbs 
         # down. We need to delete the thumbs up record and decrement the 
-        # issue's thumbs up count
+        # Issue's thumbs up count
         
         issue_thumbs_up.delete()
         
@@ -670,12 +665,12 @@ def iss_thumbs_up_down(request):
         thumbs_up_down_remove_class = "fa-thumbs-down"
         thumbs_up_down_add_class = "fa-thumbs-up"
         
-        # Decrement the issue's 'thumbs up' count
+        # Decrement the Issue's 'thumbs up' count
         
         issue.thumbs_up_count = issue.thumbs_up_count - 1
         issue.save()
         
-        # Return issue's thumbs up count to js function 'thumbsUpDown' in base.html
+        # Return Issue's thumbs up count to js function 'thumbsUpDown' in base.html
         
         thumbs_up_count = issue.thumbs_up_count
         thumbs_up_down_add_class = "fa-thumbs-up"
@@ -729,7 +724,7 @@ def get_list_filters_text(SelectedIssuesFilter, SelectedPriorityFilter):
     
 # Create the filters list to pass between views. It will be used
 # when the user clicks "<<Back to list" on the Issue Details page to bring 
-# them back to the page they were on when the clicked '...' to see an issue's
+# them back to the page they were on when the clicked '...' to see an Issue's
 # details
 
 def create_filters_list(SelectedIssuesFilter, SelectedStatusFilter, SelectedPriorityFilter, SelectedClientFilter):

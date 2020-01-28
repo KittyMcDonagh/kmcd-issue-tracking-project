@@ -1,22 +1,22 @@
 {% extends "base.html" %} {% block content %}
 
 <!-- This form will be used:
-     1. To display the details of an issue 
-     2. Allow the user to view & enter comments on the issue
-     3. Allow user to Edit / Update the issue  -->
+     1. To display the details of an Issue 
+     2. Allow the user to view & enter comments on the Issue
+     3. Allow user to Edit / Update the Issue  -->
 
 
-
-<!-- Back button to allow the user to go back to the page on the list from 
-     which they selected the issue -->
+<!-- Back button to allow the user to go back to the page on the Issues List from 
+     which they selected the Issue -->
 
 <div class="row no-gutters back-row-height ">
     <div class="col-5">
         <a id="iss-back-to-prev-page" class="iss-back-btn iss-button-font iss-nav-link iss-enabled-link" href="{% url 'user_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
 
-    <!-- If the user is a vendor-side user, or the issue belongs to the client 
-         the user is associated with, show the name of the client the issue belongs to -->
+    <!-- If the user is a vendor-side user, or the Issue belongs to the client 
+         the user is associated with, show the name of the client the Issue belongs to,
+         otherwise show asterisks-->
 
     <div class="col-7 form-font">
         
@@ -77,7 +77,7 @@
 
         {% if userdetails.user_type == "V" %}
 
-        <!-- If the user is a vendor-side user, show who the issue is
+        <!-- If the user is a vendor-side user, show who the Issue is
                      assigned to on the vendor side -->
 
         <div class="col-12 col-md-5 form-font ">
@@ -88,13 +88,13 @@
         {% else %}
 
         <!-- Client-side user: Show the user the feature is assigned to on the 
-             client side, but only if the issue belongs to the client the user is 
+             client side, but only if the Issue belongs to the client the user is 
              associated with -->
 
         <div class="col-12 col-md-5 form-font">
             <span><strong>Assigned to: </strong></span> {% if userdetails.vend_client_code == issue.client_code %}
 
-            <!-- Only show the assigned user if the user client and issue 
+            <!-- Only show the assigned user if the user client and Issue 
             client are the same-->
 
             <span class="pl-1">{{ issue.assigned_client_user}}</span> {% else %}
@@ -128,13 +128,35 @@
 
     <hr>
 
-    <!-- START OF ISSUE COMMENTS SECTIONS ---------------------------------->
-    <!-- Comments are hidden unless the 'comments_input' or 'view_comments
-         is set to 'y' -->
-
+    <!-- START OF ISSUE COMMENTS SECTION ---------------------------------->
+    
+    <!-- Comments are hidden:
+         o if the Issue Details are being displayed just after the user logged the
+           Issue
+         o if the user clicked on 'more' ('...') in the Issues List to view the
+           Issue Details
+         o in these cases 'comments_input' and 'view_comments' will be set 
+           to 'n'
+         o the user may click on the 'comments' icon at the top of the Issue 
+           Details page to show/hide the comments dashboard, and input or view 
+           comments
+    -->
+    <!-- Comments are shown:
+         o if the Issue Details are being displayed just after the user entered
+           a comment
+         o if the user clicked on the 'comments' icon in the Issues List to view the
+           Issue Comments
+         o in these cases 'comments_input' and 'view_comments' will be set 
+           to 'y'
+         o the user may click on the 'comments' icon at the top of the Issue 
+           Details page to hide/show the comments dashboard, and input or view 
+           comments
+    -->
+   
     {% if comments_input == 'y' or view_comments == 'y' %}
 
-    <!-- COMMENTS ICONS:
+    
+    <!-- Comments Dashboard: 
         If comments are currently being input display the comments dashboard,
          Or if the comments list is required, display the comments dashboard,
          otherwise, hide it. -->
@@ -202,7 +224,7 @@
     {% endif %}
 
 
-    <!-- COMMENTS FORM:
+    <!-- Comment Input Form:
         If comments are currently being input display the comment input form, 
          otherwise hide it.-->
 
@@ -238,8 +260,8 @@
         </form>
 
 
-        <!-- COMMENTS LIST: 
-             If the comments list for this issue are currently being view, 
+        <!-- Comments List: 
+             If the comments list for this Issue are currently being view, 
             display the list of comments, otherwise hide it -->
 
         {% if view_comments == 'y'%}
@@ -300,9 +322,8 @@
             </div>
 
 
-            <!-- END OF ISSUE COMMENTS SECTIONS --------------------------------   -->
+            <!-- END OF ISSUE COMMENTS SECTION --------------------------------   -->
 
-            
 
             <!-- Issue Title -->
 
@@ -373,12 +394,12 @@
                     {% if userdetails.user_type == "C" %} {% if userdetails.vend_client_code == issue.client_code %}
 
                     <!-- User is a client-side user - they can only Edit the details of 
-                                 their own issues and only while they're at status DRAFT or LOGGED. They cannot
-                                 see DRAFT or LOGGED issues that belong to other clients.
-                                 If the issue is not status DRAFT or LOGGED, they can update the Assigned Client User only.
+                         their own Issues and only while they're at status DRAFT or LOGGED. They cannot
+                         see DRAFT or LOGGED Issues that belong to other clients.
+                         If the Issue is not status DRAFT or LOGGED, they can update the Assigned Client User only.
                                  
-                                 Is the issue status = DRAFT or LOGGED? 
-                                 If so, enable the Edit button, otherwise enable the Update Button -->
+                         Is the Issue status = DRAFT or LOGGED? 
+                         If so, enable the Edit button, otherwise enable the Update Button -->
 
                     {% if issue.status == "DRAFT" or issue.status == "LOGGED" %}
 
@@ -389,7 +410,7 @@
                     <a href="{% url 'update_issue' issue.id back_to_page list_filters %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %} {% endif %} {% else %}
 
                     <!-- User is a vendor-side user.
-                         Allow the user to update the issue status, the priority and the assigned vendor user -->
+                         Allow the user to update the Issue status, the Priority and the Assigned Vendor User -->
 
                     <a href="{% url 'update_issue' issue.id back_to_page list_filters %}" class="btn iss-edit-update-btn-color iss-enabled-link">Update</a> {% endif %}
 

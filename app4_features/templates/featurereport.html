@@ -2,15 +2,18 @@
 
 <!-- FEATURES REPORT   
      - This report will show the rolled up total for the Client and allow the user
-     to see the list behind the totals
+       to see the list behind the totals
      - The features list will show feature id, author, component, summary, amount paid,
-     and status 
+       and status 
      - If the user is on the client-side, they will see the rolled up total for the
-     client they are associated with only. They will only see the feature author's 
-     client code, if the client they are associated with is the author, otherwise
-     they will see "******"
+       client they are associated with only. They will only see the feature author's 
+       client code, if the client they are associated with is the author, otherwise
+       they will see "******"
      - If the user is on the vendor-side, they will see rolled up totals for all
-     clients and they will see the author's client code in the list
+       clients and they will see the author's client code in the list
+     - An EXCEPTION TO THE RULE in the Features List - All the Features input by 
+       users will appear on this report regardless of Status - i.e. Vendor-side
+       users will see Features that are at a status of 'DRAFT' 
      -->
 
 {% for client in clienttotals %}

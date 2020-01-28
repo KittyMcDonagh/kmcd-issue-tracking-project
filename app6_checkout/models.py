@@ -4,6 +4,8 @@ from django.db import models
 
 from app4_features.models import Feature
 
+# Ordering Customer Details
+
 class Order(models.Model):    
        
     full_name = models.CharField(max_length=50, blank=False)
@@ -18,12 +20,14 @@ class Order(models.Model):
     
     def __str__(self):
         return "{0}-{1}-{2}".format(self.id, self.id, self.full_name)
+        
 
+# Order Details
 
 class OrderLineItem(models.Model):
     
     # Although not in the video, "on_delete=models.CASCADE," needs to be 
-    # added to 'ForeignKey' otherwise you get a red x
+    # added to 'ForeignKey' otherwise you get a red x (source = Slack)
     
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=False)
     feature = models.ForeignKey(Feature, on_delete=models.CASCADE, null=False)

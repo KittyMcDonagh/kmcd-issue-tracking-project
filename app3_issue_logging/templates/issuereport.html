@@ -2,16 +2,19 @@
 
 <!-- ISSUES REPORT   
      - This report will show the rolled up total for the Client and allow the user
-     to see the list behind the totals
-     - The issues list will show issue id, author, component, summary, priority,
-     and status 
+       to see the list behind the total line
+     - The Issues List will show issue id, author, component, summary, priority,
+       and status 
      - If the user is on the client-side, they will see the rolled up total for the
-     client they are associated with only. They will only see the issue author's 
-     client code, if the client they are associated with is the author, otherwise
-     they will see "******"
+       client they are associated with only. They will only see the issue author's 
+       client code, if the client they are associated with is the author, otherwise
+       they will see "******"
      - If the user is on the vendor-side, they will see rolled up totals for all
-     clients and they will see the author's client code in the list
-     -->
+       clients and they will see the author's client code in the list
+       An EXCEPTION TO THE RULE in the Issues List - All the Issues input by 
+       users will appear on this report regardless of Status - i.e. Vendor-side
+       users will see Issues that are at a status of 'DRAFT' 
+-->
 
 {% for client in clienttotals %}
 <div class="row no-gutters iss-rep-client-total rep-shadow">
@@ -78,6 +81,7 @@
                     {% endif %} {% else %}
 
                     <!-- User is on the vendor side - show the Client who raised the issue -->
+                    
                     <td class="text-center td-username">{{ issue.author }}</td>
 
                     {% endif %}
@@ -86,11 +90,8 @@
                     <td class="td-sw-comp">{{ issue.software_component }}</td>
                     <td class="td-summary">{{ issue.summary }}</td>
 
-                    <!-- 'show-issue-details' class is used by js to detect when a user clicks on the chevron-down/up. The issue id identifies which 
-                         Feature has been clicked on. The class 'det-chevron-down-client_code' is changed to 'det-chevron-up-client_code' when 
-                         'fa-chevron-down' is flipped to 'up'. 'det-chevron-up-*' helps find the details that are open, so that they can be closed  
-                         when the full report is closed
-                                 -->
+                    <!-- 'show-issue-details' class is used by js to detect when a user clicks on the chevron-down/up. The Client Code and Issue Id are the first and second class and they identify which Issue has been clicked on. The class 'det-chevron-down-client_code' is changed to 'det-chevron-up-client_code' when 'fa-chevron-down' is flipped to 'up'. 'det-chevron-up-*' helps find the details that are open, so that they can be closed when the full report is closed. 
+                    -->
 
                     <td><a class="{{client.client_code}} {{issue.id}} show-issue-details btn td-form-font iss-det-chevron-style" href="#"><i  id="details-open-close-{{client.client_code}}-{{issue.id}}" class="fas fa-chevron-down det-chevron-down-{{client.client_code}}"></i></a></td>
                     
@@ -110,6 +111,7 @@
                     {%else%}
                     
                     <!-- Priority must be = 5 -->
+                    
                     <td class="iss-rep-td-priority text-center">5 - COSMETIC</td>
                     {% endif %}
                     {% endif %}{% endif %}{% endif %}

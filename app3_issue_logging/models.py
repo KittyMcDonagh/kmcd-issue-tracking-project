@@ -2,7 +2,7 @@ from django.db import models
 
 """
 Issue Model - This model contains all the fields that are required on the 
-issue
+Issue
 """
 
 class Issue(models.Model):
@@ -43,9 +43,12 @@ class IssueComment(models.Model):
 
 """
 Issue Thumbs Up Model - This model records the Issues that a client has 
-'thumbed up'. They can only have one 'thumbs up' per issue. 
+'thumbed up'. They can only have one 'thumbs up' per Issue. 
 Once thumbed up, The icon for the issue will change to 'thumb down', and once 
 clicked, this will remove the thumbs up record.
+A record will also be inserted in this db for every Issue a Client inputs. Clients
+cannot 'thumb up' their own Issues  - but they are needed in this db to be 
+included in the Issues Report
 """
 
 class IssueThumbsUp(models.Model):

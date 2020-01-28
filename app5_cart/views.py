@@ -19,10 +19,7 @@ A view that renders the cart contents page
 
 def view_cart(request):
     
-    print("in view_home")
-    
-    
-    # Get the user's details from re the Issue Tracker app. It has already
+    # Get the user's details from the user details db. It has already
     # been confirmed at login that they exist, otherwise the user wouldnt have
     # come this far
     
@@ -41,47 +38,33 @@ def view_cart(request):
 
 """
 When the user clicks on the thumbs up button -
-Add 1 to the specified feature id count in the cart
+Add 1 to the specified Feature id count in the cart
 """ 
 
 def add_to_cart(request, id):
     
-    print("in add_to_cart, id -------------------------------------")
-        
     # This takes an integer from the form we created
-    
-    print("request method: "+str(request.method))
-    print("id: "+str(id))
     
     # Get the quantity we specified
     
     quantity = 1
-    
-    print("quantity: "+str(quantity))
-    
+   
     # This is going to the cart from the session (not from the database), 
     # and it gets a cart if one already exists, otherwise it gets an empty
     # dictionary
     
-    print("about to get cart----------------------------------------")
     cart = request.session.get('cart', {})
-    print("have cart----------------------------------------")
-    print("cart: "+str(cart))
-        
+    
     # Add cart id and quantity
     
     if id in cart:
         
-        print("feature is in cart========================")
         cart[id] = int(cart[id]) + quantity
         
     else:
-        print("feature is NOT in cart========================")
+        
         cart[id] = cart.get(id, quantity)
-        
     
-    print("CART UPDATED: "+str(cart))
-        
     request.session['cart'] = cart
         
     return redirect(reverse('features_home'))
@@ -90,44 +73,31 @@ def add_to_cart(request, id):
 # This view is called via the js (".add-btn-click") in base.html
 
 def add_to_cart_js(request):
-    
-    print("in add_to_cart_js -------------------------------------")
         
     # This takes an integer from the form we created
     
-    print("request method: "+str(request.method))
-    
     id = request.POST.get('featureId')
     quantity = int(request.POST.get('qty'))
-    
-    print("id: "+str(id))
-    print("quantity: "+str(quantity))
     
     # This is going to get the cart from the session (not from the database), 
     # and it gets a cart if one already exists, otherwise it gets an empty
     # dictionary
     
-    print("about to get cart_js----------------------------------------")
     cart = request.session.get('cart', {})
-    print("have cart_js----------------------------------------")
-    print("cart: "+str(cart))
-        
+   
     # Add cart id and quantity
     
     if id in cart:
         
-        print("feature is in cart: =========================")
         cart[id] = int(cart[id]) + quantity
         
     else:
-        print("feature is NOT in cart: =========================")
+
         cart[id] = cart.get(id, quantity)
     
     # Update the cart
     
-    print("js_CART UPDATED: "+str(cart))
     request.session['cart'] = cart
-    
     
     data = {}
     
@@ -142,7 +112,7 @@ def add_to_cart_js(request):
 
 
 """
-Adjust the quantity of the specified feature to the specified amount
+Adjust the quantity of the specified Feature to the specified amount
 """
 def adjust_cart(request, id):
     
@@ -165,7 +135,7 @@ def adjust_cart(request, id):
     
     request.session['cart'] = cart
     
-    # If the cart is empty, return to the features list, otherwise go back
+    # If the cart is empty, return to the Features list, otherwise go back
     # to the cart list
     
     
@@ -176,7 +146,7 @@ def adjust_cart(request, id):
     
    
 """
-Get the logged in user's details re the Issue Tracker app. 
+Get the logged in user's details the user details db. 
 These details tells us whether the User is on the Vendor side or 
 the Client side.
 """
@@ -188,7 +158,7 @@ def get_user_iss_trk_details(request):
     try:
         UserDetails = UserDetail.objects.get(user_id=request.user.username)
     except:
-        messages.error(request, "Problem retrieving the user's Issue Tracker Details!")
+        messages.error(request, "Problem retrieving the user's details!")
     
     return UserDetails
     

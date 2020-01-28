@@ -7,6 +7,7 @@ from app2_user_home.models import Client
 
 
 # Home Page
+
 def home(request):
     
     """ A view that renders the app home page """
@@ -16,7 +17,7 @@ def home(request):
     if request.user.is_authenticated: 
         login_form = UserLoginForm(request.POST)
     
-        # User already logged in. Get the user details from the Issue Tracking System
+        # User already logged in. Get the user details from the user details db
     
         UserDetails = UserDetail.objects.get(user_id=request.user.username)
         messages.success(request, "You are already logged in!")
@@ -43,6 +44,9 @@ def home(request):
         return render(request, 'home.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails})
     
     else:
+        
+        # User not logged in yet 
+        
         return render(request, "home.html")
         
 

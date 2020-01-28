@@ -1,13 +1,23 @@
 {% extends "base.html" %} {% block content %}
 
-<!-- If the user is a vendor-side user, show the name of the client the feature 
-     belongs to -->
+<!-- This form will be used:
+     1. To display the details of a Feature 
+     2. Allow the user to view & enter comments on the Feature
+     3. Allow user to Edit / Update the Feature  -->
+
+
+<!-- Back button to allow the user to go back to the page on the Features List from 
+     which they selected the Feature -->
 
 <div class="row no-gutters back-row-height">
     <div class="col-5">
         <a id="ftr-back-to-prev-page" class="ftr-back-btn ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home_list' back_to_page list_filters %}"><i class="fas fa-angle-double-left"></i>Back to list</a>
     </div>
 
+<!-- If the user is a vendor-side user, or the Feature belongs to the client 
+         the user is associated with, show the name of the client the Featire belongs to,
+         otherwise show asterisks-->
+         
    <div class="col-7 form-font">
         
         <span>
@@ -65,7 +75,7 @@
 
         {% if userdetails.user_type == "V" %}
 
-        <!-- If the user is a vendor-side user, show who the feature is
+        <!-- If the user is a vendor-side user, show who the Feature is
                      assigned to on the vendor side -->
 
         <div class="col-12 col-md-5 form-font ">
@@ -75,14 +85,14 @@
 
         {% else %}
 
-        <!-- Client-side user: Show the user the feature is assigned to on the 
-             client side, but only if the feature belongs to the client the user is 
+        <!-- Client-side user: Show the user the Feature is assigned to on the 
+             client side, but only if the Feature belongs to the client the user is 
              associated with -->
 
         <div class="col-12 col-md-5 form-font">
             <span><strong>Assigned to: </strong></span> {% if userdetails.vend_client_code == feature.client_code %}
 
-            <!-- Only show the assigned user if the user client and feature 
+            <!-- Only show the assigned user if the user client and Feature 
             client are the same-->
 
             <span class="pl-1">{{ feature.assigned_client_user}}</span> {% else %}
@@ -115,11 +125,34 @@
     </div>
     <hr>
 
-    <!-- START OF FEATURE COMMENTS SECTIONS ---------------------------------->
+    <!-- START OF FEATURE COMMENTS SECTION ---------------------------------->
+    
+    <!-- Comments are hidden:
+         o if the Feature Details are being displayed just after the user logged the
+           Feature
+         o if the user clicked on 'more' ('...') in the Features List to view the
+           Feature Details
+         o in these cases 'comments_input' and 'view_comments' will be set 
+           to 'n'
+         o the user may click on the 'comments' icon at the top of the Feature 
+           Details page to show/hide the comments dashboard, and input or view 
+           comments
+    -->
+    <!-- Comments are shown:
+         o if the Feature Details are being displayed just after the user entered
+           a comment
+         o if the user clicked on the 'comments' icon in the Features List to view the
+           Feature Comments
+         o in these cases 'comments_input' and 'view_comments' will be set 
+           to 'y'
+         o the user may click on the 'comments' icon at the top of the Feature 
+           Details page to hide/show the comments dashboard, and input or view 
+           comments
+    -->
 
     {% if comments_input == 'y' or view_comments == 'y' %}
 
-    <!-- COMMENTS ICONS:
+    <!--Comments Dashboard:
         If comments are currently being input display the comments dashboard,
          Or if the comments list is required, display the comments dashboard,
          otherwise, hide it. -->
@@ -226,7 +259,7 @@
 
 
         <!-- COMMENTS LIST: 
-             If the comments list for this feature are currently being viewed, 
+             If the comments list for this Feature are currently being viewed, 
             display the list of comments, otherwise hide it -->
 
         {% if view_comments == 'y'%}
@@ -366,9 +399,9 @@
                     {% if userdetails.user_type == "C" %} {% if userdetails.vend_client_code == feature.client_code %}
 
                     <!-- User is a client-side user - they can only Edit the details of 
-                         their own features and only while they're at status DRAFT or LOGGED. They cannot
-                         see DRAFT or LOGGED features that belong to other clients.
-                         If the feature is not status DRAFT or LOGGED, they can update the Assigned Client User only.
+                         their own Features and only while they're at status DRAFT or LOGGED. They cannot
+                         see DRAFT or LOGGED Features that belong to other clients.
+                         If the Feature is not status DRAFT or LOGGED, they can update the Assigned Client User only.
                                  
                          Is the Feature status = DRAFT or LOGGED? 
                          If so, enable the Edit button, otherwise enable the Update Button -->
@@ -382,7 +415,7 @@
                     <a href="{% url 'update_feature' feature.id back_to_page list_filters %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a> {% endif %} {% endif %} {% else %}
 
                     <!-- User is a vendor-side user. 
-                     Allow the user to update the feature status, price and assigned vendor user -->
+                     Allow the user to update the Feature status, price and assigned vendor user -->
 
                     <a href="{% url 'update_feature' feature.id back_to_page list_filters %}" class="btn ftr-edit-update-btn-color ftr-enabled-link">Update</a> {% endif %}
 

@@ -24,11 +24,11 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item features-filter" data-value="ME">ASSIGNED TO ME</a>
 
-                    <!-- If the user is on the Vendor side, they will be able to filter features by 'ALL FEATURES', and 'FEATURES ASSIGNED TO ME',
+                    <!-- If the user is on the Vendor side, they will be able to filter Features by 'ALL FEATURES', and 'FEATURES ASSIGNED TO ME',
                                      but they will also have a Client Code dropdown box from which to select clients -->
 
                     <!-- If the user is on the Client side, include the following options. Client-side users will not have a dropdown box
-                                     from which to select Client codes (data protection issue). Although they will be able to see other clients' features,
+                                     from which to select Client codes (data protection issue). Although they will be able to see other clients' Features,
                                      they wont be able to see other clients' details -->
 
                     {% if userdetails.user_type == "C" %}
@@ -53,7 +53,7 @@
                     <a class="dropdown-item ftr-status-filter" href="#" data-value="ALL">ALL</a>
                     <div class="dropdown-divider"></div>
 
-                    <!-- If the user is on the vendor side, exclude 'DRAFT'. They dont see features
+                    <!-- If the user is on the vendor side, exclude 'DRAFT'. They dont see Features
                      until they're at a status of 'LOGGED' -->
 
                     {% if userdetails.user_type == "C" %}
@@ -115,8 +115,6 @@
     </div>
 
 
-
-
     <!-- Show Features as per the Feature & Status & Client (if applicable) Filters -->
 
     <!-- On the first load of this page, the details are passed in from the 
@@ -147,9 +145,9 @@
                 </thead>
                
                <!-- After clicking on 'Features' in the navbar, the table 
-                    details will be retrieved via the 'features_list' view and 
+                    details will be retrieved via the 'Features_list' view and 
                     displayed via userhome.html. When the user filters the 
-                    features, it will trigger the javascript 'on click' 
+                    Features, it will trigger the javascript 'on click' 
                     functions in base.html which will call the 'get_features' 
                     view, return the details to the js function, which will 
                     clear the table and output the new details to it. -->
@@ -160,7 +158,7 @@
                         <td class="td-id">{{ feature.id }}</td>
                         <td class="td-date">{{ feature.input_date|date:"d M y" }}</td>
                         
-                        <!-- The feature can be assigned to a user on the client side, and a user on the vendor side. 
+                        <!-- The Feature can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
                              or the vendor side -->
                         

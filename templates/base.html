@@ -96,13 +96,13 @@
 
                     {%if userdetails.user_type == "C" %}
 
-                    <!-- Only Client-side users can enter issues -->
+                    <!-- Only Client-side users can enter Issues -->
 
                     <li class="nav-item iss-ftr-ml"><a class="btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'new_issue' %}"><i class="fas fa-plus pr-1"></i>ISSUE</a></li>
 
                     {% else %}
 
-                    <!-- Else vendor-side user, Disable the new issue link -->
+                    <!-- Else vendor-side user, Disable the new Issue link -->
 
                     <li class="nav-item iss-ftr-ml"><span class="btn iss-btn-color iss-button-font iss-nav-link disabled-link"><i class="fas fa-plus pr-1"></i>ISSUE</span></li>
                     </li>
@@ -110,13 +110,13 @@
 
                     <li class="nav-item iss-ftr-gap"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_home' %}" data-value="MY FEATURES"><i class="fas fa-list pr-1"></i>FEATURES</a></li>
 
-                    <!-- Only Client-side users can enter new features -->
+                    <!-- Only Client-side users can enter new Features -->
 
                     {% if userdetails.user_type == "C" %}
 
                     <li class="nav-item iss-ftr-ml"><a href="{% url 'new_feature' %}" class="btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</a> {% else %}
 
-                        <!-- Else, vendor-side user, disable the new features link -->
+                        <!-- Else, vendor-side user, disable the new Features link -->
 
                         <li class="nav-item iss-ftr-ml"><span class="btn ftr-btn-color ftr-button-font ftr-nav-link disabled-link" data-value="ADD FEATURE"><i class="fas fa-plus pr-1"></i>FEATURE</span></li>
 
@@ -135,7 +135,7 @@
 
                             <a class="cart-button-font cart-nav-link cart-enabled-link" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart
                                         
-                        <!-- This will show how many features are in the cart -->
+                        <!-- This will show how many Features are in the cart -->
                                             
                         <label id="feature_count" class="badge cart-count-style">{{ feature_count }}</label></a> {% else %}
 
@@ -165,9 +165,9 @@
     </header>
 
     <!-- If the user is logged in don't show the section image, and leave a blank line for messages -->
-    
+
     {% if user.is_authenticated %}
-        <section class="section-post-login section-bg-color">
+    <section class="section-post-login section-bg-color">
 
         <!-- A line is kept just below the navbar to display messages -->
 
@@ -183,2218 +183,2203 @@
                 </ul>
             </div>
         </div>
-    
-    {% else %}
-    
-    <!-- If user is not logged in show a background image in the <section> element -->
+
+        {% else %}
+
+        <!-- If user is not logged in show a background image in the <section> element -->
         <section class="section-pre-login section-bg-image">
-    {% endif %}
+            {% endif %} {% block content %} {% endblock %}
 
-        {% block content %}
-        {% endblock %}
-
-    </section>
+        </section>
 
 
 
-    <!-- Pagination 
-         This is used by both the issues list and the features list.
-         Both issues and features are passed back in 'listing' so that the
+        <!-- Pagination 
+         This is used by both the Issues list and the Features list.
+         Both Issues and Features are passed back in 'listing' so that the
          pagination variables will be picked up 
-         Specific classes prefixed with 'iss- are added for issue; and classes
-         prefixed with 'ftr-' are added for features. This is because the 
+         Specific classes prefixed with 'iss- are added for Issue; and classes
+         prefixed with 'ftr-' are added for Features. This is because the 
          highlighter color is different for each  -->
 
-    <!-- Only include the pagination line if the user is logged in. The <section> 
+
+        <!-- Only include the pagination line if the user is logged in. The <section> 
          will take up a full image before user logs in -->
-    {% if user.is_authenticated %}
-    
-    <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
-        {% if listing.has_other_pages %}
 
-        <ul class="pagination justify-content-center">
+        {% if user.is_authenticated %}
 
-            {% if listing.has_previous %}
+        <nav id="paginate" class="pag-nav-section" aria-label="Page navigation">
+            {% if listing.has_other_pages %}
 
-            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                     features list ('ftr-')  -->
+            <ul class="pagination justify-content-center">
 
-            {% if list_type == "issues" %}
+                {% if listing.has_previous %}
 
-            <!-- if the issues list was generated from the search box, the search parameter must be passed back as well -->
+                <!-- Add the correct classes depending on whether its the Issue list ('iss-') or the 
+                     Features list ('ftr-')  -->
 
-            {% if searching == 'y' %}
+                {% if list_type == "issues" %}
 
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
-            {% endif %} {% else %}
+                <!-- if the Issues list was generated from the search box, the search parameter must be passed back as well -->
 
-            <!-- Features list: If the list was generated via the search box, the search value must be passed back as well -->
+                {% if searching == 'y' %}
 
-            {% if searching == 'y' %}
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
-            {% endif %} {% endif %} {% else %}
-
-            <li class="page-item"><span class="page-link">&laquo;</span></li>
-
-            {% endif %}
-
-            <!-- Output the other page numbers -->
-
-            {% for i in listing.paginator.page_range %} {% if listing.number == i %}
-
-            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                         features list ('ftr-')  -->
-
-            {% if list_type == "issues" %}
-
-            <li class="page-item"><span id="current-page" class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-
-            {% else %}
-
-            <li class="page-item"><span class="page-link ftr-selected">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-
-            {% endif %} {% else %}
-
-            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                             features list ('ftr-')  -->
-
-            {% if list_type == "issues" %}
-
-            <!-- If listing was generated from search box, pass back the search value as well -->
-
-            {% if searching == 'y' %}
-
-            <!-- Searching-->
-
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
-
-            {% else %}
-            <!-- Not Searching-->
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% else %}
-
-            <!-- Features list: If listing was generated from search box, pass back the search value as well -->
-
-            {% if searching == 'y' %}
-
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
-            {% else %}
-
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endif %} {% endif %} {% endfor %} {% if listing.has_next %}
-
-            <!-- Add the correct classes depending on whether its the issue list ('iss-') or the 
-                     features list ('ftr-')  -->
-
-            {% if list_type == "issues" %}
-
-            <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
-
-            {% else %}
-
-            <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
-
-            {% endif %} {% else %}
-
-            <li class="page-item"><span class="page-link">&raquo;</span></li>
-            {% endif %}
-
-        </ul>
-        {% endif %}
-    </nav>
-    {% endif %}
-    
-
-
-    <footer>
-        <div class="row no-gutters footer-style">
-
-            <!-- If user is logged in show the report buttons -->
-
-            <div class="col-12 col-md-4 pb-1 min-height">
-                {% if user.is_authenticated %}
-                <ul class="p-0 m-0">
-                    <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
-                </ul>
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
                 {% else %}
-                <p class="courgette-font m-0 footer-copyright">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+                {% endif %} {% else %}
+
+                <!-- Features list: If the list was generated via the search box, the search value must be passed back as well -->
+
+                {% if searching == 'y' %}
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}/?q_issues={{ search_value }}">&laquo;</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.previous_page_number }}">&laquo;</a></li>
+                {% endif %} {% endif %} {% else %}
+
+                <li class="page-item"><span class="page-link">&laquo;</span></li>
+
                 {% endif %}
+
+                <!-- Output the other page numbers -->
+
+                {% for i in listing.paginator.page_range %} {% if listing.number == i %}
+
+                <!-- Add the correct classes depending on whether its the Issue list ('iss-') or the 
+                         Features list ('ftr-')  -->
+
+                {% if list_type == "issues" %}
+
+                <li class="page-item"><span id="current-page" class="page-link iss-selected">{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+
+                {% else %}
+
+                <li class="page-item"><span class="page-link ftr-selected">{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+
+                {% endif %} {% else %}
+
+                <!-- Add the correct classes depending on whether its the Issue list ('iss-') or the 
+                             Features list ('ftr-')  -->
+
+                {% if list_type == "issues" %}
+
+                <!-- If listing was generated from search box, pass back the search value as well -->
+
+                {% if searching == 'y' %}
+
+                <!-- Searching-->
+
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
+
+                {% else %}
+                <!-- Not Searching-->
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %} {% else %}
+
+                <!-- Features list: If listing was generated from search box, pass back the search value as well -->
+
+                {% if searching == 'y' %}
+
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}/?q_issues={{ search_value }}">{{ i }}</a></li>
+                {% else %}
+
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %} {% endif %} {% endif %} {% endfor %} {% if listing.has_next %}
+
+                <!-- Add the correct classes depending on whether its the Issue list ('iss-') or the 
+                     Features list ('ftr-')  -->
+
+                {% if list_type == "issues" %}
+
+                <li class="page-item"><a class="page-link iss-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+                {% else %}
+
+                <li class="page-item"><a class="page-link ftr-page-live-link" href="?page={{ listing.next_page_number }}">&raquo;</a></li>
+
+                {% endif %} {% else %}
+
+                <li class="page-item"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+
+            </ul>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+
+
+        <footer>
+            <div class="row no-gutters footer-style">
+
+                <!-- If user is logged in show the report buttons -->
+
+                <div class="col-12 col-md-4 pb-1 min-height">
+                    {% if user.is_authenticated %}
+                    <ul class="p-0 m-0">
+                        <li class="nav-item text-center"><a class=" btn iss-btn-color iss-button-font iss-nav-link iss-enabled-link" href="{% url 'issues_report' %}"><i class="far fa-chart-bar pr-1"></i>ISSUES REPORT</a></li>
+                    </ul>
+                    {% else %}
+                    <p class="courgette-font m-0 footer-copyright">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-12 col-md-4 pb-1 min-height">
+                    {% if user.is_authenticated %}
+                    <ul class="p-0 m-0">
+                        <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="col-12 col-md-4 footer-copyright text-center pt-4 min-height">
+                    {% if user.is_authenticated %}
+                    <p class="courgette-font m-0">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="col-12 col-md-4 pb-1 min-height">
-                 {% if user.is_authenticated %}
-                <ul class="p-0 m-0">
-                    <li class="nav-item text-center"><a class=" btn ftr-btn-color ftr-button-font ftr-nav-link ftr-enabled-link" href="{% url 'features_report' %}"><i class="far fa-chart-bar pr-1"></i></i>FEATURES REPORT</a></li>
-                </ul>
-                {% endif %}
-            </div>
+        </footer>
+
+
+
+        <!-- Custom Javascript -->
+
+
+
+        <script>
             
-            <div class="col-12 col-md-4 footer-copyright text-center pt-4 min-height">
-                {% if user.is_authenticated %}
-                <p class="courgette-font m-0">Copyright <i class="far fa-copyright"></i>2020 KMcD Accounting Solutions</p>
-                {% endif %}
-            </div>
-        </div>
-        
-    </footer>
+            // PLEASE NOTE:
+            // I originally created a separate .js file, but the js didnt work for me. Perhaps because I'm calling
+            // Python views from the js. I couldn't work out what the problem was and decided to leave the js
+            // in the base.html file. 
+            
+            // The following script manages the Filtering and Pagination of Issues 
+            // and Features when selections are made from the dropdown filters
 
-    <!-- Custom Javascript -->
 
+            $(document).ready(function() {
 
+                // ISSUES PROCESSING -------------------------------------------//
 
-    <script>
-        // The following script manages the Filtering and Pagination of Issues 
-        // and Features when selections are made from the dropdown filters
+                // ===========================
+                // Filtering by Issue Filter 
+                // ===========================
 
+                // A value has been selected by the user from the Issues Filter 
+                // dropdown 
 
-        $(document).ready(function() {
+                $('.issues-filter').on('click', function() {
 
-            // ISSUES PROCESSING -------------------------------------------//
+                    event.preventDefault();
 
-            // ===========================
-            // Filtering by Issue Filter 
-            // ===========================
+                    // The Issues Filter data value and the text in the dropdown
+                    // box are not the same. Get the value and the text
 
-            // A value has been selected by the user from the Issues Filter 
-            // dropdown 
+                    let issuesFilter = $(this).data('value');
+                    let issuesFilterText = this.innerText;
 
-            $('.issues-filter').on('click', function() {
+                    // Clear the contents of the search box, to avoid confusing the user
 
-                event.preventDefault();
+                    document.getElementById('iss-search-val').value = ""
 
-                // The Issues Filter data value and the text in the dropdown
-                // box are not the same. Get the value and the text
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
 
-                let issuesFilter = $(this).data('value');
-                let issuesFilterText = this.innerText;
+                    $('#dropdownMenuLink-1').text(issuesFilterText);
 
-                // Clear the contents of the search box, to avoid confusing the user
+                    // When the user selects a value from the Issues Filter, all the
+                    // other filters are reset to "ALL"
 
-                document.getElementById('iss-search-val').value = ""
+                    // Reset Status Filter to "ALL" and display it in the filter
+                    // dropdown box
 
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-1').text(issuesFilterText);
-
-                // When the user selects a value from the Issues Filter, all the
-                // other filters are reset to "ALL"
-
-                // Reset Status Filter to "ALL" and display it in the filter
-                // dropdown box
-
-                let statusFilter = "ALL"
-                $('#dropdownMenuLink-2').text(statusFilter);
-
-                // Reset Priority Filter to "ALL" and display it in the filter
-                // dropdown box
-
-                let priorityFilter = "ALL"
-                $('#dropdownMenuLink-3').text(priorityFilter);
-
-                // Reset Client Filter to "ALL". If this is a client-side 
-                // user, the Client Code dropdown option wont be displayed on
-                // screen. If its a vendor-side user, display "ALL" in the 
-                // Client dropdown box
-
-                let clientFilter = "ALL";
-
-                if ($("#dropdownMenuLink-4").length > 0) {
-
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
-
-                // Get the issues requested by the user, as per the filter
-                // values, starting with page 1
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = ""
-
-                // Initialise the page number
-
-                let page = 1;
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-
-            });
-
-
-            // =================================
-            // Filtering Issues by Status Filter
-            // =================================
-
-            // A value has been selected from the Status filter dropdown by the user
-
-            $('.iss-status-filter').on('click', function() {
-
-                event.preventDefault();
-                let statusFilter = $(this).data('value');
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('iss-search-val').value = ""
-
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-2').text(statusFilter);
-
-                // When the status filter is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Issues Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let issuesFilter = getIssuesFilterValue();
-
-                if (issuesFilter == "") {
-                    issuesFilter = 'ALL'
-                    $('#dropdownMenuLink-1').text(issuesFilter);
-                }
-
-                // Get the current value of the Priority Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let priorityFilter = getPriorityFilterValue();
-
-                if (priorityFilter == "") {
-                    priorityFilter = 'ALL'
-
-                    $('#dropdownMenuLink-3').text(priorityFilter);
-                }
-
-                // Get the current value of the Client Filter, if it's an
-                // option on the screen, otherwise set it to "ALL"
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let clientFilter = getClientFilterValue();
-
-                if (clientFilter == "") {
-                    clientFilter = 'ALL'
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = ""
-
-                // Initialise the page number
-
-                let page = 1;
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-            });
-
-
-            // ===========================
-            // Filtering Issues by Priority
-            // ===========================
-
-            $('.priority-filter').on('click', function() {
-
-                event.preventDefault();
-
-                let priorityFilter = $(this).data('value');
-                let priorityFilterText = this.innerText;
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('iss-search-val').value = ""
-
-                // A value has been selected from the Priority Filter dropdown 
-                // by the user
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-3').text(priorityFilterText);
-
-                // When the priority filter is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Issues Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let issuesFilter = getIssuesFilterValue();
-
-                if (issuesFilter == "") {
-                    issuesFilter = 'ALL ISSUES'
-                    $('#dropdownMenuLink-1').text(issuesFilter);
-                }
-
-
-                // Get the current value of the Status Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let statusFilter = getStatusFilterValue();
-
-                if (statusFilter == "") {
-                    statusFilter = 'ALL'
+                    let statusFilter = "ALL"
                     $('#dropdownMenuLink-2').text(statusFilter);
-                }
 
+                    // Reset Priority Filter to "ALL" and display it in the filter
+                    // dropdown box
 
-                // Get the current value of the Client Filter, if it's an
-                // option on the screen, otherwise set it to "ALL"
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let clientFilter = getClientFilterValue();
-
-                if (clientFilter == "") {
-                    clientFilter = "ALL";
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = ""
-
-                // Initialise the page number
-
-                let page = 1;
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-            });
-
-
-            /*  =====================================
-                Filtering Issues by Client Filter 
-                ======================================
-            */
-
-            // Client Filter has been selected by the user. The Client Filter
-            // will only be available when the user is a vendor-side user
-
-            $('.iss-client-filter').on('click', function() {
-
-                event.preventDefault();
-
-                // Client dropdown has the client code followed by client name
-                // Extract the client code & name
-
-                let clientCodeName = $(this).data('value');
-
-                var clientDetails = $(this).data('value').split(" ");
-                let clientFilter = clientDetails[0];
-
-
-                // Clear the contents of the text search box, to avoid confusing the user
-
-                document.getElementById('iss-search-val').value = "";
-
-                // A value has been selected from the Client Filter dropdown by
-                // the user
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-4').text(clientCodeName);
-
-                // When the client filter is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Issues Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let issuesFilter = getIssuesFilterValue();
-
-                if (issuesFilter == "") {
-                    issuesFilter = 'ALL ISSUES'
-                    $('#dropdownMenuLink-1').text(issuesFilter);
-                }
-
-
-                // Get the current value of the Status Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let statusFilter = getStatusFilterValue();
-
-                if (statusFilter == "") {
-                    statusFilter = 'ALL'
-                    $('#dropdownMenuLink-2').text(statusFilter);
-                }
-
-
-                // Get the current value of the Priority Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let priorityFilter = getPriorityFilterValue();
-
-                if (priorityFilter == "") {
-                    priorityFilter = 'ALL'
+                    let priorityFilter = "ALL"
                     $('#dropdownMenuLink-3').text(priorityFilter);
-                }
 
+                    // Reset Client Filter to "ALL". If this is a client-side 
+                    // user, the Client Code dropdown option wont be displayed on
+                    // screen. If its a vendor-side user, display "ALL" in the 
+                    // Client dropdown box
 
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
+                    let clientFilter = "ALL";
 
-                let searchValue = "";
+                    if ($("#dropdownMenuLink-4").length > 0) {
 
-                // Initialise the page number
-
-                let page = 1;
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-            });
-
-
-            //==================================================================
-            // SEARCH BOX - Searching for Issues where text in the Issue Summary
-            // matches the text input in the input box
-            //==================================================================
-
-            $('#iss-search-btn').on('click', function() {
-
-                // The user has input a value in the Issues search box 
-
-                event.preventDefault();
-
-                let searchValue = document.getElementById('iss-search-val').value
-
-                // When the user enters a value in the search box, all the filters
-                // will be set to spaces, as only the search value will be used
-                // to select the issues
-
-                let issuesFilter = ""
-                $('#dropdownMenuLink-1').text(issuesFilter);
-                let statusFilter = ""
-                $('#dropdownMenuLink-2').text(statusFilter);
-                let priorityFilter = ""
-                $('#dropdownMenuLink-3').text(priorityFilter);
-                let clientFilter = "";
-                $('#dropdownMenuLink-4').text(clientFilter);
-
-                // Get the issues requested by the user, as per the filter
-                // values, starting with page 1
-
-                let page = 1;
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-
-            });
-
-
-            // ===========================
-            // Issues Pagination
-            // ===========================
-
-            // The user has clicked on a page number
-            // Using "$(document).on . . ." here because the 'iss-page-click' 
-            // class is not part of the html when it is first loaded, they are
-            // added by js when it displays the filtered data, and therefore the
-            // js wont respond to "$('.iss-page-click').on('click', function()"
-
-            $(document).on('click', ".iss-page-click", function() {
-
-                // Get the page number the user clicked on
-
-                var page = $(this).data('value');
-
-                // Get the current values of the filters
-
-                let issuesFilter = getIssuesFilterValue();
-                let statusFilter = getStatusFilterValue();
-                let priorityFilter = getPriorityFilterValue();
-                let clientFilter = getClientFilterValue();
-                let searchValue = document.getElementById('iss-search-val').value
-
-                // Get the issues as per the filter values and page number
-
-                getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
-            });
-
-
-            // ================
-            // HELPER FUNCTIONS
-            // ================
-            // Get the current value of the issues filter
-
-            function getIssuesFilterValue() {
-
-                // Get the current value of the Issues Filter
-
-                let el = document.getElementById("dropdownMenuLink-1");
-                let issuesFilterText = el.innerText;
-
-                let issuesDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
-                let issuesDropdownText = ["ALL ISSUES", "ASSIGNED TO ME", "OUR ISSUES ONLY", "OTHER CLIENTS' ISSUES ONLY"];
-
-                var issuesFilter = "";
-                let i = 0;
-                for (i in issuesDropdownText) {
-
-                    if (issuesFilterText == issuesDropdownText[i]) {
-                        issuesFilter = issuesDropdownValue[i]
+                        $('#dropdownMenuLink-4').text(clientFilter);
                     }
-                    i += 1
-                }
 
+                    // Get the Issues requested by the user, as per the filter
+                    // values, starting with page 1
 
-                return issuesFilter;
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
 
-            }
+                    let searchValue = ""
 
-            // Get the current value of the Status Filter
+                    // Initialise the page number
 
-            function getStatusFilterValue() {
+                    let page = 1;
 
-                let el = document.getElementById("dropdownMenuLink-2");
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
 
-                let statusFilter = el.innerText;
+                });
 
-                return statusFilter;
 
-            }
+                // =================================
+                // Filtering Issues by Status Filter
+                // =================================
 
-            // Get the current value of the Priority Filter
-            // The priority in the db is just a number from 1 - 5. But on the 
-            // screen a descriptive text is included, e.g. 1 - URGENT. When
-            // getting the value of the current priority filter, the '1' must
-            // be extracted from the text.
+                // A value has been selected from the Status filter dropdown by the user
 
-            function getPriorityFilterValue() {
+                $('.iss-status-filter').on('click', function() {
 
-                let el = document.getElementById("dropdownMenuLink-3");
-                let priorityFilter = el.innerText
+                    event.preventDefault();
+                    let statusFilter = $(this).data('value');
 
+                    // Clear the contents of the search box, to avoid confusing the user
 
-                if (el.innerText != "ALL" & el.innerText != "") {
+                    document.getElementById('iss-search-val').value = ""
 
-                    let priorityArray = el.innerText.split("");
 
-                    priorityFilter = priorityArray[0];
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
 
-                }
-
-                return priorityFilter;
-
-            }
-
-
-            // Get the current value of the Client Filter, if it's an
-            // option on the screen, otherwise set it to "ALL"
-
-            function getClientFilterValue() {
-
-                var clientFilter = "ALL";
-
-                if ($("#dropdownMenuLink-4").length > 0) {
-
-                    let el = document.getElementById("dropdownMenuLink-4");
-
-                    let clientCodeName = el.innerText;
-
-                    let clientDetails = clientCodeName.split(" ");
-                    clientFilter = clientDetails[0];
-
-                }
-
-                return clientFilter;
-
-            }
-
-
-            // =================================
-            // Get the issues from the database 
-            // =================================
-
-            // Get the relevant issues, based on the value of the filters
-
-
-            function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue) {
-
-                $.post({
-                    url: "{% url 'get_issues' %}",
-                    data: {
-                        csrfmiddlewaretoken: "{{csrf_token}}",
-                        issuesFilter: issuesFilter,
-                        statusFilter: statusFilter,
-                        priorityFilter: priorityFilter,
-                        clientFilter: clientFilter,
-                        page: page,
-                        searchValue: searchValue,
-
-                    },
-
-                    success: function(data) {
-
-                        var thumbDownList = data.thumb.thumb_down_list
-                        var userMessage = data.user_mesg.user_message;
-
-                        // Get the list filters - they will be use to paginate
-                        // to the correct page when the user clicks "<<Back" on 
-                        // the Feature Details page
-
-                        var listFilters = data.filters.list_filters
-
-                        // Display user message if one is returned
-                        // If the message is blank, keep the line, but make
-                        // it invisible on the screen
-
-                        if (userMessage != "") {
-
-                            $('.user-message').text(userMessage)
-                            $('.user-message').removeClass('blank-line')
-                        }
-                        else {
-                            $('.user-message').text("blank")
-                            $('.user-message').addClass('blank-line')
-                        }
-
-
-                        // Clear the current contents of the table
-                        // Output the details of each issue to the table 
-
-                        $("tbody").empty();
-                        $.each(data.issues, function(key, value) {
-
-                            var issueId = value.id;
-                            var inputDate = value.date;
-                            var user = value.user;
-                            var clientCode = value.client_code;
-                            var userClientCode = value.user_client_code
-
-                            var softwareComponent = value.software_component;
-                            var priority = value.priority;
-                            var summary = value.summary;
-                            var status = value.status;
-                            var issuethumbsUpCount = value.thumbs_up_count
-                            var issClientCode = value.iss_client_code
-                            
-
-
-                            // Initialise 'tuEnabledDisabled'. Class To be 
-                            // added to thumbs up to enable / disable
-
-                            var tuEnabledDisabled = "";
-
-                            if (value.user_type == "C") {
-                                var assignedUser = value.assigned_client_user;
-                                tuEnabledDisabled = " iss-enabled-link"
-
-                                // If this issue belongs to the client the user is associated with,
-                                // or if the status is DEPLOYED or CLOSED disable the 'thumbs up'
-
-                                if (userClientCode == clientCode || status == "DEPLOYED" || status == "CLOSED") {
-                                    tuEnabledDisabled = " disabled-link"
-                                }
-                            }
-                            else {
-                                var assignedUser = value.assigned_vendor_user;
-                                tuEnabledDisabled = " disabled-link"
-                            }
-
-                            // If the issue has already been 'thumbed up' by 
-                            // this client, show 'thumb-down', to allow the 
-                            // user to change it
-
-                            if (thumbDownList.includes(issueId)) {
-                                var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-down thumbs-up-icon'></i>"
-
-                            }
-                            else {
-                                var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
-                            }
-
-                            // Get the list page number - if the user views the details of an issue from this page
-                            // they will be able to click the '<<Back' button to get back to this page
-
-                            var current_page = data.pagination_props.current_page
-
-                            // Output the Issue Details to the table, including the 'more' icon in the last cell
-
-                            $("tbody").append(
-                                "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-client text-center'>" + issClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-iss-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='iss-comments-icon-style' href=/issue_tracker/" + issueId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments iss-comments-icon-style'></i></a></td></tr>"
-                            );
-
-                        });
-
-
-                        // Output the pagination parameters for the issues list to the html page
-
-                        let listType = "issues"
-                        outputPaginationValues(data, listType)
-
-                    },
-                    traditional: true
-                }).done();
-            }
-
-            /* ================================================================
-               THE FOLLOWING FUNCTIONS MANAGE THE ISSUES COMMENTS SHOW / HIDE 
-               ================================================================
-               
-                The following functions manage the Issue Comments show /hide
-            */
-
-            $('#enable-comments').on('click', function() {
-
-                // Enable Comments icon clicked:
-                // Show the dashboard, but keep the comments form hidden.
-                // The comments form will be enabled by the '+' on the dashboard
-
-                $('#iss-comments-form').hide();
-
-                $('.iss-comments-dash').removeClass('d-none').hide();
-                $('.iss-comments-dash').slideDown(500);
-
-                // Disable the 'enable comments' icon 
-
-                $('#enable-comments').removeClass('iss-enabled-link');
-                $('#enable-comments').addClass('disabled-link');
-
-                // Enable the 'disable comments' icon 
-
-                $('#disable-comments').removeClass('disabled-link');
-                $('#disable-comments').addClass('iss-enabled-link');
-
-
-                // Enable the '+' icon - to open form and add comments
-
-                $('#iss-comments-plus').addClass('iss-enabled-link');
-                $('#iss-comments-plus').removeClass('disabled-link');
-
-                // Disable the '-' icon - this closes the form once its open
-
-                $('#iss-comments-minus').removeClass('iss-enabled-link');
-                $('#iss-comments-minus').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon 
-
-                $('#iss-comments-open').removeClass('disabled-link');
-                $('#iss-comments-open').addClass('iss-enabled-link');
-
-                // Disable the 'close comments list view' icon 
-
-                $('#iss-comments-close').removeClass('iss-enabled-link');
-                $('#iss-comments-close').addClass('disabled-link');
-
-
-            });
-
-
-            $('#disable-comments').on('click', function() {
-
-                // Disable Comments icon clicked:
-                // Hide the comments dashboard, form, and list 
-
-                $('.iss-comments-dash').slideUp();
-                $('#iss-comments-form').slideUp();
-                $('#iss-comments-list').slideUp();
-
-                // Enable the 'enable comments' icon 
-
-                $('#enable-comments').removeClass('disabled-link');
-                $('#enable-comments').addClass('iss-enabled-link');
-
-                // Disable the 'disable comments' icon 
-
-                $('#disable-comments').removeClass('iss-enabled-link');
-                $('#disable-comments').addClass('disabled-link');
-
-            });
-
-
-            $('#iss-comments-plus').on('click', function() {
-
-                // The '+' on the comments dashboard has been clicked:
-                // Show the comments input form
-
-                $('#iss-comments-form').removeClass('d-none').hide();
-                $('#iss-comments-form').slideDown(500);
-
-                // Disable the '+'
-
-                $('#iss-comments-plus').removeClass('iss-enabled-link');
-                $('#iss-comments-plus').addClass('disabled-link');
-
-                // Enable the '-'
-
-                $('#iss-comments-minus').addClass('iss-enabled-link');
-                $('#iss-comments-minus').removeClass('disabled-link');
-
-
-                // Close the comments list view, in case it's open
-
-                $('#iss-comments-list').slideUp(500);
-
-                // Disable the 'close comments list view' icon
-
-                $('#iss-comments-close').removeClass('iss-enabled-link');
-                $('#iss-comments-close').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon
-
-                $('#iss-comments-open').addClass('iss-enabled-link');
-                $('#iss-comments-open').removeClass('disabled-link');
-            });
-
-
-            $('#iss-comments-minus').on('click', function() {
-
-                // The '-' on the comments dashboard has been clicked:
-                // Hide the comments input form
-
-                $('#iss-comments-form').slideUp(500);
-
-                // Disable the '-'
-
-                $('#iss-comments-minus').removeClass('iss-enabled-link');
-                $('#iss-comments-minus').addClass('disabled-link');
-
-                // Enable the '+'
-
-                $('#iss-comments-plus').addClass('iss-enabled-link');
-                $('#iss-comments-plus').removeClass('disabled-link');
-            });
-
-
-            $('#iss-comments-open').on('click', function() {
-
-                // The view comments list icon on the comments dashboard has been 
-                // clicked:
-                // Show the comments list
-
-                // First, close the comments input form, in case it's open
-
-                $('#iss-comments-form').slideUp(500);
-
-                // Disable the '-'
-
-                $('#iss-comments-minus').removeClass('iss-enabled-link');
-                $('#iss-comments-minus').addClass('disabled-link');
-
-                // Enable the '-'
-
-                $('#iss-comments-plus').addClass('iss-enabled-link');
-                $('#iss-comments-plus').removeClass('disabled-link');
-
-                // Show the comments list view
-
-                $('#iss-comments-list').removeClass('d-none').hide();
-                $('#iss-comments-list').slideDown(500);
-
-                // Disable the 'open comments list view' icon
-
-                $('#iss-comments-open').removeClass('iss-enabled-link');
-                $('#iss-comments-open').addClass('disabled-link');
-
-                // Enable the 'close comments list view' icon
-
-                $('#iss-comments-close').addClass('iss-enabled-link');
-                $('#iss-comments-close').removeClass('disabled-link');
-            });
-
-            $('#iss-comments-close').on('click', function() {
-
-                // The 'close comments list view' on the comments dashboard has been clicked:
-                // Hide the comments list
-
-                $('#iss-comments-list').slideUp(500);
-
-                // Disable the 'close comments list view' icon
-
-                $('#iss-comments-close').removeClass('iss-enabled-link');
-                $('#iss-comments-close').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon
-
-                $('#iss-comments-open').addClass('iss-enabled-link');
-                $('#iss-comments-open').removeClass('disabled-link');
-
-            });
-
-
-            /*
-                ==============================================================
-                ISSUES THUMBS UP / DOWN PROCESSING 
-                ==============================================================
-            */
-
-            // Using "$(document).on('click" as the html page is re-displayed
-            // via js on filter selections
-
-            $(document).on('click', ".thumb-click", function() {
-
-                // User has clicked thumb up/down on an issue
-
-                var classes = $(this).attr("class").split(" ");
-                let issueId = classes[0];
-
-
-                // Call iss_thumbs_up_down view to update the thumbs up
-                // count on this issue, etc
-
-                $.post({
-                    url: "{% url 'iss_thumbs_up_down' %}",
-
-                    data: {
-                        csrfmiddlewaretoken: "{{csrf_token}}",
-                        issueId: issueId
-                    },
-
-                    success: function(data) {
-
-                        var thumbsUpDownRemoveClass = data.thumbs_up_down_remove_class;
-                        var thumbsUpDownAddClass = data.thumbs_up_down_add_class;
-                        var thumbsUpCount = data.thumbs_up_count
-
-                        var thumbId = "#thumb_" + issueId;
-
-                        /* Flip the thumbs up / down  */
-
-                        $(thumbId).removeClass(thumbsUpDownRemoveClass);
-                        $(thumbId).addClass(thumbsUpDownAddClass);
-
-                        var thumbsUpCountId = "#thumbs_up_count_" + issueId;
-
-                        $(thumbsUpCountId).text(thumbsUpCount);
-
-                    },
-                    traditional: true
-                }).done();
-            });
-
-
-            /*
-                ==================================
-                Issues Report
-                ==================================
-            */
-
-            $('.show-issues-report').on('click', function() {
-
-                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
-                // open/close the Issues Report for a particular Client
-                // The first class for this element is the Client Code
-
-                var classes = $(this).attr("class").split(" ");
-                var clientCode = classes[0]
-
-                // Create ids for accessing the DOM
-
-                reportId = "#issues-report-" + clientCode
-                chevronId = "#report-open-close-" + clientCode
-
-                // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
-
-                var classes = $(chevronId).attr("class").split(" ");
-                var chevronType = classes[1]
-
-                if (chevronType == "fa-chevron-down") {
-
-                    // User has clicked on 'fa-chevron-down' to
-                    // open the Issues Report for a particular client
-                    // Remove d-none class, but keep hidden. Show by sliding down
-
-                    $(reportId).removeClass('d-none').hide();
-                    $(reportId).slideDown(1000);
-
-                    // Change the chevron from down to up.
-
-                    $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-
-
-                }
-                else {
-
-                    // User has clicked on 'fa-chevron-up' to
-                    // close the Issues Report for a particular client
-
-                    // First, close all Issue Details rows, in case any are open
-                    // And add back the down chevron
-
-                    $('.issue-details-' + clientCode).hide("fast");
-                    $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
-
-                    // Close the Issue Report
-
-                    $(reportId).slideUp(1000);
-
-                    // Change the chevron from up to down.
-
-                    $(chevronId).removeClass('fa-chevron-up');
-                    $(chevronId).addClass('fa-chevron-down');
-
-                }
-            });
-
-            $('.show-issue-details').on('click', function() {
-
-                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
-                // open/close the details of a particular issue in the Issues Report
-
-                // Get the client code and issue id of the issue that was clicked on 
-
-                var classes = $(this).attr("class").split(" ");
-
-                var clientCode = classes[0];
-                var issueId = classes[1];
-                var clientCodeIssueId = clientCode + '-' + issueId;
-
-                // Check whether its 'chevron-down' or 'chevron-up'
-
-                var classes = $('#details-open-close-' + clientCodeIssueId).attr("class").split(" ");
-                var chevronType = classes[1]
-
-                if (chevronType == "fa-chevron-down") {
-
-                    // User has clicked on 'chevron-down' to see the details of a
-                    // particular issue in the Issues Report.
-                    // Remove d-none class, but keep hidden. Show by sliding down
-
-                    $('#issue-details-' + clientCodeIssueId).removeClass('d-none').hide();
-                    $('#issue-details-' + clientCodeIssueId).fadeIn(700);
-
-                    // Change the chevron from down to up.
-
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
-                }
-                else {
-
-                    // User has clicked on 'chevron-up' to close the details of a
-                    // particular issue in the Issues Report.
-                    // Close by sliding up
-
-                    $('#issue-details-' + clientCodeIssueId).fadeOut(700);
-
-                    // Change the chevron from up to down.
-
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
-
-                }
-
-            });
-
-
-
-            /* ==============================================================
-               FEATURES PROCESSING 
-               ==============================================================
-               
-               The following function manage the filtering of features by 
-               Features Filter, Status Filter, Paid Filter, and Client Filter 
-               (vendor-side users only)
-            */
-
-
-            // Filtering by Features Filter
-
-            $('.features-filter').on('click', function() {
-                console.log("features-filter~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
-                // A value has been selected from the  Features Filter dropdown 
-                // by the user
-
-                event.preventDefault();
-                let featuresFilter = $(this).data('value');
-                let featuresFilterText = this.innerText;
-
-                console.log("featuresFilter: " + featuresFilter)
-                console.log("featuresFilterText: " + featuresFilterText)
-
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('ftr-search-val').value = "";
-
-                // The user has selected a value from the Features Filter dropdown
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-1').text(featuresFilterText);
-
-                // When the user selects a value from the Features Filter, all the
-                // other filters are reset to "ALL"
-
-                // Reset Status Filter to "ALL" and display it in the filter
-                // dropdown box
-
-                let statusFilter = "ALL"
-                $('#dropdownMenuLink-2').text(statusFilter);
-
-                // Reset Paid Order to "SORT BY" and display it in the filter
-                // dropdown box
-
-                let paidOrder = "SORTBY"
-                $('#dropdownMenuLink-3').text("SORT BY");
-
-                // Reset Client Filter to "ALL". If this is a client-side 
-                // user, the Client Code dropdown option wont be displayed on
-                // screen. If its a vendor-side user, display "ALL" in the 
-                // Client dropdown box
-
-                let clientFilter = "ALL";
-
-                if ($("#dropdownMenuLink-4").length > 0) {
-
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = ""
-
-                // Get the features requested by the user, as per the filter
-                // values, starting with page 1
-
-                let page = 1;
-
-                console.log("before getFeatures: --------------------")
-                console.log("featuresFilter: " + featuresFilter)
-                console.log("statusFilter: " + statusFilter)
-                console.log("paidOrder: " + paidOrder)
-                console.log("clientFilter: " + clientFilter)
-
-                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
-
-            });
-
-            // Filtering by Status Filter
-
-            $('.ftr-status-filter').on('click', function() {
-
-                // Status filter has been selected by the user
-
-                event.preventDefault();
-                let statusFilter = $(this).data('value');
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('ftr-search-val').value = ""
-
-                // The user has selected a value from the Status Filter dropdown
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-2').text(statusFilter);
-
-                // When the status filter is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Features Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let featuresFilter = getFeaturesFilterValue();
-
-                if (featuresFilter == "") {
-                    featuresFilter = 'ALL FEATURES'
-                    $('#dropdownMenuLink-1').text(featuresFilter);
-                }
-
-                // Get the current value of the Paid Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                var paidOrder = getpaidOrderValue();
-
-                if (paidOrder == "") {
-                    paidOrder = 'SORTBY'
-                    $('#dropdownMenuLink-3').text("SORT BY");
-                }
-
-                // Get the current value of the Client Filter, if it's an
-                // option on the screen, otherwise set it to "ALL"
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let clientFilter = getClientFilterValue();
-
-                if (clientFilter == "") {
-                    clientFilter = 'ALL'
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = ""
-
-                // Get the features requested by the user, as per the filter
-                // values, starting with page 1
-
-                let page = 1;
-
-
-                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
-            });
-
-
-            // Ordering by Paid
-
-            $('.paid-order').on('click', function() {
-
-                // Paid sort order has been selected by the user
-
-                event.preventDefault();
-
-                let paidOrder = $(this).data('value');
-                let paidOrderText = this.innerText;
-
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('ftr-search-val').value = ""
-
-                // The user has selected a value from the Paid Order dropdown
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-3').text(paidOrderText);
-
-                // When the Paid Order is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Features Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let featuresFilter = getFeaturesFilterValue();
-
-                if (featuresFilter == "") {
-                    featuresFilter = 'ALL'
-                    $('#dropdownMenuLink-1').text("ALL FEATURES");
-                }
-
-                // Get the current value of the Status Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let statusFilter = getStatusFilterValue();
-
-                if (statusFilter == "") {
-                    statusFilter = 'ALL'
                     $('#dropdownMenuLink-2').text(statusFilter);
-                }
 
-                // Get the current value of the Client Filter, if it's an
-                // option on the screen, otherwise set it to "ALL"
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
+                    // When the status filter is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
 
-                let clientFilter = getClientFilterValue();
+                    // Get the current value of the Issues Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
 
-                if (clientFilter == "") {
-                    clientFilter = 'ALL'
-                    $('#dropdownMenuLink-4').text(clientFilter);
-                }
+                    let issuesFilter = getIssuesFilterValue();
 
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
+                    if (issuesFilter == "") {
+                        issuesFilter = 'ALL'
+                        $('#dropdownMenuLink-1').text(issuesFilter);
+                    }
 
-                let searchValue = ""
+                    // Get the current value of the Priority Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
 
-                // Get the features requested by the user, as per the filter
-                // values, starting with page 1
+                    let priorityFilter = getPriorityFilterValue();
 
-                let page = 1;
+                    if (priorityFilter == "") {
+                        priorityFilter = 'ALL'
 
-                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
-            });
+                        $('#dropdownMenuLink-3').text(priorityFilter);
+                    }
+
+                    // Get the current value of the Client Filter, if it's an
+                    // option on the screen, otherwise set it to "ALL"
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let clientFilter = getClientFilterValue();
+
+                    if (clientFilter == "") {
+                        clientFilter = 'ALL'
+                        $('#dropdownMenuLink-4').text(clientFilter);
+                    }
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = ""
+
+                    // Initialise the page number
+
+                    let page = 1;
+
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+                });
 
 
-            // Filtering by Client Filter 
+                // ===========================
+                // Filtering Issues by Priority
+                // ===========================
 
-            $('.ftr-client-filter').on('click', function() {
+                $('.priority-filter').on('click', function() {
+
+                    event.preventDefault();
+
+                    let priorityFilter = $(this).data('value');
+                    let priorityFilterText = this.innerText;
+
+                    // Clear the contents of the search box, to avoid confusing the user
+
+                    document.getElementById('iss-search-val').value = ""
+
+                    // A value has been selected from the Priority Filter dropdown 
+                    // by the user
+
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-3').text(priorityFilterText);
+
+                    // When the priority filter is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
+
+                    // Get the current value of the Issues Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let issuesFilter = getIssuesFilterValue();
+
+                    if (issuesFilter == "") {
+                        issuesFilter = 'ALL ISSUES'
+                        $('#dropdownMenuLink-1').text(issuesFilter);
+                    }
+
+
+                    // Get the current value of the Status Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let statusFilter = getStatusFilterValue();
+
+                    if (statusFilter == "") {
+                        statusFilter = 'ALL'
+                        $('#dropdownMenuLink-2').text(statusFilter);
+                    }
+
+
+                    // Get the current value of the Client Filter, if it's an
+                    // option on the screen, otherwise set it to "ALL"
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let clientFilter = getClientFilterValue();
+
+                    if (clientFilter == "") {
+                        clientFilter = "ALL";
+                        $('#dropdownMenuLink-4').text(clientFilter);
+                    }
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = ""
+
+                    // Initialise the page number
+
+                    let page = 1;
+
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+                });
+
+
+                /*  =====================================
+                    Filtering Issues by Client Filter 
+                    ======================================
+                */
 
                 // Client Filter has been selected by the user. The Client Filter
                 // will only be available when the user is a vendor-side user
 
+                $('.iss-client-filter').on('click', function() {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                // Client dropdown has the client code followed by client name
-                // Extract the client code & name
+                    // Client dropdown has the client code followed by client name
+                    // Extract the client code & name
 
-                let clientCodeName = $(this).data('value');
+                    let clientCodeName = $(this).data('value');
 
-                var clientDetails = $(this).data('value').split(" ");
-                let clientFilter = clientDetails[0];
-
-                // Clear the contents of the search box, to avoid confusing the user
-
-                document.getElementById('ftr-search-val').value = "";
-
-                // The user has selected a value from the Client Filter dropdown
-
-                // Change the value showing in the dropdown box to the new 
-                // value selected by the user
-
-                $('#dropdownMenuLink-4').text(clientCodeName);
-
-                // When the client filter is selected, it will be used in
-                // conjunction with the current values of the other 2 filters
-
-                // Get the current value of the Features Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let featuresFilter = getFeaturesFilterValue();
-
-                if (featuresFilter == "") {
-                    featuresFilter = 'ALL';
-                    $('#dropdownMenuLink-1').text("ALL FEATURES");
-                }
-
-                // Get the current value of the Status Filter
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'ALL'
-
-                let statusFilter = getStatusFilterValue();
+                    var clientDetails = $(this).data('value').split(" ");
+                    let clientFilter = clientDetails[0];
 
 
-                if (statusFilter == "") {
+                    // Clear the contents of the text search box, to avoid confusing the user
 
-                    statusFilter = 'ALL';
+                    document.getElementById('iss-search-val').value = "";
+
+                    // A value has been selected from the Client Filter dropdown by
+                    // the user
+
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-4').text(clientCodeName);
+
+                    // When the client filter is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
+
+                    // Get the current value of the Issues Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let issuesFilter = getIssuesFilterValue();
+
+                    if (issuesFilter == "") {
+                        issuesFilter = 'ALL ISSUES'
+                        $('#dropdownMenuLink-1').text(issuesFilter);
+                    }
+
+
+                    // Get the current value of the Status Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let statusFilter = getStatusFilterValue();
+
+                    if (statusFilter == "") {
+                        statusFilter = 'ALL'
+                        $('#dropdownMenuLink-2').text(statusFilter);
+                    }
+
+
+                    // Get the current value of the Priority Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let priorityFilter = getPriorityFilterValue();
+
+                    if (priorityFilter == "") {
+                        priorityFilter = 'ALL'
+                        $('#dropdownMenuLink-3').text(priorityFilter);
+                    }
+
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = "";
+
+                    // Initialise the page number
+
+                    let page = 1;
+
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+                });
+
+
+                //==================================================================
+                // SEARCH BOX - Searching for Issues where text in the Issue Summary
+                // matches the text input in the input box
+                //==================================================================
+
+                $('#iss-search-btn').on('click', function() {
+
+                    // The user has input a value in the Issues search box 
+
+                    event.preventDefault();
+
+                    let searchValue = document.getElementById('iss-search-val').value
+
+                    // When the user enters a value in the search box, all the filters
+                    // will be set to spaces, as only the search value will be used
+                    // to select the Issues
+
+                    let issuesFilter = ""
+                    $('#dropdownMenuLink-1').text(issuesFilter);
+                    let statusFilter = ""
                     $('#dropdownMenuLink-2').text(statusFilter);
-                }
+                    let priorityFilter = ""
+                    $('#dropdownMenuLink-3').text(priorityFilter);
+                    let clientFilter = "";
+                    $('#dropdownMenuLink-4').text(clientFilter);
 
-                // Get the current value of the Paid Order
-                // It may be blank if the user was previously using the search
-                // box - if so, set it to 'SORT BY'
+                    // Get the Issues requested by the user, as per the filter
+                    // values, starting with page 1
 
-                var paidOrder = getpaidOrderValue();
+                    let page = 1;
 
-                if (paidOrder == "") {
-                    paidOrder = 'SORTBY';
-                    $('#dropdownMenuLink-3').text("SORT BY");
-                }
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
 
-
-                // Clear searchValue - it is only set when the user inputs a 
-                // value in the search box
-
-                let searchValue = "";
-
-                // Get the features requested by the user, as per the filter
-                // values, starting with page 1
-
-                let page = 1;
-
-                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
-            });
+                });
 
 
-            // Search Box - search the Feature Summary for the value the user has input
+                // ===========================
+                // Issues Pagination
+                // ===========================
 
-            $('#ftr-search-btn').on('click', function() {
+                // The user has clicked on a page number
+                // Using "$(document).on . . ." here because the 'iss-page-click' 
+                // class is not part of the html when it is first loaded, they are
+                // added by js when it displays the filtered data, and therefore the
+                // js wont respond to "$('.iss-page-click').on('click', function()"
 
-                // The user has input a value in the Issues search box 
-
-                event.preventDefault();
-
-                let searchValue = document.getElementById('ftr-search-val').value
-
-                // When the user enters a value in the search box, all the filters
-                // will be set to spaces, as only the search value will be used
-                // to select the features
-
-                let featuresFilter = ""
-                $('#dropdownMenuLink-1').text(featuresFilter);
-                let statusFilter = ""
-                $('#dropdownMenuLink-2').text(statusFilter);
-                let paidOrder = ""
-                $('#dropdownMenuLink-3').text(paidOrder);
-                let clientFilter = "";
-                $('#dropdownMenuLink-4').text(clientFilter);
-
-                // Get the features requested by the user, as per the filter
-                // values, starting with page 1
-
-                let page = 1;
-
-                getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
-
-            });
-
-
-
-            // Features Pagination
-
-            $(document).on('click', ".ftr-page-click", function() {
-
-                    console.log("IN PAGE CLICK~~~~~~~~~~~~~~~~~~~~~~~")
-
-                    // The user has clicked on a page number
-                    // Using "$(document).on . . ." here because the 'ftr-page-click' 
-                    // class is not part of the html when it is first loaded, they are
-                    // added by js when it displays the filtered data, and therefore the
-                    // js wont respond to "$('.iss-page-click').on('click', function()"
+                $(document).on('click', ".iss-page-click", function() {
 
                     // Get the page number the user clicked on
 
                     var page = $(this).data('value');
 
+                    // Get the current values of the filters
 
-                    // Get the current values of the filters and the search box
-
-                    let featuresFilter = getFeaturesFilterValue();
+                    let issuesFilter = getIssuesFilterValue();
                     let statusFilter = getStatusFilterValue();
-                    var paidOrder = getpaidOrderValue();
+                    let priorityFilter = getPriorityFilterValue();
                     let clientFilter = getClientFilterValue();
-                    let searchValue = document.getElementById('ftr-search-val').value
+                    let searchValue = document.getElementById('iss-search-val').value
 
-                    console.log("paidOrder: " + paidOrder)
+                    // Get the Issues as per the filter values and page number
+
+                    getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue);
+                });
 
 
-                    // Get the features as per the filter values and page number
+                // ================
+                // HELPER FUNCTIONS
+                // ================
+                // Get the current value of the Issues filter
 
-                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+                function getIssuesFilterValue() {
+
+                    // Get the current value of the Issues Filter
+
+                    let el = document.getElementById("dropdownMenuLink-1");
+                    let issuesFilterText = el.innerText;
+
+                    let issuesDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
+                    let issuesDropdownText = ["ALL ISSUES", "ASSIGNED TO ME", "OUR ISSUES ONLY", "OTHER CLIENTS' ISSUES ONLY"];
+
+                    var issuesFilter = "";
+                    let i = 0;
+                    for (i in issuesDropdownText) {
+
+                        if (issuesFilterText == issuesDropdownText[i]) {
+                            issuesFilter = issuesDropdownValue[i]
+                        }
+                        i += 1
+                    }
+
+
+                    return issuesFilter;
+
                 }
 
-            );
+                // Get the current value of the Status Filter
+
+                function getStatusFilterValue() {
+
+                    let el = document.getElementById("dropdownMenuLink-2");
+
+                    let statusFilter = el.innerText;
+
+                    return statusFilter;
+
+                }
+
+                // Get the current value of the Priority Filter
+                // The priority in the db is just a number from 1 - 5. But on the 
+                // screen a descriptive text is included, e.g. 1 - URGENT. When
+                // getting the value of the current priority filter, the '1' must
+                // be extracted from the text.
+
+                function getPriorityFilterValue() {
+
+                    let el = document.getElementById("dropdownMenuLink-3");
+                    let priorityFilter = el.innerText
 
 
-            // User wants to add a quantity of a specific feature to the cart
+                    if (el.innerText != "ALL" & el.innerText != "") {
 
-            $(document).on('click', ".ftr-cart-plus-click", function() {
+                        let priorityArray = el.innerText.split("");
 
-                // Extract the button element just clicked on, and separate the
-                // classes into an array. The featureId is the first class
-                // e.g. the button element is created like this:
-                // <button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click' type='submit'>
-                // So if the feature id = '16', 'classes' below will be = "16 btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click", 
-                // where 'i6' is the id of the feature relevant to the cart+ button just clicked. We want to get the featureId
+                        priorityFilter = priorityArray[0];
 
-                var classes = $(this).attr("class").split(" ");
+                    }
 
-                let featureId = classes[0];
+                    return priorityFilter;
+
+                }
 
 
-                // When the thumbs up button is clicked '1' will be added to the#
-                // cart count
+                // Get the current value of the Client Filter, if it's an
+                // option on the screen, otherwise set it to "ALL"
 
-                var qty = 1;
+                function getClientFilterValue() {
 
-                // Add the feature / qty to the cart
+                    var clientFilter = "ALL";
 
-                $.post({
-                    url: "{% url 'add_to_cart_js' %}",
+                    if ($("#dropdownMenuLink-4").length > 0) {
 
-                    data: {
-                        csrfmiddlewaretoken: "{{csrf_token}}",
-                        featureId: featureId,
-                        qty: qty
+                        let el = document.getElementById("dropdownMenuLink-4");
 
-                    },
+                        let clientCodeName = el.innerText;
 
-                    success: function(data) {
+                        let clientDetails = clientCodeName.split(" ");
+                        clientFilter = clientDetails[0];
 
-                        // We need to update the quantity showing for the cart
-                        // Get the current value showing in the cart and add the
-                        // new quantity
+                    }
 
+                    return clientFilter;
 
-                        var currentQty = parseInt(document.getElementById('feature_count').innerText);
-
-                        // If there's nothing in the cart yet - set to zero and
-                        // enable the cart link
-
-                        if (isNaN(currentQty)) {
-                            currentQty = 0
-                            $('.cart-nav-link').removeClass('disabled-link')
-                            $('.cart-nav-link').addClass('cart-enabled-link')
-                        }
+                }
 
 
-                        var newQty = currentQty + parseInt(qty);
+                // =================================
+                // Get the Issues from the database 
+                // =================================
 
-                        // Update the cart count
+                // Get the relevant Issues, based on the value of the filters
 
-                        $('#feature_count').text(newQty);
+
+                function getIssues(issuesFilter, statusFilter, priorityFilter, clientFilter, page, searchValue) {
+
+                    $.post({
+                        url: "{% url 'get_issues' %}",
+                        data: {
+                            csrfmiddlewaretoken: "{{csrf_token}}",
+                            issuesFilter: issuesFilter,
+                            statusFilter: statusFilter,
+                            priorityFilter: priorityFilter,
+                            clientFilter: clientFilter,
+                            page: page,
+                            searchValue: searchValue,
+
+                        },
+
+                        success: function(data) {
+
+                            var thumbDownList = data.thumb.thumb_down_list
+                            var userMessage = data.user_mesg.user_message;
+
+                            // Get the list filters - they will be use to paginate
+                            // to the correct page when the user clicks "<<Back" on 
+                            // the Feature Details page
+
+                            var listFilters = data.filters.list_filters
+
+                            // Display user message if one is returned
+                            // If the message is blank, keep the line, but make
+                            // it invisible on the screen
+
+                            if (userMessage != "") {
+
+                                $('.user-message').text(userMessage)
+                                $('.user-message').removeClass('blank-line')
+                            }
+                            else {
+                                $('.user-message').text("blank")
+                                $('.user-message').addClass('blank-line')
+                            }
+
+
+                            // Clear the current contents of the table
+                            // Output the details of each Issue to the table 
+
+                            $("tbody").empty();
+                            $.each(data.issues, function(key, value) {
+
+                                var issueId = value.id;
+                                var inputDate = value.date;
+                                var user = value.user;
+                                var clientCode = value.client_code;
+                                var userClientCode = value.user_client_code
+
+                                var softwareComponent = value.software_component;
+                                var priority = value.priority;
+                                var summary = value.summary;
+                                var status = value.status;
+                                var issuethumbsUpCount = value.thumbs_up_count
+                                var issClientCode = value.iss_client_code
+
+
+
+                                // Initialise 'tuEnabledDisabled'. Class To be 
+                                // added to thumbs up to enable / disable
+
+                                var tuEnabledDisabled = "";
+
+                                if (value.user_type == "C") {
+                                    var assignedUser = value.assigned_client_user;
+                                    tuEnabledDisabled = " iss-enabled-link"
+
+                                    // If this Issue belongs to the client the user is associated with,
+                                    // or if the status is DEPLOYED or CLOSED disable the 'thumbs up'
+
+                                    if (userClientCode == clientCode || status == "DEPLOYED" || status == "CLOSED") {
+                                        tuEnabledDisabled = " disabled-link"
+                                    }
+                                }
+                                else {
+                                    var assignedUser = value.assigned_vendor_user;
+                                    tuEnabledDisabled = " disabled-link"
+                                }
+
+                                // If the Issue has already been 'thumbed up' by 
+                                // this client, show 'thumb-down', to allow the 
+                                // user to change it
+
+                                if (thumbDownList.includes(issueId)) {
+                                    var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-down thumbs-up-icon'></i>"
+
+                                }
+                                else {
+                                    var thumbUpDown = "<i id='thumb_" + issueId + "' class='fas fa-thumbs-up thumbs-up-icon'></i>"
+                                }
+
+                                // Get the list page number - if the user views the details of an Issue from this page
+                                // they will be able to click the '<<Back' button to get back to this page
+
+                                var current_page = data.pagination_props.current_page
+
+                                // Output the Issue Details to the table, including the 'more' icon in the last cell
+
+                                $("tbody").append(
+                                    "<tr><td class='td-id'>" + issueId + "</td><td class='td-date'>" + inputDate + "</td><td class='td-client text-center'>" + issClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='text-center td-priority'>" + priority + "</td><td class='td-iss-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='pl-0 ml-0  td-thumbs-up'><a href = '#' class='" + issueId + " btn iss-td-thumbs-up-style td-form-font thumb-click" + tuEnabledDisabled + "'>" + thumbUpDown + "</a>" + "</td><td id='thumbs_up_count_" + issueId + "' class='text-center td-thumbs-up'>" + issuethumbsUpCount + "</td><td class='text-center td-more'><a class='iss-more-icon-style' href=/issue_tracker/" + issueId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='iss-comments-icon-style' href=/issue_tracker/" + issueId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments iss-comments-icon-style'></i></a></td></tr>"
+                                );
+
+                            });
+
+
+                            // Output the pagination parameters for the Issues list to the html page
+
+                            let listType = "issues"
+                            outputPaginationValues(data, listType)
+
+                        },
+                        traditional: true
+                    }).done();
+                }
+
+                /* ================================================================
+                   THE FOLLOWING FUNCTIONS MANAGE THE ISSUES COMMENTS SHOW / HIDE 
+                   ================================================================
+                   
+                    The following functions manage the Issue Comments show /hide
+                */
+
+                $('#enable-comments').on('click', function() {
+
+                    // Enable Comments icon clicked:
+                    // Show the dashboard, but keep the comments form hidden.
+                    // The comments form will be enabled by the '+' on the dashboard
+
+                    $('#iss-comments-form').hide();
+
+                    $('.iss-comments-dash').removeClass('d-none').hide();
+                    $('.iss-comments-dash').slideDown(500);
+
+                    // Disable the 'enable comments' icon 
+
+                    $('#enable-comments').removeClass('iss-enabled-link');
+                    $('#enable-comments').addClass('disabled-link');
+
+                    // Enable the 'disable comments' icon 
+
+                    $('#disable-comments').removeClass('disabled-link');
+                    $('#disable-comments').addClass('iss-enabled-link');
+
+
+                    // Enable the '+' icon - to open form and add comments
+
+                    $('#iss-comments-plus').addClass('iss-enabled-link');
+                    $('#iss-comments-plus').removeClass('disabled-link');
+
+                    // Disable the '-' icon - this closes the form once its open
+
+                    $('#iss-comments-minus').removeClass('iss-enabled-link');
+                    $('#iss-comments-minus').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon 
+
+                    $('#iss-comments-open').removeClass('disabled-link');
+                    $('#iss-comments-open').addClass('iss-enabled-link');
+
+                    // Disable the 'close comments list view' icon 
+
+                    $('#iss-comments-close').removeClass('iss-enabled-link');
+                    $('#iss-comments-close').addClass('disabled-link');
+
+
+                });
+
+
+                $('#disable-comments').on('click', function() {
+
+                    // Disable Comments icon clicked:
+                    // Hide the comments dashboard, form, and list 
+
+                    $('.iss-comments-dash').slideUp();
+                    $('#iss-comments-form').slideUp();
+                    $('#iss-comments-list').slideUp();
+
+                    // Enable the 'enable comments' icon 
+
+                    $('#enable-comments').removeClass('disabled-link');
+                    $('#enable-comments').addClass('iss-enabled-link');
+
+                    // Disable the 'disable comments' icon 
+
+                    $('#disable-comments').removeClass('iss-enabled-link');
+                    $('#disable-comments').addClass('disabled-link');
+
+                });
+
+
+                $('#iss-comments-plus').on('click', function() {
+
+                    // The '+' on the comments dashboard has been clicked:
+                    // Show the comments input form
+
+                    $('#iss-comments-form').removeClass('d-none').hide();
+                    $('#iss-comments-form').slideDown(500);
+
+                    // Disable the '+'
+
+                    $('#iss-comments-plus').removeClass('iss-enabled-link');
+                    $('#iss-comments-plus').addClass('disabled-link');
+
+                    // Enable the '-'
+
+                    $('#iss-comments-minus').addClass('iss-enabled-link');
+                    $('#iss-comments-minus').removeClass('disabled-link');
+
+
+                    // Close the comments list view, in case it's open
+
+                    $('#iss-comments-list').slideUp(500);
+
+                    // Disable the 'close comments list view' icon
+
+                    $('#iss-comments-close').removeClass('iss-enabled-link');
+                    $('#iss-comments-close').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon
+
+                    $('#iss-comments-open').addClass('iss-enabled-link');
+                    $('#iss-comments-open').removeClass('disabled-link');
+                });
+
+
+                $('#iss-comments-minus').on('click', function() {
+
+                    // The '-' on the comments dashboard has been clicked:
+                    // Hide the comments input form
+
+                    $('#iss-comments-form').slideUp(500);
+
+                    // Disable the '-'
+
+                    $('#iss-comments-minus').removeClass('iss-enabled-link');
+                    $('#iss-comments-minus').addClass('disabled-link');
+
+                    // Enable the '+'
+
+                    $('#iss-comments-plus').addClass('iss-enabled-link');
+                    $('#iss-comments-plus').removeClass('disabled-link');
+                });
+
+
+                $('#iss-comments-open').on('click', function() {
+
+                    // The view comments list icon on the comments dashboard has been 
+                    // clicked:
+                    // Show the comments list
+
+                    // First, close the comments input form, in case it's open
+
+                    $('#iss-comments-form').slideUp(500);
+
+                    // Disable the '-'
+
+                    $('#iss-comments-minus').removeClass('iss-enabled-link');
+                    $('#iss-comments-minus').addClass('disabled-link');
+
+                    // Enable the '-'
+
+                    $('#iss-comments-plus').addClass('iss-enabled-link');
+                    $('#iss-comments-plus').removeClass('disabled-link');
+
+                    // Show the comments list view
+
+                    $('#iss-comments-list').removeClass('d-none').hide();
+                    $('#iss-comments-list').slideDown(500);
+
+                    // Disable the 'open comments list view' icon
+
+                    $('#iss-comments-open').removeClass('iss-enabled-link');
+                    $('#iss-comments-open').addClass('disabled-link');
+
+                    // Enable the 'close comments list view' icon
+
+                    $('#iss-comments-close').addClass('iss-enabled-link');
+                    $('#iss-comments-close').removeClass('disabled-link');
+                });
+
+                $('#iss-comments-close').on('click', function() {
+
+                    // The 'close comments list view' on the comments dashboard has been clicked:
+                    // Hide the comments list
+
+                    $('#iss-comments-list').slideUp(500);
+
+                    // Disable the 'close comments list view' icon
+
+                    $('#iss-comments-close').removeClass('iss-enabled-link');
+                    $('#iss-comments-close').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon
+
+                    $('#iss-comments-open').addClass('iss-enabled-link');
+                    $('#iss-comments-open').removeClass('disabled-link');
+
+                });
+
+
+                /*
+                    ==============================================================
+                    ISSUES THUMBS UP / DOWN PROCESSING 
+                    ==============================================================
+                */
+
+                // Using "$(document).on('click" as the html page is re-displayed
+                // via js on filter selections
+
+                $(document).on('click', ".thumb-click", function() {
+
+                    // User has clicked thumb up/down on an Issue
+
+                    var classes = $(this).attr("class").split(" ");
+                    let issueId = classes[0];
+
+
+                    // Call iss_thumbs_up_down view to update the thumbs up
+                    // count on this Issue, etc
+
+                    $.post({
+                        url: "{% url 'iss_thumbs_up_down' %}",
+
+                        data: {
+                            csrfmiddlewaretoken: "{{csrf_token}}",
+                            issueId: issueId
+                        },
+
+                        success: function(data) {
+
+                            var thumbsUpDownRemoveClass = data.thumbs_up_down_remove_class;
+                            var thumbsUpDownAddClass = data.thumbs_up_down_add_class;
+                            var thumbsUpCount = data.thumbs_up_count
+
+                            var thumbId = "#thumb_" + issueId;
+
+                            /* Flip the thumbs up / down  */
+
+                            $(thumbId).removeClass(thumbsUpDownRemoveClass);
+                            $(thumbId).addClass(thumbsUpDownAddClass);
+
+                            var thumbsUpCountId = "#thumbs_up_count_" + issueId;
+
+                            $(thumbsUpCountId).text(thumbsUpCount);
+
+                        },
+                        traditional: true
+                    }).done();
+                });
+
+
+                /*
+                    ==================================
+                    Issues Report
+                    ==================================
+                */
+
+                $('.show-issues-report').on('click', function() {
+
+                    // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
+                    // open/close the Issues Report for a particular Client
+                    // The first class for this element is the Client Code
+
+                    var classes = $(this).attr("class").split(" ");
+                    var clientCode = classes[0]
+
+                    // Create ids for accessing the DOM
+
+                    reportId = "#issues-report-" + clientCode
+                    chevronId = "#report-open-close-" + clientCode
+
+                    // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
+
+                    var classes = $(chevronId).attr("class").split(" ");
+                    var chevronType = classes[1]
+
+                    if (chevronType == "fa-chevron-down") {
+
+                        // User has clicked on 'fa-chevron-down' to
+                        // open the Issues Report for a particular client
+                        // Remove d-none class, but keep hidden. Show by sliding down
+
+                        $(reportId).removeClass('d-none').hide();
+                        $(reportId).slideDown(1000);
+
+                        // Change the chevron from down to up.
+
+                        $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+
+
+                    }
+                    else {
+
+                        // User has clicked on 'fa-chevron-up' to
+                        // close the Issues Report for a particular client
+
+                        // First, close all Issue Details rows, in case any are open
+                        // And add back the down chevron
+
+                        $('.issue-details-' + clientCode).hide("fast");
+                        $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                        $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+
+                        // Close the Issue Report
+
+                        $(reportId).slideUp(1000);
+
+                        // Change the chevron from up to down.
+
+                        $(chevronId).removeClass('fa-chevron-up');
+                        $(chevronId).addClass('fa-chevron-down');
 
                     }
                 });
 
-            });
+                $('.show-issue-details').on('click', function() {
+
+                    // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
+                    // open/close the details of a particular Issue in the Issues Report
+
+                    // Get the client code and Issue id of the Issue that was clicked on 
+
+                    var classes = $(this).attr("class").split(" ");
+
+                    var clientCode = classes[0];
+                    var issueId = classes[1];
+                    var clientCodeIssueId = clientCode + '-' + issueId;
+
+                    // Check whether its 'chevron-down' or 'chevron-up'
+
+                    var classes = $('#details-open-close-' + clientCodeIssueId).attr("class").split(" ");
+                    var chevronType = classes[1]
+
+                    if (chevronType == "fa-chevron-down") {
+
+                        // User has clicked on 'chevron-down' to see the details of a
+                        // particular Issue in the Issues Report.
+                        // Remove d-none class, but keep hidden. Show by sliding down
+
+                        $('#issue-details-' + clientCodeIssueId).removeClass('d-none').hide();
+                        $('#issue-details-' + clientCodeIssueId).fadeIn(700);
+
+                        // Change the chevron from down to up.
+
+                        $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
+                    }
+                    else {
+
+                        // User has clicked on 'chevron-up' to close the details of a
+                        // particular Issue in the Issues Report.
+                        // Close by sliding up
+
+                        $('#issue-details-' + clientCodeIssueId).fadeOut(700);
+
+                        // Change the chevron from up to down.
+
+                        $('#details-open-close-' + clientCodeIssueId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                        $('#details-open-close-' + clientCodeIssueId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+
+                    }
+
+                });
 
 
-            // ================
-            // HELPER FUNCTIONS
-            // ================
 
-            // Get the current value of the Features Filter
+                /* ==============================================================
+                   FEATURES PROCESSING 
+                   ==============================================================
+                   
+                   The following function manage the filtering of Features by 
+                   Features Filter, Status Filter, Paid Filter, and Client Filter 
+                   (vendor-side users only)
+                */
 
-            function getFeaturesFilterValue() {
+
+                // Filtering by Features Filter
+
+                $('.features-filter').on('click', function() {
+
+                    // A value has been selected from the  Features Filter dropdown 
+                    // by the user
+
+                    event.preventDefault();
+                    let featuresFilter = $(this).data('value');
+                    let featuresFilterText = this.innerText;
+
+                    // Clear the contents of the search box, to avoid confusing the user
+
+                    document.getElementById('ftr-search-val').value = "";
+
+                    // The user has selected a value from the Features Filter dropdown
+
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-1').text(featuresFilterText);
+
+                    // When the user selects a value from the Features Filter, all the
+                    // other filters are reset to "ALL"
+
+                    // Reset Status Filter to "ALL" and display it in the filter
+                    // dropdown box
+
+                    let statusFilter = "ALL"
+                    $('#dropdownMenuLink-2').text(statusFilter);
+
+                    // Reset Paid Order to "SORT BY" and display it in the filter
+                    // dropdown box
+
+                    let paidOrder = "SORTBY"
+                    $('#dropdownMenuLink-3').text("SORT BY");
+
+                    // Reset Client Filter to "ALL". If this is a client-side 
+                    // user, the Client Code dropdown option wont be displayed on
+                    // screen. If its a vendor-side user, display "ALL" in the 
+                    // Client dropdown box
+
+                    let clientFilter = "ALL";
+
+                    if ($("#dropdownMenuLink-4").length > 0) {
+
+                        $('#dropdownMenuLink-4').text(clientFilter);
+                    }
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = ""
+
+                    // Get the Features requested by the user, as per the filter
+                    // values, starting with page 1
+
+                    let page = 1;
+
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+
+                });
+
+                // Filtering by Status Filter
+
+                $('.ftr-status-filter').on('click', function() {
+
+                    // Status filter has been selected by the user
+
+                    event.preventDefault();
+                    let statusFilter = $(this).data('value');
+
+                    // Clear the contents of the search box, to avoid confusing the user
+
+                    document.getElementById('ftr-search-val').value = ""
+
+                    // The user has selected a value from the Status Filter dropdown
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-2').text(statusFilter);
+
+                    // When the status filter is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
+
+                    // Get the current value of the Features Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let featuresFilter = getFeaturesFilterValue();
+
+                    if (featuresFilter == "") {
+                        featuresFilter = 'ALL FEATURES'
+                        $('#dropdownMenuLink-1').text(featuresFilter);
+                    }
+
+                    // Get the current value of the Paid Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    var paidOrder = getpaidOrderValue();
+
+                    if (paidOrder == "") {
+                        paidOrder = 'SORTBY'
+                        $('#dropdownMenuLink-3').text("SORT BY");
+                    }
+
+                    // Get the current value of the Client Filter, if it's an
+                    // option on the screen, otherwise set it to "ALL"
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let clientFilter = getClientFilterValue();
+
+                    if (clientFilter == "") {
+                        clientFilter = 'ALL'
+                        $('#dropdownMenuLink-4').text(clientFilter);
+                    }
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = ""
+
+                    // Get the Features requested by the user, as per the filter
+                    // values, starting with page 1
+
+                    let page = 1;
+
+
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+                });
+
+
+                // Ordering by Paid
+
+                $('.paid-order').on('click', function() {
+
+                    // Paid sort order has been selected by the user
+
+                    event.preventDefault();
+
+                    let paidOrder = $(this).data('value');
+                    let paidOrderText = this.innerText;
+
+
+                    // Clear the contents of the search box, to avoid confusing the user
+
+                    document.getElementById('ftr-search-val').value = ""
+
+                    // The user has selected a value from the Paid Order dropdown
+
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-3').text(paidOrderText);
+
+                    // When the Paid Order is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
+
+                    // Get the current value of the Features Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let featuresFilter = getFeaturesFilterValue();
+
+                    if (featuresFilter == "") {
+                        featuresFilter = 'ALL'
+                        $('#dropdownMenuLink-1').text("ALL FEATURES");
+                    }
+
+                    // Get the current value of the Status Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let statusFilter = getStatusFilterValue();
+
+                    if (statusFilter == "") {
+                        statusFilter = 'ALL'
+                        $('#dropdownMenuLink-2').text(statusFilter);
+                    }
+
+                    // Get the current value of the Client Filter, if it's an
+                    // option on the screen, otherwise set it to "ALL"
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let clientFilter = getClientFilterValue();
+
+                    if (clientFilter == "") {
+                        clientFilter = 'ALL'
+                        $('#dropdownMenuLink-4').text(clientFilter);
+                    }
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = ""
+
+                    // Get the Features requested by the user, as per the filter
+                    // values, starting with page 1
+
+                    let page = 1;
+
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+                });
+
+
+                // Filtering by Client Filter 
+
+                $('.ftr-client-filter').on('click', function() {
+
+                    // Client Filter has been selected by the user. The Client Filter
+                    // will only be available when the user is a vendor-side user
+
+
+                    event.preventDefault();
+
+                    // Client dropdown has the client code followed by client name
+                    // Extract the client code & name
+
+                    let clientCodeName = $(this).data('value');
+
+                    var clientDetails = $(this).data('value').split(" ");
+                    let clientFilter = clientDetails[0];
+
+                    // Clear the contents of the search box, to avoid confusing the user
+
+                    document.getElementById('ftr-search-val').value = "";
+
+                    // The user has selected a value from the Client Filter dropdown
+
+                    // Change the value showing in the dropdown box to the new 
+                    // value selected by the user
+
+                    $('#dropdownMenuLink-4').text(clientCodeName);
+
+                    // When the client filter is selected, it will be used in
+                    // conjunction with the current values of the other 2 filters
+
+                    // Get the current value of the Features Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let featuresFilter = getFeaturesFilterValue();
+
+                    if (featuresFilter == "") {
+                        featuresFilter = 'ALL';
+                        $('#dropdownMenuLink-1').text("ALL FEATURES");
+                    }
+
+                    // Get the current value of the Status Filter
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'ALL'
+
+                    let statusFilter = getStatusFilterValue();
+
+
+                    if (statusFilter == "") {
+
+                        statusFilter = 'ALL';
+                        $('#dropdownMenuLink-2').text(statusFilter);
+                    }
+
+                    // Get the current value of the Paid Order
+                    // It may be blank if the user was previously using the search
+                    // box - if so, set it to 'SORT BY'
+
+                    var paidOrder = getpaidOrderValue();
+
+                    if (paidOrder == "") {
+                        paidOrder = 'SORTBY';
+                        $('#dropdownMenuLink-3').text("SORT BY");
+                    }
+
+
+                    // Clear searchValue - it is only set when the user inputs a 
+                    // value in the search box
+
+                    let searchValue = "";
+
+                    // Get the Features requested by the user, as per the filter
+                    // values, starting with page 1
+
+                    let page = 1;
+
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+                });
+
+
+                // Search Box - search the Feature Summary for the value the user has input
+
+                $('#ftr-search-btn').on('click', function() {
+
+                    // The user has input a value in the Issues search box 
+
+                    event.preventDefault();
+
+                    let searchValue = document.getElementById('ftr-search-val').value
+
+                    // When the user enters a value in the search box, all the filters
+                    // will be set to spaces, as only the search value will be used
+                    // to select the Features
+
+                    let featuresFilter = ""
+                    $('#dropdownMenuLink-1').text(featuresFilter);
+                    let statusFilter = ""
+                    $('#dropdownMenuLink-2').text(statusFilter);
+                    let paidOrder = ""
+                    $('#dropdownMenuLink-3').text(paidOrder);
+                    let clientFilter = "";
+                    $('#dropdownMenuLink-4').text(clientFilter);
+
+                    // Get the Features requested by the user, as per the filter
+                    // values, starting with page 1
+
+                    let page = 1;
+
+                    getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+
+                });
+
+
+
+                // Features Pagination
+
+                $(document).on('click', ".ftr-page-click", function() {
+
+                        // The user has clicked on a page number
+                        // Using "$(document).on . . ." here because the 'ftr-page-click' 
+                        // class is not part of the html when it is first loaded, they are
+                        // added by js when it displays the filtered data, and therefore the
+                        // js wont respond to "$('.iss-page-click').on('click', function()"
+
+                        // Get the page number the user clicked on
+
+                        var page = $(this).data('value');
+
+
+                        // Get the current values of the filters and the search box
+
+                        let featuresFilter = getFeaturesFilterValue();
+                        let statusFilter = getStatusFilterValue();
+                        var paidOrder = getpaidOrderValue();
+                        let clientFilter = getClientFilterValue();
+                        let searchValue = document.getElementById('ftr-search-val').value
+
+                        // Get the Features as per the filter values and page number
+
+                        getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue);
+                    }
+
+                );
+
+
+                // User wants to add a quantity of a specific Feature to the cart
+
+                $(document).on('click', ".ftr-cart-plus-click", function() {
+
+                    // Extract the button element just clicked on, and separate the
+                    // classes into an array. The featureId is the first class
+                    // e.g. the button element is created like this:
+                    // <button class='" + featureId + " btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click' type='submit'>
+                    // So if the feature id = '16', 'classes' below will be = "16 btn td-thumbs-up-style td-form-font td-add ftr-cart-plus-click", 
+                    // where 'i6' is the id of the Feature relevant to the cart+ button just clicked. We want to get the featureId
+
+                    var classes = $(this).attr("class").split(" ");
+
+                    let featureId = classes[0];
+
+
+                    // When the thumbs up button is clicked '1' will be added to the#
+                    // cart count
+
+                    var qty = 1;
+
+                    // Add the Feature / qty to the cart
+
+                    $.post({
+                        url: "{% url 'add_to_cart_js' %}",
+
+                        data: {
+                            csrfmiddlewaretoken: "{{csrf_token}}",
+                            featureId: featureId,
+                            qty: qty
+
+                        },
+
+                        success: function(data) {
+
+                            // We need to update the quantity showing for the cart
+                            // Get the current value showing in the cart and add the
+                            // new quantity
+
+
+                            var currentQty = parseInt(document.getElementById('feature_count').innerText);
+
+                            // If there's nothing in the cart yet - set to zero and
+                            // enable the cart link
+
+                            if (isNaN(currentQty)) {
+                                currentQty = 0
+                                $('.cart-nav-link').removeClass('disabled-link')
+                                $('.cart-nav-link').addClass('cart-enabled-link')
+                            }
+
+
+                            var newQty = currentQty + parseInt(qty);
+
+                            // Update the cart count
+
+                            $('#feature_count').text(newQty);
+
+                        }
+                    });
+
+                });
+
+
+                // ================
+                // HELPER FUNCTIONS
+                // ================
 
                 // Get the current value of the Features Filter
 
-                let el = document.getElementById("dropdownMenuLink-1");
-                let featuresFilterText = el.innerText;
+                function getFeaturesFilterValue() {
 
-                let featuresDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
-                let featuresDropdownText = ["ALL FEATURES", "ASSIGNED TO ME", "OUR FEATURES ONLY", "OTHER CLIENTS' FEATURES ONLY"];
+                    // Get the current value of the Features Filter
 
-                var featuresFilter = "";
-                let i = 0;
-                for (i in featuresDropdownText) {
+                    let el = document.getElementById("dropdownMenuLink-1");
+                    let featuresFilterText = el.innerText;
 
-                    if (featuresFilterText == featuresDropdownText[i]) {
-                        featuresFilter = featuresDropdownValue[i];
+                    let featuresDropdownValue = ["ALL", "ME", "OUR", "OTHER"];
+                    let featuresDropdownText = ["ALL FEATURES", "ASSIGNED TO ME", "OUR FEATURES ONLY", "OTHER CLIENTS' FEATURES ONLY"];
+
+                    var featuresFilter = "";
+                    let i = 0;
+                    for (i in featuresDropdownText) {
+
+                        if (featuresFilterText == featuresDropdownText[i]) {
+                            featuresFilter = featuresDropdownValue[i];
+                        }
+                        i += 1;
                     }
-                    i += 1;
+
+                    return featuresFilter;
+
                 }
 
-                return featuresFilter;
 
-            }
+                // Get the current value of the Paid Filter
+
+                function getpaidOrderValue() {
+
+                    let el = document.getElementById("dropdownMenuLink-3");
+                    var paidOrder = el.innerText
+
+                    if (el.innerText != "") {
+
+                        // Remove the spaces from 'SORT BY', 'HIGHEST TO LOWEST',
+                        // and 'LOWEST TO HIGHEST'
+
+                        paidOrderArray = el.innerText.split(" ");
+
+                        paidOrder = "";
+
+                        i = 0
+                        for (i in paidOrderArray) {
+
+                            paidOrder = paidOrder + paidOrderArray[i]
 
 
-            // Get the current value of the Paid Filter
-
-            function getpaidOrderValue() {
-
-                console.log("IN GETPAIDORDERVALUE~~~~~~~~~~~~~~~~~~~")
-
-                let el = document.getElementById("dropdownMenuLink-3");
-                var paidOrder = el.innerText
-
-                console.log("el paidOrder: " + paidOrder)
-
-                if (el.innerText != "") {
-
-                    // Remove the spaces from 'SORT BY', 'HIGHEST TO LOWEST',
-                    // and 'LOWEST TO HIGHEST'
-
-                    paidOrderArray = el.innerText.split(" ");
-
-                    paidOrder = "";
-
-                    i = 0
-                    for (i in paidOrderArray) {
-                        console.log("paidOrderArray[i]: " + paidOrderArray[i])
-                        paidOrder = paidOrder + paidOrderArray[i]
-                        console.log("paidOrder: " + paidOrderArray)
+                        }
 
                     }
-                    console.log("paidOrder: " + paidOrder)
+                    return paidOrder;
                 }
-                return paidOrder;
-            }
 
 
 
 
 
-            // ====================
-            // PAGINATION FUNCTION
-            // ====================
+                // ====================
+                // PAGINATION FUNCTION
+                // ====================
 
-            // Get the pagination parameters passed from 
-            // views.get_features and output them to the html page,
-            // so that the user can select the pages
+                // Get the pagination parameters passed from 
+                // views.get_features and output them to the html page,
+                // so that the user can select the pages
 
-            function outputPaginationValues(data, listType) {
+                function outputPaginationValues(data, listType) {
 
-                var has_other_pages = data.pagination_props.has_other_pages;
-                var has_prev_page = data.pagination_props.has_prev_page;
-                var current_page = data.pagination_props.current_page;
-                var has_next_page = data.pagination_props.has_next_page;
-                var prev_page_nr = data.pagination_props.prev_page_nr;
-                var next_page_nr = data.pagination_props.next_page_nr;
-                var page_range = data.pagination_props.page_range;
+                    var has_other_pages = data.pagination_props.has_other_pages;
+                    var has_prev_page = data.pagination_props.has_prev_page;
+                    var current_page = data.pagination_props.current_page;
+                    var has_next_page = data.pagination_props.has_next_page;
+                    var prev_page_nr = data.pagination_props.prev_page_nr;
+                    var next_page_nr = data.pagination_props.next_page_nr;
+                    var page_range = data.pagination_props.page_range;
 
-                // Clear the pagination nav, in case we only have one page
+                    // Clear the pagination nav, in case we only have one page
 
-                $("#paginate").empty();
+                    $("#paginate").empty();
 
-                // NOTE: The html elements weren't rendering correctly when I output the values straight
-                // to the <ul> / <li> e.g. it was adding </ul> / </li> in places where I didnt want them. 
-                // To get around the problem I output the html elements to a variable first, then output it
-                // to the html element. This worked.
+                    // NOTE: The html elements weren't rendering correctly when I output the values straight
+                    // to the <ul> / <li> e.g. it was adding </ul> / </li> in places where I didnt want them. 
+                    // To get around the problem I output the html elements to a variable first, then output it
+                    // to the html element. This worked.
 
-                if (has_other_pages) {
+                    if (has_other_pages) {
 
-                    if (has_prev_page) {
+                        if (has_prev_page) {
 
-                        if (listType == "issues") {
+                            if (listType == "issues") {
+
+                                // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
+                                // list being paginated is for Issues or Features, so that the correct js functions will be 
+                                // triggered for each list
+                                // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                                // list being paginated is for Issues or Features, so that they will be highlighted with the correct
+                                // color or hover
+
+                                var prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            }
+                            else {
+                                prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
+                            }
+                        }
+
+                        else {
+                            prevPageLink = "<ul class='pagination justify-content-center '><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
+
+                        }
+
+                        // Output the pagination values to the html page
+
+                        var pageLinks = "";
+                        var i = 0;
+
+                        for (i in page_range) {
+
+                            if (current_page === page_range[i]) {
+
+                                if (pageLinks == "") {
+
+                                    if (listType == "issues") {
+
+                                        // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
+                                        // Issues list or Features list, so that the highlight color for each will be applied
+
+                                        pageLinks = "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+                                    else {
+                                        pageLinks = "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+
+                                }
+                                else {
+
+                                    if (listType == "issues") {
+
+                                        // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
+                                        // Issues list or Features list, so that the highlight color for each will be applied
+
+                                        pageLinks = pageLinks + "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+                                    else {
+                                        pageLinks = pageLinks + "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
+                                    }
+                                }
+                            }
+                            else {
+
+                                if (pageLinks == "") {
+
+                                    // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
+                                    // list being paginated is for Issues or Features, so that the correct js functions will be 
+                                    // triggered for each list
+                                    // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                                    // list being paginated is for Issues or Features, so that they will be highlighted with the
+                                    // correct color on hover
+
+                                    if (listType == "issues") {
+                                        pageLinks = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    }
+                                    else {
+                                        pageLinks = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+
+                                    }
+                                }
+                                else {
+
+                                    // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
+                                    // list being paginated is for Issues or Features, so that the correct js functions will be 
+                                    // triggered for each list
+                                    // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
+                                    // list being paginated is for Issues or Features, so that they will be highlighted with the
+                                    // correct color on hover
+
+                                    if (listType == 'issues') {
+                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    }
+                                    else {
+
+                                        pageLinks = pageLinks + "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                        if (has_next_page) {
 
                             // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
-                            // list being paginated is for Issues or Features, so that the correct js functions will be 
-                            // triggered for each list
-                            // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
-                            // list being paginated is for Issues or Features, so that they will be highlighted with the correct
-                            // color or hover
+                            // list being paginated is for Issues or Features
 
-                            var prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
-                        }
-                        else {
-                            prevPageLink = "<ul class='pagination justify-content-center'><li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + prev_page_nr + " aria-label='Previous'>&laquo;</a></li>";
-                        }
-                    }
+                            if (listType == "issues") {
 
-                    else {
-                        prevPageLink = "<ul class='pagination justify-content-center '><li class='page-item'><span class='page-link' aria-label='Next'>&laquo;</span></li>";
-
-                    }
-
-                    // Output the pagination values to the html page
-
-                    var pageLinks = "";
-                    var i = 0;
-
-                    for (i in page_range) {
-
-                        if (current_page === page_range[i]) {
-
-                            if (pageLinks == "") {
-
-                                if (listType == "issues") {
-
-                                    // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
-                                    // issues list or features list, so that the highlight color for each will be applied
-
-                                    pageLinks = "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                }
-                                else {
-                                    pageLinks = "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                }
-
+                                var nextPageLink = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                             }
                             else {
 
-                                if (listType == "issues") {
-
-                                    // Output the class 'iss-selected' or 'ftr-selected' depending on whether this is the
-                                    // issues list or features list, so that the highlight color for each will be applied
-
-                                    pageLinks = pageLinks + "<li class='page-item'><span class='page-link iss-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                }
-                                else {
-                                    pageLinks = pageLinks + "<li class='page-item'><span class='page-link ftr-selected'>" + page_range[i] + "<span class='sr-only'>(current)</span></span></li>";
-                                }
+                                var nextPageLink = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
                             }
+
                         }
                         else {
 
-                            if (pageLinks == "") {
+                            nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>";
 
-                                // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
-                                // list being paginated is for Issues or Features, so that the correct js functions will be 
-                                // triggered for each list
-                                // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
-                                // list being paginated is for Issues or Features, so that they will be highlighted with the
-                                // correct color on hover
-
-                                if (listType == "issues") {
-                                    pageLinks = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-                                }
-                                else {
-                                    pageLinks = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-
-                                }
-                            }
-                            else {
-
-                                // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
-                                // list being paginated is for Issues or Features, so that the correct js functions will be 
-                                // triggered for each list
-                                // Also Output the class 'iss-page-live-link' or 'ftr-page-live-link', depending on whether the
-                                // list being paginated is for Issues or Features, so that they will be highlighted with the
-                                // correct color on hover
-
-                                if (listType == 'issues') {
-                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-                                }
-                                else {
-
-                                    pageLinks = pageLinks + "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + page_range[i] + ">" + page_range[i] + "</a></li>";
-                                }
-
-                            }
                         }
 
+                        var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>";
+
+
+                        $("#paginate").append(
+                            pageNav
+                        );
                     }
-
-                    if (has_next_page) {
-
-                        // Output the class 'iss-page-click' or 'ftr-page-click', depending on whether the
-                        // list being paginated is for Issues or Features
-
-                        if (listType == "issues") {
-
-                            var nextPageLink = "<li class='page-item'><a class='page-link iss-page-live-link iss-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
-                        }
-                        else {
-
-                            var nextPageLink = "<li class='page-item'><a class='page-link ftr-page-live-link ftr-page-click' href='#' data-value=" + next_page_nr + ">&raquo;</a></li>";
-                        }
-
-                    }
-                    else {
-
-                        nextPageLink = "<li class='page-item'><span class='page-link'>&raquo;</span></li>";
-
-                    }
-
-                    var pageNav = prevPageLink + pageLinks + nextPageLink + "</ul>";
-
-
-                    $("#paginate").append(
-                        pageNav
-                    );
                 }
-            }
 
 
-            // =================================
-            // Get the features from the database 
-            // =================================
+                // =================================
+                // Get the Features from the database 
+                // =================================
 
-            // Get the relevant features, based on the value of the filters
+                // Get the relevant Features, based on the value of the filters
 
-            function getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue) {
+                function getFeatures(featuresFilter, statusFilter, paidOrder, clientFilter, page, searchValue) {
 
-                $.post({
-                    url: "{% url 'get_features' %}",
+                    $.post({
+                        url: "{% url 'get_features' %}",
 
-                    data: {
-                        csrfmiddlewaretoken: "{{csrf_token}}",
-                        featuresFilter: featuresFilter,
-                        statusFilter: statusFilter,
-                        paidOrder: paidOrder,
-                        clientFilter: clientFilter,
-                        page: page,
-                        searchValue: searchValue,
+                        data: {
+                            csrfmiddlewaretoken: "{{csrf_token}}",
+                            featuresFilter: featuresFilter,
+                            statusFilter: statusFilter,
+                            paidOrder: paidOrder,
+                            clientFilter: clientFilter,
+                            page: page,
+                            searchValue: searchValue,
 
-                    },
+                        },
 
-                    success: function(data) {
+                        success: function(data) {
 
-                        // Get the list filters - they will be use to paginate
-                        // to the correct page when the user clicks "<<Back" on 
-                        // the Feature Details page
+                            // Get the list filters - they will be use to paginate
+                            // to the correct page when the user clicks "<<Back" on 
+                            // the Feature Details page
 
-                        var listFilters = data.filters.list_filters
+                            var listFilters = data.filters.list_filters
 
-                        console.log("listFilters" + listFilters)
+                            // Display user message if one is returned
+                            // If the message is blank, keep the line space, but make
+                            // it invisible on the screen
 
-                        // Display user message if one is returned
-                        // If the message is blank, keep the line space, but make
-                        // it invisible on the screen
+                            var userMessage = data.user_mesg.user_message;
 
-                        var userMessage = data.user_mesg.user_message;
+                            if (userMessage != "") {
 
-                        if (userMessage != "") {
-
-                            $('.user-message').text(userMessage);
-                            $('.user-message').removeClass('blank-line');
-                        }
-                        else {
-                            $('.user-message').text("blank");
-                            $('.user-message').addClass('blank-line');
-                        }
+                                $('.user-message').text(userMessage);
+                                $('.user-message').removeClass('blank-line');
+                            }
+                            else {
+                                $('.user-message').text("blank");
+                                $('.user-message').addClass('blank-line');
+                            }
 
 
-                        // Get the list page number - if the user views the details of a feature from this page
-                        // they will be able to click the '<<Back' button to get back to this page
+                            // Get the list page number - if the user views the details of a Feature from this page
+                            // they will be able to click the '<<Back' button to get back to this page
 
-                        var current_page = data.pagination_props.current_page
+                            var current_page = data.pagination_props.current_page
 
-                        // Clear the current contents of the table
-                        // Output the details of each feature to the table 
+                            // Clear the current contents of the table
+                            // Output the details of each Feature to the table 
 
-                        $("tbody").empty();
-                        $.each(data.features, function(key, value) {
+                            $("tbody").empty();
+                            $.each(data.features, function(key, value) {
 
-                            var featureId = value.id;
-                            var inputDate = value.date;
-                            var user = value.user;
-                            var softwareComponent = value.software_component;
-                            var summary = value.summary;
-                            var status = value.status;
-                            var paid = value.paid;
-                            var price = value.price;
-                            var featureClientCount = value.client_count;
-                            var ftrClientCode = value.ftr_client_code
+                                var featureId = value.id;
+                                var inputDate = value.date;
+                                var user = value.user;
+                                var softwareComponent = value.software_component;
+                                var summary = value.summary;
+                                var status = value.status;
+                                var paid = value.paid;
+                                var price = value.price;
+                                var featureClientCount = value.client_count;
+                                var ftrClientCode = value.ftr_client_code
 
-                            // Initialise 'inputDisabled'. To be added to input field
-                            // for amount, to enable / disabled input
+                                // Initialise 'inputDisabled'. To be added to input field
+                                // for amount, to enable / disabled input
 
-                            var inputDisabled = "";
+                                var inputDisabled = "";
 
-                            // Initialise 'linkEnabledDisabled'. Class To be 
-                            // added to cart+ to enable / disable
+                                // Initialise 'linkEnabledDisabled'. Class To be 
+                                // added to cart+ to enable / disable
 
-                            var linkEnabledDisabled = "";
+                                var linkEnabledDisabled = "";
 
-                            if (value.user_type == "C") {
-                                
-                                var assignedUser = value.assigned_client_user;
+                                if (value.user_type == "C") {
 
-                                // Only enable add to cart for client if price 
-                                // is > zero
+                                    var assignedUser = value.assigned_client_user;
 
-                                if (price > 0) {
-                                    linkEnabledDisabled = " ftr-enabled-link"
+                                    // Only enable add to cart for client if price 
+                                    // is > zero
+
+                                    if (price > 0) {
+                                        linkEnabledDisabled = " ftr-enabled-link"
+                                    }
+                                    else {
+                                        linkEnabledDisabled = " disabled-link"
+                                    }
+
+
                                 }
                                 else {
+                                    var assignedUser = value.assigned_vendor_user;
                                     linkEnabledDisabled = " disabled-link"
+
+                                    // For vendor-side user, cart+ will be disabled
+
+                                    inputDisabled = "disabled";
                                 }
 
 
-                            }
-                            else {
-                                var assignedUser = value.assigned_vendor_user;
-                                linkEnabledDisabled = " disabled-link"
 
-                                // For vendor-side user, cart+ will be disabled
+                                // Output the Feature Details to the table, including the 'more' icon in the last cell
 
-                                inputDisabled = "disabled";
-                            }
+                                $("tbody").append(
+                                    "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "<td class='td-client text-center'>" + ftrClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-ftr-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
+                                    "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/feature_tracker/" + featureId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='ftr-comments-icon-style' href=/feature_tracker/" + featureId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments ftr-comments-icon-style'></i></a></td></tr>"
+                                );
 
+                            });
 
+                            // Output the pagination parameters for the Features list to the html page
 
-                            // Output the Feature Details to the table, including the 'more' icon in the last cell
+                            let listType = "features"
+                            outputPaginationValues(data, listType);
 
-                            $("tbody").append(
-                                "<tr><td class='td-id'>" + featureId + "</td><td class='td-date'>" + inputDate + "<td class='td-client text-center'>" + ftrClientCode + "</td><td class='td-username text-center'>" + assignedUser + "</td><td class='td-sw-comp'>" + softwareComponent + "</td><td class='td-ftr-summary'>" + summary + "</td><td class='text-center td-status'>" + status + "</td><td class='text-center td-price'>" + price + "</td><td class='text-center td-paid'>" + paid + "</td>" +
-                                "<form method='post' class='form-inline' action=/cart/add/" + featureId + "/" + ">" + " {% csrf_token %}" + "<div class='input-group'>" + "<td class='pl-0 ml-0 td-thumbs-up'>" + "<button class='" + featureId + " btn ftr-td-cart-plus-style td-form-font ftr-cart-plus-click" + linkEnabledDisabled + "' type='submit'" + inputDisabled + "><i class='fas fa-cart-plus cart-plus-icon'></i></button>" + "</td></div></form>" + "<td class='text-center td-thumbs-up'>" + featureClientCount + "</td><td class='text-center td-more'><a class='ftr-more-icon-style' href=/feature_tracker/" + featureId + "-n-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-ellipsis-h more-icon-style'></i></a></td><td class='text-center td-more'><a class='ftr-comments-icon-style' href=/feature_tracker/" + featureId + "-y-" + current_page + "-" + listFilters + "/ " + "><i class='fas fa-comments ftr-comments-icon-style'></i></a></td></tr>"
-                            );
+                        },
 
-                        });
 
-                        // Output the pagination parameters for the features list to the html page
-
-                        let listType = "features"
-                        outputPaginationValues(data, listType);
-
-                    },
-
-
-                    traditional: true
-                }).done();
-            }
-
-            /*  ================================================================
-                THE FOLLOWING FUNCTIONS MANAGE THE FEATURE COMMENTS SHOW / HIDE 
-                ================================================================
-                           
-                The following functions manage the Feature Comments show /hide
-            */
-
-            $('#enable-comments').on('click', function() {
-
-                // Enable Comments icon clicked:
-                // Show the dashboard, but keep the comments form hidden.
-                // The comments form will be enabled by the '+' on the dashboard
-
-                $('#ftr-comments-form').hide();
-
-                $('.ftr-comments-dash').removeClass('d-none').hide();
-                $('.ftr-comments-dash').slideDown(500);
-
-                // Disable the 'enable comments' icon 
-
-                $('#enable-comments').removeClass('ftr-enabled-link');
-                $('#enable-comments').addClass('disabled-link');
-
-                // Enable the 'disable comments' icon 
-
-                $('#disable-comments').removeClass('disabled-link');
-                $('#disable-comments').addClass('iss-enabled-link');
-
-
-                // Enable the '+' icon - to open form and add comments
-
-                $('#ftr-comments-plus').addClass('iss-enabled-link');
-                $('#ftr-comments-plus').removeClass('disabled-link');
-
-                // Disable the '-' icon - this closes the form once its open
-
-                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
-                $('#ftr-comments-minus').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon 
-
-                $('#ftr-comments-open').removeClass('disabled-link');
-                $('#ftr-comments-open').addClass('ftr-enabled-link');
-
-                // Disable the 'close comments list view' icon 
-
-                $('#ftr-comments-close').removeClass('ftr-enabled-link');
-                $('#ftr-comments-close').addClass('disabled-link');
-
-
-            });
-
-
-            $('#disable-comments').on('click', function() {
-
-                // Disable Comments icon clicked:
-                // Hide the comments dashboard, form, and list 
-
-                $('.ftr-comments-dash').slideUp();
-                $('#ftr-comments-form').slideUp();
-                $('#ftr-comments-list').slideUp();
-
-                // Enable the 'enable comments' icon 
-
-                $('#enable-comments').removeClass('disabled-link');
-                $('#enable-comments').addClass('ftr-enabled-link');
-
-                // Disable the 'disable comments' icon 
-
-                $('#disable-comments').removeClass('ftr-enabled-link');
-                $('#disable-comments').addClass('disabled-link');
-
-            });
-
-
-            $('#ftr-comments-plus').on('click', function() {
-
-                // The '+' on the comments dashboard has been clicked:
-                // Show the comments input form
-
-                $('#ftr-comments-form').removeClass('d-none').hide();
-                $('#ftr-comments-form').slideDown(500);
-
-                // Disable the '+'
-
-                $('#ftr-comments-plus').removeClass('ftr-enabled-link');
-                $('#ftr-comments-plus').addClass('disabled-link');
-
-                // Enable the '-'
-
-                $('#ftr-comments-minus').addClass('ftr-enabled-link');
-                $('#ftr-comments-minus').removeClass('disabled-link');
-
-
-                // Close the comments list view, in case it's open
-
-                $('#ftr-comments-list').slideUp(500);
-
-                // Disable the 'close comments list view' icon
-
-                $('#ftr-comments-close').removeClass('ftr-enabled-link');
-                $('#ftr-comments-close').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon
-
-                $('#ftr-comments-open').addClass('ftr-enabled-link');
-                $('#ftr-comments-open').removeClass('disabled-link');
-            });
-
-
-            $('#ftr-comments-minus').on('click', function() {
-
-                // The '-' on the comments dashboard has been clicked:
-                // Hide the comments input form
-
-                $('#ftr-comments-form').slideUp(500);
-
-                // Disable the '-'
-
-                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
-                $('#ftr-comments-minus').addClass('disabled-link');
-
-                // Enable the '+'
-
-                $('#ftr-comments-plus').addClass('ftr-enabled-link');
-                $('#ftr-comments-plus').removeClass('disabled-link');
-            });
-
-
-            $('#ftr-comments-open').on('click', function() {
-
-                // The view comments list icon on the comments dashboard has been 
-                // clicked:
-                // Show the comments list
-
-                // First, close the comments input form, in case it's open
-
-                $('#ftr-comments-form').slideUp(500);
-
-                // Disable the '-'
-
-                $('#ftr-comments-minus').removeClass('ftr-enabled-link');
-                $('#ftr-comments-minus').addClass('disabled-link');
-
-                // Enable the '-'
-
-                $('#ftr-comments-plus').addClass('ftr-enabled-link');
-                $('#ftr-comments-plus').removeClass('disabled-link');
-
-                // Show the comments list view
-
-                $('#ftr-comments-list').removeClass('d-none').hide();
-                $('#ftr-comments-list').slideDown(500);
-
-                // Disable the 'open comments list view' icon
-
-                $('#ftr-comments-open').removeClass('ftr-enabled-link');
-                $('#ftr-comments-open').addClass('disabled-link');
-
-                // Enable the 'close comments list view' icon
-
-                $('#ftr-comments-close').addClass('ftr-enabled-link');
-                $('#ftr-comments-close').removeClass('disabled-link');
-            });
-
-
-            $('#ftr-comments-close').on('click', function() {
-
-                // The 'close comments list view' on the comments dashboard has been clicked:
-                // Hide the comments list
-
-                $('#ftr-comments-list').slideUp(500);
-
-                // Disable the 'close comments list view' icon
-
-                $('#ftr-comments-close').removeClass('ftr-enabled-link');
-                $('#ftr-comments-close').addClass('disabled-link');
-
-                // Enable the 'open comments list view' icon
-
-                $('#ftr-comments-open').addClass('ftr-enabled-link');
-                $('#ftr-comments-open').removeClass('disabled-link');
-
-            });
-
-
-            /*
-                ==================================
-                Features Report
-                ==================================
-            */
-
-            $('.show-features-report').on('click', function() {
-
-                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
-                // open/close the Features Report for a particular Client
-                // The first class for this element is the Client Code
-
-                var classes = $(this).attr("class").split(" ");
-                var clientCode = classes[0]
-
-                // Create ids for accessing the DOM
-
-                reportId = "#features-report-" + clientCode
-                chevronId = "#report-open-close-" + clientCode
-
-                // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
-
-                var classes = $(chevronId).attr("class").split(" ");
-                var chevronType = classes[1]
-
-                if (chevronType == "fa-chevron-down") {
-
-                    // User has clicked on 'fa-chevron-down' to
-                    // open the Features Report for a particular client
-                    // Remove d-none class, but keep hidden. Show by sliding down
-
-                    $(reportId).removeClass('d-none').hide();
-                    $(reportId).slideDown(1000);
-
-                    // Change the chevron from down to up.
-
-                    $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-
-                }
-                else {
-
-                    // User has clicked on 'fa-chevron-up' to
-                    // close the Features Report for a particular client
-
-                    // First, close all Features Details rows, in case any are open
-                    // And add back the down chevron
-
-                    $('.feature-details-' + clientCode).hide("fast");
-                    $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
-
-                    // Close the Features Report
-
-                    $(reportId).slideUp(1000);
-
-                    // Change the chevron from up to down.
-
-                    $(chevronId).removeClass('fa-chevron-up');
-                    $(chevronId).addClass('fa-chevron-down');
-
-                }
-            });
-
-            $('.show-feature-details').on('click', function() {
-
-                // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
-                // open/close the details of a particular feature in the Features Report
-
-                // Get the client code and feature id of the feature that was clicked on 
-
-                var classes = $(this).attr("class").split(" ");
-
-                var clientCode = classes[0];
-                var featureId = classes[1];
-                var clientCodeFeatureId = clientCode + '-' + featureId;
-
-                // Check whether its 'chevron-down' or 'chevron-up'
-
-                var classes = $('#details-open-close-' + clientCodeFeatureId).attr("class").split(" ");
-                var chevronType = classes[1]
-
-                if (chevronType == "fa-chevron-down") {
-
-                    // User has clicked on 'chevron-down' to see the details of a
-                    // particular feature in the Features Report.
-                    // Remove d-none class, but keep hidden. Show by sliding down
-
-                    $('#feature-details-' + clientCodeFeatureId).removeClass('d-none').hide();
-                    $('#feature-details-' + clientCodeFeatureId).fadeIn(700);
-
-                    // Change the chevron from down to up.
-
-                    $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
-                }
-                else {
-
-                    // User has clicked on 'chevron-up' to close the details of a
-                    // particular feature in the Features Report.
-                    // Close by sliding up
-
-                    $('#feature-details-' + clientCodeFeatureId).fadeOut(700);
-
-                    // Change the chevron from up to down.
-
-                    $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+                        traditional: true
+                    }).done();
                 }
 
+                /*  ================================================================
+                    THE FOLLOWING FUNCTIONS MANAGE THE FEATURE COMMENTS SHOW / HIDE 
+                    ================================================================
+                               
+                    The following functions manage the Feature Comments show /hide
+                */
+
+                $('#enable-comments').on('click', function() {
+
+                    // Enable Comments icon clicked:
+                    // Show the dashboard, but keep the comments form hidden.
+                    // The comments form will be enabled by the '+' on the dashboard
+
+                    $('#ftr-comments-form').hide();
+
+                    $('.ftr-comments-dash').removeClass('d-none').hide();
+                    $('.ftr-comments-dash').slideDown(500);
+
+                    // Disable the 'enable comments' icon 
+
+                    $('#enable-comments').removeClass('ftr-enabled-link');
+                    $('#enable-comments').addClass('disabled-link');
+
+                    // Enable the 'disable comments' icon 
+
+                    $('#disable-comments').removeClass('disabled-link');
+                    $('#disable-comments').addClass('iss-enabled-link');
+
+
+                    // Enable the '+' icon - to open form and add comments
+
+                    $('#ftr-comments-plus').addClass('iss-enabled-link');
+                    $('#ftr-comments-plus').removeClass('disabled-link');
+
+                    // Disable the '-' icon - this closes the form once its open
+
+                    $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-minus').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon 
+
+                    $('#ftr-comments-open').removeClass('disabled-link');
+                    $('#ftr-comments-open').addClass('ftr-enabled-link');
+
+                    // Disable the 'close comments list view' icon 
+
+                    $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-close').addClass('disabled-link');
+
+
+                });
+
+
+                $('#disable-comments').on('click', function() {
+
+                    // Disable Comments icon clicked:
+                    // Hide the comments dashboard, form, and list 
+
+                    $('.ftr-comments-dash').slideUp();
+                    $('#ftr-comments-form').slideUp();
+                    $('#ftr-comments-list').slideUp();
+
+                    // Enable the 'enable comments' icon 
+
+                    $('#enable-comments').removeClass('disabled-link');
+                    $('#enable-comments').addClass('ftr-enabled-link');
+
+                    // Disable the 'disable comments' icon 
+
+                    $('#disable-comments').removeClass('ftr-enabled-link');
+                    $('#disable-comments').addClass('disabled-link');
+
+                });
+
+
+                $('#ftr-comments-plus').on('click', function() {
+
+                    // The '+' on the comments dashboard has been clicked:
+                    // Show the comments input form
+
+                    $('#ftr-comments-form').removeClass('d-none').hide();
+                    $('#ftr-comments-form').slideDown(500);
+
+                    // Disable the '+'
+
+                    $('#ftr-comments-plus').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-plus').addClass('disabled-link');
+
+                    // Enable the '-'
+
+                    $('#ftr-comments-minus').addClass('ftr-enabled-link');
+                    $('#ftr-comments-minus').removeClass('disabled-link');
+
+
+                    // Close the comments list view, in case it's open
+
+                    $('#ftr-comments-list').slideUp(500);
+
+                    // Disable the 'close comments list view' icon
+
+                    $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-close').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon
+
+                    $('#ftr-comments-open').addClass('ftr-enabled-link');
+                    $('#ftr-comments-open').removeClass('disabled-link');
+                });
+
+
+                $('#ftr-comments-minus').on('click', function() {
+
+                    // The '-' on the comments dashboard has been clicked:
+                    // Hide the comments input form
+
+                    $('#ftr-comments-form').slideUp(500);
+
+                    // Disable the '-'
+
+                    $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-minus').addClass('disabled-link');
+
+                    // Enable the '+'
+
+                    $('#ftr-comments-plus').addClass('ftr-enabled-link');
+                    $('#ftr-comments-plus').removeClass('disabled-link');
+                });
+
+
+                $('#ftr-comments-open').on('click', function() {
+
+                    // The view comments list icon on the comments dashboard has been 
+                    // clicked:
+                    // Show the comments list
+
+                    // First, close the comments input form, in case it's open
+
+                    $('#ftr-comments-form').slideUp(500);
+
+                    // Disable the '-'
+
+                    $('#ftr-comments-minus').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-minus').addClass('disabled-link');
+
+                    // Enable the '-'
+
+                    $('#ftr-comments-plus').addClass('ftr-enabled-link');
+                    $('#ftr-comments-plus').removeClass('disabled-link');
+
+                    // Show the comments list view
+
+                    $('#ftr-comments-list').removeClass('d-none').hide();
+                    $('#ftr-comments-list').slideDown(500);
+
+                    // Disable the 'open comments list view' icon
+
+                    $('#ftr-comments-open').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-open').addClass('disabled-link');
+
+                    // Enable the 'close comments list view' icon
+
+                    $('#ftr-comments-close').addClass('ftr-enabled-link');
+                    $('#ftr-comments-close').removeClass('disabled-link');
+                });
+
+
+                $('#ftr-comments-close').on('click', function() {
+
+                    // The 'close comments list view' on the comments dashboard has been clicked:
+                    // Hide the comments list
+
+                    $('#ftr-comments-list').slideUp(500);
+
+                    // Disable the 'close comments list view' icon
+
+                    $('#ftr-comments-close').removeClass('ftr-enabled-link');
+                    $('#ftr-comments-close').addClass('disabled-link');
+
+                    // Enable the 'open comments list view' icon
+
+                    $('#ftr-comments-open').addClass('ftr-enabled-link');
+                    $('#ftr-comments-open').removeClass('disabled-link');
+
+                });
+
+
+                /*
+                    ==================================
+                    Features Report
+                    ==================================
+                */
+
+                $('.show-features-report').on('click', function() {
+
+                    // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to
+                    // open/close the Features Report for a particular Client
+                    // The first class for this element is the Client Code
+
+                    var classes = $(this).attr("class").split(" ");
+                    var clientCode = classes[0]
+
+                    // Create ids for accessing the DOM
+
+                    var reportId = "#features-report-" + clientCode;
+                    var chevronId = "#report-open-close-" + clientCode;
+
+                    // The second class for the element is 'fa-chevron-down' or 'fa-chevron-up'
+
+                    var classes = $(chevronId).attr("class").split(" ");
+                    var chevronType = classes[1];
+
+                    if (chevronType == "fa-chevron-down") {
+
+                        // User has clicked on 'fa-chevron-down' to
+                        // open the Features Report for a particular client
+                        // Remove d-none class, but keep hidden. Show by sliding down
+
+                        $(reportId).removeClass('d-none').hide();
+                        $(reportId).slideDown(1000);
+
+                        // Change the chevron from down to up.
+
+                        $(chevronId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+
+                    }
+                    else {
+
+                        // User has clicked on 'fa-chevron-up' to
+                        // close the Features Report for a particular client
+
+                        // First, close all Features Details rows, in case any are open
+                        // And add back the down chevron
+
+                        $('.feature-details-' + clientCode).hide("fast");
+                        $('.det-chevron-up-' + clientCode).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                        $('.det-chevron-up-' + clientCode).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+
+                        // Close the Features Report
+
+                        $(reportId).slideUp(1000);
+
+                        // Change the chevron from up to down.
+
+                        $(chevronId).removeClass('fa-chevron-up');
+                        $(chevronId).addClass('fa-chevron-down');
+
+                    }
+                });
+
+                $('.show-feature-details').on('click', function() {
+
+                    // User has clicked on 'fa-chevron-down' or 'fa-chevron-up' to 
+                    // open/close the details of a particular Feature in the Features Report
+
+                    // Get the client code and Feature id of the Feature that was clicked on 
+
+                    var classes = $(this).attr("class").split(" ");
+
+                    var clientCode = classes[0];
+                    var featureId = classes[1];
+                    var clientCodeFeatureId = clientCode + '-' + featureId;
+
+                    // Check whether its 'chevron-down' or 'chevron-up'
+
+                    var classes = $('#details-open-close-' + clientCodeFeatureId).attr("class").split(" ");
+                    var chevronType = classes[1];
+
+                    if (chevronType == "fa-chevron-down") {
+
+                        // User has clicked on 'chevron-down' to see the details of a
+                        // particular Feature in the Features Report.
+                        // Remove d-none class, but keep hidden. Show by sliding down
+
+                        $('#feature-details-' + clientCodeFeatureId).removeClass('d-none').hide();
+                        $('#feature-details-' + clientCodeFeatureId).fadeIn(700);
+
+                        // Change the chevron from down to up.
+
+                        $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-down-' + clientCode).addClass('det-chevron-up-' + clientCode);
+                    }
+                    else {
+
+                        // User has clicked on 'chevron-up' to close the details of a
+                        // particular Feature in the Features Report.
+                        // Close by sliding up
+
+                        $('#feature-details-' + clientCodeFeatureId).fadeOut(700);
+
+                        // Change the chevron from up to down.
+
+                        $('#details-open-close-' + clientCodeFeatureId).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                        $('#details-open-close-' + clientCodeFeatureId).removeClass('det-chevron-up-' + clientCode).addClass('det-chevron-down-' + clientCode);
+                    }
+
+                });
+
+                // Next function here
+
             });
-
-            // Next function here
-
-        });
-    </script>
+        </script>
 
 </body>
 

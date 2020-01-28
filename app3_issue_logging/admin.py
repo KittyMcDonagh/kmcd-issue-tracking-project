@@ -8,7 +8,7 @@ from .models import IssueComment, IssueThumbsUp
 
 
 
-# Register models with admin
+# Register the above models so that they can be added via the Django Admin panel
 
 admin.site.register(Issue)
 admin.site.register(IssueComment)
