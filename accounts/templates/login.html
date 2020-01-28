@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
-<!-- To enable us to import the bootstrap tags  -->
+<!-- To enable importing of the bootstrap tags  -->
 
 {% load bootstrap_tags %} {% block page_title %}Login Page{% endblock %} {% block page_heading %}User Login{% endblock %} {% block content %}
 
-<div class="row no-gutters pt-5">
+<!-- User Login -->
+
+<div class="row no-gutters form-pt">
     <div class="offset-2 col-8 offset-md-3 col-md-5">
         <form method="POST" class="login-reg-form">
 
             <!-- Pass form to bootstrap to render it with bootstrap styling -->
+            
             {% csrf_token %} {{ login_form | as_bootstrap }}
 
             <button type="submit" class="btn login-reg-btn-color">Login</button>
@@ -16,6 +19,8 @@
         </form>
     </div>
 </div>
+
+<!-- Allow user to reset password -->
 
 <div class="row no-gutters">
     <div class="offset-3 col-5">

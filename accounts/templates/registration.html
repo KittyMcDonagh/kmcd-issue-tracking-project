@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
 
-<!-- To enable us to import the bootstrap tags  -->
+<!-- To enable importing of the bootstrap tags  -->
 
 {% load bootstrap_tags %} {% block page_title %}Registration Page{% endblock %} 
 
 {% block page_heading %}User Registration{% endblock %} {% block content %}
 
-<div class="row no-gutters pt-2">
+<div class="row no-gutters form-pt">
     <div class="col-12 offset-md-3 col-md-5">
         <p class="reg-mesg-style">If you already have an account, please go to the <a class="link-text-style" href="{% url 'login' %}"><em>log in page</em></a></p>
     </div>
 </div>
 
+<!-- User Registration - request email, username, password x 2 
+     o An error message is returned if the email address is not unique, or if the 2 passwords are
+       not the same. The error message has a class of 'error-msg'. This is targetted in 
+       style.css to change the error message color to red - to make it easier to see the error messages.
+     o I made the form text white to make it easier to read against the background photo. 
+       However the help text under the user name appears over the sun in the photo on some devices
+       and is not as easy to read if it is white. The text has a class of 'help-block' This is targetted 
+       in style.css to make the color black, while the rest of the form text remains white. -->
 
 <div class="row no-gutters pb-5">
      <div class="col-12 offset-md-3 col-md-5">
@@ -21,6 +29,7 @@
             {% csrf_token %}
 
             <!-- Pass form to bootstrap to render it with bootstrap styling -->
+            
             {{ registration_form | as_bootstrap }}
 
             <button type="submit" class="btn login-reg-btn-color">Submit</button>
