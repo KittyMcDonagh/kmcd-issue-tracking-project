@@ -127,6 +127,9 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # "pip3 install dj-database-url" and is imported above
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
+# I have kept the same database for debug and production, because at some point heroku
+# ran into a problem with the sqlite db and couldnt find users on it.
+# I know that in a live enviroment, the databases would have to be different.
 
 if development:
     if "DATABASE_URL" in os.environ:
