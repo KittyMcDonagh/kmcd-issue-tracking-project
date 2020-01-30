@@ -128,7 +128,7 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
 
-if development:
+if DEBUG:
     DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
     
 
