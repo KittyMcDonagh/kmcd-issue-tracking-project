@@ -906,17 +906,20 @@ The Features List functions the same way as the Issues List, except for the foll
    - Confirm that the '+cart' icon is disabled on all Features (Vendor-side users cannot pay for Features)
    - Select a Feature by clicking the 'more' ('...') icon and update the Feature's price, if it is still at zero
 4. Log in as **Client-side** user 'c1_user001':
-   - (a) Confirm that the '+cart' icon is disabled when the price is zero, and enabled when the price is greater than zero
-   - (b) Confirm that the '+cart' icon is enabled (where the price is greater than zero) on all Features, regardless of who they belong to - i.e. a                 Client can pay for Features that they input, and Features that were input by other Clients
-   - (c) Confirm that each time you click the '+cart' icon '1' is added to the cart in the navigation bar, and it becomes enabled (a user may click on the          same feature more than once, this will increment the quantity)
-   - (d) Click on the 'cart' icon in the navigation bar and confirm that the items and quantities per item are correct
-   - (e) Remove items from the cart by amending the 'quantity' to '0', and confirm the price is adjusted
-   - (f) Remove all items from the cart and confirm the Features List is re-displayed and the 'cart' icon in the navigation bar is disabled
-   - (g) Add items to the cart, select the cart and click 'checkout'
-   - (h) Enter the payment details (card no. = 4242424242424242, cvv = '111', month/year in the future), and click 'Submit Payment'
-   - (i) Confirm the message "You have successfully paid" is received, and the Feature List is redisplayed, and that the number in the flagged column for the       Features paid for has been incremented by '1' (this is the number of individual Clients who have paid for this Feature)
-   - (j) Pay for another Feature, and confirm that the number in the flagged column has not been incremented
-   - (j) Log in as user 'c2_user001' and pay for a Feature you paid for as user 'c1_user001'. Confirm that the number in the flagged column for this Feature        has been incremented by '1'
+   - (a) Confirm that '+cart' icon is disabled where the Feature Status is = 'DEPLOYED' or 'CLOSED'
+   - (b) Confirm that the '+cart' icon is disabled when the price is zero, and enabled when the price is greater than zero (except where Status is =               'DEPLOYED' or 'CLOSED')
+   - (c) Confirm that the '+cart' icon is enabled (where relevant) on all Features, regardless of who they belong to - i.e. a Client can pay for Features          that they input, and Features that were input by other Clients
+   - (d) Confirm that each time you click the '+cart' icon '1' is added to the cart in the navigation bar, and it becomes enabled (a user may click on the          same feature more than once, this will increment the quantity)
+   - (e) Click on the 'cart' icon in the navigation bar and confirm that the items and quantities per item are correct
+   - (f) Remove items from the cart by amending the 'quantity' to '0', and confirm the price is adjusted
+   - (g) Remove all items from the cart and confirm the Features List is re-displayed and the 'cart' icon in the navigation bar is disabled
+   - (h) Add one or more Features to the cart that you haven't paid for already, select the cart
+   - (i) Confirm the correct Features are in the cart
+   - (j) Click 'checkout' and confirm it is showing the correct Features 
+   - (i) Enter the client details, payment details (card no., cvv, and month/year in the future), and click 'Submit Payment'
+   - (j) Confirm the message "You have successfully paid" is received, and the Feature List is redisplayed, and that the number in the flagged column for the       Features paid for has been incremented by '1' (this is the number of individual Clients who have paid for this Feature)
+   - (k) Pay for a Feature that you have already paid for, and confirm that the number in the flagged column has not been incremented
+   - (l) Log in as user 'c2_user001' and pay for a Feature you paid for as user 'c1_user001'. Confirm that the number in the flagged column for this Feature        has been incremented by '1'
 
    
 ### **6.1.7 Issues Report Testing**
@@ -1054,7 +1057,7 @@ Due to time constraints I didn't get around to creating automated tests.
     - The page will show 'build unknown' for this project
     - Click on 'unknown', in the 'format' field of the box that comes up select 'markdown'
     - Copy the text that is shown in the 'result' field, and paste it into the end of the readme file.:
-      [![Build Status](https://travis-ci.org/KittyMcDonagh/fsf-ecommerce-project.svg?branch=master)](https://travis-ci.org/KittyMcDonagh/fsf-ecommerce-project)
+      
 
 21. Create ".travis.yml" at project root level:
       language: python
@@ -1193,21 +1196,19 @@ The following icons/images were used to create the overview diagram of the Issue
 
 |Description of problem                             |Solution found on
 |---------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| I had tuples of (client, total number of issues)  | https://www.geeksforgeeks.org/python-list-sort/)                                                      |
-| and I needed to  sort by the 2nd parameter        |                                                                                                       |
+| I had tuples of (client, total number of issues) and I needed to  sort by the 2nd parameter | https://www.geeksforgeeks.org/python-list-sort/)            |
+|                                                   |                                                                                                       |
 |                                                   |                                                                                                       |
 | I needed to insert a new record into a Django db  | https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file |
 |                                                   |                                                                                                       |
-| Although not in the video,                        | Help received from Slack with this when creating OrderLineItem(models.Model)                          |
-| "on_delete=models.CASCADE," needs to be           |                                                                                                       |
-|  added to 'ForeignKey' otherwise you get a red x  |                                                                                                       |
+| Although not in the video, "on_delete=models.CASCADE," needs to be added to 'ForeignKey' otherwise you get a red x. | Help received from Slack with this when creating OrderLineItem(models.Model)     |
 |                                                   |                                                                                                       |
-| # MEDIA_URL = '/media/' didn't work for me        | I found "MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)" on Slack  and    |
-| after I set up s3 Buckets                         | it worked!  There's no mention of this change in the lessons (perhaps because they were still on the  |
-|                                                   | old c9)                                                                                               |
+|                                                   |                                                                                                       |
+| # MEDIA_URL = '/media/' didn't work for me  after I set up s3 Buckets | I found "MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)" on Slack  and it worked!  There's no mention of this change in the lessons (perhaps because they were still on the old c9)            |
 |                                                   |                                                                                                       |
 | Cart & Checkout functionality                     | The code was initially copied from the e-commerce project we did as part of  the course and adjusted  |
-| Strip payments                                    | js code copied from stripe.com as per e-commerce project                                              |
+|                                                   |                                                                                                       |
+| Stripe payments                                   | js code copied from stripe.com as per e-commerce project                                              |
 
 
 
