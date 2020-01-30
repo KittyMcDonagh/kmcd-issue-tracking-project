@@ -174,9 +174,11 @@
             <div class="col-12 offset-lg-2 col-lg-8 p-0">
 
                 <ul class="mesg-style p-0  text-center">
-                    {% if messages %} {% for message in messages %}
+                    {% if messages %} 
+                    {% for message in messages %}
                     <li class="user-message">{{ message }}</li>
-                    {% endfor%} {% else %}
+                    {% endfor%} 
+                    {% else %}
                     <li class="user-message blank-line">blank</li>
                     {% endif %}
                 </ul>
@@ -187,6 +189,23 @@
 
         <!-- If user is not logged in show a background image in the <section> element -->
         <section class="section-pre-login section-bg-image">
+            
+            <!-- A line is kept just below the navbar to display messages -->
+
+        <div class="row no-gutters">
+            <div class="col-12 offset-lg-2 col-lg-8 p-0">
+
+                <ul class="p-0  text-center">
+                    {% if messages %} 
+                    {% for message in messages %}
+                    <li class="user-message mesg-style">{{ message }}</li>
+                    {% endfor%} 
+                    {% else %}
+                    <li class="user-message"></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
             {% endif %} {% block content %} {% endblock %}
 
         </section>

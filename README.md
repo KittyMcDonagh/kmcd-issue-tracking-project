@@ -576,11 +576,6 @@ The Features being paid for are added to the Order lines at Checkout.
 2. Allow clients to delete Issues / Features that are at a status of 'DRAFT' or 'LOGGED'
 3. Allow Vendors to select a specific client for whom to see a report
 
-## **3.5 KNOWN BUGS**
-
-The message "You have registered successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**" was displaying just above the Welcome message, once a user successfully registered. After I added the image to the <section> background, it was no longed displaying. I only noticed it on the day I was to submit the project, and I didn't have time to investigate it.
-
-
 
 # **5. TECHNOLOGIES USED**
 
@@ -754,8 +749,7 @@ When the Issue Tracker app loads initially it will be on the Registration / Logi
 3. Test password input to ensure it doesn't allow the input in the 2 password fields to be different
 
 4. Enter valid details for a brand new user and confirm you are returned to the Registration / Login page and that the message "You have registered              successfully! **Contact the System Administrator about setting you up on the Issue Tracking Sytem**" is displayed just above the welcome message.
-    **NOTE:** This message is no longer displaying since I added the image to the <section> background. I only noticed it on the day I was to submit the project, and I didn't have time to investigate it.
-
+    
 5. Register as one of the unregistered Vendor User codes in the above table, and confirm the same message is received as above
 
 6. Register as one of the unregistered Client User codes in the above table, and confirm the same message is received as above
