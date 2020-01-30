@@ -47,7 +47,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # Development environment or not
 # 'development' is set to True or False above
 
-DEBUG = True
+DEBUG = development
 
 
 # The C9_HOSTNAME wasn't working in settings.py as an ALLOWED_HOST. So, after a 
@@ -128,9 +128,13 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
 
-if DEBUG:
-    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
-    
+if development:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 else:
     # travis will generate an error trying to find dj_database_url. 
