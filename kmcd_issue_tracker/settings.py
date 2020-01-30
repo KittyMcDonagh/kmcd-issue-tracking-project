@@ -47,7 +47,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # Development environment or not
 # 'development' is set to True or False above
 
-DEBUG = development
+DEBUG = True
 
 
 # The C9_HOSTNAME wasn't working in settings.py as an ALLOWED_HOST. So, after a 
