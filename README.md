@@ -1069,7 +1069,7 @@ Due to time constraints I didn't get around to creating automated tests.
 
 23. From the c9 terminal do a git add, commit and push
 
-24. Check to see if travis build worked - it did eventually, after I removed a number of items from requirements.txt that it couldn't find!
+24. Check to see if travis build worked - you should see 'build passing' at the bottom of your github repository page.
 
 25. Back to Heroku and add the environment variables to 'config vars:
     - STRIPE_PUBLISHABLE
@@ -1092,6 +1092,7 @@ Due to time constraints I didn't get around to creating automated tests.
 32. Click on 'Deploy' and 'Deploy Branch'
 33. Update ALLOWED_HOSTS in settings.py to allow 'kmcd-issue-tracker.herokuapp.com'
 34. Run the heroku app
+35. 
 
 
 

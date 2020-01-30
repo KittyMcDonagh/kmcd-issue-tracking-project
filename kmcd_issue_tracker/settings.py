@@ -22,6 +22,16 @@ if os.path.exists('env.py'):
 import dj_database_url
 
 
+# Set 'development' to True or False depending on whether the app is running 
+# in a Development environment or not. This in turn will be used to set DEBUG =
+# True or False
+
+if os.environ.get('DEVELOPMENT'):
+    development = True
+else:
+    development = False
+    
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,8 +43,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# This will set DEBUG to True or False depending on whether working in a 
+# Development environment or not
+# 'development' is set to True or False above
+
+DEBUG = development
+
 
 # The C9_HOSTNAME wasn't working in settings.py as an ALLOWED_HOST. So, after a 
 # chat with a tutor I set up AWSC9_HOST as an environment variable 
@@ -113,20 +127,23 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # "pip3 install dj-database-url" and is imported above
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
-if "DATABASE_URL" in os.environ:
-    DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) 
-}
-else:
-    print("Database URL not found. Using SQLite instead.")
-    
-    DATABASES = {
+# if "DATABASE_URL" in os.environ:
+
+if development:
+     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        
+    }
+
+    
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
