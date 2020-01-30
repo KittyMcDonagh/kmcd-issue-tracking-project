@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block page_title %}User Page{% endblock %} {% block content %}
 
 <main>
-    
+
     <!-- Features Search Box - the search is handled via js, triggered by "ftr-search-btn  -->
 
     <div class="row no-gutters mt-1 mb-1">
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-
+    <!-- DEBUG KITTY 1-->
     <!-- Show Features Filter -->
 
     <div class="row no-gutters mt-1 mb-1">
@@ -90,7 +90,7 @@
                     <a class="dropdown-item paid-order" href="#" data-value="LOWESTTOHIGHEST">LOWEST TO HIGHEST</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item paid-order" href="#" data-value="HIGHESTTOLOWEST">HIGHEST TO LOWEST</a>
-                    
+
                 </div>
             </div>
         </div>
@@ -143,93 +143,92 @@
                         <th scope="col" class="text-center td-comments-icon"><i class="fas fa-comments ftr-comments-icon-th"></i></th>
                     </tr>
                 </thead>
-               
-               <!-- After clicking on 'Features' in the navbar, the table 
+
+                <!-- After clicking on 'Features' in the navbar, the table 
                     details will be retrieved via the 'Features_list' view and 
                     displayed via userhome.html. When the user filters the 
                     Features, it will trigger the javascript 'on click' 
                     functions in base.html which will call the 'get_features' 
                     view, return the details to the js function, which will 
                     clear the table and output the new details to it. -->
-                    
+
                 <tbody>
-                     {% for feature in features %}
+                    {% for feature in features %}
                     <tr>
                         <td class="td-id">{{ feature.id }}</td>
                         <td class="td-date">{{ feature.input_date|date:"d M y" }}</td>
-                        
+
                         <!-- The Feature can be assigned to a user on the client side, and a user on the vendor side. 
                              Show the relevant assigned user depending on whether the logged in user is on the client side
                              or the vendor side -->
-                        
+
                         {% if userdetails.user_type == "V" %}
-                        
-                            <td class="td-client text-center">{{ feature.client_code }}</td>
-                            <td class="td-username text-center">{{ feature.assigned_vendor_user }}</td>
-                        
+
+                        <td class="td-client text-center">{{ feature.client_code }}</td>
+                        <td class="td-username text-center">{{ feature.assigned_vendor_user }}</td>
+
+                        {% else %} {% if userdetails.vend_client_code == feature.client_code %}
+                        <td class="td-client text-center">{{ feature.client_code }}</td>
+                        <td class="td-username text-center">{{ feature.assigned_client_user }}</td>
+
                         {% else %}
-                        
-                            {% if userdetails.vend_client_code == feature.client_code %}
-                                <td class="td-client text-center">{{ feature.client_code }}</td>
-                                <td class="td-username text-center">{{ feature.assigned_client_user }}</td>
-                                
-                            {% else %}
-                                <td class="td-client text-center">******</td>
-                                <td class="td-username text-center">******</td>
-                                
-                            {% endif %}
-                        
-                        {% endif %}
-                        
+                        <td class="td-client text-center">******</td>
+                        <td class="td-username text-center">******</td>
+
+                        {% endif %} {% endif %}
+
                         <td class="td-sw-comp">{{ feature.software_component }}</td>
                         <td class="td-ftr-summary">{{ feature.summary }}</td>
                         <td class="text-center td-status">{{ feature.status }}</td>
-                        
+
                         <td class="text-center td-price">{{ feature.price }}</td>
                         <td class="text-center td-paid">{{ feature.paid }}</td>
-                        
-                            <form method="post" class="form-inline" action="{% url 'add_to_cart' feature.id %}">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    
-                                    {% if userdetails.user_type == "C" %}
-                                    
-                                    <!-- if client-side user enable the cart button, if the price is > 0 -->
-                                    
-                                    {% if feature.price > 0 %}
-                                        
-                                        <td class="pl-0 ml-0 td-cart-plus">
-                                            <button class="btn ftr-td-cart-plus-style td-form-font  ftr-enabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
-                                        </td>
-                                        
-                                        {% else %}
-                                        
-                                        <td class="pl-0 ml-0 td-cart-plus">
-                                            <button class="btn ftr-td-cart-plus-style td-form-font  disabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
-                                        </td>
-                                        
-                                        {% endif %}
-                                        
-                                    {% else %}
-                                    
-                                     <!-- Vendor-side user, disable cart button -->
-                                    
-                                    <td class="pl-0 ml-0">
-                                        <button class="btn ftr-td-cart-plus-style td-form-font td-cart-plus disabled-link " type="submit" disabled><i class="fas fa-cart-plus cart-plus-icon"></i></button>
-                                    </td>
-                                    {% endif %}
-                                </div>
-                            </form>
-                            
-                            <td class="text-center td-cart-plus">{{ feature.client_count }}</td>
-                        
-                        <td class="text-center td-more"><a class="ftr-more-icon-style" href='{% url 'feature_details' feature.id 'n' back_to_page list_filters %}' ><i class="fas fa-ellipsis-h ftr-more-icon-style"></i></a>
-                            </td>
-                        <td class="text-center td-comments-icon"><a class="ftr-more-icon-style" href='{% url 'feature_details' feature.id 'y' back_to_page list_filters %}' ><i class="fas fa-comments ftr-comments-icon-style"></i></a>
-                            </td>
+
+                        <form method="post" class="form-inline" action="{% url 'add_to_cart' feature.id %}">
+
+                            {% csrf_token %}
+                            <div class="input-group">
+
+                                {% if userdetails.user_type == "C" %}
+
+                                <!-- if client-side user enable the cart button, if the price is > 0 -->
+
+                                {% if feature.price == 0 or feature.status == "DEPLOYED" or feature.status == "CLOSED" %}
+
+                                <!-- Price = 0, or status = 'DEPLOYED' or 'CLOSED' -->
+
+                                <td class="pl-0 ml-0 td-cart-plus">
+                                    <button class="btn ftr-td-cart-plus-style td-form-font disabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
+                                </td>
+
+                                {% else %}
+
+                                <!-- Price > 0, and status <> 'DEPLOYED' or 'CLOSED' -->
+
+                                <td class="pl-0 ml-0 td-cart-plus">
+                                    <button class="btn ftr-td-cart-plus-style td-form-font  ftr-enabled-link" type="submit"><i class="fas fa-cart-plus cart-plus-icon"></i></button>
+                                </td>
+
+                                {% endif %} {% else %}
+
+                                <!-- Vendor-side user, disable cart button -->
+
+                                <td class="pl-0 ml-0">
+                                    <button class="btn ftr-td-cart-plus-style td-form-font td-cart-plus disabled-link " type="submit" disabled><i class="fas fa-cart-plus cart-plus-icon"></i></button>
+                                </td>
+                                {% endif %}
+                            </div>
+                        </form>
+
+                        <td class="text-center td-cart-plus">{{ feature.client_count }}</td>
+
+                        <td class="text-center td-more"><a class="ftr-more-icon-style" href='{% url ' feature_details ' feature.id 'n ' back_to_page list_filters %}'><i class="fas fa-ellipsis-h ftr-more-icon-style"></i></a>
+                        </td>
+                        <td class="text-center td-comments-icon"><a class="ftr-more-icon-style" href='{% url ' feature_details ' feature.id 'y ' back_to_page list_filters %}'><i class="fas fa-comments ftr-comments-icon-style"></i></a>
+                        </td>
                     </tr>
                     {% endfor %}
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>

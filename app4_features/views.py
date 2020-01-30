@@ -22,6 +22,8 @@ Features home page
 
 def features_home(request, back_to_page=None, list_filters=None):
     
+    print("in feature_home~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
     if not list_filters:
     
         # Initialise the Feature filters
@@ -189,6 +191,8 @@ def features_home(request, back_to_page=None, list_filters=None):
     SelectedFeaturesFilterText, SelectedPaidOrderText = get_list_filters_text(SelectedFeaturesFilter, SelectedPaidOrder)
     
     SelectedClient = SelectedClientFilter + " " + SelectedClientFilterName
+    
+    print("LEAVING feature_home~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   
     return render(request, 'featureshome.html', {'userdetails': UserDetails, 'clientdetails': ClientDetails, 'vendordetails': VendorDetails, "all_clients": AllClients,'features': features, 'selected_features_filter':SelectedFeaturesFilterText, 'selected_status_filter': SelectedStatusFilter, "selected_paid_order": SelectedPaidOrderText, 'selected_client_filter': SelectedClient, "listing":listing, "list_type": list_type, "searching": searching, "back_to_page":back_to_page, "list_filters": list_filters })
 

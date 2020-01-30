@@ -127,7 +127,7 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # "pip3 install dj-database-url" and is imported above
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
-# if "DATABASE_URL" in os.environ:
+# Use if in production "DATABASE_URL" in os.environ:
 
 if development:
      DATABASES = {
