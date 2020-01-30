@@ -159,7 +159,7 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
  
 
 
-# **3. FEATURES**
+# **3. ISSUE TRACKER FEATURES**
 
 ## **3.1 EXISTING FEATURES**
 
@@ -195,9 +195,17 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 5. From the **Footer** the user can select **Issues Report,** **Features Report,** and see the copyright notice
 
 6. From the **Issues List** page all users can:
-   - See summary details of up to five issues per page, and paginate to other pages 
+   - See high level details of up to five Issues per page, and paginate to other pages
+   - See the id, input date, Client Code, Assigned User, Software Component, Issue Summary, Status
+   - See the number of **other** individual Clients who have flagged ('thumbed up') the Issue (in the flagged column)
    - Select to see the details of a particular Issue
    - Select to see the comments on a particular Issue
+   
+   - See the id, input date, Client Code, Assigned User, Software Component, Feature Summary 
+   - See the Status, Price, Total Paid so far
+   - See the number of individual Clients who have paid for the Feature (in the flagged column)
+   - Select to see the details of a particular Feature
+   - Select to see the comments on a particular Feature
 
 7. **Client-side** users may filter the Issues List by an Issues Filter which allows the user to select:
     - Issues Assigned to the Logged in user only
@@ -216,7 +224,10 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 13. Vendor-side users are able to filter the Issues list by Status, Priority, and Client  
 
 14. From the **Features List** page all users can:
-   - See summary details of up to five features per page, and paginate to other pages 
+   - See high level details of up to five features per page, and paginate to other pages
+   - See the id, input date, Client Code, Assigned User, Software Component, Feature Summary 
+   - See the Status, Price, Total Paid so far
+   - See the number of individual Clients who have paid for the Feature (in the flagged column)
    - Select to see the details of a particular Feature
    - Select to see the comments on a particular Feature
    

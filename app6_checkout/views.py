@@ -105,7 +105,14 @@ def checkout(request):
                     # increment the client count. This is the number of
                     # individual clients who have flagged this Feature
                     
-                    if created:
+                    # Note: When a client creates a Feature, a feature_paid record
+                    # is created for them with zero amount and qty - this then 
+                    # feeds into the Features report. So if the client who input the
+                    # Feature is paying for it, a feature_paid record will exist
+                    # already, but the client_count on the feature will be = '0'
+                    # and it needs to be incremented
+                    
+                    if created or feature.client_count == 0:
                         feature.client_count += 1
                         
                     feature.save()

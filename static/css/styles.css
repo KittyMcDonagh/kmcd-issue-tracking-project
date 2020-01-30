@@ -41,7 +41,7 @@ body {
     }
 }
 
-/* Pre-login an image will be shown in the <section part of the screen  */
+/* Pre-login, this image will be the background image for the <section> element */
 
 .section-bg-image {
     background: url("../images/galwaybay.jpg");
