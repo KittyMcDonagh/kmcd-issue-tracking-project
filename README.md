@@ -10,7 +10,7 @@
 
 The purpose of the [Issue Tracker](https://kmcd-issue-tracker.herokuapp.com/issue_tracker/apphome/) is to allow clients to log the issues that they are experiencing with the _KMcD Online Accounting System_, as well as request new features. The Issue Tracker will provide a common area where all Clients can log their issues and request features. They will be able to see each others' issues and features, comment on them, and upvote them if they have the same issue, or want the same feature.
 
-While bugs will be fixed for free, upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided on per feature by the Vendor).
+While bugs will be fixed for free, upvoting new features will cost a certain amount of money depending on the complexity of the requested feature (this will be decided upon per feature by the Vendor).
 
 The Issue Tracker will be used by both the vendor (_KMcD Accounting Solutions_) and clients to monitor and manage the progress of issues & features.
 
@@ -37,7 +37,14 @@ I designed the screens so that they wouldn't vary too much from one device to an
 
 ## **2.2 Logic Flows**
 
-I used Microsoft Publisher to create logic flows for the Issue Tracker and user setup, for Vendor-side and Client-side processing, and workflows for the Issues & Features - these can be seen [here on github](https://github.com/KittyMcDonagh/kmcd-issue-tracking-project/tree/master/Design/system-diagrams)
+I used _Microsoft Publisher_ to create logic flows for:
+- The Issue Tracker 
+- User setup
+- Vendor-side processing
+- Client-side processing
+- Workflows for the Issues & Features
+
+I have included these diagrams in this README document, and they can also be seen [here on github](https://github.com/KittyMcDonagh/kmcd-issue-tracking-project/tree/master/Design/system-diagrams)
 
 
 ### **2.2.1 Issue Tracker High Level Overview**
@@ -69,28 +76,29 @@ I used Microsoft Publisher to create logic flows for the Issue Tracker and user 
 
 |No. |Who I am                 |What I want to do                                                                                    | Why I want to do it
 |----|-------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-|1.  |The Vendor               |I want to see all the issues/features clients are raising against the KMcD Online Accounting System. |I want to monitor them and keep track of them.                                                                       |
+|1.  |The Vendor               |I want to see all the issues/features clients are raising against the _KMcD Online Accounting System_. |I want to monitor them and keep track of them.                                                                       |
 |2.  |The Vendor               |I want to be able to see all the details of issues / features.                                       |I want have a good understanding of the problems encountered, and the features required.                              |
 |3.  |The Vendor               |I want to be able to assign issues/features to different users.                                      |So that certain users have a number of issues / features that they monitor for certain clients.                          |
-|4.  |The Vendor               |I want to be able to change the priority and status of an issue.                                     |So that clients can see the priority given to their issues, and how they are progressing as their status changes.      |
-|5   |The Vendor               |I want to be able to change the price and status of a feature, as the issue progresses.              |So that clients can see the priority given to their issues, and how they are progressing as their status changes.      |
-|6.  |The Vendor               |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by the client. |
-|7.  |Vendor                   |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues as required.                                                            |
-|8.  |The Vendor               |I want to be able filter features by those assigned to me or all, by status, and client.             |It will help me focus on certain types or categories of features as required.                                            |         
-|9.  |The Vendor               |I want to be able order features by amount paid per feature.                                         |It will help me see which features are of most concern to my clients.                                                  |
-|10. |The Vendor               |I want to have an issues report by client, showing me the issues they have input and flagged.        |I will be able to see which issues are of most concern to my clients.                                                    |
-|11. |The Vendor               |I want to have a features report by client, showing me the features they have input and paid for.    |I will be able to see which features are of most concern to my clients, and which clients are paying the most.           |
-|12. |A Client                 |I want to be able to input and edit the details of issues and features.                              |I want to log issues / features once in one place, where I monitor them and where the vendor has sight of them.         |
-|13. |A Client                 |I want to see all the issues/features raised by us and by other clients.                             |I want to monitor our own issues and see if other clients are having the same issues.                                    |
-|14. |A Client                 |I want to be able to see all the details of issues / features.                                       |I want to see the details of our own issues / features and see how they compare with those of other clients.         |
-|15. |A Client                 |I want to be able to assign issues/features to different users.                                      |So that certain users have a number of issues / features that they monitor.                                              |
-|16. |A Client                 |I want to be able to change the status of an issue.                                                  |I want to be able to change the status from its initial value so that the vendor can view it.                           |
-|17. |A Client                 |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by others.     |
-|18. |A Client                 |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues as required.                                                            |
-|19. |A Client                 |I want to be able filter features by those assigned to me or all, by status, and client.             |It will help me focus on certain types or categories of features as required.                                            |         
-|20. |A Client                 |I want to be able order features by amount paid per feature.                                         |It will help me see which features the vendor should be giving priority to.                                            |
-|21. |A Client                 |I want to have an issues report, showing me the issues we have input and flagged.                    |I will be able to see the issues that are of concern to us.                                                              |
-|22. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
+|4.  |The Vendor               |I want to be able to change the priority and status of an issue.                                     |So that clients can see the priority given to their issues, and how they are progressing as their status changes.          |
+|5.  |The Vendor               |I want to be able to change the status of a feature, as the feature progresses.                      |So that clients can see how their features are progressing.                                                                |
+|6.  |The Vendor               |I want to be able to change the price a feature.                                                     |The price will reflect the complexity of the feature.                                                                     |
+|7.  |The Vendor               |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by the client. |
+|8.  |Vendor                   |I want to be able select issues assigned to me or all issues, filter by priority, status and client. |It will help me focus on certain types of issues, or issues of a particular client, as required.                         |
+|9.  |The Vendor               |I want to be able filter features by those assigned to me or all, by status, and client.             |It will help me focus on certain types or categories of features, or features of a particular client, as required.       |         
+|10.  |The Vendor               |I want to be able order features by amount paid per feature.                                         |It will help me see which features are of most concern to my clients.                                                  |
+|11. |The Vendor               |I want to have an issues report by client, showing me the issues they have input and flagged.        |I will be able to see which issues are of most concern to my clients.                                                    |
+|12. |The Vendor               |I want to have a features report by client, showing me the features they have input and paid for.    |I will be able to see which features are of most concern to my clients, and which clients are paying the most.           |
+|13. |A Client                 |I want to be able to input and edit the details of issues and features.                              |I want to log issues / features once in one place, where I can monitor them and where the vendor has sight of them.       |
+|14. |A Client                 |I want to see all the issues/features raised by us and by other clients.                             |I want to monitor our own issues and see if other clients are having the same issues.                                    |
+|15. |A Client                 |I want to be able to see all the details of issues / features.                                       |I want to see the details of our own issues / features and see how they compare with those of other clients.         |
+|16. |A Client                 |I want to be able to assign issues/features to different users.                                      |So that certain users have a number of issues / features that they monitor.                                              |
+|17. |A Client                 |I want to be able to change the status of an issue.                                                  |I want to be able to change the status from its initial value so that the vendor can view it.                           |
+|18. |A Client                 |I want to be able to input comments on issues / features.                                            |So as to give relevant information in relation to the issue/feature, or respond to comments input by others.     |
+|19. |A Client                 |I want to be able to filter issues assigned to me or all issues, filter by priority, and status      |It will help me focus on certain types of issues as required.                                                            |
+|20. |A Client                 |I want to be able to filter features, by those assigned to me or all, and by status                  |It will help me focus on certain types or categories of features as required.                                            |         
+|21. |A Client                 |I want to be able order features by amount paid per feature.                                         |It will help me see which features the vendor should be giving priority to.                                            |
+|22. |A Client                 |I want to have an issues report, showing me the issues we have input and flagged.                    |I will be able to see the issues that are of concern to us.                                                              |
+|23. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
 
 
 ## **2.4 WEBSITE REQUIREMENTS**
@@ -578,17 +586,19 @@ The Features being paid for are added to the Order lines at Checkout.
 |AWS s3 Buckets               |aws.amazon.com                                                            |
 |Stripe Payments              |https://stripe.com/ie                                                     |
 
+
       
 
 
-|Features         |Website                                                                            |COMMENTS                                                                                                  |
-|-----------------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| Color Scheme    |[Color Wheel](https://www.canva.com/colors/color-wheel/)                           |I used this websiteto choose the base colors for my website.                                              |                                                                    
-| Colors          |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                    |I used this website to get different shades of the base colors.                                          |
-| Web page layouts|[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps container, row and column classes to create my page layouts and to make them responsive |         
-| Navigation bar  |[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps nav bar classes to create my navigation bars, and burger menu.                     |         
-| Wireframes      |[Figma](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=71%3A1)|I used figma when designing my website. See screen shots in Design folder on github                      |
-|Django Pagination|https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html         |I used django pagination to create the paginate functionality on the Issues and Features Lists   
+|Features            |Website                                                                            |COMMENTS                                                                                                 |
+|--------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------- ----|
+| Color Scheme       |[Color Wheel](https://www.canva.com/colors/color-wheel/)                           |I used this websiteto choose the base colors for my website.                                              |                                                                    
+| Colors             |[w3schools](https://www.w3schools.com/colors/colors_picker.asp)                    |I used this website to get different shades of the base colors.                                          |
+| Web page layouts   |[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps container, row and column classes to create my page layouts and to make them responsive |         
+| Navigation bar     |[bootstrap](https://getbootstrap.com/)                                             |I used bootstraps nav bar classes to create my navigation bars, and burger menu.                     |         
+| Wireframes         |[Figma](https://www.figma.com/file/g5LWnVMBRVwuMGNSxHS7qb/Home-Page?node-id=71%3A1)|I used figma when designing my website. See screen shots in Design folder on github                      |
+|Django Pagination   |https://django-el-pagination.readthedocs.io/en/latest/digg_pagination.html         |I used django pagination to create the paginate functionality on the Issues and Features Lists        |
+|Microsoft Publisher |https://www.microsoft.com/en-ie/default.aspx                                       | I used Publisher to create logic & workflow diagrams                                              |
 
 
 # **6. TESTING**
