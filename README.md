@@ -98,8 +98,8 @@ I have included these diagrams in this README document, and they can also be see
 |20. |A Client                 |I want to be able to filter features, by those assigned to me or all, and by status                  |It will help me focus on certain types or categories of features as required.                                            |         
 |21. |A Client                 |I want to be able to order features by amount paid per feature.                                         |It will help me see which features the vendor should be giving priority to.                                            |
 |22. |A Client                 |I want to be able to flag an issue (to say I have this too), and flag a feature (to say I want this too).|I want to avoid having to enter the same issue/feature, but I still want the vendor to know I have the issue, or want the feature.
-|22. |A Client                 |I want to have an issues report, showing me the issues we have input and flagged.                    |I will be able to see the issues that are of concern to us.                                                              |
-|23. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
+|23. |A Client                 |I want to have an issues report, showing me the issues we have input and flagged.                    |I will be able to see the issues that are of concern to us.                                                              |
+|24. |A Client                 |I want to have a features report, showing me the features we have input and paid for.                |I will be able to see the features that are of concern to us.                                                            |
 
 
 ## **2.4 WEBSITE REQUIREMENTS**
