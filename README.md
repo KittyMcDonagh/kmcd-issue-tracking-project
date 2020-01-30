@@ -959,7 +959,7 @@ The Features List functions the same way as the Issues List, except for the foll
 14. Confirm that when you click on the 'chevron' icon in the 'Details' column, it will show / hide the Feature Details
 15. More than one Client may have paid for the same Feature, so the same Feature can appear on more than one Client Report
 
-### **6.1.9 Issues Responsiveness Testing**
+### **6.1.9 Issue Tracker Responsiveness Testing**
 
 The Issue Tracker has been designed with mobile-first design in mind, therefore it should be 
 tested on devices will various size screens - Ipad, Table, Mobile Phones
@@ -1163,12 +1163,14 @@ Due to time constraints I didn't get around to creating automated tests.
 
 ### **8.2 IMAGES AND ICONS USED ON ISSUE TRACKER **
 
+|IMAGEs USED ON ISSUE TRACKER     |Owner                     |
+|---------------------------------|--------------------------|
+|Photo on pre-login screen        | taken by Kitty McDonagh  |
+|                                 |                          |
+|Images used on Issues & Features | taken by Kitty McDonagh  |
+
+
 The following icons/images were used to create the overview diagram of the Issue Tracking System:
-
-|IMAGEs USED ON ISSUES & FEATURES       |Owner
-|---------------------------------------|-----------------|
-|I took all these photos myself         | Kitty McDonagh  |
-
 
 |IMAGE / ICON in flow diagrams          |COPIED FROM
 |---------------------------------------|-------------------------------------------------------------------------|
