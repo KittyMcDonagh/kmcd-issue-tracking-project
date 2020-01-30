@@ -806,13 +806,22 @@ In order to test this, you need to set yourself up as a user on the Issue Tracke
 
 #### **Please Note**
 
-The email address from which the email is being sent is a gmail account which allows access to less secure apps, and 2-step authentication is not set. This was all working fine when I set it up a few months back.
+The email address from which the email is being sent is a gmail account which allows access to less secure apps, and 2-step authentication is not set. This was all working fine on Cloud9 when I set it up a few months back.
 
 However, when I was ran this functionality again, while writing this section of the readme file, I started getting a 'SMTPAuthenticationError'. The reset email was also to a gmail account.
 
 After checking the error message online, and not getting any answers I tried tutor support. They suggested running "https://accounts.google.com/DisplayUnlockCaptcha", after which the emails were sent to the gmail account, and I could reset the password. I ran the reset password a few more times using the gmail account, and it worked fine each time.
 
 Then I decided to send the reset email to a hotmail account. It received the email ok. However when I try to send another reset email, either to the gmail or the hotmail account, I get a 'SMTPAuthenticationError' again. To clear this I run "https://accounts.google.com/DisplayUnlockCaptcha" again. However, it will consistently give me an error after sending to a hotmail account.
+
+**Unfortunately,** I started getting the same error on Heroku when trying to reset the password. Initially I got a Server (500) error, but when I set it to debug mode, (add 'DEVELOPMENT' to config vars and give it a value of 1) I got the full error message, which is:
+
+**SMTPAuthenticationError at /issue_tracker/password-reset/
+(534, b'5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbs\n5.7.14 hqJ8-UT4A4M-bY7PPTlVKWAsr3tR2xWEy-B0BmY8mF6gB8V7AbIRsKjeT9Gd0DQ0xLfte\n5.7.14 xP6KVYV5yJoYaOhFyft1k1eroWnv876LLsgBCbyRe9jcwFk2j4fQPRJdVjWIhvPb>\n5.7.14 Please log in via your web browser and then try again.\n5.7.14  Learn more at\n5.7.14  https://support.google.com/mail/answer/78754 n3sm7755915wmc.27 - gsmtp')**
+
+I tried all the above solutions, but none of them worked, so I decided to submit the project and make a note of  this problem.
+
+**Note also** that I changed settings.py to point to the postgres whether in production or development mode (I know you wouldn't do this in a live enviromnent, but Heroku can't use sqlite3, and I needed to set debug to see the error.)
 
 _I'm noting this here in case testers run into any issues._
 
@@ -1029,6 +1038,8 @@ Due to time constraints I didn't get around to creating automated tests.
    - STRIPE_SECRET
    - DATABASE_URL
    - SECRET_KEY
+   - EMAIL_ADDRESS
+   - EMAIL_PASSWORD
 
 8. Change settings.py to get the value of the above from the environment variables
 
@@ -1098,6 +1109,8 @@ Due to time constraints I didn't get around to creating automated tests.
     - DATABASE_URL
     - AWS_ACCESS_KEY_ID
     - AWS_SECRET_ACCESS_KEY
+    - EMAIL_ADDRESS
+    - EMAIL_PASSWORD
 
 26. Click on Deploy
     - Click 'connect to github'
