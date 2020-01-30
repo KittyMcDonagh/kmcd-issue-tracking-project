@@ -806,9 +806,9 @@ In order to test this, you need to set yourself up as a user on the Issue Tracke
 
 #### **Please Note**
 
-The email address from which the email is being sent is a gmail account which allows access to less secure apps, and 2-step authentication is not set. This was all working fine when I set it up a few months back
+The email address from which the email is being sent is a gmail account which allows access to less secure apps, and 2-step authentication is not set. This was all working fine when I set it up a few months back.
 
-However, when I was ran this functionality again, while writing this section of the readme file, I started getting a 'SMTPAuthenticationError'. The reset email was also a gmail account.
+However, when I was ran this functionality again, while writing this section of the readme file, I started getting a 'SMTPAuthenticationError'. The reset email was also to a gmail account.
 
 After checking the error message online, and not getting any answers I tried tutor support. They suggested running "https://accounts.google.com/DisplayUnlockCaptcha", after which the emails were sent to the gmail account, and I could reset the password. I ran the reset password a few more times using the gmail account, and it worked fine each time.
 
