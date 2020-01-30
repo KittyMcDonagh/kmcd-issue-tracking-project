@@ -159,7 +159,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Register</a></li>
                         {% endif %}
 
-                </ul>
+                </u
             </div>
         </nav>
     </header>
@@ -2038,11 +2038,12 @@
                                     // Only enable add to cart for client if price 
                                     // is > zero
 
-                                    if (price > 0) {
-                                        linkEnabledDisabled = " ftr-enabled-link"
+                                    if (price == 0 || status == "DEPLOYED" || status == "CLOSED") {
+                                        linkEnabledDisabled = " disabled-link"
                                     }
                                     else {
-                                        linkEnabledDisabled = " disabled-link"
+                                        
+                                        linkEnabledDisabled = " ftr-enabled-link"
                                     }
 
 

@@ -127,22 +127,20 @@ WSGI_APPLICATION = 'kmcd_issue_tracker.wsgi.application'
 # "pip3 install dj-database-url" and is imported above
 # Get postgres 'DATABASE_URL', if it exists, otherwise use sqlite3 db
 
-# Use if in production "DATABASE_URL" in os.environ:
+# travis will generate an error trying to find dj_database_url. 
+# This if statement will stop it looking for it
 
-if development:
-     DATABASES = {
+if "DATABASE_URL" in os.environ:
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) }  
+else:                                                                                                                             
+    print("Database URL not found. Using SQLite instead.")
+    
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
     }
-
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-        
-    }
-
+}
     
 
 # Password validation
