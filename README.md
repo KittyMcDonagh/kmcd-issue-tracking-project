@@ -1,7 +1,7 @@
 **_KMcD Software Solutions_ - ISSUE TRACKER**  
 ======================
 
-![alt text](/static/images/headfordsunset.jpg "Headford Sunset")
+![alt text](/static/images/galwaybay.jpg "Galway Bay sunset")
 ======================
 
 # **1 INTRODUCTION**
